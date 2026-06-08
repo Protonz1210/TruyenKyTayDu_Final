@@ -1,58 +1,43 @@
 fileFormatVersion: 2
-guid: 101bcdae3f456e94babba474590b50d3
+guid: 35ecccc9dc313c846acd44a736d710cd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6150384008709971305
-    second: JUMP_0
+      213: -8838531535022199662
+    second: die_wk1_0
   - first:
-      213: -4959259091351612375
-    second: JUMP_1
+      213: 7597815160419185015
+    second: die_wk1_1
   - first:
-      213: 1131083306628328740
-    second: JUMP_2
+      213: 5833007621402768729
+    second: die_wk1_2
   - first:
-      213: -1959255609046229392
-    second: JUMP_3
+      213: 3411207246924870319
+    second: die_wk1_3
   - first:
-      213: 5863146554602884080
-    second: JUMP_4
+      213: -4741403423920402038
+    second: die_wk1_4
   - first:
-      213: 1661297097616155045
-    second: JUMP_5
+      213: 941377730620372260
+    second: die_wk1_5
   - first:
-      213: 1810671005484508929
-    second: JUMP_6
+      213: 935794933677132865
+    second: die_wk1_6
   - first:
-      213: -4290912688688556156
-    second: JUMP_7
+      213: 6245573339490565743
+    second: die_wk1_7
   - first:
-      213: 553134489282318932
-    second: JUMP_8
+      213: -4080220018480182218
+    second: die_wk1_8
   - first:
-      213: -998739267773105257
-    second: JUMP_9
+      213: -5455739532013098973
+    second: die_wk1_9
   - first:
-      213: -3149651535029630271
-    second: JUMP_10
+      213: 3128387460799852544
+    second: die_wk1_10
   - first:
-      213: 5207490683182811576
-    second: JUMP_11
-  - first:
-      213: 7540651411447847678
-    second: JUMP_12
-  - first:
-      213: -9003774128452974954
-    second: JUMP_13
-  - first:
-      213: 186044887275795249
-    second: JUMP_14
-  - first:
-      213: -1593071730713538533
-    second: JUMP_15
-  - first:
-      213: 3070998017184479699
-    second: JUMP_16
+      213: -6644123443443491381
+    second: die_wk1_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -99,7 +84,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 103
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -148,13 +133,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JUMP_0
+      name: die_wk1_0
       rect:
         serializedVersion: 2
-        x: 1771
-        y: 4818
-        width: 410
-        height: 561
+        x: 261
+        y: 1506
+        width: 536
+        height: 553
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +148,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7926998845275aaa0800000000000000
-      internalID: -6150384008709971305
+      spriteID: 29ce9eeb56a375580800000000000000
+      internalID: -8838531535022199662
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_1
+      name: die_wk1_1
       rect:
         serializedVersion: 2
-        x: 3185
-        y: 4817
-        width: 411
-        height: 560
+        x: 1363
+        y: 1485
+        width: 544
+        height: 575
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,20 +170,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9245cd6b12c2d2bb0800000000000000
-      internalID: -4959259091351612375
+      spriteID: 771fcd922acd07960800000000000000
+      internalID: 7597815160419185015
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_2
+      name: die_wk1_2
       rect:
         serializedVersion: 2
-        x: 381
-        y: 3851
-        width: 412
-        height: 560
+        x: 2494
+        y: 1476
+        width: 467
+        height: 595
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 42da4fe464a62bf00800000000000000
-      internalID: 1131083306628328740
+      spriteID: 955bbdde68103f050800000000000000
+      internalID: 5833007621402768729
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_3
+      name: die_wk1_3
       rect:
         serializedVersion: 2
-        x: 1751
-        y: 3851
-        width: 414
-        height: 562
+        x: 3575
+        y: 1528
+        width: 629
+        height: 511
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,20 +214,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07e9b9677635fc4e0800000000000000
-      internalID: -1959255609046229392
+      spriteID: fa2f130faea075f20800000000000000
+      internalID: 3411207246924870319
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_4
+      name: die_wk1_4
       rect:
         serializedVersion: 2
-        x: 3147
-        y: 3850
-        width: 431
-        height: 546
+        x: 226
+        y: 781
+        width: 681
+        height: 444
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -251,196 +236,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0fb09252ab41e5150800000000000000
-      internalID: 5863146554602884080
+      spriteID: a81576cf4b6233eb0800000000000000
+      internalID: -4741403423920402038
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_5
+      name: die_wk1_5
       rect:
         serializedVersion: 2
-        x: 364
-        y: 2913
-        width: 460
-        height: 523
-      alignment: 9
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5a16cc988ec1e0710800000000000000
-      internalID: 1661297097616155045
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_6
-      rect:
-        serializedVersion: 2
-        x: 1728
-        y: 2904
-        width: 460
-        height: 516
-      alignment: 9
-      pivot: {x: 0.5, y: -0.05}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 107e007afabc02910800000000000000
-      internalID: 1810671005484508929
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_7
-      rect:
-        serializedVersion: 2
-        x: 3156
-        y: 2925
-        width: 459
-        height: 552
-      alignment: 9
-      pivot: {x: 0.5, y: -0.1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4879084d4ad9374c0800000000000000
-      internalID: -4290912688688556156
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_8
-      rect:
-        serializedVersion: 2
-        x: 363
-        y: 2019
-        width: 429
-        height: 489
-      alignment: 9
-      pivot: {x: 0.5, y: -0.1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 45290ba23e02da700800000000000000
-      internalID: 553134489282318932
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_9
-      rect:
-        serializedVersion: 2
-        x: 1817
-        y: 2031
-        width: 457
-        height: 477
-      alignment: 9
-      pivot: {x: 0.5, y: -0.1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 79b76217de3c322f0800000000000000
-      internalID: -998739267773105257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_10
-      rect:
-        serializedVersion: 2
-        x: 3125
-        y: 2035
-        width: 454
-        height: 473
-      alignment: 9
-      pivot: {x: 0.5, y: -0.1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1ca8b40dd903a44d0800000000000000
-      internalID: -3149651535029630271
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_11
-      rect:
-        serializedVersion: 2
-        x: 350
-        y: 1069
-        width: 453
-        height: 502
-      alignment: 9
-      pivot: {x: 0.5, y: -0.1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8b984469f29b44840800000000000000
-      internalID: 5207490683182811576
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_12
-      rect:
-        serializedVersion: 2
-        x: 1776
-        y: 970
-        width: 460
-        height: 567
-      alignment: 9
-      pivot: {x: 0.5, y: -0.05}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: efa9562b186c5a860800000000000000
-      internalID: 7540651411447847678
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: JUMP_13
-      rect:
-        serializedVersion: 2
-        x: 3279
-        y: 970
-        width: 459
-        height: 507
+        x: 1309
+        y: 757
+        width: 691
+        height: 374
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -449,20 +258,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69645bb522b2c0380800000000000000
-      internalID: -9003774128452974954
+      spriteID: 4253711fe02701d00800000000000000
+      internalID: 941377730620372260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_14
+      name: die_wk1_6
       rect:
         serializedVersion: 2
-        x: 312
-        y: 2
-        width: 459
-        height: 502
+        x: 2399
+        y: 767
+        width: 707
+        height: 297
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -471,20 +280,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 133f95ad6d6f49200800000000000000
-      internalID: 186044887275795249
+      spriteID: 14c8f6cb88c9cfc00800000000000000
+      internalID: 935794933677132865
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_15
+      name: die_wk1_7
       rect:
         serializedVersion: 2
-        x: 1697
-        y: 14
-        width: 440
-        height: 519
+        x: 3502
+        y: 764
+        width: 711
+        height: 282
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -493,20 +302,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b105a1d83b544e9e0800000000000000
-      internalID: -1593071730713538533
+      spriteID: f6e3cfe9cdbbca650800000000000000
+      internalID: 6245573339490565743
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JUMP_16
+      name: die_wk1_8
       rect:
         serializedVersion: 2
-        x: 3205
-        y: 27
-        width: 453
-        height: 550
+        x: 189
+        y: 45
+        width: 720
+        height: 223
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -515,8 +324,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3d9b5300d606e9a20800000000000000
-      internalID: 3070998017184479699
+      spriteID: 63c0d09d2852067c0800000000000000
+      internalID: -4080220018480182218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: die_wk1_9
+      rect:
+        serializedVersion: 2
+        x: 1398
+        y: 43
+        width: 721
+        height: 192
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 328ad472dc15944b0800000000000000
+      internalID: -5455739532013098973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: die_wk1_10
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 40
+        width: 722
+        height: 195
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 000f2c812d34a6b20800000000000000
+      internalID: 3128387460799852544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: die_wk1_11
+      rect:
+        serializedVersion: 2
+        x: 3675
+        y: 40
+        width: 723
+        height: 196
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcd94b52ee45bc3a0800000000000000
+      internalID: -6644123443443491381
       vertices: []
       indices: 
       edges: []
@@ -525,7 +400,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bcaa52a506bbac342991b51ef8e68b0d
+    spriteID: 8327569ad9f07a34e97c1aacc22f830e
     internalID: 0
     vertices: []
     indices: 
@@ -535,23 +410,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      JUMP_0: -6150384008709971305
-      JUMP_1: -4959259091351612375
-      JUMP_10: -3149651535029630271
-      JUMP_11: 5207490683182811576
-      JUMP_12: 7540651411447847678
-      JUMP_13: -9003774128452974954
-      JUMP_14: 186044887275795249
-      JUMP_15: -1593071730713538533
-      JUMP_16: 3070998017184479699
-      JUMP_2: 1131083306628328740
-      JUMP_3: -1959255609046229392
-      JUMP_4: 5863146554602884080
-      JUMP_5: 1661297097616155045
-      JUMP_6: 1810671005484508929
-      JUMP_7: -4290912688688556156
-      JUMP_8: 553134489282318932
-      JUMP_9: -998739267773105257
+      die_wk1_0: -8838531535022199662
+      die_wk1_1: 7597815160419185015
+      die_wk1_10: 3128387460799852544
+      die_wk1_11: -6644123443443491381
+      die_wk1_2: 5833007621402768729
+      die_wk1_3: 3411207246924870319
+      die_wk1_4: -4741403423920402038
+      die_wk1_5: 941377730620372260
+      die_wk1_6: 935794933677132865
+      die_wk1_7: 6245573339490565743
+      die_wk1_8: -4080220018480182218
+      die_wk1_9: -5455739532013098973
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,112 +1,103 @@
 fileFormatVersion: 2
-guid: 6ec6c6c657f3ec64f9a9f166f69762c8
+guid: 532e41200a6563a488b8166905149000
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5171697092382755038
-    second: pain_round_0
+      213: -3718407635585092707
+    second: idle_wk2_0
   - first:
-      213: -1489524543197152007
-    second: pain_round_1
+      213: -659035685286180813
+    second: idle_wk2_1
   - first:
-      213: -976411167410198387
-    second: pain_round_2
+      213: -331749957159281897
+    second: idle_wk2_2
   - first:
-      213: -5207677363585178580
-    second: pain_round_3
+      213: 8729833372439260220
+    second: idle_wk2_3
   - first:
-      213: 8500321905483328284
-    second: pain_round_4
+      213: -1955770603668991107
+    second: idle_wk2_4
   - first:
-      213: 5904865943313533278
-    second: pain_round_5
+      213: -4280771316799418064
+    second: idle_wk2_5
   - first:
-      213: 375818125635338754
-    second: pain_round_6
+      213: 436680524490013120
+    second: idle_wk2_6
   - first:
-      213: -4512828265514087267
-    second: pain_round_7
+      213: 7763233214906494826
+    second: idle_wk2_7
   - first:
-      213: -8357377163625867665
-    second: pain_round_8
+      213: 6730322824012833506
+    second: idle_wk2_8
   - first:
-      213: -6779362673256158607
-    second: pain_round_9
+      213: -557106668637958823
+    second: idle_wk2_9
   - first:
-      213: -8617193130437236108
-    second: pain_round_10
+      213: -4934398338355348906
+    second: idle_wk2_10
   - first:
-      213: 5951534840136959454
-    second: pain_round_11
+      213: 1777048615628626244
+    second: idle_wk2_11
   - first:
-      213: -8479552522053230954
-    second: pain_round_12
+      213: -1322742250853288827
+    second: idle_wk2_12
   - first:
-      213: -65155461882024131
-    second: pain_round_13
+      213: 143231832972020168
+    second: idle_wk2_13
   - first:
-      213: -6857811452577588792
-    second: pain_round_14
+      213: 4003512153182229560
+    second: idle_wk2_14
   - first:
-      213: 2142993813835710710
-    second: pain_round_15
+      213: -549201382717934790
+    second: idle_wk2_15
   - first:
-      213: -8133445184396246681
-    second: pain_round_16
+      213: -7320477891864055789
+    second: idle_wk2_16
   - first:
-      213: -1498433104552291551
-    second: pain_round_17
+      213: 238076763641286760
+    second: idle_wk2_17
   - first:
-      213: 2182027293135749684
-    second: pain_round_18
+      213: -6770192694598245261
+    second: idle_wk2_18
   - first:
-      213: 1429682608642651532
-    second: pain_round_19
+      213: -3414850539158734372
+    second: idle_wk2_19
   - first:
-      213: 7918426314520873150
-    second: pain_round_20
+      213: 7547668854886895679
+    second: idle_wk2_20
   - first:
-      213: 4705741007106532168
-    second: pain_round_21
+      213: -7089519288198076907
+    second: idle_wk2_21
   - first:
-      213: -8032156015616495461
-    second: pain_round_22
+      213: 7815442823998720184
+    second: idle_wk2_22
   - first:
-      213: -5643151877503109087
-    second: pain_round_23
+      213: 5584521612491785803
+    second: idle_wk2_23
   - first:
-      213: 9167429426115914362
-    second: pain_round_24
+      213: -6058402596643597908
+    second: idle_wk2_24
   - first:
-      213: -5513578546349711313
-    second: pain_round_25
+      213: 4072066433706339224
+    second: idle_wk2_25
   - first:
-      213: 3290872459232008508
-    second: pain_round_26
+      213: -575759522955484417
+    second: idle_wk2_26
   - first:
-      213: -4345804299805521203
-    second: pain_round_27
+      213: -6895980377896342810
+    second: idle_wk2_27
   - first:
-      213: 5419258991255470951
-    second: pain_round_28
+      213: -5803086858515330434
+    second: idle_wk2_28
   - first:
-      213: 6645007613872311427
-    second: pain_round_29
+      213: 4501094236950994715
+    second: idle_wk2_29
   - first:
-      213: 5450694935069401758
-    second: pain_round_30
+      213: 7455070258613718386
+    second: idle_wk2_30
   - first:
-      213: -841262749988809092
-    second: pain_round_31
-  - first:
-      213: 8253000423950570911
-    second: pain_round_32
-  - first:
-      213: 851491006100071207
-    second: pain_round_33
-  - first:
-      213: 4805321938768638966
-    second: pain_round_34
+      213: -8830768919039214283
+    second: idle_wk2_31
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -153,7 +144,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 115
+  spritePixelsToUnits: 110
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -202,13 +193,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pain_round_0
+      name: idle_wk2_0
       rect:
         serializedVersion: 2
-        x: 4191
-        y: 3985
-        width: 539
-        height: 520
+        x: 635
+        y: 5125
+        width: 404
+        height: 732
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,20 +208,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ed8056dca1f85c740800000000000000
-      internalID: 5171697092382755038
+      spriteID: d93b9d6d4ff856cc0800000000000000
+      internalID: -3718407635585092707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_1
+      name: idle_wk2_1
       rect:
         serializedVersion: 2
-        x: 235
-        y: 3094
-        width: 556
-        height: 552
+        x: 1580
+        y: 5125
+        width: 407
+        height: 733
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,20 +230,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9fcf18ed155245be0800000000000000
-      internalID: -1489524543197152007
+      spriteID: 33806343982aad6f0800000000000000
+      internalID: -659035685286180813
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_2
+      name: idle_wk2_2
       rect:
         serializedVersion: 2
-        x: 1243
-        y: 3083
-        width: 601
-        height: 531
+        x: 2496
+        y: 5150
+        width: 406
+        height: 733
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,415 +252,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d886acb67371372f0800000000000000
-      internalID: -976411167410198387
+      spriteID: 71b1541fb23656bf0800000000000000
+      internalID: -331749957159281897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_3
+      name: idle_wk2_3
       rect:
         serializedVersion: 2
-        x: 2287
-        y: 3098
-        width: 609
-        height: 528
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c24a9ae770d9ab7b0800000000000000
-      internalID: -5207677363585178580
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_4
-      rect:
-        serializedVersion: 2
-        x: 3227
-        y: 3096
-        width: 617
-        height: 528
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c1b2ec48cb537f570800000000000000
-      internalID: 8500321905483328284
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_5
-      rect:
-        serializedVersion: 2
-        x: 4174
-        y: 3072
-        width: 621
-        height: 528
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e5941854a4c42f150800000000000000
-      internalID: 5904865943313533278
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_6
-      rect:
-        serializedVersion: 2
-        x: 213
-        y: 2066
-        width: 623
-        height: 528
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 202c5a6189c273500800000000000000
-      internalID: 375818125635338754
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_7
-      rect:
-        serializedVersion: 2
-        x: 1254
-        y: 2042
-        width: 628
-        height: 526
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d9cc0bd3a963f51c0800000000000000
-      internalID: -4512828265514087267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_8
-      rect:
-        serializedVersion: 2
-        x: 2173
-        y: 2009
-        width: 633
-        height: 547
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f665e1cbfb1a40c80800000000000000
-      internalID: -8357377163625867665
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_9
-      rect:
-        serializedVersion: 2
-        x: 3216
-        y: 2025
-        width: 637
-        height: 570
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 17a2609319ddae1a0800000000000000
-      internalID: -6779362673256158607
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_10
-      rect:
-        serializedVersion: 2
-        x: 4159
-        y: 2065
-        width: 642
-        height: 577
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 47a2a53f084996880800000000000000
-      internalID: -8617193130437236108
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_11
-      rect:
-        serializedVersion: 2
-        x: 261
-        y: 1033
-        width: 648
-        height: 578
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ed589be8769189250800000000000000
-      internalID: 5951534840136959454
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_12
-      rect:
-        serializedVersion: 2
-        x: 1281
-        y: 1042
-        width: 650
-        height: 578
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 69edfb468e3925a80800000000000000
-      internalID: -8479552522053230954
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_13
-      rect:
-        serializedVersion: 2
-        x: 2231
-        y: 1066
-        width: 649
-        height: 578
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d3f685fd375881ff0800000000000000
-      internalID: -65155461882024131
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_14
-      rect:
-        serializedVersion: 2
-        x: 3184
-        y: 1056
-        width: 651
-        height: 580
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8c9d18071d824d0a0800000000000000
-      internalID: -6857811452577588792
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_15
-      rect:
-        serializedVersion: 2
-        x: 4121
-        y: 1036
-        width: 660
-        height: 584
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6f0898505817dbd10800000000000000
-      internalID: 2142993813835710710
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_16
-      rect:
-        serializedVersion: 2
-        x: 217
-        y: 38
-        width: 664
-        height: 584
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 76143f792b2302f80800000000000000
-      internalID: -8133445184396246681
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_17
-      rect:
-        serializedVersion: 2
-        x: 1187
-        y: 71
-        width: 668
-        height: 584
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 123997bc70f743be0800000000000000
-      internalID: -1498433104552291551
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_18
-      rect:
-        serializedVersion: 2
-        x: 2138
-        y: 66
-        width: 714
-        height: 589
-      alignment: 9
-      pivot: {x: 0.47, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4324091234e184e10800000000000000
-      internalID: 2182027293135749684
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_19
-      rect:
-        serializedVersion: 2
-        x: 3303
-        y: 571
-        width: 13
-        height: 23
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c85f2bdf1c047d310800000000000000
-      internalID: 1429682608642651532
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_20
-      rect:
-        serializedVersion: 2
-        x: 3312
-        y: 456
-        width: 51
-        height: 100
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: eb84f1987c6e3ed60800000000000000
-      internalID: 7918426314520873150
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pain_round_21
-      rect:
-        serializedVersion: 2
-        x: 3411
-        y: 484
-        width: 8
+        x: 3459
+        y: 5530
+        width: 6
         height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -679,107 +274,107 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 843e29d83862e4140800000000000000
-      internalID: 4705741007106532168
+      spriteID: c3ca7981339962970800000000000000
+      internalID: 8729833372439260220
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_22
+      name: idle_wk2_4
       rect:
         serializedVersion: 2
-        x: 3418
-        y: 486
-        width: 21
-        height: 63
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 3466
+        y: 5150
+        width: 409
+        height: 734
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b9079a4f8ac088090800000000000000
-      internalID: -8032156015616495461
+      spriteID: d7398228ff4bbd4e0800000000000000
+      internalID: -1955770603668991107
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_23
+      name: idle_wk2_5
       rect:
         serializedVersion: 2
-        x: 3433
-        y: 420
-        width: 57
-        height: 71
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 4352
+        y: 5117
+        width: 406
+        height: 736
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 12839df144f7fa1b0800000000000000
-      internalID: -5643151877503109087
+      spriteID: 0315d79fa25a794c0800000000000000
+      internalID: -4280771316799418064
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_24
+      name: idle_wk2_6
       rect:
         serializedVersion: 2
-        x: 3473
-        y: 410
-        width: 86
-        height: 77
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 557
+        y: 3924
+        width: 408
+        height: 737
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a7a2a1fed70493f70800000000000000
-      internalID: 9167429426115914362
+      spriteID: 0c9fe869f966f0600800000000000000
+      internalID: 436680524490013120
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_25
+      name: idle_wk2_7
       rect:
         serializedVersion: 2
-        x: 3390
-        y: 461
-        width: 8
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1544
+        y: 3907
+        width: 402
+        height: 738
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f206c973685db73b0800000000000000
-      internalID: -5513578546349711313
+      spriteID: a6fe3034a7b8cbb60800000000000000
+      internalID: 7763233214906494826
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_26
+      name: idle_wk2_8
       rect:
         serializedVersion: 2
-        x: 3583
-        y: 462
-        width: 6
+        x: 2533
+        y: 4264
+        width: 9
         height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -789,20 +384,86 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c39d3add0178bad20800000000000000
-      internalID: 3290872459232008508
+      spriteID: 2e22dfc13f8e66d50800000000000000
+      internalID: 6730322824012833506
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_27
+      name: idle_wk2_9
       rect:
         serializedVersion: 2
-        x: 3588
-        y: 467
-        width: 23
-        height: 14
+        x: 2541
+        y: 3883
+        width: 394
+        height: 741
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95d45d1cf62c448f0800000000000000
+      internalID: -557106668637958823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_10
+      rect:
+        serializedVersion: 2
+        x: 3468
+        y: 3866
+        width: 407
+        height: 742
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65a3d06dade758bb0800000000000000
+      internalID: -4934398338355348906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_11
+      rect:
+        serializedVersion: 2
+        x: 4361
+        y: 3850
+        width: 406
+        height: 743
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 449d42bfc4859a810800000000000000
+      internalID: 1777048615628626244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_12
+      rect:
+        serializedVersion: 2
+        x: 4355
+        y: 4240
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -811,20 +472,86 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dca0abea30a90b3c0800000000000000
-      internalID: -4345804299805521203
+      spriteID: 5843d785eeca4ade0800000000000000
+      internalID: -1322742250853288827
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_28
+      name: idle_wk2_13
       rect:
         serializedVersion: 2
-        x: 3368
-        y: 450
-        width: 15
-        height: 11
+        x: 601
+        y: 2600
+        width: 413
+        height: 743
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c943dcd79cdcf100800000000000000
+      internalID: 143231832972020168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_14
+      rect:
+        serializedVersion: 2
+        x: 1597
+        y: 2575
+        width: 422
+        height: 742
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 834d26087155f8730800000000000000
+      internalID: 4003512153182229560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_15
+      rect:
+        serializedVersion: 2
+        x: 2430
+        y: 2559
+        width: 431
+        height: 741
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a33b1f09048d068f0800000000000000
+      internalID: -549201382717934790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_16
+      rect:
+        serializedVersion: 2
+        x: 3451
+        y: 2927
+        width: 8
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -833,42 +560,64 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 763cf9f0753153b40800000000000000
-      internalID: 5419258991255470951
+      spriteID: 310b7559420786a90800000000000000
+      internalID: -7320477891864055789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_29
+      name: idle_wk2_17
       rect:
         serializedVersion: 2
-        x: 3564
-        y: 377
-        width: 32
-        height: 75
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 3459
+        y: 2534
+        width: 440
+        height: 738
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38c00a2d73fc73c50800000000000000
-      internalID: 6645007613872311427
+      spriteID: 8601d1e1e81dd4300800000000000000
+      internalID: 238076763641286760
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_30
+      name: idle_wk2_18
       rect:
         serializedVersion: 2
-        x: 3577
-        y: 452
+        x: 4358
+        y: 2501
+        width: 449
+        height: 735
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 374e6814d917b02a0800000000000000
+      internalID: -6770192694598245261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_19
+      rect:
+        serializedVersion: 2
+        x: 4349
+        y: 2893
         width: 7
-        height: 7
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -877,20 +626,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e9225d71a22c4ab40800000000000000
-      internalID: 5450694935069401758
+      spriteID: cd9746cf6830c90d0800000000000000
+      internalID: -3414850539158734372
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_31
+      name: idle_wk2_20
       rect:
         serializedVersion: 2
-        x: 3105
-        y: 65
-        width: 773
-        height: 373
+        x: 628
+        y: 1706
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3010d195d4beb860800000000000000
+      internalID: 7547668854886895679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_21
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1315
+        width: 456
+        height: 733
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -899,20 +670,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7616207cfb3354f0800000000000000
-      internalID: -841262749988809092
+      spriteID: 5166caee4c7fc9d90800000000000000
+      internalID: -7089519288198076907
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_32
+      name: idle_wk2_22
       rect:
         serializedVersion: 2
-        x: 3498
-        y: 401
-        width: 67
-        height: 48
+        x: 1477
+        y: 1706
+        width: 10
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -921,42 +692,152 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f95d8b8c82c888270800000000000000
-      internalID: 8253000423950570911
+      spriteID: 8b8c1d627d7067c60800000000000000
+      internalID: 7815442823998720184
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_33
+      name: idle_wk2_23
       rect:
         serializedVersion: 2
-        x: 4089
-        y: 115
-        width: 17
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1489
+        y: 1315
+        width: 457
+        height: 730
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 723e8040f8a11db00800000000000000
-      internalID: 851491006100071207
+      spriteID: b46801981d4308d40800000000000000
+      internalID: 5584521612491785803
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pain_round_34
+      name: idle_wk2_24
       rect:
         serializedVersion: 2
-        x: 4172
+        x: 2481
+        y: 1299
+        width: 454
+        height: 729
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca111c8efea3ceba0800000000000000
+      internalID: -6058402596643597908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_25
+      rect:
+        serializedVersion: 2
+        x: 3471
+        y: 1291
+        width: 445
+        height: 729
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89babd2c8d2e28830800000000000000
+      internalID: 4072066433706339224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_26
+      rect:
+        serializedVersion: 2
+        x: 4456
+        y: 1266
+        width: 433
+        height: 729
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff2a03ea3cd7208f0800000000000000
+      internalID: -575759522955484417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_27
+      rect:
+        serializedVersion: 2
+        x: 631
+        y: 97
+        width: 417
+        height: 729
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eaac6df16e8c40a0800000000000000
+      internalID: -6895980377896342810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_28
+      rect:
+        serializedVersion: 2
+        x: 1610
+        y: 97
+        width: 401
+        height: 731
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7ac47d8f3b477fa0800000000000000
+      internalID: -5803086858515330434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_29
+      rect:
+        serializedVersion: 2
+        x: 2594
         y: 81
-        width: 638
-        height: 293
+        width: 390
+        height: 732
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -965,8 +846,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f332b7f7deefa240800000000000000
-      internalID: 4805321938768638966
+      spriteID: b1f95065c59177e30800000000000000
+      internalID: 4501094236950994715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_30
+      rect:
+        serializedVersion: 2
+        x: 3492
+        y: 114
+        width: 383
+        height: 735
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27d004cc6eab57760800000000000000
+      internalID: 7455070258613718386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle_wk2_31
+      rect:
+        serializedVersion: 2
+        x: 4473
+        y: 56
+        width: 384
+        height: 737
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53d7b1f947ec27580800000000000000
+      internalID: -8830768919039214283
       vertices: []
       indices: 
       edges: []
@@ -975,7 +900,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0930dea703420cf42ad585e542535656
+    spriteID: 3f3258d37fd81e340a72efb5b9223dc4
     internalID: 0
     vertices: []
     indices: 
@@ -985,41 +910,38 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pain_round_0: 5171697092382755038
-      pain_round_1: -1489524543197152007
-      pain_round_10: -8617193130437236108
-      pain_round_11: 5951534840136959454
-      pain_round_12: -8479552522053230954
-      pain_round_13: -65155461882024131
-      pain_round_14: -6857811452577588792
-      pain_round_15: 2142993813835710710
-      pain_round_16: -8133445184396246681
-      pain_round_17: -1498433104552291551
-      pain_round_18: 2182027293135749684
-      pain_round_19: 1429682608642651532
-      pain_round_2: -976411167410198387
-      pain_round_20: 7918426314520873150
-      pain_round_21: 4705741007106532168
-      pain_round_22: -8032156015616495461
-      pain_round_23: -5643151877503109087
-      pain_round_24: 9167429426115914362
-      pain_round_25: -5513578546349711313
-      pain_round_26: 3290872459232008508
-      pain_round_27: -4345804299805521203
-      pain_round_28: 5419258991255470951
-      pain_round_29: 6645007613872311427
-      pain_round_3: -5207677363585178580
-      pain_round_30: 5450694935069401758
-      pain_round_31: -841262749988809092
-      pain_round_32: 8253000423950570911
-      pain_round_33: 851491006100071207
-      pain_round_34: 4805321938768638966
-      pain_round_4: 8500321905483328284
-      pain_round_5: 5904865943313533278
-      pain_round_6: 375818125635338754
-      pain_round_7: -4512828265514087267
-      pain_round_8: -8357377163625867665
-      pain_round_9: -6779362673256158607
+      idle_wk2_0: -3718407635585092707
+      idle_wk2_1: -659035685286180813
+      idle_wk2_10: -4934398338355348906
+      idle_wk2_11: 1777048615628626244
+      idle_wk2_12: -1322742250853288827
+      idle_wk2_13: 143231832972020168
+      idle_wk2_14: 4003512153182229560
+      idle_wk2_15: -549201382717934790
+      idle_wk2_16: -7320477891864055789
+      idle_wk2_17: 238076763641286760
+      idle_wk2_18: -6770192694598245261
+      idle_wk2_19: -3414850539158734372
+      idle_wk2_2: -331749957159281897
+      idle_wk2_20: 7547668854886895679
+      idle_wk2_21: -7089519288198076907
+      idle_wk2_22: 7815442823998720184
+      idle_wk2_23: 5584521612491785803
+      idle_wk2_24: -6058402596643597908
+      idle_wk2_25: 4072066433706339224
+      idle_wk2_26: -575759522955484417
+      idle_wk2_27: -6895980377896342810
+      idle_wk2_28: -5803086858515330434
+      idle_wk2_29: 4501094236950994715
+      idle_wk2_3: 8729833372439260220
+      idle_wk2_30: 7455070258613718386
+      idle_wk2_31: -8830768919039214283
+      idle_wk2_4: -1955770603668991107
+      idle_wk2_5: -4280771316799418064
+      idle_wk2_6: 436680524490013120
+      idle_wk2_7: 7763233214906494826
+      idle_wk2_8: 6730322824012833506
+      idle_wk2_9: -557106668637958823
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
