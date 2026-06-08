@@ -85,7 +85,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -120,7 +120,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -310,7 +310,7 @@ TextureImporter:
         width: 459
         height: 552
       alignment: 9
-      pivot: {x: 0.5, y: -0.1}
+      pivot: {x: 0.5, y: -0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -332,7 +332,7 @@ TextureImporter:
         width: 429
         height: 489
       alignment: 9
-      pivot: {x: 0.5, y: -0.1}
+      pivot: {x: 0.5, y: -0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -354,7 +354,7 @@ TextureImporter:
         width: 457
         height: 477
       alignment: 9
-      pivot: {x: 0.5, y: -0.1}
+      pivot: {x: 0.5, y: -0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -376,7 +376,7 @@ TextureImporter:
         width: 454
         height: 473
       alignment: 9
-      pivot: {x: 0.5, y: -0.1}
+      pivot: {x: 0.5, y: -0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
