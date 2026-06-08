@@ -1,0 +1,897 @@
+fileFormatVersion: 2
+guid: 3d2690c74eea0a942a8d617251efcf7c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4745117368901525978
+    second: Boss1_Die_0
+  - first:
+      213: 3745555892044471491
+    second: Boss1_Die_1
+  - first:
+      213: -5180000875647382561
+    second: Boss1_Die_2
+  - first:
+      213: 3153705774554233920
+    second: Boss1_Die_3
+  - first:
+      213: 4055853094233544953
+    second: Boss1_Die_4
+  - first:
+      213: 6055051047370629641
+    second: Boss1_Die_5
+  - first:
+      213: 4371369405463656093
+    second: Boss1_Die_6
+  - first:
+      213: 46239548174707807
+    second: Boss1_Die_7
+  - first:
+      213: -2876391854568212031
+    second: Boss1_Die_8
+  - first:
+      213: -2574316216513445181
+    second: Boss1_Die_9
+  - first:
+      213: -4378000960003857206
+    second: Boss1_Die_10
+  - first:
+      213: -92892414720876476
+    second: Boss1_Die_11
+  - first:
+      213: 4853555045874030336
+    second: Boss1_Die_12
+  - first:
+      213: -5361766132238769101
+    second: Boss1_Die_13
+  - first:
+      213: 3015318486204981041
+    second: Boss1_Die_14
+  - first:
+      213: 3123646856223775607
+    second: Boss1_Die_15
+  - first:
+      213: 6289294136576021498
+    second: Boss1_Die_16
+  - first:
+      213: 7052309240115124444
+    second: Boss1_Die_17
+  - first:
+      213: 4533615740983646222
+    second: Boss1_Die_18
+  - first:
+      213: -5010007743427519567
+    second: Boss1_Die_19
+  - first:
+      213: -5009846748828274853
+    second: Boss1_Die_20
+  - first:
+      213: -2499565535318287460
+    second: Boss1_Die_21
+  - first:
+      213: 5260680234918830680
+    second: Boss1_Die_22
+  - first:
+      213: 3320223468088877509
+    second: Boss1_Die_23
+  - first:
+      213: -4657523943913722232
+    second: Boss1_Die_24
+  - first:
+      213: -4666911796699671032
+    second: Boss1_Die_25
+  - first:
+      213: 487697775475246897
+    second: Boss1_Die_26
+  - first:
+      213: 6761795288291710575
+    second: Boss1_Die_27
+  - first:
+      213: -573779914688137583
+    second: Boss1_Die_28
+  - first:
+      213: -5589989134636110388
+    second: Boss1_Die_29
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Boss1_Die_0
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 6083
+        width: 545
+        height: 832
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad169e63b1b0ad140800000000000000
+      internalID: 4745117368901525978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_1
+      rect:
+        serializedVersion: 2
+        x: 1382
+        y: 6083
+        width: 588
+        height: 832
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cc9eaf2d33eaf330800000000000000
+      internalID: 3745555892044471491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_2
+      rect:
+        serializedVersion: 2
+        x: 2173
+        y: 6083
+        width: 589
+        height: 832
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdb43def5a0fc18b0800000000000000
+      internalID: -5180000875647382561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_3
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 6083
+        width: 591
+        height: 833
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04c376261b634cb20800000000000000
+      internalID: 3153705774554233920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_4
+      rect:
+        serializedVersion: 2
+        x: 3781
+        y: 6083
+        width: 590
+        height: 833
+      alignment: 9
+      pivot: {x: 0.45, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f895fe76e8494830800000000000000
+      internalID: 4055853094233544953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_5
+      rect:
+        serializedVersion: 2
+        x: 4704
+        y: 6083
+        width: 596
+        height: 830
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9022267b8dcd70450800000000000000
+      internalID: 6055051047370629641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_6
+      rect:
+        serializedVersion: 2
+        x: 1637
+        y: 5050
+        width: 608
+        height: 826
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d96fba250593aac30800000000000000
+      internalID: 4371369405463656093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_7
+      rect:
+        serializedVersion: 2
+        x: 2553
+        y: 5050
+        width: 627
+        height: 819
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5c2783cf9644a000800000000000000
+      internalID: 46239548174707807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_8
+      rect:
+        serializedVersion: 2
+        x: 3591
+        y: 5050
+        width: 671
+        height: 809
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c972a919d00518d0800000000000000
+      internalID: -2876391854568212031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_9
+      rect:
+        serializedVersion: 2
+        x: 4627
+        y: 5050
+        width: 726
+        height: 801
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c240375a01364cd0800000000000000
+      internalID: -2574316216513445181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_10
+      rect:
+        serializedVersion: 2
+        x: 1413
+        y: 4033
+        width: 761
+        height: 796
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac4a6a092573e33c0800000000000000
+      internalID: -4378000960003857206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_11
+      rect:
+        serializedVersion: 2
+        x: 2470
+        y: 4035
+        width: 780
+        height: 789
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 440eb3a47daf5bef0800000000000000
+      internalID: -92892414720876476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_12
+      rect:
+        serializedVersion: 2
+        x: 3549
+        y: 4035
+        width: 776
+        height: 785
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0075027599a4b5340800000000000000
+      internalID: 4853555045874030336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_13
+      rect:
+        serializedVersion: 2
+        x: 4651
+        y: 4038
+        width: 744
+        height: 774
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 334203f4c1e2795b0800000000000000
+      internalID: -5361766132238769101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_14
+      rect:
+        serializedVersion: 2
+        x: 1448
+        y: 3099
+        width: 699
+        height: 751
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13f9ae6ff2098d920800000000000000
+      internalID: 3015318486204981041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_15
+      rect:
+        serializedVersion: 2
+        x: 2600
+        y: 3099
+        width: 704
+        height: 736
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77bdbf4144c695b20800000000000000
+      internalID: 3123646856223775607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_16
+      rect:
+        serializedVersion: 2
+        x: 3654
+        y: 3099
+        width: 733
+        height: 724
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af39f82f1bf084750800000000000000
+      internalID: 6289294136576021498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_17
+      rect:
+        serializedVersion: 2
+        x: 4686
+        y: 3098
+        width: 772
+        height: 719
+      alignment: 9
+      pivot: {x: 0.52, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd8544f93e5ded160800000000000000
+      internalID: 7052309240115124444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_18
+      rect:
+        serializedVersion: 2
+        x: 1329
+        y: 2048
+        width: 792
+        height: 719
+      alignment: 9
+      pivot: {x: 0.53, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e08137d0f73aaee30800000000000000
+      internalID: 4533615740983646222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_19
+      rect:
+        serializedVersion: 2
+        x: 2506
+        y: 2048
+        width: 811
+        height: 723
+      alignment: 9
+      pivot: {x: 0.54, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bbdb036080e87ab0800000000000000
+      internalID: -5010007743427519567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_20
+      rect:
+        serializedVersion: 2
+        x: 3551
+        y: 2048
+        width: 822
+        height: 728
+      alignment: 9
+      pivot: {x: 0.55, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5fe1fcdce2797ab0800000000000000
+      internalID: -5009846748828274853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_21
+      rect:
+        serializedVersion: 2
+        x: 4577
+        y: 2048
+        width: 854
+        height: 734
+      alignment: 9
+      pivot: {x: 0.57, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9b5b8e8362cf4dd0800000000000000
+      internalID: -2499565535318287460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_22
+      rect:
+        serializedVersion: 2
+        x: 1276
+        y: 1058
+        width: 814
+        height: 747
+      alignment: 9
+      pivot: {x: 0.57, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85261472dc0b10940800000000000000
+      internalID: 5260680234918830680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_23
+      rect:
+        serializedVersion: 2
+        x: 2521
+        y: 1055
+        width: 764
+        height: 755
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c16a5627adc31e20800000000000000
+      internalID: 3320223468088877509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_24
+      rect:
+        serializedVersion: 2
+        x: 3583
+        y: 1053
+        width: 762
+        height: 763
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88e652e46a62d5fb0800000000000000
+      internalID: -4657523943913722232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_25
+      rect:
+        serializedVersion: 2
+        x: 4652
+        y: 1053
+        width: 760
+        height: 766
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 806d2af727ccb3fb0800000000000000
+      internalID: -4666911796699671032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_26
+      rect:
+        serializedVersion: 2
+        x: 1313
+        y: 66
+        width: 760
+        height: 769
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13743f8fa86a4c600800000000000000
+      internalID: 487697775475246897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_27
+      rect:
+        serializedVersion: 2
+        x: 2515
+        y: 63
+        width: 759
+        height: 774
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f66998a3df8b6dd50800000000000000
+      internalID: 6761795288291710575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_28
+      rect:
+        serializedVersion: 2
+        x: 3579
+        y: 63
+        width: 759
+        height: 774
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19672c525368908f0800000000000000
+      internalID: -573779914688137583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss1_Die_29
+      rect:
+        serializedVersion: 2
+        x: 4644
+        y: 63
+        width: 761
+        height: 772
+      alignment: 9
+      pivot: {x: 0.56, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccda8b3cf7e5c62b0800000000000000
+      internalID: -5589989134636110388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: abe71b28b7d828743b52329356e02f95
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Boss1_Die_0: 4745117368901525978
+      Boss1_Die_1: 3745555892044471491
+      Boss1_Die_10: -4378000960003857206
+      Boss1_Die_11: -92892414720876476
+      Boss1_Die_12: 4853555045874030336
+      Boss1_Die_13: -5361766132238769101
+      Boss1_Die_14: 3015318486204981041
+      Boss1_Die_15: 3123646856223775607
+      Boss1_Die_16: 6289294136576021498
+      Boss1_Die_17: 7052309240115124444
+      Boss1_Die_18: 4533615740983646222
+      Boss1_Die_19: -5010007743427519567
+      Boss1_Die_2: -5180000875647382561
+      Boss1_Die_20: -5009846748828274853
+      Boss1_Die_21: -2499565535318287460
+      Boss1_Die_22: 5260680234918830680
+      Boss1_Die_23: 3320223468088877509
+      Boss1_Die_24: -4657523943913722232
+      Boss1_Die_25: -4666911796699671032
+      Boss1_Die_26: 487697775475246897
+      Boss1_Die_27: 6761795288291710575
+      Boss1_Die_28: -573779914688137583
+      Boss1_Die_29: -5589989134636110388
+      Boss1_Die_3: 3153705774554233920
+      Boss1_Die_4: 4055853094233544953
+      Boss1_Die_5: 6055051047370629641
+      Boss1_Die_6: 4371369405463656093
+      Boss1_Die_7: 46239548174707807
+      Boss1_Die_8: -2876391854568212031
+      Boss1_Die_9: -2574316216513445181
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
