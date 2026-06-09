@@ -53,11 +53,11 @@ TagManager:
   - name: MidBack
     uniqueID: 3400596671
     locked: 0
-  - name: Fore
-    uniqueID: 1394049793
-    locked: 0
   - name: Ground
     uniqueID: 492538183
+    locked: 0
+  - name: Fore
+    uniqueID: 1394049793
     locked: 0
   - name: Shadow
     uniqueID: 2017996623
