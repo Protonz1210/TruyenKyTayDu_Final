@@ -1,0 +1,975 @@
+fileFormatVersion: 2
+guid: d9db99a2d816196468e12cf2a2b25879
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1510314671384615875
+    second: NPC5_Handside_0
+  - first:
+      213: 7581463802810144054
+    second: NPC5_Handside_1
+  - first:
+      213: -7031359672735225101
+    second: NPC5_Handside_2
+  - first:
+      213: -1877850536546711160
+    second: NPC5_Handside_3
+  - first:
+      213: 5097374345604311044
+    second: NPC5_Handside_4
+  - first:
+      213: 6181689237911586408
+    second: NPC5_Handside_5
+  - first:
+      213: -4852849722655118473
+    second: NPC5_Handside_6
+  - first:
+      213: -4583957716212201965
+    second: NPC5_Handside_7
+  - first:
+      213: -978199506531272656
+    second: NPC5_Handside_8
+  - first:
+      213: -3535755225535621897
+    second: NPC5_Handside_9
+  - first:
+      213: -1084796234248744584
+    second: NPC5_Handside_10
+  - first:
+      213: -5381001258576919179
+    second: NPC5_Handside_11
+  - first:
+      213: -7314649208003905913
+    second: NPC5_Handside_12
+  - first:
+      213: -5007555725315889630
+    second: NPC5_Handside_13
+  - first:
+      213: -6418987753003763140
+    second: NPC5_Handside_14
+  - first:
+      213: 5787129642097885128
+    second: NPC5_Handside_15
+  - first:
+      213: -6463753641298657249
+    second: NPC5_Handside_16
+  - first:
+      213: 4792808889764101348
+    second: NPC5_Handside_17
+  - first:
+      213: 3155099603119666088
+    second: NPC5_Handside_18
+  - first:
+      213: -8817875268165601448
+    second: NPC5_Handside_19
+  - first:
+      213: -4443858434973554291
+    second: NPC5_Handside_20
+  - first:
+      213: 5951848655476014161
+    second: NPC5_Handside_21
+  - first:
+      213: 574100275568869237
+    second: NPC5_Handside_22
+  - first:
+      213: -5077375626562202336
+    second: NPC5_Handside_23
+  - first:
+      213: 8451362975301885132
+    second: NPC5_Handside_24
+  - first:
+      213: 5719916579217327494
+    second: NPC5_Handside_25
+  - first:
+      213: -5825357709936098887
+    second: NPC5_Handside_26
+  - first:
+      213: -8117227505638635640
+    second: NPC5_Handside_27
+  - first:
+      213: 5940816806418149490
+    second: NPC5_Handside_28
+  - first:
+      213: 9137643564936744553
+    second: NPC5_Handside_29
+  - first:
+      213: 5345238793817483417
+    second: NPC5_Handside_30
+  - first:
+      213: 69635216903911330
+    second: NPC5_Handside_31
+  - first:
+      213: 3733608794344293886
+    second: NPC5_Handside_32
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: NPC5_Handside_0
+      rect:
+        serializedVersion: 2
+        x: 2274
+        y: 5539
+        width: 558
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cbd0fe0137b5f410800000000000000
+      internalID: 1510314671384615875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_1
+      rect:
+        serializedVersion: 2
+        x: 3282
+        y: 5539
+        width: 558
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6351bfb0925c63960800000000000000
+      internalID: 7581463802810144054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_2
+      rect:
+        serializedVersion: 2
+        x: 4301
+        y: 5539
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fa2c92a1a79b6e90800000000000000
+      internalID: -7031359672735225101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_3
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 4695
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8894bd3e2e880f5e0800000000000000
+      internalID: -1877850536546711160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_4
+      rect:
+        serializedVersion: 2
+        x: 1525
+        y: 4695
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4082fe4d5f28db640800000000000000
+      internalID: 5097374345604311044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_5
+      rect:
+        serializedVersion: 2
+        x: 2276
+        y: 4695
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86643912c95c9c550800000000000000
+      internalID: 6181689237911586408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_6
+      rect:
+        serializedVersion: 2
+        x: 3284
+        y: 4695
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77be9c483e637acb0800000000000000
+      internalID: -4852849722655118473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_7
+      rect:
+        serializedVersion: 2
+        x: 4198
+        y: 4695
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 316c2c37eb28260c0800000000000000
+      internalID: -4583957716212201965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_8
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 3851
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 038bdb54bbcbc62f0800000000000000
+      internalID: -978199506531272656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_9
+      rect:
+        serializedVersion: 2
+        x: 1525
+        y: 3851
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f4d7390b597eeec0800000000000000
+      internalID: -3535755225535621897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_10
+      rect:
+        serializedVersion: 2
+        x: 2276
+        y: 3851
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8711ceb829702f0f0800000000000000
+      internalID: -1084796234248744584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_11
+      rect:
+        serializedVersion: 2
+        x: 3284
+        y: 3851
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 575c7967dd7d255b0800000000000000
+      internalID: -5381001258576919179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_12
+      rect:
+        serializedVersion: 2
+        x: 4198
+        y: 3851
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 786b55ccc452d7a90800000000000000
+      internalID: -7314649208003905913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_13
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 2874
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 226a2975996918ab0800000000000000
+      internalID: -5007555725315889630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_14
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 2874
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3ab0acd5ac2be6a0800000000000000
+      internalID: -6418987753003763140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_15
+      rect:
+        serializedVersion: 2
+        x: 2276
+        y: 2874
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cfb06a7fb3005050800000000000000
+      internalID: 5787129642097885128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_16
+      rect:
+        serializedVersion: 2
+        x: 3284
+        y: 2874
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1081c64f422c46a0800000000000000
+      internalID: -6463753641298657249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_17
+      rect:
+        serializedVersion: 2
+        x: 4198
+        y: 2874
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ec39b6ba4a738240800000000000000
+      internalID: 4792808889764101348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_18
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1848
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a37ce26f5a29cb20800000000000000
+      internalID: 3155099603119666088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_19
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 1848
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8577947a92d90a580800000000000000
+      internalID: -8817875268165601448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_20
+      rect:
+        serializedVersion: 2
+        x: 2276
+        y: 1848
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8927474c4e3452c0800000000000000
+      internalID: -4443858434973554291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_21
+      rect:
+        serializedVersion: 2
+        x: 3284
+        y: 1848
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15cb88261d6399250800000000000000
+      internalID: 5951848655476014161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_22
+      rect:
+        serializedVersion: 2
+        x: 4198
+        y: 1848
+        width: 556
+        height: 736
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57f7cbea82d97f700800000000000000
+      internalID: 574100275568869237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_23
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 889
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 025988bc4c98989b0800000000000000
+      internalID: -5077375626562202336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_24
+      rect:
+        serializedVersion: 2
+        x: 1361
+        y: 889
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cccd1ca49d5494570800000000000000
+      internalID: 8451362975301885132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_25
+      rect:
+        serializedVersion: 2
+        x: 2276
+        y: 889
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 685cd19c2d9316f40800000000000000
+      internalID: 5719916579217327494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_26
+      rect:
+        serializedVersion: 2
+        x: 3284
+        y: 889
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b10da1e60c282fa0800000000000000
+      internalID: -5825357709936098887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_27
+      rect:
+        serializedVersion: 2
+        x: 4198
+        y: 889
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 887016d2790d95f80800000000000000
+      internalID: -8117227505638635640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_28
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 45
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 270793ed865027250800000000000000
+      internalID: 5940816806418149490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_29
+      rect:
+        serializedVersion: 2
+        x: 1361
+        y: 45
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96e4034b86e6fce70800000000000000
+      internalID: 9137643564936744553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_30
+      rect:
+        serializedVersion: 2
+        x: 2276
+        y: 45
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 998e029dc5a1e2a40800000000000000
+      internalID: 5345238793817483417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_31
+      rect:
+        serializedVersion: 2
+        x: 3284
+        y: 45
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a73a6f5cd467f000800000000000000
+      internalID: 69635216903911330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_Handside_32
+      rect:
+        serializedVersion: 2
+        x: 4198
+        y: 45
+        width: 556
+        height: 735
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef58a2dba6170d330800000000000000
+      internalID: 3733608794344293886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      NPC5_Handside_0: 1510314671384615875
+      NPC5_Handside_1: 7581463802810144054
+      NPC5_Handside_10: -1084796234248744584
+      NPC5_Handside_11: -5381001258576919179
+      NPC5_Handside_12: -7314649208003905913
+      NPC5_Handside_13: -5007555725315889630
+      NPC5_Handside_14: -6418987753003763140
+      NPC5_Handside_15: 5787129642097885128
+      NPC5_Handside_16: -6463753641298657249
+      NPC5_Handside_17: 4792808889764101348
+      NPC5_Handside_18: 3155099603119666088
+      NPC5_Handside_19: -8817875268165601448
+      NPC5_Handside_2: -7031359672735225101
+      NPC5_Handside_20: -4443858434973554291
+      NPC5_Handside_21: 5951848655476014161
+      NPC5_Handside_22: 574100275568869237
+      NPC5_Handside_23: -5077375626562202336
+      NPC5_Handside_24: 8451362975301885132
+      NPC5_Handside_25: 5719916579217327494
+      NPC5_Handside_26: -5825357709936098887
+      NPC5_Handside_27: -8117227505638635640
+      NPC5_Handside_28: 5940816806418149490
+      NPC5_Handside_29: 9137643564936744553
+      NPC5_Handside_3: -1877850536546711160
+      NPC5_Handside_30: 5345238793817483417
+      NPC5_Handside_31: 69635216903911330
+      NPC5_Handside_32: 3733608794344293886
+      NPC5_Handside_4: 5097374345604311044
+      NPC5_Handside_5: 6181689237911586408
+      NPC5_Handside_6: -4852849722655118473
+      NPC5_Handside_7: -4583957716212201965
+      NPC5_Handside_8: -978199506531272656
+      NPC5_Handside_9: -3535755225535621897
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
