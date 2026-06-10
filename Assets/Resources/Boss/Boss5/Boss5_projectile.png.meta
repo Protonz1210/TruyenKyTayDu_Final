@@ -1,0 +1,1235 @@
+fileFormatVersion: 2
+guid: 4ace7ac8309699849982ef56078cedea
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6883554720852806244
+    second: Boss5_projectile_0
+  - first:
+      213: -9007631144802900365
+    second: Boss5_projectile_1
+  - first:
+      213: 7233156216285549572
+    second: Boss5_projectile_2
+  - first:
+      213: 8005484236185204469
+    second: Boss5_projectile_3
+  - first:
+      213: 7359829694434085618
+    second: Boss5_projectile_4
+  - first:
+      213: -4814149886139585509
+    second: Boss5_projectile_5
+  - first:
+      213: 7099540098752404110
+    second: Boss5_projectile_6
+  - first:
+      213: 7852629327688168332
+    second: Boss5_projectile_7
+  - first:
+      213: 8140643947050043005
+    second: Boss5_projectile_8
+  - first:
+      213: 3744911643260004231
+    second: Boss5_projectile_9
+  - first:
+      213: 2154518819112537237
+    second: Boss5_projectile_10
+  - first:
+      213: 6471186470976270523
+    second: Boss5_projectile_11
+  - first:
+      213: 7202611245730315879
+    second: Boss5_projectile_12
+  - first:
+      213: -9136797562414609117
+    second: Boss5_projectile_13
+  - first:
+      213: 8444852748662668394
+    second: Boss5_projectile_14
+  - first:
+      213: 3783182859622708473
+    second: Boss5_projectile_15
+  - first:
+      213: -8392535281458776763
+    second: Boss5_projectile_16
+  - first:
+      213: -6344274562769726674
+    second: Boss5_projectile_17
+  - first:
+      213: 5371456995756589665
+    second: Boss5_projectile_18
+  - first:
+      213: 6450441802167290610
+    second: Boss5_projectile_19
+  - first:
+      213: 8314919819300034881
+    second: Boss5_projectile_20
+  - first:
+      213: -8962421284940151861
+    second: Boss5_projectile_21
+  - first:
+      213: 2526137029883162486
+    second: Boss5_projectile_22
+  - first:
+      213: -4246151820105790498
+    second: Boss5_projectile_23
+  - first:
+      213: -4640101697498960622
+    second: Boss5_projectile_24
+  - first:
+      213: 4333476150572365448
+    second: Boss5_projectile_25
+  - first:
+      213: -8586502103221014956
+    second: Boss5_projectile_26
+  - first:
+      213: 2517041063168028119
+    second: Boss5_projectile_27
+  - first:
+      213: -4503473083085458128
+    second: Boss5_projectile_28
+  - first:
+      213: -4184078545219875087
+    second: Boss5_projectile_29
+  - first:
+      213: -894702967788239718
+    second: Boss5_projectile_30
+  - first:
+      213: 1103418792415395991
+    second: Boss5_projectile_31
+  - first:
+      213: -6078136220269070942
+    second: Boss5_projectile_32
+  - first:
+      213: -3714367681349585059
+    second: Boss5_projectile_33
+  - first:
+      213: 9028958364405952920
+    second: Boss5_projectile_34
+  - first:
+      213: 361786748995859497
+    second: Boss5_projectile_35
+  - first:
+      213: -3140257604855628151
+    second: Boss5_projectile_36
+  - first:
+      213: -4839632696191975587
+    second: Boss5_projectile_37
+  - first:
+      213: 1459052472248690257
+    second: Boss5_projectile_38
+  - first:
+      213: -4434855451507165262
+    second: Boss5_projectile_39
+  - first:
+      213: -3861309370437215554
+    second: Boss5_projectile_40
+  - first:
+      213: 8418996995919901000
+    second: Boss5_projectile_41
+  - first:
+      213: 2008550008506572689
+    second: Boss5_projectile_42
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Boss5_projectile_0
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 2207
+        width: 453
+        height: 489
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c95fa97b373b870a0800000000000000
+      internalID: -6883554720852806244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_1
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 1466
+        width: 455
+        height: 487
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3762742c2377ef280800000000000000
+      internalID: -9007631144802900365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_2
+      rect:
+        serializedVersion: 2
+        x: 1136
+        y: 1468
+        width: 455
+        height: 487
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 404db9c7145516460800000000000000
+      internalID: 7233156216285549572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_3
+      rect:
+        serializedVersion: 2
+        x: 1885
+        y: 1466
+        width: 452
+        height: 485
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f6fec87f71391f60800000000000000
+      internalID: 8005484236185204469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_4
+      rect:
+        serializedVersion: 2
+        x: 2187
+        y: 1946
+        width: 21
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fa8d10fc1e532660800000000000000
+      internalID: 7359829694434085618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_5
+      rect:
+        serializedVersion: 2
+        x: 2679
+        y: 1465
+        width: 447
+        height: 485
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1ca92d5f24b03db0800000000000000
+      internalID: -4814149886139585509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_6
+      rect:
+        serializedVersion: 2
+        x: 2968
+        y: 1946
+        width: 20
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8a57c6da12a68260800000000000000
+      internalID: 7099540098752404110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_7
+      rect:
+        serializedVersion: 2
+        x: 3791
+        y: 1948
+        width: 19
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c83faadb4c42afc60800000000000000
+      internalID: 7852629327688168332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_8
+      rect:
+        serializedVersion: 2
+        x: 4547
+        y: 1949
+        width: 16
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d760ad2f98069f070800000000000000
+      internalID: 8140643947050043005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_9
+      rect:
+        serializedVersion: 2
+        x: 3511
+        y: 1465
+        width: 444
+        height: 483
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 787acb35c4998f330800000000000000
+      internalID: 3744911643260004231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_10
+      rect:
+        serializedVersion: 2
+        x: 4276
+        y: 1465
+        width: 443
+        height: 482
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59cc81b637366ed10800000000000000
+      internalID: 2154518819112537237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_11
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1245
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb0badd3fc54ec950800000000000000
+      internalID: 6471186470976270523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_12
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 760
+        width: 428
+        height: 491
+      alignment: 9
+      pivot: {x: 0.48, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76e3df454c0d4f360800000000000000
+      internalID: 7202611245730315879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_13
+      rect:
+        serializedVersion: 2
+        x: 1290
+        y: 1245
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32d4f9b9603933180800000000000000
+      internalID: -9136797562414609117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_14
+      rect:
+        serializedVersion: 2
+        x: 2023
+        y: 1242
+        width: 16
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6cf48805d4223570800000000000000
+      internalID: 8444852748662668394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_15
+      rect:
+        serializedVersion: 2
+        x: 2180
+        y: 1233
+        width: 47
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f4782444c0908430800000000000000
+      internalID: 3783182859622708473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_16
+      rect:
+        serializedVersion: 2
+        x: 2799
+        y: 1240
+        width: 20
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54577b780a9b78b80800000000000000
+      internalID: -8392535281458776763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_17
+      rect:
+        serializedVersion: 2
+        x: 2961
+        y: 1237
+        width: 45
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e23509806eb94f7a0800000000000000
+      internalID: -6344274562769726674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_18
+      rect:
+        serializedVersion: 2
+        x: 3611
+        y: 1235
+        width: 27
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 162cb5eadaf3b8a40800000000000000
+      internalID: 5371456995756589665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_19
+      rect:
+        serializedVersion: 2
+        x: 3784
+        y: 1239
+        width: 43
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fa0386a4a2948950800000000000000
+      internalID: 6450441802167290610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_20
+      rect:
+        serializedVersion: 2
+        x: 4272
+        y: 760
+        width: 453
+        height: 485
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 149db357587846370800000000000000
+      internalID: 8314919819300034881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_21
+      rect:
+        serializedVersion: 2
+        x: 4540
+        y: 1240
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc30eb783551f9380800000000000000
+      internalID: -8962421284940151861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_22
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 760
+        width: 439
+        height: 483
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67f6520ae34ae0320800000000000000
+      internalID: 2526137029883162486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_23
+      rect:
+        serializedVersion: 2
+        x: 1143
+        y: 1166
+        width: 53
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edb473caa63a215c0800000000000000
+      internalID: -4246151820105790498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_24
+      rect:
+        serializedVersion: 2
+        x: 1887
+        y: 1156
+        width: 82
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21d23e6271c0b9fb0800000000000000
+      internalID: -4640101697498960622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_25
+      rect:
+        serializedVersion: 2
+        x: 1914
+        y: 759
+        width: 421
+        height: 480
+      alignment: 9
+      pivot: {x: 0.48, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8863e756999932c30800000000000000
+      internalID: 4333476150572365448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_26
+      rect:
+        serializedVersion: 2
+        x: 2677
+        y: 759
+        width: 451
+        height: 484
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45eed5294dd96d880800000000000000
+      internalID: -8586502103221014956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_27
+      rect:
+        serializedVersion: 2
+        x: 3508
+        y: 759
+        width: 452
+        height: 485
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dda337d2835ee220800000000000000
+      internalID: 2517041063168028119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_28
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1126
+        width: 18
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 035782367137081c0800000000000000
+      internalID: -4503473083085458128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_29
+      rect:
+        serializedVersion: 2
+        x: 1141
+        y: 1122
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fe06d73bba2fe5c0800000000000000
+      internalID: -4184078545219875087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_30
+      rect:
+        serializedVersion: 2
+        x: 1890
+        y: 1118
+        width: 34
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a948e7124606593f0800000000000000
+      internalID: -894702967788239718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_31
+      rect:
+        serializedVersion: 2
+        x: 1911
+        y: 1097
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7900968ab81205f00800000000000000
+      internalID: 1103418792415395991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_32
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 35
+        width: 455
+        height: 484
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a53d6e9f4f16aba0800000000000000
+      internalID: -6078136220269070942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_33
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 516
+        width: 34
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5777fbf54ae37cc0800000000000000
+      internalID: -3714367681349585059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_34
+      rect:
+        serializedVersion: 2
+        x: 1138
+        y: 35
+        width: 453
+        height: 485
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89175328bcd4d4d70800000000000000
+      internalID: 9028958364405952920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_35
+      rect:
+        serializedVersion: 2
+        x: 1390
+        y: 517
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9247752a123550500800000000000000
+      internalID: 361786748995859497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_36
+      rect:
+        serializedVersion: 2
+        x: 1888
+        y: 35
+        width: 449
+        height: 491
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98e7c5f98509b64d0800000000000000
+      internalID: -3140257604855628151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_37
+      rect:
+        serializedVersion: 2
+        x: 2679
+        y: 36
+        width: 446
+        height: 488
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5f7c1c44bb26dcb0800000000000000
+      internalID: -4839632696191975587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_38
+      rect:
+        serializedVersion: 2
+        x: 3512
+        y: 36
+        width: 443
+        height: 486
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 156e90d3e789f3410800000000000000
+      internalID: 1459052472248690257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_39
+      rect:
+        serializedVersion: 2
+        x: 3616
+        y: 510
+        width: 42
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b7f5b6b67a3472c0800000000000000
+      internalID: -4434855451507165262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_40
+      rect:
+        serializedVersion: 2
+        x: 4278
+        y: 36
+        width: 443
+        height: 486
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebad33fe59fd96ac0800000000000000
+      internalID: -3861309370437215554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_41
+      rect:
+        serializedVersion: 2
+        x: 4360
+        y: 505
+        width: 58
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 841f2ea792946d470800000000000000
+      internalID: 8418996995919901000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss5_projectile_42
+      rect:
+        serializedVersion: 2
+        x: 4277
+        y: 402
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19f54aa479dcfdb10800000000000000
+      internalID: 2008550008506572689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1b4a05e3a06d4214b925641cb9c31432
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Boss5_projectile_0: -6883554720852806244
+      Boss5_projectile_1: -9007631144802900365
+      Boss5_projectile_10: 2154518819112537237
+      Boss5_projectile_11: 6471186470976270523
+      Boss5_projectile_12: 7202611245730315879
+      Boss5_projectile_13: -9136797562414609117
+      Boss5_projectile_14: 8444852748662668394
+      Boss5_projectile_15: 3783182859622708473
+      Boss5_projectile_16: -8392535281458776763
+      Boss5_projectile_17: -6344274562769726674
+      Boss5_projectile_18: 5371456995756589665
+      Boss5_projectile_19: 6450441802167290610
+      Boss5_projectile_2: 7233156216285549572
+      Boss5_projectile_20: 8314919819300034881
+      Boss5_projectile_21: -8962421284940151861
+      Boss5_projectile_22: 2526137029883162486
+      Boss5_projectile_23: -4246151820105790498
+      Boss5_projectile_24: -4640101697498960622
+      Boss5_projectile_25: 4333476150572365448
+      Boss5_projectile_26: -8586502103221014956
+      Boss5_projectile_27: 2517041063168028119
+      Boss5_projectile_28: -4503473083085458128
+      Boss5_projectile_29: -4184078545219875087
+      Boss5_projectile_3: 8005484236185204469
+      Boss5_projectile_30: -894702967788239718
+      Boss5_projectile_31: 1103418792415395991
+      Boss5_projectile_32: -6078136220269070942
+      Boss5_projectile_33: -3714367681349585059
+      Boss5_projectile_34: 9028958364405952920
+      Boss5_projectile_35: 361786748995859497
+      Boss5_projectile_36: -3140257604855628151
+      Boss5_projectile_37: -4839632696191975587
+      Boss5_projectile_38: 1459052472248690257
+      Boss5_projectile_39: -4434855451507165262
+      Boss5_projectile_4: 7359829694434085618
+      Boss5_projectile_40: -3861309370437215554
+      Boss5_projectile_41: 8418996995919901000
+      Boss5_projectile_42: 2008550008506572689
+      Boss5_projectile_5: -4814149886139585509
+      Boss5_projectile_6: 7099540098752404110
+      Boss5_projectile_7: 7852629327688168332
+      Boss5_projectile_8: 8140643947050043005
+      Boss5_projectile_9: 3744911643260004231
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
