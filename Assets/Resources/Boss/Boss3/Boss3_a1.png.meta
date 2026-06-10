@@ -1,106 +1,97 @@
 fileFormatVersion: 2
-guid: d9db99a2d816196468e12cf2a2b25879
+guid: 39a0a677c7ab6a342a8e0f63f40673d1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1510314671384615875
-    second: NPC5_Handside_0
+      213: 995043859291752661
+    second: Boss3_a1_0
   - first:
-      213: 7581463802810144054
-    second: NPC5_Handside_1
+      213: -164247124358437505
+    second: Boss3_a1_1
   - first:
-      213: -7031359672735225101
-    second: NPC5_Handside_2
+      213: -1192251094982263206
+    second: Boss3_a1_2
   - first:
-      213: -1877850536546711160
-    second: NPC5_Handside_3
+      213: 3142851292660065727
+    second: Boss3_a1_3
   - first:
-      213: 5097374345604311044
-    second: NPC5_Handside_4
+      213: 1027848979240418987
+    second: Boss3_a1_4
   - first:
-      213: 6181689237911586408
-    second: NPC5_Handside_5
+      213: 6167932268539891254
+    second: Boss3_a1_5
   - first:
-      213: -4852849722655118473
-    second: NPC5_Handside_6
+      213: 4146450313486768072
+    second: Boss3_a1_6
   - first:
-      213: -4583957716212201965
-    second: NPC5_Handside_7
+      213: 8595990127544134502
+    second: Boss3_a1_7
   - first:
-      213: -978199506531272656
-    second: NPC5_Handside_8
+      213: -3321267295642981962
+    second: Boss3_a1_8
   - first:
-      213: -3535755225535621897
-    second: NPC5_Handside_9
+      213: 5935410094004022345
+    second: Boss3_a1_9
   - first:
-      213: -1084796234248744584
-    second: NPC5_Handside_10
+      213: 5955092372806900511
+    second: Boss3_a1_10
   - first:
-      213: -5381001258576919179
-    second: NPC5_Handside_11
+      213: 452942899937282526
+    second: Boss3_a1_11
   - first:
-      213: -7314649208003905913
-    second: NPC5_Handside_12
+      213: 198446894390016339
+    second: Boss3_a1_12
   - first:
-      213: -5007555725315889630
-    second: NPC5_Handside_13
+      213: 2019388043325924771
+    second: Boss3_a1_13
   - first:
-      213: -6418987753003763140
-    second: NPC5_Handside_14
+      213: -3097838311183270110
+    second: Boss3_a1_14
   - first:
-      213: 5787129642097885128
-    second: NPC5_Handside_15
+      213: 2323238510899106084
+    second: Boss3_a1_15
   - first:
-      213: -6463753641298657249
-    second: NPC5_Handside_16
+      213: -5712157718240485034
+    second: Boss3_a1_16
   - first:
-      213: 4792808889764101348
-    second: NPC5_Handside_17
+      213: 1681003093466931577
+    second: Boss3_a1_17
   - first:
-      213: 3155099603119666088
-    second: NPC5_Handside_18
+      213: 8215936653051988641
+    second: Boss3_a1_18
   - first:
-      213: -8817875268165601448
-    second: NPC5_Handside_19
+      213: -641136435385411305
+    second: Boss3_a1_19
   - first:
-      213: -4443858434973554291
-    second: NPC5_Handside_20
+      213: 7207864752377756346
+    second: Boss3_a1_20
   - first:
-      213: 5951848655476014161
-    second: NPC5_Handside_21
+      213: 7350917199050630349
+    second: Boss3_a1_21
   - first:
-      213: 574100275568869237
-    second: NPC5_Handside_22
+      213: -7500256978127973708
+    second: Boss3_a1_22
   - first:
-      213: -5077375626562202336
-    second: NPC5_Handside_23
+      213: 9048459191472765120
+    second: Boss3_a1_23
   - first:
-      213: 8451362975301885132
-    second: NPC5_Handside_24
+      213: -6249251405750210391
+    second: Boss3_a1_24
   - first:
-      213: 5719916579217327494
-    second: NPC5_Handside_25
+      213: 8377828888216932259
+    second: Boss3_a1_25
   - first:
-      213: -5825357709936098887
-    second: NPC5_Handside_26
+      213: -6267177187987140076
+    second: Boss3_a1_26
   - first:
-      213: -8117227505638635640
-    second: NPC5_Handside_27
+      213: 5562107522269221253
+    second: Boss3_a1_27
   - first:
-      213: 5940816806418149490
-    second: NPC5_Handside_28
+      213: -1946958383020741674
+    second: Boss3_a1_28
   - first:
-      213: 9137643564936744553
-    second: NPC5_Handside_29
-  - first:
-      213: 5345238793817483417
-    second: NPC5_Handside_30
-  - first:
-      213: 69635216903911330
-    second: NPC5_Handside_31
-  - first:
-      213: 3733608794344293886
-    second: NPC5_Handside_32
+      213: -8673142770389626572
+    second: Boss3_a1_29
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -196,727 +187,661 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NPC5_Handside_0
+      name: Boss3_a1_0
       rect:
         serializedVersion: 2
-        x: 2274
-        y: 5539
-        width: 558
-        height: 736
+        x: 1143
+        y: 4140
+        width: 492
+        height: 626
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3cbd0fe0137b5f410800000000000000
-      internalID: 1510314671384615875
+      spriteID: 5d8c4093e1b1fcd00800000000000000
+      internalID: 995043859291752661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_1
+      name: Boss3_a1_1
       rect:
         serializedVersion: 2
-        x: 3282
-        y: 5539
-        width: 558
-        height: 736
+        x: 2130
+        y: 4143
+        width: 499
+        height: 623
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6351bfb0925c63960800000000000000
-      internalID: 7581463802810144054
+      spriteID: f756c315c1a78bdf0800000000000000
+      internalID: -164247124358437505
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_2
+      name: Boss3_a1_2
       rect:
         serializedVersion: 2
-        x: 4301
-        y: 5539
-        width: 556
-        height: 736
+        x: 2958
+        y: 4146
+        width: 527
+        height: 617
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3fa2c92a1a79b6e90800000000000000
-      internalID: -7031359672735225101
+      spriteID: a5ef28822f5447fe0800000000000000
+      internalID: -1192251094982263206
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_3
+      name: Boss3_a1_3
       rect:
         serializedVersion: 2
-        x: 466
-        y: 4695
-        width: 556
-        height: 736
+        x: 3740
+        y: 4146
+        width: 627
+        height: 597
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8894bd3e2e880f5e0800000000000000
-      internalID: -1877850536546711160
+      spriteID: fb561e06996ad9b20800000000000000
+      internalID: 3142851292660065727
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_4
+      name: Boss3_a1_4
       rect:
         serializedVersion: 2
-        x: 1525
-        y: 4695
-        width: 556
-        height: 736
+        x: 170
+        y: 3366
+        width: 659
+        height: 584
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4082fe4d5f28db640800000000000000
-      internalID: 5097374345604311044
+      spriteID: bae7f5a6337a34e00800000000000000
+      internalID: 1027848979240418987
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_5
+      name: Boss3_a1_5
       rect:
         serializedVersion: 2
-        x: 2276
-        y: 4695
-        width: 556
-        height: 736
+        x: 970
+        y: 3366
+        width: 678
+        height: 585
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 86643912c95c9c550800000000000000
-      internalID: 6181689237911586408
+      spriteID: 63e4df818b5e89550800000000000000
+      internalID: 6167932268539891254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_6
+      name: Boss3_a1_6
       rect:
         serializedVersion: 2
-        x: 3284
-        y: 4695
-        width: 556
-        height: 736
+        x: 1944
+        y: 3366
+        width: 675
+        height: 592
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 77be9c483e637acb0800000000000000
-      internalID: -4852849722655118473
+      spriteID: 8c79f2e57962b8930800000000000000
+      internalID: 4146450313486768072
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_7
+      name: Boss3_a1_7
       rect:
         serializedVersion: 2
-        x: 4198
-        y: 4695
-        width: 556
-        height: 736
+        x: 2813
+        y: 3366
+        width: 678
+        height: 579
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 316c2c37eb28260c0800000000000000
-      internalID: -4583957716212201965
+      spriteID: 66b680d3a771b4770800000000000000
+      internalID: 8595990127544134502
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_8
+      name: Boss3_a1_8
       rect:
         serializedVersion: 2
-        x: 466
-        y: 3851
-        width: 556
-        height: 736
+        x: 3669
+        y: 3366
+        width: 680
+        height: 573
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 038bdb54bbcbc62f0800000000000000
-      internalID: -978199506531272656
+      spriteID: 6b9e31fcdfc78e1d0800000000000000
+      internalID: -3321267295642981962
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_9
+      name: Boss3_a1_9
       rect:
         serializedVersion: 2
-        x: 1525
-        y: 3851
-        width: 556
-        height: 736
+        x: 129
+        y: 2536
+        width: 683
+        height: 574
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7f4d7390b597eeec0800000000000000
-      internalID: -3535755225535621897
+      spriteID: 94ca0698800de5250800000000000000
+      internalID: 5935410094004022345
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_10
+      name: Boss3_a1_10
       rect:
         serializedVersion: 2
-        x: 2276
-        y: 3851
-        width: 556
-        height: 736
+        x: 976
+        y: 2536
+        width: 686
+        height: 576
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8711ceb829702f0f0800000000000000
-      internalID: -1084796234248744584
+      spriteID: f1b1bcd26fcb4a250800000000000000
+      internalID: 5955092372806900511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_11
+      name: Boss3_a1_11
       rect:
         serializedVersion: 2
-        x: 3284
-        y: 3851
-        width: 556
-        height: 736
+        x: 1965
+        y: 2536
+        width: 686
+        height: 576
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 575c7967dd7d255b0800000000000000
-      internalID: -5381001258576919179
+      spriteID: ed90c4eea2d294600800000000000000
+      internalID: 452942899937282526
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_12
+      name: Boss3_a1_12
       rect:
         serializedVersion: 2
-        x: 4198
-        y: 3851
-        width: 556
-        height: 736
+        x: 2815
+        y: 2536
+        width: 685
+        height: 576
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 786b55ccc452d7a90800000000000000
-      internalID: -7314649208003905913
+      spriteID: 35975e6266601c200800000000000000
+      internalID: 198446894390016339
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_13
+      name: Boss3_a1_13
       rect:
         serializedVersion: 2
-        x: 400
-        y: 2874
-        width: 556
-        height: 735
+        x: 3666
+        y: 2536
+        width: 683
+        height: 573
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 226a2975996918ab0800000000000000
-      internalID: -5007555725315889630
+      spriteID: 3a5ec1ae9be460c10800000000000000
+      internalID: 2019388043325924771
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_14
+      name: Boss3_a1_14
       rect:
         serializedVersion: 2
-        x: 1466
-        y: 2874
-        width: 556
-        height: 735
+        x: 127
+        y: 1676
+        width: 678
+        height: 571
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c3ab0acd5ac2be6a0800000000000000
-      internalID: -6418987753003763140
+      spriteID: 22f335218744205d0800000000000000
+      internalID: -3097838311183270110
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_15
+      name: Boss3_a1_15
       rect:
         serializedVersion: 2
-        x: 2276
-        y: 2874
-        width: 556
-        height: 735
+        x: 976
+        y: 1676
+        width: 677
+        height: 571
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8cfb06a7fb3005050800000000000000
-      internalID: 5787129642097885128
+      spriteID: 42116aadd1dcd3020800000000000000
+      internalID: 2323238510899106084
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_16
+      name: Boss3_a1_16
       rect:
         serializedVersion: 2
-        x: 3284
-        y: 2874
-        width: 556
-        height: 735
+        x: 1965
+        y: 1676
+        width: 676
+        height: 571
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f1081c64f422c46a0800000000000000
-      internalID: -6463753641298657249
+      spriteID: 651254fc1d65ab0b0800000000000000
+      internalID: -5712157718240485034
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_17
+      name: Boss3_a1_17
       rect:
         serializedVersion: 2
-        x: 4198
-        y: 2874
-        width: 556
-        height: 735
+        x: 2815
+        y: 1676
+        width: 672
+        height: 573
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ec39b6ba4a738240800000000000000
-      internalID: 4792808889764101348
+      spriteID: 971ed6c386f145710800000000000000
+      internalID: 1681003093466931577
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_18
+      name: Boss3_a1_18
       rect:
         serializedVersion: 2
-        x: 400
-        y: 1848
-        width: 556
-        height: 736
+        x: 3662
+        y: 1676
+        width: 673
+        height: 574
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8a37ce26f5a29cb20800000000000000
-      internalID: 3155099603119666088
+      spriteID: 1aa86462bded40270800000000000000
+      internalID: 8215936653051988641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_19
+      name: Boss3_a1_19
       rect:
         serializedVersion: 2
-        x: 1466
-        y: 1853
-        width: 556
-        height: 736
-      alignment: 9
-      pivot: {x: 0.5, y: 0.495}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8577947a92d90a580800000000000000
-      internalID: -8817875268165601448
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Handside_20
-      rect:
-        serializedVersion: 2
-        x: 2276
-        y: 1848
-        width: 556
-        height: 736
+        x: 123
+        y: 849
+        width: 672
+        height: 576
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d8927474c4e3452c0800000000000000
-      internalID: -4443858434973554291
+      spriteID: 719da441fc93a17f0800000000000000
+      internalID: -641136435385411305
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_21
+      name: Boss3_a1_20
       rect:
         serializedVersion: 2
-        x: 3284
-        y: 1853
-        width: 556
-        height: 736
-      alignment: 9
-      pivot: {x: 0.5, y: 0.495}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 15cb88261d6399250800000000000000
-      internalID: 5951848655476014161
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Handside_22
-      rect:
-        serializedVersion: 2
-        x: 4198
-        y: 1848
-        width: 556
-        height: 736
+        x: 973
+        y: 849
+        width: 673
+        height: 576
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 57f7cbea82d97f700800000000000000
-      internalID: 574100275568869237
+      spriteID: abaf88aadca770460800000000000000
+      internalID: 7207864752377756346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_23
+      name: Boss3_a1_21
       rect:
         serializedVersion: 2
-        x: 400
-        y: 889
-        width: 556
-        height: 735
+        x: 1963
+        y: 849
+        width: 677
+        height: 576
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 025988bc4c98989b0800000000000000
-      internalID: -5077375626562202336
+      spriteID: dc4e8b6ee34b30660800000000000000
+      internalID: 7350917199050630349
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_24
+      name: Boss3_a1_22
       rect:
         serializedVersion: 2
-        x: 1361
-        y: 889
-        width: 556
-        height: 735
+        x: 2815
+        y: 849
+        width: 675
+        height: 574
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cccd1ca49d5494570800000000000000
-      internalID: 8451362975301885132
+      spriteID: 4b29986340cb9e790800000000000000
+      internalID: -7500256978127973708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_25
+      name: Boss3_a1_23
       rect:
         serializedVersion: 2
-        x: 2276
-        y: 894
-        width: 556
-        height: 735
-      alignment: 9
-      pivot: {x: 0.5, y: 0.495}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 685cd19c2d9316f40800000000000000
-      internalID: 5719916579217327494
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Handside_26
-      rect:
-        serializedVersion: 2
-        x: 3284
-        y: 889
-        width: 556
-        height: 735
+        x: 3669
+        y: 849
+        width: 666
+        height: 578
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9b10da1e60c282fa0800000000000000
-      internalID: -5825357709936098887
+      spriteID: 0c83a50a1b5929d70800000000000000
+      internalID: 9048459191472765120
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_27
+      name: Boss3_a1_24
       rect:
         serializedVersion: 2
-        x: 4198
-        y: 889
-        width: 556
-        height: 735
+        x: 158
+        y: 59
+        width: 646
+        height: 592
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 887016d2790d95f80800000000000000
-      internalID: -8117227505638635640
+      spriteID: 9a0f528d4f23649a0800000000000000
+      internalID: -6249251405750210391
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_28
+      name: Boss3_a1_25
       rect:
         serializedVersion: 2
-        x: 400
-        y: 45
-        width: 556
-        height: 735
+        x: 1047
+        y: 59
+        width: 606
+        height: 602
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 270793ed865027250800000000000000
-      internalID: 5940816806418149490
+      spriteID: 3af0d277cf6044470800000000000000
+      internalID: 8377828888216932259
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_29
+      name: Boss3_a1_26
       rect:
         serializedVersion: 2
-        x: 1361
-        y: 45
-        width: 556
-        height: 735
+        x: 1827
+        y: 55
+        width: 507
+        height: 618
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96e4034b86e6fce70800000000000000
-      internalID: 9137643564936744553
+      spriteID: 412589d6d838609a0800000000000000
+      internalID: -6267177187987140076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_30
+      name: Boss3_a1_27
       rect:
         serializedVersion: 2
-        x: 2276
-        y: 45
-        width: 556
-        height: 735
+        x: 2609
+        y: 35
+        width: 478
+        height: 639
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 998e029dc5a1e2a40800000000000000
-      internalID: 5345238793817483417
+      spriteID: 581926b7253903d40800000000000000
+      internalID: 5562107522269221253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_31
+      name: Boss3_a1_28
       rect:
         serializedVersion: 2
-        x: 3284
-        y: 45
-        width: 556
-        height: 735
+        x: 3251
+        y: 38
+        width: 478
+        height: 637
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2a73a6f5cd467f000800000000000000
-      internalID: 69635216903911330
+      spriteID: 6db64938aa30bf4e0800000000000000
+      internalID: -1946958383020741674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Handside_32
+      name: Boss3_a1_29
       rect:
         serializedVersion: 2
-        x: 4198
-        y: 45
-        width: 556
-        height: 735
+        x: 3835
+        y: 43
+        width: 484
+        height: 634
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ef58a2dba6170d330800000000000000
-      internalID: 3733608794344293886
+      spriteID: 431dda44a9ec2a780800000000000000
+      internalID: -8673142770389626572
       vertices: []
       indices: 
       edges: []
@@ -925,7 +850,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 86494f5724d510d48a6a411a573035f3
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -935,39 +860,36 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      NPC5_Handside_0: 1510314671384615875
-      NPC5_Handside_1: 7581463802810144054
-      NPC5_Handside_10: -1084796234248744584
-      NPC5_Handside_11: -5381001258576919179
-      NPC5_Handside_12: -7314649208003905913
-      NPC5_Handside_13: -5007555725315889630
-      NPC5_Handside_14: -6418987753003763140
-      NPC5_Handside_15: 5787129642097885128
-      NPC5_Handside_16: -6463753641298657249
-      NPC5_Handside_17: 4792808889764101348
-      NPC5_Handside_18: 3155099603119666088
-      NPC5_Handside_19: -8817875268165601448
-      NPC5_Handside_2: -7031359672735225101
-      NPC5_Handside_20: -4443858434973554291
-      NPC5_Handside_21: 5951848655476014161
-      NPC5_Handside_22: 574100275568869237
-      NPC5_Handside_23: -5077375626562202336
-      NPC5_Handside_24: 8451362975301885132
-      NPC5_Handside_25: 5719916579217327494
-      NPC5_Handside_26: -5825357709936098887
-      NPC5_Handside_27: -8117227505638635640
-      NPC5_Handside_28: 5940816806418149490
-      NPC5_Handside_29: 9137643564936744553
-      NPC5_Handside_3: -1877850536546711160
-      NPC5_Handside_30: 5345238793817483417
-      NPC5_Handside_31: 69635216903911330
-      NPC5_Handside_32: 3733608794344293886
-      NPC5_Handside_4: 5097374345604311044
-      NPC5_Handside_5: 6181689237911586408
-      NPC5_Handside_6: -4852849722655118473
-      NPC5_Handside_7: -4583957716212201965
-      NPC5_Handside_8: -978199506531272656
-      NPC5_Handside_9: -3535755225535621897
+      Boss3_a1_0: 995043859291752661
+      Boss3_a1_1: -164247124358437505
+      Boss3_a1_10: 5955092372806900511
+      Boss3_a1_11: 452942899937282526
+      Boss3_a1_12: 198446894390016339
+      Boss3_a1_13: 2019388043325924771
+      Boss3_a1_14: -3097838311183270110
+      Boss3_a1_15: 2323238510899106084
+      Boss3_a1_16: -5712157718240485034
+      Boss3_a1_17: 1681003093466931577
+      Boss3_a1_18: 8215936653051988641
+      Boss3_a1_19: -641136435385411305
+      Boss3_a1_2: -1192251094982263206
+      Boss3_a1_20: 7207864752377756346
+      Boss3_a1_21: 7350917199050630349
+      Boss3_a1_22: -7500256978127973708
+      Boss3_a1_23: 9048459191472765120
+      Boss3_a1_24: -6249251405750210391
+      Boss3_a1_25: 8377828888216932259
+      Boss3_a1_26: -6267177187987140076
+      Boss3_a1_27: 5562107522269221253
+      Boss3_a1_28: -1946958383020741674
+      Boss3_a1_29: -8673142770389626572
+      Boss3_a1_3: 3142851292660065727
+      Boss3_a1_4: 1027848979240418987
+      Boss3_a1_5: 6167932268539891254
+      Boss3_a1_6: 4146450313486768072
+      Boss3_a1_7: 8595990127544134502
+      Boss3_a1_8: -3321267295642981962
+      Boss3_a1_9: 5935410094004022345
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,103 +1,109 @@
 fileFormatVersion: 2
-guid: 0355c04481f6b474faa02dbf93be7ce5
+guid: 279ad4524bf00c24384aa1d317ea4cbe
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7804482319845416549
-    second: NPC5_projectile_0
+      213: -8675268037055033512
+    second: Boss3_a0_0
   - first:
-      213: 4828779475629670246
-    second: NPC5_projectile_1
+      213: 7159117898555522217
+    second: Boss3_a0_1
   - first:
-      213: -4740186849007341096
-    second: NPC5_projectile_2
+      213: 1456990105806550331
+    second: Boss3_a0_2
   - first:
-      213: -3906969271508917073
-    second: NPC5_projectile_3
+      213: -2954269057827808145
+    second: Boss3_a0_3
   - first:
-      213: -3768667946023853333
-    second: NPC5_projectile_4
+      213: 3404534186775030013
+    second: Boss3_a0_4
   - first:
-      213: -3919267519543879624
-    second: NPC5_projectile_5
+      213: -8115029268781112620
+    second: Boss3_a0_5
   - first:
-      213: 286737172892983686
-    second: NPC5_projectile_6
+      213: -6942234506984704944
+    second: Boss3_a0_6
   - first:
-      213: -7938603567905867144
-    second: NPC5_projectile_7
+      213: 5807541391709462503
+    second: Boss3_a0_7
   - first:
-      213: 1913600213912532296
-    second: NPC5_projectile_8
+      213: 8122506068328354724
+    second: Boss3_a0_8
   - first:
-      213: 2354062413720207247
-    second: NPC5_projectile_9
+      213: 4479077028824246002
+    second: Boss3_a0_9
   - first:
-      213: -4443911221794126335
-    second: NPC5_projectile_10
+      213: -175547527417194234
+    second: Boss3_a0_10
   - first:
-      213: 2834981890818376555
-    second: NPC5_projectile_11
+      213: 5849326054879942241
+    second: Boss3_a0_11
   - first:
-      213: -3933249579370813539
-    second: NPC5_projectile_12
+      213: 2396195228753329145
+    second: Boss3_a0_12
   - first:
-      213: 3748973115876794624
-    second: NPC5_projectile_13
+      213: -7390671897186267485
+    second: Boss3_a0_13
   - first:
-      213: 4634193473126534916
-    second: NPC5_projectile_14
+      213: -3985103842753828426
+    second: Boss3_a0_14
   - first:
-      213: 8239360955679731680
-    second: NPC5_projectile_15
+      213: 2442326393097443682
+    second: Boss3_a0_15
   - first:
-      213: 5755986581371156267
-    second: NPC5_projectile_16
+      213: -1101901927851359917
+    second: Boss3_a0_16
   - first:
-      213: -964465398680984896
-    second: NPC5_projectile_17
+      213: 7757185795399296575
+    second: Boss3_a0_17
   - first:
-      213: 7092100745317177977
-    second: NPC5_projectile_18
+      213: 475196339956971931
+    second: Boss3_a0_18
   - first:
-      213: 5558448537997316187
-    second: NPC5_projectile_19
+      213: 6951414292142486256
+    second: Boss3_a0_19
   - first:
-      213: -1137258386581579459
-    second: NPC5_projectile_20
+      213: 4949592085890275336
+    second: Boss3_a0_20
   - first:
-      213: -7049245360135930844
-    second: NPC5_projectile_21
+      213: 4584729640068869322
+    second: Boss3_a0_21
   - first:
-      213: -750458453432875636
-    second: NPC5_projectile_22
+      213: -8967248362450990870
+    second: Boss3_a0_22
   - first:
-      213: -2185051087718042525
-    second: NPC5_projectile_23
+      213: 3586240497422362399
+    second: Boss3_a0_23
   - first:
-      213: 2400465521044573823
-    second: NPC5_projectile_24
+      213: 9200752846649121126
+    second: Boss3_a0_24
   - first:
-      213: -2006883345787755752
-    second: NPC5_projectile_25
+      213: -1414000990923805987
+    second: Boss3_a0_25
   - first:
-      213: 7379857546206137928
-    second: NPC5_projectile_26
+      213: -3983295988739352775
+    second: Boss3_a0_26
   - first:
-      213: -1106713828228499550
-    second: NPC5_projectile_27
+      213: 4854031959662455168
+    second: Boss3_a0_27
   - first:
-      213: 5797980187345943456
-    second: NPC5_projectile_28
+      213: 5097371807520427164
+    second: Boss3_a0_28
   - first:
-      213: -6984411210438894998
-    second: NPC5_projectile_29
+      213: -5933759694237522524
+    second: Boss3_a0_29
   - first:
-      213: 6473504429485485217
-    second: NPC5_projectile_30
+      213: -5825093634396813506
+    second: Boss3_a0_30
   - first:
-      213: -5585813893927755224
-    second: NPC5_projectile_31
+      213: -8110087114954911144
+    second: Boss3_a0_31
+  - first:
+      213: -5669841524219610800
+    second: Boss3_a0_32
+  - first:
+      213: 7836567758486804821
+    second: Boss3_a0_33
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -144,7 +150,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 101
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -193,233 +199,519 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NPC5_projectile_0
+      name: Boss3_a0_0
       rect:
         serializedVersion: 2
-        x: 484
-        y: 3353
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 3268
+        y: 5962
+        width: 477
+        height: 642
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b912cc51ea8e0b390800000000000000
-      internalID: -7804482319845416549
+      spriteID: 85fc8001fa14b9780800000000000000
+      internalID: -8675268037055033512
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_1
+      name: Boss3_a0_1
       rect:
         serializedVersion: 2
-        x: 1481
-        y: 3357
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 4439
+        y: 5979
+        width: 504
+        height: 622
+      alignment: 9
+      pivot: {x: 0.52, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 66f7a9f5955430340800000000000000
-      internalID: 4828779475629670246
+      spriteID: 9acfa805ccb4a5360800000000000000
+      internalID: 7159117898555522217
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_2
+      name: Boss3_a0_2
       rect:
         serializedVersion: 2
-        x: 2395
-        y: 3352
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 1158
+        y: 5217
+        width: 572
+        height: 605
+      alignment: 9
+      pivot: {x: 0.54, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8d170f7ec29773eb0800000000000000
-      internalID: -4740186849007341096
+      spriteID: b35bbd128c4483410800000000000000
+      internalID: 1456990105806550331
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_3
+      name: Boss3_a0_3
       rect:
         serializedVersion: 2
-        x: 3402
-        y: 3350
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 2126
+        y: 5215
+        width: 614
+        height: 600
+      alignment: 9
+      pivot: {x: 0.54, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa42857c528a7c9c0800000000000000
-      internalID: -3906969271508917073
+      spriteID: f6cde3db1f35007d0800000000000000
+      internalID: -2954269057827808145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_4
+      name: Boss3_a0_4
       rect:
         serializedVersion: 2
-        x: 4393
-        y: 3355
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 3193
+        y: 5215
+        width: 611
+        height: 600
+      alignment: 9
+      pivot: {x: 0.53, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be2e8d8687003bbc0800000000000000
-      internalID: -3768667946023853333
+      spriteID: df8266c0ec55f3f20800000000000000
+      internalID: 3404534186775030013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_5
+      name: Boss3_a0_5
       rect:
         serializedVersion: 2
-        x: 487
-        y: 2519
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 4283
+        y: 5215
+        width: 768
+        height: 591
+      alignment: 9
+      pivot: {x: 0.56, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8385cd5c4f6fb99c0800000000000000
-      internalID: -3919267519543879624
+      spriteID: 4d2676410ef916f80800000000000000
+      internalID: -8115029268781112620
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_6
+      name: Boss3_a0_6
       rect:
         serializedVersion: 2
-        x: 1487
-        y: 2523
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 518
+        y: 4258
+        width: 837
+        height: 573
+      alignment: 9
+      pivot: {x: 0.5, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 681af2680f1baf300800000000000000
-      internalID: 286737172892983686
+      spriteID: 054b7b75f7a38af90800000000000000
+      internalID: -6942234506984704944
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_7
+      name: Boss3_a0_7
       rect:
         serializedVersion: 2
-        x: 2397
-        y: 2525
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 1448
+        y: 4258
+        width: 1008
+        height: 558
+      alignment: 9
+      pivot: {x: 0.44, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 87a72529d1a64d190800000000000000
-      internalID: -7938603567905867144
+      spriteID: 7ef58374028889050800000000000000
+      internalID: 5807541391709462503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_8
+      name: Boss3_a0_8
       rect:
         serializedVersion: 2
-        x: 3401
-        y: 2523
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 2602
+        y: 4258
+        width: 1168
+        height: 556
+      alignment: 9
+      pivot: {x: 0.49, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8453e5081497e8a10800000000000000
-      internalID: 1913600213912532296
+      spriteID: 4a39aa8fb30f8b070800000000000000
+      internalID: 8122506068328354724
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_9
+      name: Boss3_a0_9
       rect:
         serializedVersion: 2
-        x: 4393
-        y: 2530
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 3991
+        y: 4258
+        width: 1216
+        height: 557
+      alignment: 9
+      pivot: {x: 0.5, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f8f34ecfa4f4ba020800000000000000
-      internalID: 2354062413720207247
+      spriteID: 2f66ea893d0e82e30800000000000000
+      internalID: 4479077028824246002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_10
+      name: Boss3_a0_10
       rect:
         serializedVersion: 2
-        x: 4921
-        y: 2514
-        width: 6
-        height: 6
+        x: 677
+        y: 3385
+        width: 1229
+        height: 557
+      alignment: 9
+      pivot: {x: 0.5, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60999133474509df0800000000000000
+      internalID: -175547527417194234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_11
+      rect:
+        serializedVersion: 2
+        x: 2126
+        y: 3385
+        width: 852
+        height: 564
+      alignment: 9
+      pivot: {x: 0.31, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1665e8c4e0bfc2150800000000000000
+      internalID: 5849326054879942241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_12
+      rect:
+        serializedVersion: 2
+        x: 3154
+        y: 3385
+        width: 850
+        height: 584
+      alignment: 9
+      pivot: {x: 0.44, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fbf35e6ddef04120800000000000000
+      internalID: 2396195228753329145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_13
+      rect:
+        serializedVersion: 2
+        x: 4285
+        y: 3385
+        width: 845
+        height: 600
+      alignment: 9
+      pivot: {x: 0.49, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ae00c4211f0f6990800000000000000
+      internalID: -7390671897186267485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_14
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 2551
+        width: 848
+        height: 598
+      alignment: 9
+      pivot: {x: 0.48, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b92d934b2112b8c0800000000000000
+      internalID: -3985103842753828426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_15
+      rect:
+        serializedVersion: 2
+        x: 1884
+        y: 2551
+        width: 847
+        height: 598
+      alignment: 9
+      pivot: {x: 0.465, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 269522e1ae2e4e120800000000000000
+      internalID: 2442326393097443682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_16
+      rect:
+        serializedVersion: 2
+        x: 3080
+        y: 2551
+        width: 844
+        height: 592
+      alignment: 9
+      pivot: {x: 0.505, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3510a15e80245b0f0800000000000000
+      internalID: -1101901927851359917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_17
+      rect:
+        serializedVersion: 2
+        x: 4216
+        y: 2551
+        width: 840
+        height: 579
+      alignment: 9
+      pivot: {x: 0.5, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f362b7fa16f07ab60800000000000000
+      internalID: 7757185795399296575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_18
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 1657
+        width: 1180
+        height: 582
+      alignment: 9
+      pivot: {x: 0.44, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9973b1bd8c389600800000000000000
+      internalID: 475196339956971931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_19
+      rect:
+        serializedVersion: 2
+        x: 1964
+        y: 1657
+        width: 1215
+        height: 578
+      alignment: 9
+      pivot: {x: 0.4, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f2f9b1f772687060800000000000000
+      internalID: 6951414292142486256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_20
+      rect:
+        serializedVersion: 2
+        x: 3312
+        y: 1657
+        width: 950
+        height: 578
+      alignment: 9
+      pivot: {x: 0.23, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 808139e27cb70b440800000000000000
+      internalID: 4949592085890275336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_21
+      rect:
+        serializedVersion: 2
+        x: 4413
+        y: 1657
+        width: 955
+        height: 578
+      alignment: 9
+      pivot: {x: 0.23, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acc6283115b30af30800000000000000
+      internalID: 4584729640068869322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_22
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 895
+        width: 800
+        height: 581
+      alignment: 9
+      pivot: {x: 0.22, y: -0.03}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae8c767ff1fed8380800000000000000
+      internalID: -8967248362450990870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_a0_23
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 1337
+        width: 10
+        height: 10
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -428,130 +720,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 106c693e94e0452c0800000000000000
-      internalID: -4443911221794126335
+      spriteID: f17eaff4bb2e4c130800000000000000
+      internalID: 3586240497422362399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_11
+      name: Boss3_a0_24
       rect:
         serializedVersion: 2
-        x: 481
-        y: 1766
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 2389
+        y: 895
+        width: 794
+        height: 582
+      alignment: 9
+      pivot: {x: 0.22, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6305e26201e75720800000000000000
-      internalID: 2834981890818376555
+      spriteID: 6695fa267f3afaf70800000000000000
+      internalID: 9200752846649121126
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_12
+      name: Boss3_a0_25
       rect:
         serializedVersion: 2
-        x: 1482
-        y: 1764
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d97e5a8c85a4a69c0800000000000000
-      internalID: -3933249579370813539
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_13
-      rect:
-        serializedVersion: 2
-        x: 2396
-        y: 1767
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 001635c9f27070430800000000000000
-      internalID: 3748973115876794624
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_14
-      rect:
-        serializedVersion: 2
-        x: 3393
-        y: 1767
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 40f042a2966ff4040800000000000000
-      internalID: 4634193473126534916
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_15
-      rect:
-        serializedVersion: 2
-        x: 4391
-        y: 1762
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0ef638b9227185270800000000000000
-      internalID: 8239360955679731680
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_16
-      rect:
-        serializedVersion: 2
-        x: 1010
-        y: 1753
-        width: 6
-        height: 6
+        x: 3186
+        y: 1339
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -560,338 +764,184 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b27fa8a9c4f51ef40800000000000000
-      internalID: 5755986581371156267
+      spriteID: ddaafe72795706ce0800000000000000
+      internalID: -1414000990923805987
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_17
+      name: Boss3_a0_26
       rect:
         serializedVersion: 2
-        x: 2010
-        y: 1753
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 3509
+        y: 895
+        width: 771
+        height: 590
+      alignment: 9
+      pivot: {x: 0.3, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c2e67174d78d92f0800000000000000
-      internalID: -964465398680984896
+      spriteID: 937d3f3176d78b8c0800000000000000
+      internalID: -3983295988739352775
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_18
+      name: Boss3_a0_27
       rect:
         serializedVersion: 2
-        x: 2921
-        y: 1753
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 4584
+        y: 895
+        width: 694
+        height: 598
+      alignment: 9
+      pivot: {x: 0.42, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 97ad9e36d043c6260800000000000000
-      internalID: 7092100745317177977
+      spriteID: 089e21c795cfc5340800000000000000
+      internalID: 4854031959662455168
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_19
+      name: Boss3_a0_28
       rect:
         serializedVersion: 2
-        x: 3921
-        y: 1753
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 565
+        y: 59
+        width: 618
+        height: 603
+      alignment: 9
+      pivot: {x: 0.5, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b509e91de73932d40800000000000000
-      internalID: 5558448537997316187
+      spriteID: c9c8853e6a08db640800000000000000
+      internalID: 5097371807520427164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_20
+      name: Boss3_a0_29
       rect:
         serializedVersion: 2
-        x: 4921
-        y: 1753
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1438
+        y: 59
+        width: 597
+        height: 607
+      alignment: 9
+      pivot: {x: 0.52, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d3998f9d585a730f0800000000000000
-      internalID: -1137258386581579459
+      spriteID: 4a5217a1ffc07ada0800000000000000
+      internalID: -5933759694237522524
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_21
+      name: Boss3_a0_30
       rect:
         serializedVersion: 2
-        x: 391
-        y: 928
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 2330
+        y: 61
+        width: 540
+        height: 611
+      alignment: 9
+      pivot: {x: 0.5, y: -0.03}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 42cf68681bc0c2e90800000000000000
-      internalID: -7049245360135930844
+      spriteID: e378362c33c192fa0800000000000000
+      internalID: -5825093634396813506
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_22
+      name: Boss3_a0_31
       rect:
         serializedVersion: 2
-        x: 1487
-        y: 926
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 3098
+        y: 45
+        width: 480
+        height: 628
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c85c1704306d595f0800000000000000
-      internalID: -750458453432875636
+      spriteID: 852d3afecbe237f80800000000000000
+      internalID: -8110087114954911144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_23
+      name: Boss3_a0_32
       rect:
         serializedVersion: 2
-        x: 2391
-        y: 930
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 3950
+        y: 42
+        width: 475
+        height: 632
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3643c74dc932da1e0800000000000000
-      internalID: -2185051087718042525
+      spriteID: 05971208c2da051b0800000000000000
+      internalID: -5669841524219610800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_projectile_24
+      name: Boss3_a0_33
       rect:
         serializedVersion: 2
-        x: 3400
-        y: 923
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+        x: 4678
+        y: 43
+        width: 472
+        height: 632
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f7e4f655caa205120800000000000000
-      internalID: 2400465521044573823
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_25
-      rect:
-        serializedVersion: 2
-        x: 4382
-        y: 924
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8136cacda3e1624e0800000000000000
-      internalID: -2006883345787755752
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_26
-      rect:
-        serializedVersion: 2
-        x: 468
-        y: 76
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 84e4a9e86558a6660800000000000000
-      internalID: 7379857546206137928
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_27
-      rect:
-        serializedVersion: 2
-        x: 1469
-        y: 78
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2a77d6803a924a0f0800000000000000
-      internalID: -1106713828228499550
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_28
-      rect:
-        serializedVersion: 2
-        x: 2475
-        y: 77
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0abf189e240967050800000000000000
-      internalID: 5797980187345943456
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_29
-      rect:
-        serializedVersion: 2
-        x: 3476
-        y: 73
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a6a98845203621f90800000000000000
-      internalID: -6984411210438894998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_30
-      rect:
-        serializedVersion: 2
-        x: 4401
-        y: 71
-        width: 450
-        height: 440
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1ac66630bf186d950800000000000000
-      internalID: 6473504429485485217
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_projectile_31
-      rect:
-        serializedVersion: 2
-        x: 4920
-        y: 62
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 822aefebbd33b72b0800000000000000
-      internalID: -5585813893927755224
+      spriteID: 55992ee3bd411cc60800000000000000
+      internalID: 7836567758486804821
       vertices: []
       indices: 
       edges: []
@@ -900,7 +950,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2501ba7aba5d95344aaf93598364fb57
+    spriteID: 47ef4f3cf836c9543bea18259e16dd0b
     internalID: 0
     vertices: []
     indices: 
@@ -910,38 +960,40 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      NPC5_projectile_0: -7804482319845416549
-      NPC5_projectile_1: 4828779475629670246
-      NPC5_projectile_10: -4443911221794126335
-      NPC5_projectile_11: 2834981890818376555
-      NPC5_projectile_12: -3933249579370813539
-      NPC5_projectile_13: 3748973115876794624
-      NPC5_projectile_14: 4634193473126534916
-      NPC5_projectile_15: 8239360955679731680
-      NPC5_projectile_16: 5755986581371156267
-      NPC5_projectile_17: -964465398680984896
-      NPC5_projectile_18: 7092100745317177977
-      NPC5_projectile_19: 5558448537997316187
-      NPC5_projectile_2: -4740186849007341096
-      NPC5_projectile_20: -1137258386581579459
-      NPC5_projectile_21: -7049245360135930844
-      NPC5_projectile_22: -750458453432875636
-      NPC5_projectile_23: -2185051087718042525
-      NPC5_projectile_24: 2400465521044573823
-      NPC5_projectile_25: -2006883345787755752
-      NPC5_projectile_26: 7379857546206137928
-      NPC5_projectile_27: -1106713828228499550
-      NPC5_projectile_28: 5797980187345943456
-      NPC5_projectile_29: -6984411210438894998
-      NPC5_projectile_3: -3906969271508917073
-      NPC5_projectile_30: 6473504429485485217
-      NPC5_projectile_31: -5585813893927755224
-      NPC5_projectile_4: -3768667946023853333
-      NPC5_projectile_5: -3919267519543879624
-      NPC5_projectile_6: 286737172892983686
-      NPC5_projectile_7: -7938603567905867144
-      NPC5_projectile_8: 1913600213912532296
-      NPC5_projectile_9: 2354062413720207247
+      Boss3_a0_0: -8675268037055033512
+      Boss3_a0_1: 7159117898555522217
+      Boss3_a0_10: -175547527417194234
+      Boss3_a0_11: 5849326054879942241
+      Boss3_a0_12: 2396195228753329145
+      Boss3_a0_13: -7390671897186267485
+      Boss3_a0_14: -3985103842753828426
+      Boss3_a0_15: 2442326393097443682
+      Boss3_a0_16: -1101901927851359917
+      Boss3_a0_17: 7757185795399296575
+      Boss3_a0_18: 475196339956971931
+      Boss3_a0_19: 6951414292142486256
+      Boss3_a0_2: 1456990105806550331
+      Boss3_a0_20: 4949592085890275336
+      Boss3_a0_21: 4584729640068869322
+      Boss3_a0_22: -8967248362450990870
+      Boss3_a0_23: 3586240497422362399
+      Boss3_a0_24: 9200752846649121126
+      Boss3_a0_25: -1414000990923805987
+      Boss3_a0_26: -3983295988739352775
+      Boss3_a0_27: 4854031959662455168
+      Boss3_a0_28: 5097371807520427164
+      Boss3_a0_29: -5933759694237522524
+      Boss3_a0_3: -2954269057827808145
+      Boss3_a0_30: -5825093634396813506
+      Boss3_a0_31: -8110087114954911144
+      Boss3_a0_32: -5669841524219610800
+      Boss3_a0_33: 7836567758486804821
+      Boss3_a0_4: 3404534186775030013
+      Boss3_a0_5: -8115029268781112620
+      Boss3_a0_6: -6942234506984704944
+      Boss3_a0_7: 5807541391709462503
+      Boss3_a0_8: 8122506068328354724
+      Boss3_a0_9: 4479077028824246002
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

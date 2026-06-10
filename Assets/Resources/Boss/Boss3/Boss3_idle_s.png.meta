@@ -1,79 +1,79 @@
 fileFormatVersion: 2
-guid: 1c150863aec6f7644b7d23108e404a93
+guid: 1ab70742d419b5b40a951a107d1c75e8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1167301871953776524
-    second: NPC5_Idle_0
+      213: -1568513156398541054
+    second: Boss3_idle_s_0
   - first:
-      213: -4397207602850999243
-    second: NPC5_Idle_1
+      213: 3031733457039476386
+    second: Boss3_idle_s_1
   - first:
-      213: -292845726496105201
-    second: NPC5_Idle_2
+      213: -1737211844686738688
+    second: Boss3_idle_s_2
   - first:
-      213: -7216474686852812541
-    second: NPC5_Idle_3
+      213: 8203623292219320819
+    second: Boss3_idle_s_3
   - first:
-      213: 358746334278150326
-    second: NPC5_Idle_4
+      213: -7510325054117130550
+    second: Boss3_idle_s_4
   - first:
-      213: -736198092554131381
-    second: NPC5_Idle_5
+      213: 4673542693942299367
+    second: Boss3_idle_s_5
   - first:
-      213: 5921643410500554063
-    second: NPC5_Idle_6
+      213: -5077629703959570767
+    second: Boss3_idle_s_6
   - first:
-      213: 3109825033770439445
-    second: NPC5_Idle_7
+      213: -6143835784763686483
+    second: Boss3_idle_s_7
   - first:
-      213: 2813776653905862303
-    second: NPC5_Idle_8
+      213: 2311996122189456260
+    second: Boss3_idle_s_8
   - first:
-      213: 5350224174757681257
-    second: NPC5_Idle_9
+      213: 5166474422323381839
+    second: Boss3_idle_s_9
   - first:
-      213: -4393569175791836947
-    second: NPC5_Idle_10
+      213: -4812072159824951594
+    second: Boss3_idle_s_10
   - first:
-      213: -2356600436033593147
-    second: NPC5_Idle_11
+      213: -1406490552299803477
+    second: Boss3_idle_s_11
   - first:
-      213: -3616628194959184413
-    second: NPC5_Idle_12
+      213: -4827789625490178254
+    second: Boss3_idle_s_12
   - first:
-      213: -7868178696384503955
-    second: NPC5_Idle_13
+      213: -7469580554096520642
+    second: Boss3_idle_s_13
   - first:
-      213: -2914331875385732770
-    second: NPC5_Idle_14
+      213: -8628818865347388727
+    second: Boss3_idle_s_14
   - first:
-      213: 2274063507256227041
-    second: NPC5_Idle_15
+      213: 894912481763110373
+    second: Boss3_idle_s_15
   - first:
-      213: -6446250698186655708
-    second: NPC5_Idle_16
+      213: -2043844161735927387
+    second: Boss3_idle_s_16
   - first:
-      213: -4188666214838413948
-    second: NPC5_Idle_17
+      213: 6102717946677414476
+    second: Boss3_idle_s_17
   - first:
-      213: 6497839763677273835
-    second: NPC5_Idle_18
+      213: -8173399342441244566
+    second: Boss3_idle_s_18
   - first:
-      213: 2782637742910512622
-    second: NPC5_Idle_19
+      213: 5759617849867864190
+    second: Boss3_idle_s_19
   - first:
-      213: -1481348010675311745
-    second: NPC5_Idle_20
+      213: 474077194019263515
+    second: Boss3_idle_s_20
   - first:
-      213: 1622095539822774214
-    second: NPC5_Idle_21
+      213: 8152450408579174331
+    second: Boss3_idle_s_21
   - first:
-      213: -660271131460145931
-    second: NPC5_Idle_22
+      213: -5903798918235523599
+    second: Boss3_idle_s_22
   - first:
-      213: 3255733031411678972
-    second: NPC5_Idle_23
+      213: 3230609485511625638
+    second: Boss3_idle_s_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -169,529 +169,529 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NPC5_Idle_0
+      name: Boss3_idle_s_0
       rect:
         serializedVersion: 2
-        x: 399
-        y: 3940
-        width: 557
-        height: 735
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 614
+        y: 2361
+        width: 480
+        height: 638
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8f047f2ed6133010800000000000000
-      internalID: 1167301871953776524
+      spriteID: 207965738958b3ae0800000000000000
+      internalID: -1568513156398541054
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Idle_1
+      name: Boss3_idle_s_1
       rect:
         serializedVersion: 2
-        x: 1342
-        y: 3940
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5345b6c8bfaf9f2c0800000000000000
-      internalID: -4397207602850999243
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_2
-      rect:
-        serializedVersion: 2
-        x: 2234
-        y: 3940
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f0d55320d5a9febf0800000000000000
-      internalID: -292845726496105201
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_3
-      rect:
-        serializedVersion: 2
-        x: 3196
-        y: 3940
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3013a8fb18ee9db90800000000000000
-      internalID: -7216474686852812541
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_4
-      rect:
-        serializedVersion: 2
-        x: 399
-        y: 3003
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6b86f1be3e58af400800000000000000
-      internalID: 358746334278150326
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_5
-      rect:
-        serializedVersion: 2
-        x: 1399
-        y: 3003
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b48adf04cbf78c5f0800000000000000
-      internalID: -736198092554131381
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_6
-      rect:
-        serializedVersion: 2
-        x: 2342
-        y: 3003
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f4d0b61ce47ed2250800000000000000
-      internalID: 5921643410500554063
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_7
-      rect:
-        serializedVersion: 2
-        x: 3234
-        y: 3003
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 51311834461582b20800000000000000
-      internalID: 3109825033770439445
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_8
-      rect:
-        serializedVersion: 2
-        x: 4168
-        y: 3003
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f9e985d65fa8c0720800000000000000
-      internalID: 2813776653905862303
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_9
-      rect:
-        serializedVersion: 2
-        x: 399
-        y: 1967
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 968932d4a80df3a40800000000000000
-      internalID: 5350224174757681257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_10
-      rect:
-        serializedVersion: 2
-        x: 1399
-        y: 1967
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: de062dcdc18e603c0800000000000000
-      internalID: -4393569175791836947
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_11
-      rect:
-        serializedVersion: 2
-        x: 2342
-        y: 1967
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5c0efa4a36cab4fd0800000000000000
-      internalID: -2356600436033593147
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_12
-      rect:
-        serializedVersion: 2
-        x: 3234
-        y: 1967
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3edabc281d72fcdc0800000000000000
-      internalID: -3616628194959184413
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_13
-      rect:
-        serializedVersion: 2
-        x: 4168
-        y: 1971
-        width: 557
-        height: 736
+        x: 1312
+        y: 2363
+        width: 482
+        height: 636
       alignment: 9
-      pivot: {x: 0.5, y: 0.493}
+      pivot: {x: 0.505, y: -0.005}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d6f94bcb92d9ec290800000000000000
-      internalID: -7868178696384503955
+      spriteID: 2a641803481e21a20800000000000000
+      internalID: 3031733457039476386
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NPC5_Idle_14
+      name: Boss3_idle_s_2
       rect:
         serializedVersion: 2
-        x: 399
-        y: 1020
-        width: 557
-        height: 736
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e511902a9963e87d0800000000000000
-      internalID: -2914331875385732770
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_15
-      rect:
-        serializedVersion: 2
-        x: 1399
-        y: 1019
-        width: 557
-        height: 737
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1e4bfaa16b81f8f10800000000000000
-      internalID: 2274063507256227041
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_16
-      rect:
-        serializedVersion: 2
-        x: 2342
-        y: 1019
-        width: 557
-        height: 737
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4287879c4215a86a0800000000000000
-      internalID: -6446250698186655708
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_17
-      rect:
-        serializedVersion: 2
-        x: 3234
-        y: 1019
-        width: 557
-        height: 737
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 48550e5254eded5c0800000000000000
-      internalID: -4188666214838413948
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_18
-      rect:
-        serializedVersion: 2
-        x: 4168
-        y: 1019
-        width: 557
-        height: 737
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bee546986d6fc2a50800000000000000
-      internalID: 6497839763677273835
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_19
-      rect:
-        serializedVersion: 2
-        x: 399
-        y: 45
-        width: 557
-        height: 735
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: eed96ccb84aed9620800000000000000
-      internalID: 2782637742910512622
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_20
-      rect:
-        serializedVersion: 2
-        x: 1399
-        y: 45
-        width: 557
-        height: 735
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f7b67f235d1317be0800000000000000
-      internalID: -1481348010675311745
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_21
-      rect:
-        serializedVersion: 2
-        x: 2342
-        y: 45
-        width: 557
-        height: 735
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6c7c1ea9c47d28610800000000000000
-      internalID: 1622095539822774214
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_22
-      rect:
-        serializedVersion: 2
-        x: 3234
-        y: 45
-        width: 557
-        height: 735
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5fc6fd977ee36d6f0800000000000000
-      internalID: -660271131460145931
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NPC5_Idle_23
-      rect:
-        serializedVersion: 2
-        x: 4168
-        y: 41
-        width: 557
-        height: 735
+        x: 2034
+        y: 2366
+        width: 488
+        height: 635
       alignment: 9
-      pivot: {x: 0.5, y: 0.505}
+      pivot: {x: 0.505, y: -0.007}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cfe7cc441ffae2d20800000000000000
-      internalID: 3255733031411678972
+      spriteID: 00b88d9080f24e7e0800000000000000
+      internalID: -1737211844686738688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_3
+      rect:
+        serializedVersion: 2
+        x: 2884
+        y: 2371
+        width: 489
+        height: 630
+      alignment: 9
+      pivot: {x: 0.5, y: -0.015}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f96adb6bef19d170800000000000000
+      internalID: 8203623292219320819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_4
+      rect:
+        serializedVersion: 2
+        x: 3736
+        y: 2369
+        width: 482
+        height: 632
+      alignment: 9
+      pivot: {x: 0.505, y: -0.013}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acec1a99727f5c790800000000000000
+      internalID: -7510325054117130550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_5
+      rect:
+        serializedVersion: 2
+        x: 4590
+        y: 2363
+        width: 468
+        height: 638
+      alignment: 9
+      pivot: {x: 0.505, y: -0.005}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ea8d039152cbd040800000000000000
+      internalID: 4673542693942299367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_6
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 1603
+        width: 459
+        height: 646
+      alignment: 9
+      pivot: {x: 0.52, y: 0.005}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b6948acfa2a889b0800000000000000
+      internalID: -5077629703959570767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_7
+      rect:
+        serializedVersion: 2
+        x: 1315
+        y: 1597
+        width: 457
+        height: 651
+      alignment: 9
+      pivot: {x: 0.52, y: 0.017}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da1c3dab7e5bcbaa0800000000000000
+      internalID: -6143835784763686483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_8
+      rect:
+        serializedVersion: 2
+        x: 2039
+        y: 1600
+        width: 465
+        height: 646
+      alignment: 9
+      pivot: {x: 0.515, y: 0.01}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 483ee21493cd51020800000000000000
+      internalID: 2311996122189456260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_9
+      rect:
+        serializedVersion: 2
+        x: 2887
+        y: 1605
+        width: 478
+        height: 641
+      alignment: 9
+      pivot: {x: 0.5, y: 0.005}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f460abb2d1103b740800000000000000
+      internalID: 5166474422323381839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_10
+      rect:
+        serializedVersion: 2
+        x: 3734
+        y: 1611
+        width: 491
+        height: 635
+      alignment: 9
+      pivot: {x: 0.495, y: -0.005}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d64618bdd5183db0800000000000000
+      internalID: -4812072159824951594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_11
+      rect:
+        serializedVersion: 2
+        x: 4584
+        y: 1613
+        width: 491
+        height: 633
+      alignment: 9
+      pivot: {x: 0.5, y: -0.009}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bac2a3a6b442b7ce0800000000000000
+      internalID: -1406490552299803477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_12
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 821
+        width: 480
+        height: 636
+      alignment: 9
+      pivot: {x: 0.5, y: -0.005}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23f77521aee300db0800000000000000
+      internalID: -4827789625490178254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_13
+      rect:
+        serializedVersion: 2
+        x: 1314
+        y: 814
+        width: 465
+        height: 645
+      alignment: 9
+      pivot: {x: 0.51, y: 0.005}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3259e3cf08b65890800000000000000
+      internalID: -7469580554096520642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_14
+      rect:
+        serializedVersion: 2
+        x: 2042
+        y: 807
+        width: 449
+        height: 653
+      alignment: 9
+      pivot: {x: 0.52, y: 0.017}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ca97cb95f6404880800000000000000
+      internalID: -8628818865347388727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_15
+      rect:
+        serializedVersion: 2
+        x: 2895
+        y: 802
+        width: 437
+        height: 658
+      alignment: 9
+      pivot: {x: 0.52, y: 0.024}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5edad84292e5b6c00800000000000000
+      internalID: 894912481763110373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_16
+      rect:
+        serializedVersion: 2
+        x: 3745
+        y: 800
+        width: 438
+        height: 660
+      alignment: 9
+      pivot: {x: 0.52, y: 0.025}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a9597b409ec2a3e0800000000000000
+      internalID: -2043844161735927387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_17
+      rect:
+        serializedVersion: 2
+        x: 4592
+        y: 803
+        width: 451
+        height: 654
+      alignment: 9
+      pivot: {x: 0.52, y: 0.024}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4acb1093a531b450800000000000000
+      internalID: 6102717946677414476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_18
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 29
+        width: 464
+        height: 649
+      alignment: 9
+      pivot: {x: 0.51, y: 0.013}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a68d0624a90429e80800000000000000
+      internalID: -8173399342441244566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_19
+      rect:
+        serializedVersion: 2
+        x: 1313
+        y: 34
+        width: 480
+        height: 641
+      alignment: 9
+      pivot: {x: 0.5, y: 0.007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e788f5f2be54eef40800000000000000
+      internalID: 5759617849867864190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_20
+      rect:
+        serializedVersion: 2
+        x: 2034
+        y: 42
+        width: 491
+        height: 632
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0005}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b14d1a932b2449600800000000000000
+      internalID: 474077194019263515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_21
+      rect:
+        serializedVersion: 2
+        x: 2883
+        y: 45
+        width: 495
+        height: 630
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbf895cf372532170800000000000000
+      internalID: 8152450408579174331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_22
+      rect:
+        serializedVersion: 2
+        x: 3734
+        y: 43
+        width: 489
+        height: 632
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f57c3dd92e711ea0800000000000000
+      internalID: -5903798918235523599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss3_idle_s_23
+      rect:
+        serializedVersion: 2
+        x: 4586
+        y: 39
+        width: 480
+        height: 637
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ab8de7e53e65dc20800000000000000
+      internalID: 3230609485511625638
       vertices: []
       indices: 
       edges: []
@@ -700,7 +700,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d2928431ea374844197979704f1c08d2
+    spriteID: 72f555b7712fced43bcc78f19abc3f95
     internalID: 0
     vertices: []
     indices: 
@@ -710,30 +710,30 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      NPC5_Idle_0: 1167301871953776524
-      NPC5_Idle_1: -4397207602850999243
-      NPC5_Idle_10: -4393569175791836947
-      NPC5_Idle_11: -2356600436033593147
-      NPC5_Idle_12: -3616628194959184413
-      NPC5_Idle_13: -7868178696384503955
-      NPC5_Idle_14: -2914331875385732770
-      NPC5_Idle_15: 2274063507256227041
-      NPC5_Idle_16: -6446250698186655708
-      NPC5_Idle_17: -4188666214838413948
-      NPC5_Idle_18: 6497839763677273835
-      NPC5_Idle_19: 2782637742910512622
-      NPC5_Idle_2: -292845726496105201
-      NPC5_Idle_20: -1481348010675311745
-      NPC5_Idle_21: 1622095539822774214
-      NPC5_Idle_22: -660271131460145931
-      NPC5_Idle_23: 3255733031411678972
-      NPC5_Idle_3: -7216474686852812541
-      NPC5_Idle_4: 358746334278150326
-      NPC5_Idle_5: -736198092554131381
-      NPC5_Idle_6: 5921643410500554063
-      NPC5_Idle_7: 3109825033770439445
-      NPC5_Idle_8: 2813776653905862303
-      NPC5_Idle_9: 5350224174757681257
+      Boss3_idle_s_0: -1568513156398541054
+      Boss3_idle_s_1: 3031733457039476386
+      Boss3_idle_s_10: -4812072159824951594
+      Boss3_idle_s_11: -1406490552299803477
+      Boss3_idle_s_12: -4827789625490178254
+      Boss3_idle_s_13: -7469580554096520642
+      Boss3_idle_s_14: -8628818865347388727
+      Boss3_idle_s_15: 894912481763110373
+      Boss3_idle_s_16: -2043844161735927387
+      Boss3_idle_s_17: 6102717946677414476
+      Boss3_idle_s_18: -8173399342441244566
+      Boss3_idle_s_19: 5759617849867864190
+      Boss3_idle_s_2: -1737211844686738688
+      Boss3_idle_s_20: 474077194019263515
+      Boss3_idle_s_21: 8152450408579174331
+      Boss3_idle_s_22: -5903798918235523599
+      Boss3_idle_s_23: 3230609485511625638
+      Boss3_idle_s_3: 8203623292219320819
+      Boss3_idle_s_4: -7510325054117130550
+      Boss3_idle_s_5: 4673542693942299367
+      Boss3_idle_s_6: -5077629703959570767
+      Boss3_idle_s_7: -6143835784763686483
+      Boss3_idle_s_8: 2311996122189456260
+      Boss3_idle_s_9: 5166474422323381839
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
