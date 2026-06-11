@@ -3876,6 +3876,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3521823685008880018, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: doubleJumpForce
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4325268435483084662, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_SortingLayer
       value: 5
