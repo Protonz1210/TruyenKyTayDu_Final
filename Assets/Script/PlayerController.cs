@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -28,12 +29,22 @@ public class PlayerController : MonoBehaviour
     [Header("Attack Settings")]
     public bool lockMovementWhileAttacking = true;
 
+    [Header("Attack Damage")]
+    public int attack0Damage = 50;
+    public int attack1Damage = 120;
+    public int attack2Damage = 180;
+    public int attack3Damage = 300;
+
+    [Header("Attack Hitbox")]
+    public WukongAttackHitbox attackHitbox;
+
     [Header("Test Die")]
     public bool enableTestDieKey = true;
 
     private Rigidbody2D rb;
     private Animator animator;
     private PlayerFacing playerFacing;
+    private WukongSkillCooldown skillCooldown;
 
     private float moveInput;
 
@@ -45,15 +56,25 @@ public class PlayerController : MonoBehaviour
 
     private int jumpCount;
 
+    private Coroutine attackLockCoroutine;
+    private bool useTimedAttackLock;
+    private float attackUnlockTime;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerFacing = GetComponent<PlayerFacing>();
+        skillCooldown = GetComponent<WukongSkillCooldown>();
 
         if (playerFacing != null)
         {
             playerFacing.SetFacingRight(facingRight);
+        }
+
+        if (attackHitbox != null)
+        {
+            attackHitbox.DeactivateHitbox();
         }
     }
 
@@ -123,7 +144,10 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(
+            moveInput * moveSpeed,
+            rb.linearVelocity.y
+        );
 
         if (moveInput > 0 && !facingRight)
         {
@@ -173,7 +197,10 @@ public class PlayerController : MonoBehaviour
             currentJumpForce = doubleJumpForce;
         }
 
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, currentJumpForce);
+        rb.linearVelocity = new Vector2(
+            rb.linearVelocity.x,
+            currentJumpForce
+        );
 
         jumpCount++;
         isGrounded = false;
@@ -196,25 +223,48 @@ public class PlayerController : MonoBehaviour
         if (isAttacking)
             return;
 
+        // Attack0: đánh thường, không hồi chiêu
         if (attack0Action.WasPressedThisFrame())
         {
-            StartAttack("Attack0");
+            StartAttack("Attack0", 0f);
+            return;
         }
-        else if (attack1Action.WasPressedThisFrame())
+
+        // Attack1: chiêu 1, có hồi chiêu
+        if (attack1Action.WasPressedThisFrame())
         {
-            StartAttack("Attack1");
+            if (skillCooldown != null && skillCooldown.TryUseSkill(1))
+            {
+                StartAttack("Attack1", skillCooldown.GetSkillActionDuration(1));
+            }
+
+            return;
         }
-        else if (attack2Action.WasPressedThisFrame())
+
+        // Attack2: chiêu 2, có hồi chiêu
+        if (attack2Action.WasPressedThisFrame())
         {
-            StartAttack("Attack2");
+            if (skillCooldown != null && skillCooldown.TryUseSkill(2))
+            {
+                StartAttack("Attack2", skillCooldown.GetSkillActionDuration(2));
+            }
+
+            return;
         }
-        else if (attack3Action.WasPressedThisFrame())
+
+        // Attack3: chiêu 3, dùng nội tại
+        if (attack3Action.WasPressedThisFrame())
         {
-            StartAttack("Attack3");
+            if (skillCooldown != null && skillCooldown.TryUseSkill(3))
+            {
+                StartAttack("Attack3", skillCooldown.GetSkillActionDuration(3));
+            }
+
+            return;
         }
     }
 
-    void StartAttack(string attackTriggerName)
+    void StartAttack(string attackTriggerName, float actionDuration)
     {
         if (isDead)
             return;
@@ -227,12 +277,116 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetTrigger(attackTriggerName);
+
+        if (attackLockCoroutine != null)
+        {
+            StopCoroutine(attackLockCoroutine);
+            attackLockCoroutine = null;
+        }
+
+        if (actionDuration > 0f)
+        {
+            useTimedAttackLock = true;
+            attackUnlockTime = Time.time + actionDuration;
+            attackLockCoroutine = StartCoroutine(EndAttackAfterDuration(actionDuration));
+        }
+        else
+        {
+            useTimedAttackLock = false;
+        }
+    }
+
+    IEnumerator EndAttackAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        ForceEndAttack();
     }
 
     // Gắn hàm này bằng Animation Event ở frame cuối Attack0, Attack1, Attack2, Attack3
     public void EndAttack()
     {
+        // Với chiêu có thời gian hành động cố định,
+        // nếu Animation Event gọi sớm hơn actionDuration thì bỏ qua.
+        if (useTimedAttackLock && Time.time < attackUnlockTime)
+            return;
+
+        ForceEndAttack();
+    }
+
+    void ForceEndAttack()
+    {
         isAttacking = false;
+        useTimedAttackLock = false;
+
+        CloseAttackHitbox();
+
+        if (attackLockCoroutine != null)
+        {
+            StopCoroutine(attackLockCoroutine);
+            attackLockCoroutine = null;
+        }
+    }
+
+    // ================= ATTACK HITBOX EVENTS =================
+    // Các hàm này dùng cho Animation Event.
+
+    public void OpenAttack0Hitbox()
+    {
+        OpenAttackHitbox(0);
+    }
+
+    public void OpenAttack1Hitbox()
+    {
+        OpenAttackHitbox(1);
+    }
+
+    public void OpenAttack2Hitbox()
+    {
+        OpenAttackHitbox(2);
+    }
+
+    public void OpenAttack3Hitbox()
+    {
+        OpenAttackHitbox(3);
+    }
+
+    public void CloseAttackHitbox()
+    {
+        if (attackHitbox != null)
+        {
+            attackHitbox.DeactivateHitbox();
+        }
+    }
+
+    void OpenAttackHitbox(int attackIndex)
+    {
+        if (attackHitbox == null)
+        {
+            Debug.LogWarning("PlayerController chưa được gán Attack Hitbox.");
+            return;
+        }
+
+        int damage = GetAttackDamage(attackIndex);
+
+        attackHitbox.ActivateHitbox(attackIndex, damage);
+    }
+
+    int GetAttackDamage(int attackIndex)
+    {
+        if (attackIndex == 0)
+            return attack0Damage;
+
+        if (attackIndex == 1)
+            return attack1Damage;
+
+        if (attackIndex == 2)
+            return attack2Damage;
+
+        if (attackIndex == 3)
+            return attack3Damage;
+
+        return 0;
     }
 
     // ================= DIE =================
@@ -255,7 +409,16 @@ public class PlayerController : MonoBehaviour
 
         isDead = true;
         isAttacking = false;
+        useTimedAttackLock = false;
         moveInput = 0f;
+
+        CloseAttackHitbox();
+
+        if (attackLockCoroutine != null)
+        {
+            StopCoroutine(attackLockCoroutine);
+            attackLockCoroutine = null;
+        }
 
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Static;
@@ -270,10 +433,14 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Nếu muốn xóa hẳn nhân vật khỏi Scene thì dùng hàm này thay HideAfterDie
     public void DestroyAfterDie()
     {
         Destroy(gameObject);
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 
     // ================= GROUND CHECK BY TAG =================

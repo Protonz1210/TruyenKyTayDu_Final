@@ -3,8 +3,8 @@ guid: f600647f0442d8f45b4706ad6ba4dc53
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5041893014934720295
-    second: Box_enemy4_0
+      213: 4962213768438153873
+    second: Box_Enemy4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Box_enemy4_0
+      name: Box_Enemy4_0
       rect:
         serializedVersion: 2
-        x: 1427
-        y: 966
-        width: 1285
-        height: 968
+        x: 1267
+        y: 682
+        width: 1674
+        height: 1280
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72f05b6ebf668f540800000000000000
-      internalID: 5041893014934720295
+      spriteID: 1920f47a1235dd440800000000000000
+      internalID: 4962213768438153873
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Box_enemy4_0: 5041893014934720295
+      Box_Enemy4_0: 4962213768438153873
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

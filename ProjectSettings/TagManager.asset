@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - Party
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -13,12 +15,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Party
+  - Enemy
+  - EnemyProjectile
+  - Ground
+  - Detector
   - 
   - 
   - 
