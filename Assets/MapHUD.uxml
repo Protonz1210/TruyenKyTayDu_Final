@@ -1,0 +1,83 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="wukong-health-group" style="flex-grow: 1; width: 691px; height: 190px; position: absolute; top: 0; left: 0;">
+        <ui:Label text="TÔN NGỘ KHÔNG" name="wukong-name" style="position: absolute; top: -32px; left: 83px; color: rgb(245, 242, 242); height: 166px; width: 389px; font-size: 22px; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=1ccd71f3e474eb64694cc414dd856826&amp;type=3#NotInter-Regular&quot;); -unity-font-style: normal; -unity-text-align: middle-center; background-image: resource(&quot;UI/Boss_name&quot;);"/>
+        <ui:VisualElement name="wukong-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 192px; width: 572px; top: 8px; left: 123px;"/>
+        <ui:VisualElement name="wukong-health-mask" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; position: absolute; height: 27px; width: 457px; top: 88px; left: 181px;">
+            <ui:VisualElement name="wukong-health-fill" style="flex-grow: 1; background-image: resource(&quot;UI/Health_UI&quot;); -unity-background-scale-mode: stretch-to-fill;"/>
+        </ui:VisualElement>
+        <ui:Label text="1000 / 1000" name="wukong-health-text" style="position: absolute; color: rgb(255, 255, 255); font-size: 19px; height: 30px; width: 449px; top: 83px; left: 183px; -unity-text-align: middle-center; -unity-font-style: bold;"/>
+        <ui:VisualElement name="wukong-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Wukong_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 312px; width: 216px; top: -59px; left: -15px;"/>
+    </ui:VisualElement>
+    <ui:VisualElement name="party-health-group" style="flex-grow: 1; position: absolute; left: 134px; top: 105px; height: 270px; width: 598px;">
+        <ui:VisualElement name="party-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/NPC_UI&quot;); -unity-background-scale-mode: scale-and-crop; position: absolute; height: 250px; width: 555px; top: -63px; left: -10px;"/>
+        <ui:VisualElement name="party-health-mask" style="flex-grow: 1; position: absolute; height: 24px; width: 278px; top: 66px; left: 239px; -unity-background-scale-mode: scale-to-fit;">
+            <ui:VisualElement name="party-health-fill" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;);"/>
+        </ui:VisualElement>
+        <ui:Label text="1000 / 1000" name="party-health-text" selectable="false" focusable="false" style="color: rgb(255, 255, 255); font-size: 17px; -unity-font-style: bold; position: absolute; top: 65px; left: 241px; width: 270px; height: 16px; -unity-text-align: middle-center; text-shadow: 0 0 0 rgba(0, 0, 0, 0);"/>
+    </ui:VisualElement>
+    <ui:VisualElement name="boss-panel" style="flex-grow: 1; position: absolute; height: 252px; width: 1268px; left: 870px; top: 3px;">
+        <ui:VisualElement name="boss-4-group" style="flex-grow: 1; position: absolute; flex-direction: row-reverse; height: 244px; width: 647px; top: 3px; left: 617px;">
+            <ui:Label text="THANH SƯ TINH" name="boss-4-name" style="background-image: resource(&quot;UI/Boss_name&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 145px; width: 578px; left: 53px; top: -21px; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold; white-space: nowrap; -unity-text-align: middle-center;"/>
+            <ui:VisualElement name="boss-4-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 134px; width: 452px; left: 30px; top: 36px;"/>
+            <ui:VisualElement name="boss-4-health-mask" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; position: absolute; height: 28px; width: 359px; left: 75px; top: 88px;">
+                <ui:VisualElement name="boss-4-health-fill" style="flex-grow: 1; background-image: resource(&quot;UI/Health_UI&quot;);"/>
+            </ui:VisualElement>
+            <ui:Label text="1000 / 1000" name="boss-4-health-text" style="font-size: 18px; color: rgb(255, 255, 255); -unity-font-style: bold; position: absolute; top: 88px; left: 76px; width: 354px; height: 22px; -unity-text-align: middle-center;"/>
+            <ui:VisualElement name="boss-4-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Boss4_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 204px; width: 433px; flex-direction: row-reverse; top: -4px; left: 300px;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="boss-3-group" style="flex-grow: 1; position: absolute; flex-direction: row-reverse; height: 244px; width: 648px; top: 1px; left: 31px;">
+            <ui:Label text="BẠCH TƯỢNG TINH" name="boss-3-name" style="background-image: resource(&quot;UI/Boss_name&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 145px; width: 578px; left: 56px; top: -21px; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold; white-space: nowrap; -unity-text-align: middle-center;"/>
+            <ui:VisualElement name="boss-3-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 134px; width: 452px; left: 30px; top: 36px;"/>
+            <ui:VisualElement name="boss-3-health-mask" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; position: absolute; height: 27px; width: 363px; left: 76px; top: 89px;">
+                <ui:VisualElement name="boss-3-health-fill" style="flex-grow: 1; background-image: resource(&quot;UI/Health_UI&quot;);"/>
+            </ui:VisualElement>
+            <ui:Label text="1000 / 1000" name="boss-3-health-text" style="font-size: 18px; color: rgb(255, 255, 255); -unity-font-style: bold; position: absolute; top: 88px; left: 76px; width: 354px; height: 22px; -unity-text-align: middle-center;"/>
+            <ui:VisualElement name="boss-3-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Boss3_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 204px; width: 433px; flex-direction: row-reverse; top: -4px; left: 300px;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="skill-panel" style="flex-grow: 1; position: absolute; height: 360px; width: 620px; top: 663px; left: 307px;">
+        <ui:VisualElement name="skill-group-1" style="flex-grow: 1; position: absolute; height: 355px; width: 364px;">
+            <ui:VisualElement name="skill-slot-1" style="flex-grow: 1;">
+                <ui:VisualElement name="skill-slot-1-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Attack1_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 416px; width: 582px; top: -50px; left: -68px;"/>
+                <ui:Label text="K" name="skill-slot-1-name" style="color: rgb(255, 255, 255); font-size: 19px; -unity-font-style: bold; position: absolute; top: 61px; left: 130px; width: 38px; height: 25px; -unity-text-align: middle-center;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="skill-cd-bar-1" style="flex-grow: 1;">
+                <ui:VisualElement name="skill-cd-bar-frame-1" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 57px; width: 152px; top: 25px; left: 76px;"/>
+                <ui:VisualElement name="skill-cd-bar-mask-1" style="flex-grow: 1; position: absolute; height: 12px; width: 122px; top: 47px; left: 91px;">
+                    <ui:VisualElement name="skill-cd-bar-fill-1" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;);"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="skill-group-2" style="flex-grow: 1; position: absolute; height: 355px; width: 364px; top: 0; left: 168px;">
+            <ui:VisualElement name="skill-slot-2" style="flex-grow: 1;">
+                <ui:VisualElement name="skill-slot-2-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Attack2_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 416px; width: 582px; top: -62px; left: -113px;"/>
+                <ui:Label text="L" name="skill-slot-2-name" style="color: rgb(255, 255, 255); font-size: 19px; -unity-font-style: bold; position: absolute; top: 61px; left: 130px; width: 38px; height: 25px; -unity-text-align: middle-center;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="skill-cd-bar-2" style="flex-grow: 1;">
+                <ui:VisualElement name="skill-cd-bar-frame-2" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 57px; width: 152px; top: 25px; left: 76px;"/>
+                <ui:VisualElement name="skill-cd-bar-mask-2" style="flex-grow: 1; position: absolute; height: 11px; width: 123px; top: 47px; left: 91px;">
+                    <ui:VisualElement name="skill-cd-bar-fill-2" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;);"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="skill-group-3" style="flex-grow: 1; position: absolute; height: 355px; width: 364px; top: 0; left: 324px;">
+            <ui:VisualElement name="skill-slot-3" style="flex-grow: 1;">
+                <ui:VisualElement name="skill-slot-3-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Attack3_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 416px; width: 582px; top: -49px; left: -150px;"/>
+                <ui:Label text="I" name="skill-slot-3-name" style="color: rgb(255, 255, 255); font-size: 19px; -unity-font-style: bold; position: absolute; top: 61px; left: 130px; width: 38px; height: 25px; -unity-text-align: middle-center;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="skill-cd-bar-3" style="flex-grow: 1;">
+                <ui:VisualElement name="skill-cd-bar-frame-3" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 57px; width: 152px; top: 25px; left: 76px;"/>
+                <ui:VisualElement name="skill-cd-bar-mask-3" style="flex-grow: 1; position: absolute; height: 11px; width: 123px; top: 48px; left: 91px;">
+                    <ui:VisualElement name="skill-cd-bar-fill-3" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;);"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="dialogue-box" style="flex-grow: 1; position: absolute; height: 364px; width: 1369px; top: 616px; left: 816px; background-image: none;">
+        <ui:VisualElement name="dialogue-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Boxchat_UI&quot;); position: absolute; height: 350px; width: 1316px; top: 33px; left: 34px;"/>
+        <ui:VisualElement name="dialogue-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Box_wukong&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 202px; width: 364px; top: 90px; left: 30px;"/>
+        <ui:Label text="Ta là TÔN NGỘ KHÔNG!! Như vậy clean hơn, dễ quản lý hơn, và đúng với flow cốt truyện Map 4 của bạn: khi gặp yêu quái tuần núi thì khóa điều khiển, hiện box thoại, người chơi nhấn phím để chuyển qua từng câu thoại; sau hội thoại mới mở lại điều khiển để đánh quái" name="dialogue-text" style="position: absolute; height: 121px; width: 886px; top: 122px; left: 362px; color: rgb(255, 255, 255); font-size: 20px; white-space: pre-wrap; -unity-text-align: upper-left; text-overflow: clip; word-spacing: 0; -unity-paragraph-spacing: 0; letter-spacing: 5px; -unity-text-outline-width: 0;"/>
+        <ui:Label text="TÔN NGỘ KHÔNG" name="dialogue-name" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 136px; width: 355px; top: 21px; left: 186px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;"/>
+        <ui:Label text="E" name="dialogue-hint" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 110px; width: 164px; top: 214px; left: 1086px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;"/>
+    </ui:VisualElement>
+</ui:UXML>

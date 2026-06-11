@@ -1,0 +1,949 @@
+fileFormatVersion: 2
+guid: 0355c04481f6b474faa02dbf93be7ce5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7804482319845416549
+    second: NPC5_projectile_0
+  - first:
+      213: 4828779475629670246
+    second: NPC5_projectile_1
+  - first:
+      213: -4740186849007341096
+    second: NPC5_projectile_2
+  - first:
+      213: -3906969271508917073
+    second: NPC5_projectile_3
+  - first:
+      213: -3768667946023853333
+    second: NPC5_projectile_4
+  - first:
+      213: -3919267519543879624
+    second: NPC5_projectile_5
+  - first:
+      213: 286737172892983686
+    second: NPC5_projectile_6
+  - first:
+      213: -7938603567905867144
+    second: NPC5_projectile_7
+  - first:
+      213: 1913600213912532296
+    second: NPC5_projectile_8
+  - first:
+      213: 2354062413720207247
+    second: NPC5_projectile_9
+  - first:
+      213: -4443911221794126335
+    second: NPC5_projectile_10
+  - first:
+      213: 2834981890818376555
+    second: NPC5_projectile_11
+  - first:
+      213: -3933249579370813539
+    second: NPC5_projectile_12
+  - first:
+      213: 3748973115876794624
+    second: NPC5_projectile_13
+  - first:
+      213: 4634193473126534916
+    second: NPC5_projectile_14
+  - first:
+      213: 8239360955679731680
+    second: NPC5_projectile_15
+  - first:
+      213: 5755986581371156267
+    second: NPC5_projectile_16
+  - first:
+      213: -964465398680984896
+    second: NPC5_projectile_17
+  - first:
+      213: 7092100745317177977
+    second: NPC5_projectile_18
+  - first:
+      213: 5558448537997316187
+    second: NPC5_projectile_19
+  - first:
+      213: -1137258386581579459
+    second: NPC5_projectile_20
+  - first:
+      213: -7049245360135930844
+    second: NPC5_projectile_21
+  - first:
+      213: -750458453432875636
+    second: NPC5_projectile_22
+  - first:
+      213: -2185051087718042525
+    second: NPC5_projectile_23
+  - first:
+      213: 2400465521044573823
+    second: NPC5_projectile_24
+  - first:
+      213: -2006883345787755752
+    second: NPC5_projectile_25
+  - first:
+      213: 7379857546206137928
+    second: NPC5_projectile_26
+  - first:
+      213: -1106713828228499550
+    second: NPC5_projectile_27
+  - first:
+      213: 5797980187345943456
+    second: NPC5_projectile_28
+  - first:
+      213: -6984411210438894998
+    second: NPC5_projectile_29
+  - first:
+      213: 6473504429485485217
+    second: NPC5_projectile_30
+  - first:
+      213: -5585813893927755224
+    second: NPC5_projectile_31
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: NPC5_projectile_0
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 3353
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b912cc51ea8e0b390800000000000000
+      internalID: -7804482319845416549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_1
+      rect:
+        serializedVersion: 2
+        x: 1481
+        y: 3357
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66f7a9f5955430340800000000000000
+      internalID: 4828779475629670246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_2
+      rect:
+        serializedVersion: 2
+        x: 2395
+        y: 3352
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d170f7ec29773eb0800000000000000
+      internalID: -4740186849007341096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_3
+      rect:
+        serializedVersion: 2
+        x: 3402
+        y: 3350
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa42857c528a7c9c0800000000000000
+      internalID: -3906969271508917073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_4
+      rect:
+        serializedVersion: 2
+        x: 4393
+        y: 3355
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be2e8d8687003bbc0800000000000000
+      internalID: -3768667946023853333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_5
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 2519
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8385cd5c4f6fb99c0800000000000000
+      internalID: -3919267519543879624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_6
+      rect:
+        serializedVersion: 2
+        x: 1487
+        y: 2523
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 681af2680f1baf300800000000000000
+      internalID: 286737172892983686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_7
+      rect:
+        serializedVersion: 2
+        x: 2397
+        y: 2525
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87a72529d1a64d190800000000000000
+      internalID: -7938603567905867144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_8
+      rect:
+        serializedVersion: 2
+        x: 3401
+        y: 2523
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8453e5081497e8a10800000000000000
+      internalID: 1913600213912532296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_9
+      rect:
+        serializedVersion: 2
+        x: 4393
+        y: 2530
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8f34ecfa4f4ba020800000000000000
+      internalID: 2354062413720207247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_10
+      rect:
+        serializedVersion: 2
+        x: 4921
+        y: 2514
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 106c693e94e0452c0800000000000000
+      internalID: -4443911221794126335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_11
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 1766
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6305e26201e75720800000000000000
+      internalID: 2834981890818376555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_12
+      rect:
+        serializedVersion: 2
+        x: 1482
+        y: 1764
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d97e5a8c85a4a69c0800000000000000
+      internalID: -3933249579370813539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_13
+      rect:
+        serializedVersion: 2
+        x: 2396
+        y: 1767
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 001635c9f27070430800000000000000
+      internalID: 3748973115876794624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_14
+      rect:
+        serializedVersion: 2
+        x: 3393
+        y: 1767
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40f042a2966ff4040800000000000000
+      internalID: 4634193473126534916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_15
+      rect:
+        serializedVersion: 2
+        x: 4391
+        y: 1762
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ef638b9227185270800000000000000
+      internalID: 8239360955679731680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_16
+      rect:
+        serializedVersion: 2
+        x: 1010
+        y: 1753
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b27fa8a9c4f51ef40800000000000000
+      internalID: 5755986581371156267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_17
+      rect:
+        serializedVersion: 2
+        x: 2010
+        y: 1753
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c2e67174d78d92f0800000000000000
+      internalID: -964465398680984896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_18
+      rect:
+        serializedVersion: 2
+        x: 2921
+        y: 1753
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97ad9e36d043c6260800000000000000
+      internalID: 7092100745317177977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_19
+      rect:
+        serializedVersion: 2
+        x: 3921
+        y: 1753
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b509e91de73932d40800000000000000
+      internalID: 5558448537997316187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_20
+      rect:
+        serializedVersion: 2
+        x: 4921
+        y: 1753
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3998f9d585a730f0800000000000000
+      internalID: -1137258386581579459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_21
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 928
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42cf68681bc0c2e90800000000000000
+      internalID: -7049245360135930844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_22
+      rect:
+        serializedVersion: 2
+        x: 1487
+        y: 926
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c85c1704306d595f0800000000000000
+      internalID: -750458453432875636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_23
+      rect:
+        serializedVersion: 2
+        x: 2391
+        y: 930
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3643c74dc932da1e0800000000000000
+      internalID: -2185051087718042525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_24
+      rect:
+        serializedVersion: 2
+        x: 3400
+        y: 923
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7e4f655caa205120800000000000000
+      internalID: 2400465521044573823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_25
+      rect:
+        serializedVersion: 2
+        x: 4382
+        y: 924
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8136cacda3e1624e0800000000000000
+      internalID: -2006883345787755752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_26
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 76
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84e4a9e86558a6660800000000000000
+      internalID: 7379857546206137928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_27
+      rect:
+        serializedVersion: 2
+        x: 1469
+        y: 78
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a77d6803a924a0f0800000000000000
+      internalID: -1106713828228499550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_28
+      rect:
+        serializedVersion: 2
+        x: 2475
+        y: 77
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0abf189e240967050800000000000000
+      internalID: 5797980187345943456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_29
+      rect:
+        serializedVersion: 2
+        x: 3476
+        y: 73
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6a98845203621f90800000000000000
+      internalID: -6984411210438894998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_30
+      rect:
+        serializedVersion: 2
+        x: 4401
+        y: 71
+        width: 450
+        height: 440
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ac66630bf186d950800000000000000
+      internalID: 6473504429485485217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC5_projectile_31
+      rect:
+        serializedVersion: 2
+        x: 4920
+        y: 62
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 822aefebbd33b72b0800000000000000
+      internalID: -5585813893927755224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2501ba7aba5d95344aaf93598364fb57
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      NPC5_projectile_0: -7804482319845416549
+      NPC5_projectile_1: 4828779475629670246
+      NPC5_projectile_10: -4443911221794126335
+      NPC5_projectile_11: 2834981890818376555
+      NPC5_projectile_12: -3933249579370813539
+      NPC5_projectile_13: 3748973115876794624
+      NPC5_projectile_14: 4634193473126534916
+      NPC5_projectile_15: 8239360955679731680
+      NPC5_projectile_16: 5755986581371156267
+      NPC5_projectile_17: -964465398680984896
+      NPC5_projectile_18: 7092100745317177977
+      NPC5_projectile_19: 5558448537997316187
+      NPC5_projectile_2: -4740186849007341096
+      NPC5_projectile_20: -1137258386581579459
+      NPC5_projectile_21: -7049245360135930844
+      NPC5_projectile_22: -750458453432875636
+      NPC5_projectile_23: -2185051087718042525
+      NPC5_projectile_24: 2400465521044573823
+      NPC5_projectile_25: -2006883345787755752
+      NPC5_projectile_26: 7379857546206137928
+      NPC5_projectile_27: -1106713828228499550
+      NPC5_projectile_28: 5797980187345943456
+      NPC5_projectile_29: -6984411210438894998
+      NPC5_projectile_3: -3906969271508917073
+      NPC5_projectile_30: 6473504429485485217
+      NPC5_projectile_31: -5585813893927755224
+      NPC5_projectile_4: -3768667946023853333
+      NPC5_projectile_5: -3919267519543879624
+      NPC5_projectile_6: 286737172892983686
+      NPC5_projectile_7: -7938603567905867144
+      NPC5_projectile_8: 1913600213912532296
+      NPC5_projectile_9: 2354062413720207247
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

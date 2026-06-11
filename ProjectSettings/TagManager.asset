@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - Party
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -13,12 +15,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Party
+  - Enemy
+  - EnemyProjectile
+  - Ground
+  - Detector
   - 
   - 
   - 
@@ -43,32 +45,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Back_3
-    uniqueID: 2958845051
+  - name: 'Back_3 '
+    uniqueID: 3298742409
     locked: 0
   - name: Back_2
-    uniqueID: 2810429975
+    uniqueID: 2992587229
     locked: 0
   - name: Back_1
-    uniqueID: 2380328837
+    uniqueID: 1683901267
     locked: 0
   - name: MidBack
-    uniqueID: 3400596671
+    uniqueID: 2274569513
     locked: 0
   - name: Ground
-    uniqueID: 492538183
+    uniqueID: 3798485799
     locked: 0
   - name: Fore
-    uniqueID: 1394049793
-    locked: 0
-  - name: Shadow
-    uniqueID: 2017996623
-    locked: 0
-  - name: 1_ground
-    uniqueID: 536858903
-    locked: 0
-  - name: font
-    uniqueID: 2468112517
+    uniqueID: 3749939567
     locked: 0
   m_RenderingLayers:
   - Default

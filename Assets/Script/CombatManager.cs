@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
@@ -8,7 +8,7 @@ public class CombatManager : MonoBehaviour
     public bool hasEnemyInCombat;
 
     [Header("Debug")]
-    [SerializeField] private int enemyCount;
+    [SerializeField] private int enemyCountInScreen;
 
     void Awake()
     {
@@ -21,29 +21,47 @@ public class CombatManager : MonoBehaviour
         Instance = this;
     }
 
-    public void EnemyEnterCombat()
+    public void EnemyEnterScreen()
     {
-        enemyCount++;
+        enemyCountInScreen++;
 
-        if (enemyCount < 0)
-            enemyCount = 0;
+        if (enemyCountInScreen < 0)
+            enemyCountInScreen = 0;
 
-        hasEnemyInCombat = enemyCount > 0;
+        hasEnemyInCombat = enemyCountInScreen > 0;
+
+        Debug.Log("Enemy vào màn hình | Count: " + enemyCountInScreen);
     }
 
-    public void EnemyExitCombat()
+    public void EnemyExitScreen()
     {
-        enemyCount--;
+        enemyCountInScreen--;
 
-        if (enemyCount < 0)
-            enemyCount = 0;
+        if (enemyCountInScreen < 0)
+            enemyCountInScreen = 0;
 
-        hasEnemyInCombat = enemyCount > 0;
+        hasEnemyInCombat = enemyCountInScreen > 0;
+
+        Debug.Log("Enemy rời màn hình | Count: " + enemyCountInScreen);
     }
 
     public void ClearAllEnemies()
     {
-        enemyCount = 0;
+        enemyCountInScreen = 0;
         hasEnemyInCombat = false;
+
+        Debug.Log("Clear All Enemies");
+    }
+
+    // Giữ lại để các script cũ không bị lỗi.
+    public void EnemyEnterCombat()
+    {
+        EnemyEnterScreen();
+    }
+
+    // Giữ lại để các script cũ không bị lỗi.
+    public void EnemyExitCombat()
+    {
+        EnemyExitScreen();
     }
 }
