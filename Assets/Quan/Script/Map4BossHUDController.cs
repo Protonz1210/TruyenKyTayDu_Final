@@ -39,35 +39,32 @@ public class Map4BossHUDController : MonoBehaviour
     private int cachedBoss5CurrentHealth = -1;
     private int cachedBoss5MaxHealth = -1;
 
+    void Awake()
+    {
+        FindUIElements();
+    }
 
-void Awake()
+    void OnEnable()
+    {
+        FindUIElements();
+        RefreshCachedHealth();
+    }
+
+    void Start()
+    {
+        FindUIElements();
+        RefreshCachedHealth();
+    }
+
+    void FindUIElements()
     {
         if (uiDocument == null)
         {
             uiDocument = GetComponent<UIDocument>();
         }
 
-        BindUI();
-    }
-
-    void OnEnable()
-    {
-        BindUI();
-        RefreshCachedHealth();
-    }
-
-    void Start()
-    {
-        RefreshCachedHealth();
-    }
-
-    void BindUI()
-    {
-        if (uiDocument == null)
-        {
-            Debug.LogWarning("Map4BossHUDController chưa được gán UI Document.");
-            return;
-        }
+        if (uiDocument == null) return;
+        if (uiDocument.rootVisualElement == null) return;
 
         VisualElement root = uiDocument.rootVisualElement;
 
@@ -76,63 +73,30 @@ void Awake()
 
         boss5HealthFill = root.Q<VisualElement>(boss5HealthFillName);
         boss5HealthText = root.Q<Label>(boss5HealthTextName);
-
-        if (boss4HealthFill == null)
-        {
-            Debug.LogWarning("Không tìm thấy Boss4 Health Fill: " + boss4HealthFillName);
-        }
-        else
-        {
-            PrepareFillElement(boss4HealthFill, boss4AnchorRight);
-        }
-
-        if (boss4HealthText == null)
-        {
-            Debug.LogWarning("Không tìm thấy Boss4 Health Text: " + boss4HealthTextName);
-        }
-
-        if (boss5HealthFill == null)
-        {
-            Debug.LogWarning("Không tìm thấy Boss5 Health Fill: " + boss5HealthFillName);
-        }
-        else
-        {
-            PrepareFillElement(boss5HealthFill, boss5AnchorRight);
-        }
-
-        if (boss5HealthText == null)
-        {
-            Debug.LogWarning("Không tìm thấy Boss5 Health Text: " + boss5HealthTextName);
-        }
     }
 
-    void PrepareFillElement(VisualElement fillElement, bool anchorRight)
+    void RefreshCachedHealth()
     {
-        if (fillElement == null)
-            return;
-
-        VisualElement parent = fillElement.parent;
-
-        if (parent != null)
+        if (cachedBoss4CurrentHealth >= 0 && cachedBoss4MaxHealth > 0)
         {
-            parent.style.position = Position.Relative;
-            parent.style.overflow = Overflow.Hidden;
+            UpdateBossHealthUI(
+                boss4HealthFill,
+                boss4HealthText,
+                cachedBoss4CurrentHealth,
+                cachedBoss4MaxHealth,
+                boss4AnchorRight
+            );
         }
 
-        fillElement.style.position = Position.Absolute;
-        fillElement.style.top = 0;
-        fillElement.style.bottom = 0;
-        fillElement.style.height = Length.Percent(100);
-
-        if (anchorRight)
+        if (cachedBoss5CurrentHealth >= 0 && cachedBoss5MaxHealth > 0)
         {
-            fillElement.style.right = 0;
-            fillElement.style.left = StyleKeyword.Auto;
-        }
-        else
-        {
-            fillElement.style.left = 0;
-            fillElement.style.right = StyleKeyword.Auto;
+            UpdateBossHealthUI(
+                boss5HealthFill,
+                boss5HealthText,
+                cachedBoss5CurrentHealth,
+                cachedBoss5MaxHealth,
+                boss5AnchorRight
+            );
         }
     }
 
@@ -141,13 +105,12 @@ void Awake()
         cachedBoss4CurrentHealth = currentHealth;
         cachedBoss4MaxHealth = maxHealth;
 
-        SetHealth(
-            currentHealth,
-            maxHealth,
+        UpdateBossHealthUI(
             boss4HealthFill,
             boss4HealthText,
-            boss4AnchorRight,
-            "Boss4"
+            currentHealth,
+            maxHealth,
+            boss4AnchorRight
         );
     }
 
@@ -156,23 +119,33 @@ void Awake()
         cachedBoss5CurrentHealth = currentHealth;
         cachedBoss5MaxHealth = maxHealth;
 
-        SetHealth(
-            currentHealth,
-            maxHealth,
+        UpdateBossHealthUI(
             boss5HealthFill,
             boss5HealthText,
-            boss5AnchorRight,
-            "Boss5"
+            currentHealth,
+            maxHealth,
+            boss5AnchorRight
         );
     }
 
-    void SetHealth(
+    public void SetBossHealth(int bossId, int currentHealth, int maxHealth)
+    {
+        if (bossId == 4)
+        {
+            SetBoss4Health(currentHealth, maxHealth);
+        }
+        else
+        {
+            SetBoss5Health(currentHealth, maxHealth);
+        }
+    }
+
+    void UpdateBossHealthUI(
+        VisualElement healthFill,
+        Label healthText,
         int currentHealth,
         int maxHealth,
-        VisualElement fillElement,
-        Label textElement,
-        bool anchorRight,
-        string debugName
+        bool anchorRight
     )
     {
         if (maxHealth <= 0)
@@ -182,72 +155,26 @@ void Awake()
 
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        float percent = (float)currentHealth / maxHealth;
-        percent = Mathf.Clamp01(percent);
+        float healthPercent = (float)currentHealth / maxHealth;
+        float widthPercent = healthPercent * 100f;
 
-        if (textElement != null)
+        if (healthFill != null)
         {
-            textElement.text = currentHealth + " / " + maxHealth;
+            healthFill.style.width = Length.Percent(widthPercent);
+
+            if (anchorRight)
+            {
+                healthFill.style.alignSelf = Align.FlexEnd;
+            }
+            else
+            {
+                healthFill.style.alignSelf = Align.FlexStart;
+            }
         }
 
-        if (fillElement == null)
+        if (healthText != null)
         {
-            Debug.LogWarning(debugName + " thiếu fill element.");
-            return;
-        }
-
-        PrepareFillElement(fillElement, anchorRight);
-
-        fillElement.style.width = Length.Percent(percent * 100f);
-
-        Debug.Log(
-            debugName +
-            " UI máu: " +
-            currentHealth +
-            " / " +
-            maxHealth +
-            " | Percent: " +
-            percent +
-            " | AnchorRight: " +
-            anchorRight
-        );
-    }
-
-    void RefreshCachedHealth()
-    {
-        RefreshBoss4CachedHealth();
-        RefreshBoss5CachedHealth();
-    }
-
-    void RefreshBoss4CachedHealth()
-    {
-        if (cachedBoss4MaxHealth <= 0)
-            return;
-
-        SetBoss4Health(cachedBoss4CurrentHealth, cachedBoss4MaxHealth);
-    }
-
-    void RefreshBoss5CachedHealth()
-    {
-        if (cachedBoss5MaxHealth <= 0)
-            return;
-
-        SetBoss5Health(cachedBoss5CurrentHealth, cachedBoss5MaxHealth);
-    }
-
-    public void Show()
-    {
-        if (uiDocument != null)
-        {
-            uiDocument.rootVisualElement.style.display = DisplayStyle.Flex;
-        }
-    }
-
-    public void Hide()
-    {
-        if (uiDocument != null)
-        {
-            uiDocument.rootVisualElement.style.display = DisplayStyle.None;
+            healthText.text = currentHealth + " / " + maxHealth;
         }
     }
 }
