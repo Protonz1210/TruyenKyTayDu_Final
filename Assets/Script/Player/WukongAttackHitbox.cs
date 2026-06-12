@@ -18,14 +18,12 @@ public class WukongAttackHitbox : MonoBehaviour
     [Tooltip("Collider dùng làm vùng gây sát thương.")]
     public Collider2D hitCollider;
 
-    private int currentAttackIndex;
+    private bool isActive;
     private int currentDamage;
-    private bool isHitboxActive;
+    private int passiveGainAmount;
+    private HashSet<GameObject> hitTargets = new HashSet<GameObject>();
 
-    private HashSet<GameObject> hitEnemies = new HashSet<GameObject>();
-
-
-void Awake()
+    void Awake()
     {
         if (hitCollider == null)
         {
@@ -49,153 +47,116 @@ void Awake()
         }
     }
 
-    public void ActivateHitbox(int attackIndex, int damage)
+    public void ActivateHitbox(int damage)
     {
-        currentAttackIndex = attackIndex;
-        currentDamage = damage;
-        isHitboxActive = true;
+        ActivateHitbox(damage, 0);
+    }
 
-        hitEnemies.Clear();
+    public void ActivateHitbox(int damage, int passiveGain)
+    {
+        currentDamage = damage;
+        passiveGainAmount = passiveGain;
+        isActive = true;
+        hitTargets.Clear();
 
         if (hitCollider != null)
         {
             hitCollider.enabled = true;
         }
+    }
 
-        Debug.Log("Wukong mở hitbox | Attack Index: " + currentAttackIndex + " | Damage: " + currentDamage);
+    public void ActivateHitbox(int damage, bool canGainPassive)
+    {
+        currentDamage = damage;
+        passiveGainAmount = canGainPassive ? 1 : 0;
+        isActive = true;
+        hitTargets.Clear();
+
+        if (hitCollider != null)
+        {
+            hitCollider.enabled = true;
+        }
     }
 
     public void DeactivateHitbox()
     {
-        isHitboxActive = false;
+        isActive = false;
+        currentDamage = 0;
+        passiveGainAmount = 0;
+        hitTargets.Clear();
 
         if (hitCollider != null)
         {
             hitCollider.enabled = false;
         }
-
-        hitEnemies.Clear();
-
-        Debug.Log("Wukong đóng hitbox.");
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        TryHitEnemy(other);
+        TryHit(other);
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
-        TryHitEnemy(other);
+        TryHit(other);
     }
 
-    void TryHitEnemy(Collider2D other)
+    void TryHit(Collider2D other)
     {
-        if (!isHitboxActive)
-            return;
+        if (!isActive) return;
+        if (other == null) return;
 
-        if (other == null)
-            return;
-
-        // Chặn tự đánh vào chính Wukong
         if (ownerRoot != null && other.transform.root == ownerRoot)
-            return;
-
-        // Ưu tiên riêng cho Boss4
-        Boss4Controller boss4 = other.GetComponentInParent<Boss4Controller>();
-
-        if (boss4 != null)
         {
-            GameObject bossObject = boss4.gameObject;
-
-            if (hitEnemies.Contains(bossObject))
-                return;
-
-            hitEnemies.Add(bossObject);
-
-            boss4.TakeDamage(currentDamage);
-            AddPassiveStackAfterSuccessfulHit();
-
-            Debug.Log(
-                "Wukong đánh trúng Boss4: " +
-                bossObject.name +
-                " | Damage: " +
-                currentDamage +
-                " | Attack Index: " +
-                currentAttackIndex
-            );
-
             return;
         }
 
-        // Dùng cho Enemy4 và các enemy khác có Tag Enemy ở object cha
-        Transform enemyTransform = FindTaggedParent(other.transform, enemyTag);
+        GameObject targetRoot = other.transform.root.gameObject;
 
-        if (enemyTransform == null)
-            return;
-
-        GameObject enemyObject = enemyTransform.gameObject;
-
-        if (hitEnemies.Contains(enemyObject))
-            return;
-
-        hitEnemies.Add(enemyObject);
-
-        // Gọi TakeDamage trên object có Tag Enemy
-        enemyObject.SendMessage(
-            "TakeDamage",
-            currentDamage,
-            SendMessageOptions.DontRequireReceiver
-        );
-
-        // Fallback: nếu TakeDamage nằm ở cha khác
-        other.SendMessageUpwards(
-            "TakeDamage",
-            currentDamage,
-            SendMessageOptions.DontRequireReceiver
-        );
-
-        AddPassiveStackAfterSuccessfulHit();
-
-        Debug.Log(
-            "Wukong đánh trúng Enemy: " +
-            enemyObject.name +
-            " | Collider: " +
-            other.name +
-            " | Damage: " +
-            currentDamage +
-            " | Attack Index: " +
-            currentAttackIndex
-        );
-    }
-
-    Transform FindTaggedParent(Transform startTransform, string tagName)
-    {
-        Transform current = startTransform;
-
-        while (current != null)
+        if (hitTargets.Contains(targetRoot))
         {
-            if (current.CompareTag(tagName))
+            return;
+        }
+
+        bool hasHit = false;
+
+        Enemy4Controller enemy4 = other.GetComponentInParent<Enemy4Controller>();
+
+        if (enemy4 != null)
+        {
+            enemy4.TakeDamage(currentDamage);
+            hasHit = true;
+        }
+
+        if (!hasHit)
+        {
+            Map4BossController map4Boss = other.GetComponentInParent<Map4BossController>();
+
+            if (map4Boss != null)
             {
-                return current;
+                map4Boss.TakeDamage(currentDamage);
+                hasHit = true;
             }
-
-            current = current.parent;
         }
 
-        return null;
+        if (!hasHit)
+        {
+            return;
+        }
+
+        hitTargets.Add(targetRoot);
+
+        AddPassiveAfterHit();
     }
 
-    void AddPassiveStackAfterSuccessfulHit()
+    void AddPassiveAfterHit()
     {
-        if (skillCooldown == null)
-            return;
+        if (skillCooldown == null) return;
+        if (passiveGainAmount <= 0) return;
 
-        if (currentAttackIndex == 0 ||
-            currentAttackIndex == 1 ||
-            currentAttackIndex == 2)
-        {
-            skillCooldown.AddPassiveStackFromHit();
-        }
+        skillCooldown.SendMessage("GainPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+        skillCooldown.SendMessage("AddPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+        skillCooldown.SendMessage("AddPassiveStack", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+        skillCooldown.SendMessage("GainPassivePoint", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
     }
 }
