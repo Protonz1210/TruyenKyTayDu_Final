@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ public class Boss2Controller : MonoBehaviour
     [Tooltip("Tag của Wukong.")]
     public string playerTag = "Player";
 
+    [Tooltip("Tag của đoàn thỉnh kinh.")]
+    public string partyTag = "Party";
+
     [Tooltip("Tự tìm Wukong theo tag nếu chưa kéo target.")]
     public bool autoFindPlayer = true;
 
@@ -20,11 +24,24 @@ public class Boss2Controller : MonoBehaviour
     [Tooltip("Boss2 chỉ hoạt động khi Wukong lại gần.")]
     public bool activateOnlyWhenPlayerNear = true;
 
+    [Header("Target Priority")]
+    [Tooltip("Cho phép Boss2 đánh đoàn nếu đoàn gần hơn Wukong.")]
+    public bool canAttackPartyIfCloser = true;
+
+    [Tooltip("Tầm phát hiện đoàn thỉnh kinh.")]
+    public float partyDetectRange = 4f;
+
+    [Tooltip("Khoảng cách để Wukong giành lại mục tiêu.")]
+    public float wukongReclaimDistance = 3f;
+
+    [Tooltip("Cho phép Boss2 chạy theo đoàn nếu đoàn gần hơn.")]
+    public bool chasePartyIfCloser = false;
+
     [Header("Move")]
     [Tooltip("Tốc độ di chuyển của Boss2.")]
     public float moveSpeed = 3.5f;
 
-    [Tooltip("Khoảng cách dừng trước Wukong.")]
+    [Tooltip("Khoảng cách dừng trước mục tiêu.")]
     public float stopDistance = 1.2f;
 
     [Tooltip("Khóa di chuyển khi đang đánh.")]
@@ -34,8 +51,11 @@ public class Boss2Controller : MonoBehaviour
     [Tooltip("Hitbox đánh cận chiến của Boss2.")]
     public Boss2MeleeHitbox meleeHitbox;
 
-    [Tooltip("Tầm đánh cận chiến.")]
-    public float meleeRange = 1.6f;
+    [Tooltip("Tầm đánh cận chiến theo trục ngang.")]
+    public float meleeRange = 1.8f;
+
+    [Tooltip("Độ lệch cao thấp cho phép khi đánh.")]
+    public float verticalAttackTolerance = 2.5f;
 
     [Tooltip("Thời gian hồi đánh cận chiến.")]
     public float meleeCooldown = 1.2f;
@@ -54,13 +74,7 @@ public class Boss2Controller : MonoBehaviour
     public int currentHealth;
 
     [Header("Death")]
-    [Tooltip("Tên state chết trong Animator.")]
-    public string dieStateName = "Boss2_die";
-
-    [Tooltip("Thời gian chờ trước khi Boss2 biến mất.")]
-    public float deathDestroyDelay = 1.2f;
-
-    [Tooltip("Tự xóa Boss2 sau khi chết.")]
+    [Tooltip("Tự xóa Boss2 sau khi animation chết kết thúc.")]
     public bool destroyAfterDeath = true;
 
     [Header("Animator")]
@@ -69,6 +83,9 @@ public class Boss2Controller : MonoBehaviour
 
     [Tooltip("Tên trigger đánh cận chiến.")]
     public string meleeTriggerName = "MeleeAttack";
+
+    [Tooltip("Tên trigger animation chết.")]
+    public string dieTriggerName = "Die";
 
     [Tooltip("Tên state idle.")]
     public string idleStateName = "Boss2_idle";
@@ -88,6 +105,7 @@ public class Boss2Controller : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
+    private Transform currentCombatTarget;
     private Transform lockedMeleeTarget;
 
     private bool isActivated;
@@ -97,7 +115,6 @@ public class Boss2Controller : MonoBehaviour
 
     private float meleeTimer;
     private Coroutine meleeCoroutine;
-    private Coroutine deathCoroutine;
 
     void Awake()
     {
@@ -154,6 +171,7 @@ public class Boss2Controller : MonoBehaviour
             return;
         }
 
+        UpdateCurrentCombatTarget();
         HandleAttack();
     }
 
@@ -171,6 +189,15 @@ public class Boss2Controller : MonoBehaviour
         if (lockMovementWhileAttacking && isAttacking)
         {
             StopMove();
+            SetAnimatorSpeed(0f);
+            return;
+        }
+
+        if (currentCombatTarget != null && IsTargetInMeleeRange(currentCombatTarget))
+        {
+            StopMove();
+            SetAnimatorSpeed(0f);
+            FaceTarget(currentCombatTarget);
             return;
         }
 
@@ -197,11 +224,10 @@ public class Boss2Controller : MonoBehaviour
     {
         if (isActivated)
             return;
-
         if (target == null)
             return;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, target.position);
+        float distanceToPlayer = Mathf.Abs(target.position.x - transform.position.x);
 
         if (distanceToPlayer <= activationRange)
         {
@@ -222,20 +248,79 @@ public class Boss2Controller : MonoBehaviour
         }
     }
 
+    void UpdateCurrentCombatTarget()
+    {
+        currentCombatTarget = target;
+
+        if (!canAttackPartyIfCloser)
+            return;
+
+        Transform nearestParty = FindNearestPartyMember();
+        if (nearestParty == null)
+            return;
+
+        float distanceToWukong = Mathf.Abs(target.position.x - transform.position.x);
+        float distanceToParty = Mathf.Abs(nearestParty.position.x - transform.position.x);
+
+        if (distanceToWukong <= wukongReclaimDistance)
+        {
+            currentCombatTarget = target;
+            return;
+        }
+
+        if (distanceToParty < distanceToWukong && distanceToParty <= partyDetectRange)
+        {
+            currentCombatTarget = nearestParty;
+        }
+    }
+
+    Transform FindNearestPartyMember()
+    {
+        GameObject[] partyObjects = GameObject.FindGameObjectsWithTag(partyTag);
+
+        Transform nearestTarget = null;
+        float nearestDistance = Mathf.Infinity;
+
+        for (int i = 0; i < partyObjects.Length; i++)
+        {
+            if (partyObjects[i] == null)
+                continue;
+
+            float distance = Mathf.Abs(partyObjects[i].transform.position.x - transform.position.x);
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestTarget = partyObjects[i].transform;
+            }
+        }
+
+        return nearestTarget;
+    }
+
     void HandleAttack()
     {
         if (!canAttack)
             return;
 
-        if (target == null)
+        if (currentCombatTarget == null)
             return;
 
-        float distanceToTarget = Vector2.Distance(transform.position, target.position);
-
-        if (distanceToTarget <= meleeRange)
+        if (IsTargetInMeleeRange(currentCombatTarget))
         {
-            TryMeleeAttack(target);
+            TryMeleeAttack(currentCombatTarget);
         }
+    }
+
+    bool IsTargetInMeleeRange(Transform checkTarget)
+    {
+        if (checkTarget == null)
+            return false;
+
+        float horizontalDistance = Mathf.Abs(checkTarget.position.x - transform.position.x);
+        float verticalDistance = Mathf.Abs(checkTarget.position.y - transform.position.y);
+
+        return horizontalDistance <= meleeRange && verticalDistance <= verticalAttackTolerance;
     }
 
     void TryMeleeAttack(Transform attackTarget)
@@ -249,6 +334,8 @@ public class Boss2Controller : MonoBehaviour
         lockedMeleeTarget = attackTarget;
 
         FaceTarget(attackTarget);
+        StopMove();
+        SetAnimatorSpeed(0f);
 
         meleeTimer = meleeCooldown;
 
@@ -264,6 +351,7 @@ public class Boss2Controller : MonoBehaviour
     {
         isAttacking = true;
         StopMove();
+        SetAnimatorSpeed(0f);
 
         if (animator != null)
         {
@@ -294,36 +382,52 @@ public class Boss2Controller : MonoBehaviour
 
     void MoveToTarget()
     {
-        if (target == null)
+        Transform moveTarget = GetMoveTarget();
+
+        if (moveTarget == null)
         {
             StopMove();
             SetAnimatorSpeed(0f);
             return;
         }
 
-        float distance = Vector2.Distance(transform.position, target.position);
+        float horizontalDistance = Mathf.Abs(moveTarget.position.x - transform.position.x);
 
-        if (distance <= stopDistance)
+        if (horizontalDistance <= stopDistance)
         {
             StopMove();
             SetAnimatorSpeed(0f);
-            FaceTarget(target);
+            FaceTarget(moveTarget);
             return;
         }
 
-        Vector2 direction = (target.position - transform.position).normalized;
+        float directionX = moveTarget.position.x - transform.position.x;
+        float moveDirection = Mathf.Sign(directionX);
 
         if (rb != null)
         {
-            rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(moveDirection * moveSpeed, rb.linearVelocity.y);
         }
         else
         {
-            transform.position += new Vector3(direction.x, 0f, 0f) * moveSpeed * Time.fixedDeltaTime;
+            transform.position += new Vector3(moveDirection, 0f, 0f) * moveSpeed * Time.fixedDeltaTime;
         }
 
-        FaceDirection(direction.x);
-        SetAnimatorSpeed(Mathf.Abs(direction.x));
+        FaceDirection(moveDirection);
+        SetAnimatorSpeed(1f);
+    }
+
+    Transform GetMoveTarget()
+    {
+        if (currentCombatTarget == null)
+            return target;
+
+        if (currentCombatTarget.CompareTag(partyTag) && !chasePartyIfCloser)
+        {
+            return target;
+        }
+
+        return currentCombatTarget;
     }
 
     void StopMove()
@@ -345,7 +449,7 @@ public class Boss2Controller : MonoBehaviour
 
     void FaceDirection(float directionX)
     {
-        if (Mathf.Abs(directionX) < 0.01f)
+        if (Mathf.Abs(directionX) < 0.05f)
             return;
 
         bool shouldFaceRight = directionX > 0f;
@@ -402,6 +506,7 @@ public class Boss2Controller : MonoBehaviour
         isAttacking = false;
 
         StopMove();
+        SetAnimatorSpeed(0f);
 
         if (meleeCoroutine != null)
         {
@@ -430,33 +535,13 @@ public class Boss2Controller : MonoBehaviour
         if (animator != null)
         {
             animator.ResetTrigger(meleeTriggerName);
-            animator.Play(dieStateName, 0, 0f);
+            animator.ResetTrigger(dieTriggerName);
+            animator.SetTrigger(dieTriggerName);
         }
-
-        if (deathCoroutine != null)
-        {
-            StopCoroutine(deathCoroutine);
-        }
-
-        deathCoroutine = StartCoroutine(DeathRoutine());
 
         if (enableDebugLog)
         {
-            Debug.Log("Boss2 chết, chạy animation Die.");
-        }
-    }
-
-    IEnumerator DeathRoutine()
-    {
-        yield return new WaitForSeconds(deathDestroyDelay);
-
-        if (destroyAfterDeath)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            gameObject.SetActive(false);
+            Debug.Log("Boss2 chết, Animator chuyển sang animation Die.");
         }
     }
 
@@ -476,6 +561,26 @@ public class Boss2Controller : MonoBehaviour
         if (meleeHitbox != null)
         {
             meleeHitbox.DeactivateHitbox();
+        }
+    }
+
+    public void DestroyBoss2AfterDieAnimation()
+    {
+        if (!isDead)
+            return;
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss2 hết animation chết, biến mất.");
+        }
+
+        if (destroyAfterDeath)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -501,5 +606,8 @@ public class Boss2Controller : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, meleeRange);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, partyDetectRange);
     }
 }

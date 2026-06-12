@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -229,6 +230,11 @@ public class Boss2MeleeHitbox : MonoBehaviour
             return owner.GetBossFacingDirection();
 
         float directionX = attackTarget.position.x - owner.transform.position.x;
+
+        if (Mathf.Abs(directionX) < 0.05f)
+        {
+            return owner.GetBossFacingDirection();
+        }
 
         if (directionX < 0f)
         {
