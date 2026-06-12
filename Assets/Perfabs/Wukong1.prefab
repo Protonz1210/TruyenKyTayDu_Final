@@ -423,8 +423,8 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   moveSpeed: 4
-  jumpForce: 8
-  doubleJumpForce: 10
+  jumpForce: 13
+  doubleJumpForce: 15
   maxJumpCount: 2
   groundCheck: {fileID: 2940179261902409523}
   groundCheckRadius: 0.15

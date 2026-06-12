@@ -1,26 +1,38 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerHealth : MonoBehaviour
+public class PartyHealth : MonoBehaviour
 {
-    [Header("Health")]
+    [Header("Party Health")]
+    [Tooltip("Máu tối đa của đoàn.")]
     public int maxHealth = 1000;
+
+    [Tooltip("Máu hiện tại của đoàn.")]
     public int currentHealth;
 
     [Header("UI")]
+    [Tooltip("UI thanh máu của màn chơi.")]
     public MapHUDController hudController;
 
     [Header("Test Damage / Heal")]
+    [Tooltip("Bật phím test mất máu và hồi máu.")]
     public bool enableTestKeys = true;
+
+    [Tooltip("Sát thương test.")]
     public int testDamageAmount = 100;
+
+    [Tooltip("Lượng máu hồi test.")]
     public int testHealAmount = 100;
 
-    private PlayerController playerController;
+    [Header("Game Over")]
+    [Tooltip("Game Over khi đoàn chết.")]
+    public bool gameOverWhenDead = true;
+
     private bool isDead;
 
-    void Awake()
+
+void Awake()
     {
-        playerController = GetComponent<PlayerController>();
         currentHealth = maxHealth;
     }
 
@@ -34,20 +46,17 @@ public class PlayerHealth : MonoBehaviour
         if (!enableTestKeys)
             return;
 
-        // Test trừ máu bằng phím 1
-        if (Keyboard.current.digit1Key.wasPressedThisFrame)
+        if (Keyboard.current.digit4Key.wasPressedThisFrame)
         {
             TakeDamage(testDamageAmount);
         }
 
-        // Test hồi máu bằng phím 2
-        if (Keyboard.current.digit2Key.wasPressedThisFrame)
+        if (Keyboard.current.digit5Key.wasPressedThisFrame)
         {
             Heal(testHealAmount);
         }
 
-        // Test chết ngay bằng phím 3
-        if (Keyboard.current.digit3Key.wasPressedThisFrame)
+        if (Keyboard.current.digit6Key.wasPressedThisFrame)
         {
             TakeDamage(maxHealth);
         }
@@ -66,7 +75,7 @@ public class PlayerHealth : MonoBehaviour
 
         UpdateHealthUI();
 
-        Debug.Log("Ngộ Không mất máu: " + damage + " | Máu: " + currentHealth + " / " + maxHealth);
+        Debug.Log("Đoàn thỉnh kinh mất máu: " + damage + " | Máu: " + currentHealth + " / " + maxHealth);
 
         if (currentHealth <= 0)
         {
@@ -86,7 +95,7 @@ public class PlayerHealth : MonoBehaviour
         {
             currentHealth = maxHealth;
             UpdateHealthUI();
-            Debug.Log("Máu đã đầy, không thể hồi thêm.");
+            Debug.Log("Máu đoàn đã đầy, không thể hồi thêm.");
             return;
         }
 
@@ -95,7 +104,7 @@ public class PlayerHealth : MonoBehaviour
 
         UpdateHealthUI();
 
-        Debug.Log("Ngộ Không hồi máu: " + amount + " | Máu: " + currentHealth + " / " + maxHealth);
+        Debug.Log("Đoàn thỉnh kinh hồi máu: " + amount + " | Máu: " + currentHealth + " / " + maxHealth);
     }
 
     void Die()
@@ -108,23 +117,20 @@ public class PlayerHealth : MonoBehaviour
 
         UpdateHealthUI();
 
-        Debug.Log("Ngộ Không đã bị hạ gục.");
+        Debug.Log("Đoàn thỉnh kinh đã bị hạ gục. Game Over.");
 
-        if (playerController != null)
+        if (gameOverWhenDead)
         {
-            playerController.Die();
-        }
-        else
-        {
-            Debug.LogWarning("Không tìm thấy PlayerController trên Ngộ Không.");
+            Debug.Log("GAME OVER: Máu đoàn thỉnh kinh về 0.");
         }
     }
+  
 
     void UpdateHealthUI()
     {
         if (hudController != null)
         {
-            hudController.SetWukongHealth(currentHealth, maxHealth);
+            hudController.SetPartyHealth(currentHealth, maxHealth);
         }
     }
 

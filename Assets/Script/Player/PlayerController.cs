@@ -5,40 +5,74 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Input Actions")]
+    [Tooltip("Input di chuyển trái/phải.")]
     public InputAction moveAction;
+
+    [Tooltip("Input nhảy.")]
     public InputAction jumpAction;
+
+    [Tooltip("Input đánh thường 1.")]
     public InputAction attack0Action;
+
+    [Tooltip("Input đánh thường 2.")]
     public InputAction attack1Action;
+
+    [Tooltip("Input đánh thường 3.")]
     public InputAction attack2Action;
+
+    [Tooltip("Input đánh chiêu mạnh.")]
     public InputAction attack3Action;
+
+    [Tooltip("Input test chết.")]
     public InputAction dieTestAction;
 
     [Header("Movement")]
+    [Tooltip("Tốc độ di chuyển.")]
     public float moveSpeed = 5f;
 
     [Header("Jump")]
+    [Tooltip("Lực nhảy lần đầu.")]
     public float jumpForce = 10f;
+
+    [Tooltip("Lực nhảy lần hai.")]
     public float doubleJumpForce = 13f;
+
+    [Tooltip("Số lần nhảy tối đa.")]
     public int maxJumpCount = 2;
 
     [Header("Ground Check By Tag")]
+    [Tooltip("Điểm kiểm tra mặt đất.")]
     public Transform groundCheck;
+
+    [Tooltip("Bán kính kiểm tra mặt đất.")]
     public float groundCheckRadius = 0.15f;
+
+    [Tooltip("Tag của mặt đất.")]
     public string groundTag = "Ground";
 
     [Header("Attack Settings")]
+    [Tooltip("Khóa di chuyển khi đang đánh.")]
     public bool lockMovementWhileAttacking = true;
 
     [Header("Attack Damage")]
+    [Tooltip("Sát thương đánh thường 1.")]
     public int attack0Damage = 50;
+
+    [Tooltip("Sát thương đánh thường 2.")]
     public int attack1Damage = 120;
+
+    [Tooltip("Sát thương đánh thường 3.")]
     public int attack2Damage = 180;
+
+    [Tooltip("Sát thương chiêu mạnh.")]
     public int attack3Damage = 300;
 
     [Header("Attack Hitbox")]
+    [Tooltip("Hitbox tấn công của Wukong.")]
     public WukongAttackHitbox attackHitbox;
 
     [Header("Test Die")]
+    [Tooltip("Bật phím test chết.")]
     public bool enableTestDieKey = true;
 
     private Rigidbody2D rb;

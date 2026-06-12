@@ -1,24 +1,31 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 public class EnemyHealthCanvasUI : MonoBehaviour
 {
     [Header("Target")]
+    [Tooltip("Enemy cần hiển thị máu.")]
     public Enemy4Controller enemy;
 
     [Header("UI")]
+    [Tooltip("Text hiển thị máu.")]
     public TextMeshProUGUI healthText;
 
     [Header("Position")]
+    [Tooltip("Vị trí lệch so với Enemy.")]
     public Vector3 offset = new Vector3(0f, 1.8f, 0f);
 
     [Header("Display")]
+    [Tooltip("Ẩn UI khi Enemy chết.")]
     public bool hideWhenDead = true;
+
+    [Tooltip("UI luôn quay về phía camera.")]
     public bool faceCamera = true;
 
     private Camera mainCamera;
 
-    void Awake()
+
+void Awake()
     {
         if (enemy == null)
         {

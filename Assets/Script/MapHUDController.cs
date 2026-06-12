@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class MapHUDController : MonoBehaviour
 {
     [Header("UI Document")]
+    [Tooltip("UI Document của HUD trong màn chơi.")]
     public UIDocument uiDocument;
 
     private VisualElement wukongHealthFill;
@@ -13,7 +14,6 @@ public class MapHUDController : MonoBehaviour
     private Label partyHealthText;
 
     private VisualElement[] skillCooldownFills = new VisualElement[4];
-
     void Awake()
     {
         if (uiDocument == null)

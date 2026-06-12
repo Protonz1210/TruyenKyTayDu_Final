@@ -4,51 +4,76 @@ using UnityEngine;
 public class Enemy4Controller : MonoBehaviour
 {
     [Header("Patrol")]
+    [Tooltip("Điểm tuần tra bên trái.")]
     public Transform leftPoint;
+
+    [Tooltip("Điểm tuần tra bên phải.")]
     public Transform rightPoint;
+
+    [Tooltip("Tốc độ tuần tra.")]
     public float patrolSpeed = 2f;
+
+    [Tooltip("Bắt đầu di chuyển sang phải.")]
     public bool startMovingRight = true;
 
     [Header("Detection By Tag")]
+    [Tooltip("Tag của Wukong.")]
     public string playerTag = "Player";
+
+    [Tooltip("Tag của đoàn thỉnh kinh.")]
     public string partyTag = "Party";
+
+    [Tooltip("Tầm phát hiện mục tiêu.")]
     public float detectRange = 8f;
+
+    [Tooltip("Tầm tấn công.")]
     public float attackRange = 6f;
 
     [Header("Attack")]
+    [Tooltip("Prefab đạn tấn công.")]
     public GameObject projectilePrefab;
+
+    [Tooltip("Điểm bắn đạn.")]
     public Transform firePoint;
 
-    [Tooltip("Thời gian chờ sau khi animation Attack chạy xong rồi mới được đánh tiếp.")]
+    [Tooltip("Thời gian hồi chiêu tấn công.")]
     public float attackCooldown = 3f;
 
-    [Tooltip("Thời lượng animation Attack. Hết thời gian này mới bắt đầu đếm hồi đánh.")]
+    [Tooltip("Thời gian giữ trạng thái tấn công.")]
     public float attackActionDuration = 1.2f;
 
-    [Tooltip("Nếu không dùng Animation Event, projectile sẽ bắn ra sau khoảng thời gian này tính từ lúc Attack bắt đầu.")]
+    [Tooltip("Thời điểm bắn nếu không dùng event.")]
     public float attackFireDelay = 0.35f;
 
+    [Tooltip("Sát thương tấn công.")]
     public int attackDamage = 100;
 
-    [Tooltip("Bật nếu muốn gọi FireAttack bằng Animation Event trong clip Attack.")]
+    [Tooltip("Dùng Animation Event để bắn.")]
     public bool useAnimationEventForFire = false;
 
     [Header("Fire Point Auto Position")]
+    [Tooltip("Tự cập nhật Fire Point theo hướng nhìn.")]
     public bool autoUpdateFirePoint = true;
 
-    [Tooltip("Vị trí FirePoint trước cái chiêng khi enemy nhìn sang phải. X là khoảng cách ngang, Y là độ cao.")]
+    [Tooltip("Vị trí Fire Point khi nhìn sang phải.")]
     public Vector2 firePointLocalOffset = new Vector2(0.8f, 0.3f);
 
     [Header("Health")]
+    [Tooltip("Máu tối đa.")]
     public int maxHealth = 500;
+
+    [Tooltip("Máu hiện tại.")]
     public int currentHealth;
 
     [Header("Death")]
-    [Tooltip("Tên state Die trong Animator. Phải đúng tên state, không nhất thiết là tên clip.")]
+    [Tooltip("Tên animation chết.")]
     public string dieStateName = "Enemy4_die";
 
     [Header("Control")]
+    [Tooltip("Cho phép di chuyển.")]
     public bool canMove = true;
+
+    [Tooltip("Cho phép tấn công.")]
     public bool canAttack = true;
 
     private Rigidbody2D rb;
@@ -66,7 +91,8 @@ public class Enemy4Controller : MonoBehaviour
     private float attackTimer;
     private Coroutine attackCoroutine;
 
-    void Awake()
+
+void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();

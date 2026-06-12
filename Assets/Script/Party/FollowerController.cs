@@ -3,38 +3,53 @@
 public class FollowerController : MonoBehaviour
 {
     [Header("Target")]
+    [Tooltip("Mục tiêu follower đi theo.")]
     public Transform target;
+
+    [Tooltip("Script hướng nhìn của Wukong.")]
     public PlayerFacing playerFacing;
 
     [Header("Follow Settings")]
+    [Tooltip("Khoảng cách đứng sau Wukong.")]
     public float followDistance = 2f;
+
+    [Tooltip("Tốc độ di chuyển.")]
     public float moveSpeed = 3.5f;
+
+    [Tooltip("Khoảng cách dừng khi đến gần vị trí cần đứng.")]
     public float stopDistance = 0.2f;
+
+    [Tooltip("Khoảng cách bắt đầu tăng tốc đuổi theo.")]
     public float catchUpDistance = 5f;
+
+    [Tooltip("Hệ số tăng tốc khi bị tụt lại xa.")]
     public float catchUpSpeedMultiplier = 1.5f;
 
     [Header("Formation")]
-    [Tooltip("Chỉ đổi vị trí đội hình khi Wukong thật sự di chuyển trái/phải.")]
+    [Tooltip("Chỉ đổi vị trí đội hình khi Wukong di chuyển.")]
     public bool changeFormationSideOnlyWhenPlayerMoves = true;
 
-    [Tooltip("Tốc độ ngang nhỏ hơn ngưỡng này thì xem như Wukong đứng yên.")]
+    [Tooltip("Ngưỡng xác định Wukong đang đứng yên.")]
     public float playerMoveThreshold = 0.05f;
 
-    [Tooltip("Khi bắt đầu game, đoàn đứng sau hướng nhìn ban đầu của Wukong.")]
+    [Tooltip("Đoàn đứng sau hướng nhìn ban đầu của Wukong.")]
     public bool startBehindPlayerFacing = true;
 
     [Header("Physics")]
+    [Tooltip("Di chuyển bằng Rigidbody2D.")]
     public bool useRigidbodyMovement = true;
+
+    [Tooltip("Khóa vị trí trục Y.")]
     public bool lockYPosition = false;
 
     [Header("Facing")]
-    [Tooltip("Bật nếu sprite gốc đang nhìn sang phải khi Flip X = false.")]
+    [Tooltip("Sprite gốc nhìn sang phải.")]
     public bool spriteFacesRightByDefault = true;
 
     [Tooltip("Khi đứng yên, follower quay theo hướng Wukong.")]
     public bool facePlayerWhenIdle = true;
 
-    [Tooltip("Khi đang chạy đến điểm mới, follower quay theo hướng di chuyển để tránh đi lùi.")]
+    [Tooltip("Khi di chuyển, follower quay theo hướng chạy.")]
     public bool faceMoveDirectionWhenMoving = true;
 
     private Rigidbody2D rb;
@@ -49,7 +64,8 @@ public class FollowerController : MonoBehaviour
     // +1 = đứng bên phải Wukong
     private float formationSide = -1f;
 
-    void Awake()
+
+void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
