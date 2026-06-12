@@ -249,6 +249,58 @@ public class Boss2MeleeHitbox : MonoBehaviour
         TryHit(other);
     }
 
+    public void ForceHitTarget(Transform forceTarget)
+    {
+        if (!isActive)
+            return;
+
+        if (forceTarget == null)
+            return;
+
+        if (owner != null && !owner.IsTargetStillInMeleeRange(forceTarget))
+            return;
+
+        PlayerHealth playerHealth = forceTarget.GetComponentInParent<PlayerHealth>();
+
+        if (playerHealth != null)
+        {
+            GameObject targetKey = playerHealth.gameObject;
+
+            if (hitTargets.Contains(targetKey))
+                return;
+
+            hitTargets.Add(targetKey);
+            playerHealth.TakeDamage(damage);
+
+            if (enableDebugLog)
+            {
+                Debug.Log("Boss2 FORCE melee gây damage Wukong: -" + damage);
+            }
+
+            return;
+        }
+
+        PartyMemberHitReceiver partyMember = forceTarget.GetComponentInParent<PartyMemberHitReceiver>();
+
+        if (partyMember != null)
+        {
+            GameObject targetKey = partyMember.gameObject;
+
+            if (hitTargets.Contains(targetKey))
+                return;
+
+            hitTargets.Add(targetKey);
+            partyMember.TakeDamage(damage);
+
+            if (enableDebugLog)
+            {
+                Debug.Log("Boss2 FORCE melee gây damage đoàn thỉnh kinh: -" + damage);
+            }
+
+            return;
+        }
+    }
+
     void TryHit(Collider2D other)
     {
         if (!isActive)

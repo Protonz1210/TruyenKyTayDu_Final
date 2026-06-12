@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class Boss2Controller : MonoBehaviour
@@ -42,26 +41,29 @@ public class Boss2Controller : MonoBehaviour
     public float moveSpeed = 3.5f;
 
     [Tooltip("Khoảng cách dừng trước mục tiêu.")]
-    public float stopDistance = 1.2f;
+    public float stopDistance = 1.5f;
 
-    [Tooltip("Khóa di chuyển khi đang đánh.")]
-    public bool lockMovementWhileAttacking = true;
+    [Tooltip("Khi đã vào tầm đánh thì đứng yên.")]
+    public bool stopCompletelyWhenInMeleeRange = true;
+
+    [Tooltip("Khóa cứng vị trí Boss2 trong lúc đánh.")]
+    public bool freezePositionWhileAttacking = true;
 
     [Header("Melee Attack")]
     [Tooltip("Hitbox đánh cận chiến của Boss2.")]
     public Boss2MeleeHitbox meleeHitbox;
 
     [Tooltip("Tầm đánh cận chiến theo trục ngang.")]
-    public float meleeRange = 1.8f;
+    public float meleeRange = 2.2f;
 
     [Tooltip("Độ lệch cao thấp cho phép khi đánh.")]
-    public float verticalAttackTolerance = 2.5f;
+    public float verticalAttackTolerance = 3f;
 
-    [Tooltip("Thời gian hồi đánh cận chiến.")]
+    [Tooltip("Thời gian hồi đánh sau khi animation đánh kết thúc.")]
     public float meleeCooldown = 1.2f;
 
-    [Tooltip("Thời gian giữ trạng thái đánh.")]
-    public float meleeActionDuration = 0.9f;
+    [Tooltip("Thời gian tối đa của animation đánh. Nếu event cuối không chạy, Boss sẽ tự thoát trạng thái đánh sau thời gian này.")]
+    public float attackMaxDuration = 4.6f;
 
     [Tooltip("Sát thương đánh cận chiến.")]
     public int meleeDamage = 120;
@@ -87,9 +89,6 @@ public class Boss2Controller : MonoBehaviour
     [Tooltip("Tên trigger animation chết.")]
     public string dieTriggerName = "Die";
 
-    [Tooltip("Tên state idle.")]
-    public string idleStateName = "Boss2_idle";
-
     [Header("Control")]
     [Tooltip("Cho phép Boss2 di chuyển.")]
     public bool canMove = true;
@@ -103,7 +102,6 @@ public class Boss2Controller : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
 
     private Transform currentCombatTarget;
     private Transform lockedMeleeTarget;
@@ -113,14 +111,16 @@ public class Boss2Controller : MonoBehaviour
     private bool isDead;
     private bool facingRight = true;
 
-    private float meleeTimer;
-    private Coroutine meleeCoroutine;
+    private float meleeCooldownTimer;
+    private float attackTimer;
+
+    private Vector2 attackLockedPosition;
+    private bool hasAttackLockedPosition;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         currentHealth = maxHealth;
 
@@ -157,22 +157,45 @@ public class Boss2Controller : MonoBehaviour
 
         if (target == null)
         {
+            StopMoveHard();
             SetAnimatorSpeed(0f);
             return;
         }
 
         UpdateActivation();
-        UpdateTimers();
+        UpdateCooldownTimer();
+        UpdateAttackTimer();
 
         if (!isActivated)
         {
+            StopMoveHard();
             SetAnimatorSpeed(0f);
-            StopMove();
             return;
         }
 
         UpdateCurrentCombatTarget();
-        HandleAttack();
+
+        if (isAttacking)
+        {
+            StopMoveHard();
+            SetAnimatorSpeed(0f);
+
+            if (freezePositionWhileAttacking)
+            {
+                LockBossPosition();
+            }
+
+            return;
+        }
+
+        if (currentCombatTarget != null && IsTargetInMeleeRange(currentCombatTarget))
+        {
+            StopMoveHard();
+            SetAnimatorSpeed(0f);
+            FaceTarget(currentCombatTarget);
+            TryStartMeleeAttack(currentCombatTarget);
+            return;
+        }
     }
 
     void FixedUpdate()
@@ -184,18 +207,28 @@ public class Boss2Controller : MonoBehaviour
             return;
 
         if (!canMove)
-            return;
-
-        if (lockMovementWhileAttacking && isAttacking)
         {
-            StopMove();
+            StopMoveHard();
             SetAnimatorSpeed(0f);
             return;
         }
 
-        if (currentCombatTarget != null && IsTargetInMeleeRange(currentCombatTarget))
+        if (isAttacking)
         {
-            StopMove();
+            StopMoveHard();
+            SetAnimatorSpeed(0f);
+
+            if (freezePositionWhileAttacking)
+            {
+                LockBossPosition();
+            }
+
+            return;
+        }
+
+        if (stopCompletelyWhenInMeleeRange && currentCombatTarget != null && IsTargetInMeleeRange(currentCombatTarget))
+        {
+            StopMoveHard();
             SetAnimatorSpeed(0f);
             FaceTarget(currentCombatTarget);
             return;
@@ -227,9 +260,9 @@ public class Boss2Controller : MonoBehaviour
         if (target == null)
             return;
 
-        float distanceToPlayer = Mathf.Abs(target.position.x - transform.position.x);
+        float distanceToPlayerX = Mathf.Abs(target.position.x - transform.position.x);
 
-        if (distanceToPlayer <= activationRange)
+        if (distanceToPlayerX <= activationRange)
         {
             isActivated = true;
 
@@ -240,11 +273,29 @@ public class Boss2Controller : MonoBehaviour
         }
     }
 
-    void UpdateTimers()
+    void UpdateCooldownTimer()
     {
-        if (meleeTimer > 0f)
+        if (meleeCooldownTimer > 0f)
         {
-            meleeTimer -= Time.deltaTime;
+            meleeCooldownTimer -= Time.deltaTime;
+        }
+    }
+
+    void UpdateAttackTimer()
+    {
+        if (!isAttacking)
+            return;
+
+        attackTimer -= Time.deltaTime;
+
+        if (attackTimer <= 0f)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning("Boss2 tự kết thúc đánh bằng Attack Max Duration.");
+            }
+
+            EndMeleeAttackAnimation();
         }
     }
 
@@ -298,60 +349,51 @@ public class Boss2Controller : MonoBehaviour
         return nearestTarget;
     }
 
-    void HandleAttack()
-    {
-        if (!canAttack)
-            return;
-
-        if (currentCombatTarget == null)
-            return;
-
-        if (IsTargetInMeleeRange(currentCombatTarget))
-        {
-            TryMeleeAttack(currentCombatTarget);
-        }
-    }
-
     bool IsTargetInMeleeRange(Transform checkTarget)
     {
         if (checkTarget == null)
             return false;
 
-        float horizontalDistance = Mathf.Abs(checkTarget.position.x - transform.position.x);
-        float verticalDistance = Mathf.Abs(checkTarget.position.y - transform.position.y);
+        float distanceX = Mathf.Abs(checkTarget.position.x - transform.position.x);
+        float distanceY = Mathf.Abs(checkTarget.position.y - transform.position.y);
 
-        return horizontalDistance <= meleeRange && verticalDistance <= verticalAttackTolerance;
+        return distanceX <= meleeRange && distanceY <= verticalAttackTolerance;
     }
 
-    void TryMeleeAttack(Transform attackTarget)
+    void TryStartMeleeAttack(Transform attackTarget)
     {
+        if (!canAttack)
+            return;
+
         if (isAttacking)
             return;
 
-        if (meleeTimer > 0f)
+        if (meleeCooldownTimer > 0f)
             return;
 
+        if (attackTarget == null)
+            return;
+
+        isAttacking = true;
         lockedMeleeTarget = attackTarget;
+        attackTimer = attackMaxDuration;
 
         FaceTarget(attackTarget);
-        StopMove();
+        StopMoveHard();
         SetAnimatorSpeed(0f);
 
-        meleeTimer = meleeCooldown;
+        attackLockedPosition = rb != null ? rb.position : (Vector2)transform.position;
+        hasAttackLockedPosition = true;
 
-        if (meleeCoroutine != null)
+        if (freezePositionWhileAttacking)
         {
-            StopCoroutine(meleeCoroutine);
+            LockBossPosition();
         }
 
-        meleeCoroutine = StartCoroutine(MeleeAttackRoutine());
-    }
-
-    IEnumerator MeleeAttackRoutine()
-    {
-        isAttacking = true;
-        StopMove();
-        SetAnimatorSpeed(0f);
+        if (meleeHitbox != null)
+        {
+            meleeHitbox.DeactivateHitbox();
+        }
 
         if (animator != null)
         {
@@ -361,22 +403,7 @@ public class Boss2Controller : MonoBehaviour
 
         if (enableDebugLog)
         {
-            Debug.Log("Boss2 bắt đầu đánh cận chiến.");
-        }
-
-        yield return new WaitForSeconds(meleeActionDuration);
-
-        isAttacking = false;
-        lockedMeleeTarget = null;
-
-        if (meleeHitbox != null)
-        {
-            meleeHitbox.DeactivateHitbox();
-        }
-
-        if (enableDebugLog)
-        {
-            Debug.Log("Boss2 kết thúc đánh cận chiến.");
+            Debug.Log("Boss2 bắt đầu animation đánh.");
         }
     }
 
@@ -386,16 +413,16 @@ public class Boss2Controller : MonoBehaviour
 
         if (moveTarget == null)
         {
-            StopMove();
+            StopMoveHard();
             SetAnimatorSpeed(0f);
             return;
         }
 
-        float horizontalDistance = Mathf.Abs(moveTarget.position.x - transform.position.x);
+        float distanceX = Mathf.Abs(moveTarget.position.x - transform.position.x);
 
-        if (horizontalDistance <= stopDistance)
+        if (distanceX <= stopDistance)
         {
-            StopMove();
+            StopMoveHard();
             SetAnimatorSpeed(0f);
             FaceTarget(moveTarget);
             return;
@@ -430,11 +457,33 @@ public class Boss2Controller : MonoBehaviour
         return currentCombatTarget;
     }
 
-    void StopMove()
+    void StopMoveHard()
     {
         if (rb != null)
         {
-            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+    }
+
+    void LockBossPosition()
+    {
+        if (!hasAttackLockedPosition)
+            return;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.position = attackLockedPosition;
+        }
+        else
+        {
+            transform.position = new Vector3(
+                attackLockedPosition.x,
+                attackLockedPosition.y,
+                transform.position.z
+            );
         }
     }
 
@@ -472,6 +521,11 @@ public class Boss2Controller : MonoBehaviour
         }
     }
 
+    public bool IsTargetStillInMeleeRange(Transform checkTarget)
+    {
+        return IsTargetInMeleeRange(checkTarget);
+    }
+
     public void TakeDamage(int damage)
     {
         if (isDead)
@@ -505,14 +559,8 @@ public class Boss2Controller : MonoBehaviour
         canAttack = false;
         isAttacking = false;
 
-        StopMove();
+        StopMoveHard();
         SetAnimatorSpeed(0f);
-
-        if (meleeCoroutine != null)
-        {
-            StopCoroutine(meleeCoroutine);
-            meleeCoroutine = null;
-        }
 
         if (meleeHitbox != null)
         {
@@ -529,6 +577,7 @@ public class Boss2Controller : MonoBehaviour
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
             rb.bodyType = RigidbodyType2D.Kinematic;
         }
 
@@ -550,9 +599,25 @@ public class Boss2Controller : MonoBehaviour
         if (isDead)
             return;
 
+        if (!isAttacking)
+            return;
+
+        StopMoveHard();
+
+        if (freezePositionWhileAttacking)
+        {
+            LockBossPosition();
+        }
+
         if (meleeHitbox != null)
         {
             meleeHitbox.ActivateHitbox(lockedMeleeTarget);
+            meleeHitbox.ForceHitTarget(lockedMeleeTarget);
+        }
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss2 mở hitbox đánh.");
         }
     }
 
@@ -561,6 +626,43 @@ public class Boss2Controller : MonoBehaviour
         if (meleeHitbox != null)
         {
             meleeHitbox.DeactivateHitbox();
+        }
+
+        StopMoveHard();
+
+        if (freezePositionWhileAttacking)
+        {
+            LockBossPosition();
+        }
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss2 đóng hitbox đánh.");
+        }
+    }
+
+    public void EndMeleeAttackAnimation()
+    {
+        if (isDead)
+            return;
+
+        isAttacking = false;
+        lockedMeleeTarget = null;
+        hasAttackLockedPosition = false;
+        attackTimer = 0f;
+        meleeCooldownTimer = meleeCooldown;
+
+        StopMoveHard();
+        SetAnimatorSpeed(0f);
+
+        if (meleeHitbox != null)
+        {
+            meleeHitbox.DeactivateHitbox();
+        }
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss2 kết thúc animation đánh, được phép đuổi và đánh tiếp.");
         }
     }
 
