@@ -21,7 +21,7 @@ public class WukongAttackHitbox : MonoBehaviour
     private bool isActive;
     private int currentDamage;
     private int passiveGainAmount;
-    private HashSet<GameObject> hitTargets = new HashSet<GameObject>();
+    private HashSet<GameObject> hitEnemies = new HashSet<GameObject>();
 
     void Awake()
     {
@@ -57,7 +57,7 @@ public class WukongAttackHitbox : MonoBehaviour
         currentDamage = damage;
         passiveGainAmount = passiveGain;
         isActive = true;
-        hitTargets.Clear();
+        hitEnemies.Clear();
 
         if (hitCollider != null)
         {
@@ -70,7 +70,7 @@ public class WukongAttackHitbox : MonoBehaviour
         currentDamage = damage;
         passiveGainAmount = canGainPassive ? 1 : 0;
         isActive = true;
-        hitTargets.Clear();
+        hitEnemies.Clear();
 
         if (hitCollider != null)
         {
@@ -83,7 +83,7 @@ public class WukongAttackHitbox : MonoBehaviour
         isActive = false;
         currentDamage = 0;
         passiveGainAmount = 0;
-        hitTargets.Clear();
+        hitEnemies.Clear();
 
         if (hitCollider != null)
         {
@@ -111,52 +111,95 @@ public class WukongAttackHitbox : MonoBehaviour
             return;
         }
 
-        GameObject targetRoot = other.transform.root.gameObject;
+        if (TryHitBoss2(other)) return;
+        if (TryHitEnemy4(other)) return;
+        if (TryHitMap4Boss(other)) return;
+    }
 
-        if (hitTargets.Contains(targetRoot))
+    bool TryHitBoss2(Collider2D other)
+    {
+        Boss2Controller boss2 = other.GetComponentInParent<Boss2Controller>();
+
+        if (boss2 == null)
         {
-            return;
+            return false;
         }
 
-        bool hasHit = false;
+        GameObject targetKey = boss2.gameObject;
 
-        Enemy4Controller enemy4 = other.GetComponentInParent<Enemy4Controller>();
-
-        if (enemy4 != null)
+        if (hitEnemies.Contains(targetKey))
         {
-            enemy4.TakeDamage(currentDamage);
-            hasHit = true;
+            return true;
         }
 
-        if (!hasHit)
-        {
-            Map4BossController map4Boss = other.GetComponentInParent<Map4BossController>();
-
-            if (map4Boss != null)
-            {
-                map4Boss.TakeDamage(currentDamage);
-                hasHit = true;
-            }
-        }
-
-        if (!hasHit)
-        {
-            return;
-        }
-
-        hitTargets.Add(targetRoot);
+        hitEnemies.Add(targetKey);
+        boss2.TakeDamage(currentDamage);
 
         AddPassiveAfterHit();
+
+        return true;
+    }
+
+    bool TryHitEnemy4(Collider2D other)
+    {
+        Enemy4Controller enemy4 = other.GetComponentInParent<Enemy4Controller>();
+
+        if (enemy4 == null)
+        {
+            return false;
+        }
+
+        GameObject targetKey = enemy4.gameObject;
+
+        if (hitEnemies.Contains(targetKey))
+        {
+            return true;
+        }
+
+        hitEnemies.Add(targetKey);
+        enemy4.TakeDamage(currentDamage);
+
+        AddPassiveAfterHit();
+
+        return true;
+    }
+
+    bool TryHitMap4Boss(Collider2D other)
+    {
+        Map4BossController map4Boss = other.GetComponentInParent<Map4BossController>();
+
+        if (map4Boss == null)
+        {
+            return false;
+        }
+
+        GameObject targetKey = map4Boss.gameObject;
+
+        if (hitEnemies.Contains(targetKey))
+        {
+            return true;
+        }
+
+        hitEnemies.Add(targetKey);
+        map4Boss.TakeDamage(currentDamage);
+
+        AddPassiveAfterHit();
+
+        return true;
     }
 
     void AddPassiveAfterHit()
     {
         if (skillCooldown == null) return;
-        if (passiveGainAmount <= 0) return;
 
-        skillCooldown.SendMessage("GainPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
-        skillCooldown.SendMessage("AddPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
-        skillCooldown.SendMessage("AddPassiveStack", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
-        skillCooldown.SendMessage("GainPassivePoint", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+        skillCooldown.SendMessage("GainPassiveByHit", SendMessageOptions.DontRequireReceiver);
+
+        if (passiveGainAmount > 0)
+        {
+            skillCooldown.SendMessage("GainPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+            skillCooldown.SendMessage("AddPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+            skillCooldown.SendMessage("AddPassiveStack", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+            skillCooldown.SendMessage("GainPassivePoint", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
+        }
     }
 }
