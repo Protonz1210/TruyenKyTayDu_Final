@@ -126,6 +126,37 @@ MonoBehaviour:
   skillCooldown: {fileID: 7727485355955128746}
   enemyTag: Enemy
   hitCollider: {fileID: 1999225810832015683}
+--- !u!1 &5501517448980359852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7651973553340407365}
+  m_Layer: 6
+  m_Name: WukongCameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7651973553340407365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501517448980359852}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.53, y: 0.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 369953598425223012}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7747556491235508407
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +175,7 @@ GameObject:
   - component: {fileID: 3085902367086757109}
   - component: {fileID: 7727485355955128746}
   m_Layer: 6
-  m_Name: Wukong1
+  m_Name: PF_WukongPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,6 +196,7 @@ Transform:
   m_Children:
   - {fileID: 2940179261902409523}
   - {fileID: 8921215851415122255}
+  - {fileID: 7651973553340407365}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4325268435483084662
