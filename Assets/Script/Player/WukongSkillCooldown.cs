@@ -71,7 +71,9 @@ public class WukongSkillCooldown : MonoBehaviour
             skill1CooldownTimer -= Time.deltaTime;
 
             if (skill1CooldownTimer < 0f)
+            {
                 skill1CooldownTimer = 0f;
+            }
         }
 
         if (skill2CooldownTimer > 0f)
@@ -79,22 +81,29 @@ public class WukongSkillCooldown : MonoBehaviour
             skill2CooldownTimer -= Time.deltaTime;
 
             if (skill2CooldownTimer < 0f)
+            {
                 skill2CooldownTimer = 0f;
+            }
         }
     }
 
     void HandleTestKeys()
     {
         if (!enableTestKeys)
+        {
             return;
+        }
 
-        // Test cộng nội tại cho chiêu 3 bằng phím 7
+        if (Keyboard.current == null)
+        {
+            return;
+        }
+
         if (Keyboard.current.digit7Key.wasPressedThisFrame)
         {
             AddPassiveStackFromHit();
         }
 
-        // Test reset toàn bộ hồi chiêu bằng phím 8
         if (Keyboard.current.digit8Key.wasPressedThisFrame)
         {
             ResetAllCooldowns();
@@ -129,7 +138,6 @@ public class WukongSkillCooldown : MonoBehaviour
             return false;
         }
 
-        // Hồi chiêu bắt đầu ngay khi bấm chiêu
         skill1CooldownTimer = skill1CooldownDuration;
 
         Debug.Log("Dùng chiêu 1. Hành động: " + skill1ActionDuration + "s | Hồi chiêu: " + skill1CooldownDuration + "s");
@@ -145,7 +153,6 @@ public class WukongSkillCooldown : MonoBehaviour
             return false;
         }
 
-        // Hồi chiêu bắt đầu ngay khi bấm chiêu
         skill2CooldownTimer = skill2CooldownDuration;
 
         Debug.Log("Dùng chiêu 2. Hành động: " + skill2ActionDuration + "s | Hồi chiêu: " + skill2CooldownDuration + "s");
@@ -165,19 +172,27 @@ public class WukongSkillCooldown : MonoBehaviour
 
         Debug.Log("Dùng chiêu 3. Nội tại reset về 0.");
 
+        UpdateHUD();
+
         return true;
     }
 
     public float GetSkillActionDuration(int skillIndex)
     {
         if (skillIndex == 1)
+        {
             return skill1ActionDuration;
+        }
 
         if (skillIndex == 2)
+        {
             return skill2ActionDuration;
+        }
 
         if (skillIndex == 3)
+        {
             return skill3ActionDuration;
+        }
 
         return 0f;
     }
@@ -190,16 +205,25 @@ public class WukongSkillCooldown : MonoBehaviour
     public void AddPassiveStackFromHit(int amount)
     {
         if (amount <= 0)
+        {
             return;
+        }
 
         currentPassiveStack += amount;
 
         if (currentPassiveStack > skill3RequiredPassive)
+        {
             currentPassiveStack = skill3RequiredPassive;
+        }
 
         Debug.Log("Tích nội tại chiêu 3: " + currentPassiveStack + " / " + skill3RequiredPassive);
 
         UpdateHUD();
+    }
+
+    public void GainPassiveByHit()
+    {
+        AddPassiveStackFromHit(passiveGainPerHit);
     }
 
     public void ResetAllCooldowns()
@@ -216,9 +240,10 @@ public class WukongSkillCooldown : MonoBehaviour
     void UpdateHUD()
     {
         if (hudController == null)
+        {
             return;
+        }
 
-        // Skill 1: 100% khi sẵn sàng, 0% khi vừa dùng
         float skill1Percent = 1f;
 
         if (skill1CooldownDuration > 0f)
@@ -226,7 +251,8 @@ public class WukongSkillCooldown : MonoBehaviour
             skill1Percent = 1f - (skill1CooldownTimer / skill1CooldownDuration);
         }
 
-        // Skill 2
+        skill1Percent = Mathf.Clamp01(skill1Percent);
+
         float skill2Percent = 1f;
 
         if (skill2CooldownDuration > 0f)
@@ -234,13 +260,16 @@ public class WukongSkillCooldown : MonoBehaviour
             skill2Percent = 1f - (skill2CooldownTimer / skill2CooldownDuration);
         }
 
-        // Skill 3: fill theo nội tại
+        skill2Percent = Mathf.Clamp01(skill2Percent);
+
         float skill3Percent = 0f;
 
         if (skill3RequiredPassive > 0)
         {
             skill3Percent = (float)currentPassiveStack / skill3RequiredPassive;
         }
+
+        skill3Percent = Mathf.Clamp01(skill3Percent);
 
         hudController.SetSkillCooldownFill(1, skill1Percent);
         hudController.SetSkillCooldownFill(2, skill2Percent);

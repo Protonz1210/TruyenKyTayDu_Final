@@ -290,7 +290,7 @@ MonoBehaviour:
   visualRoot: {fileID: 1954775757154868749}
   hitboxCollider: {fileID: 5243939014600641026}
   damageZone: {fileID: 6072174919332032418}
-  followFirePoint: 1
+  followFirePoint: 0
   stopFollowingAfterTime: 0
   followDuration: 0.4
   startWidth: 1
@@ -299,4 +299,6 @@ MonoBehaviour:
   maxHeight: 3.5
   expandForward: 1
   flipVisualByDirection: 1
+  keepVisualRootCentered: 1
+  visualRootCenterLocalPosition: {x: 0, y: 0, z: 0}
   enableDebugLog: 1

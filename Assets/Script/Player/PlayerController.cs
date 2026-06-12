@@ -403,7 +403,19 @@ public class PlayerController : MonoBehaviour
 
         int damage = GetAttackDamage(attackIndex);
 
-        attackHitbox.ActivateHitbox(attackIndex, damage);
+        int passiveGain = 0;
+
+        if (attackIndex == 0 || attackIndex == 1 || attackIndex == 2)
+        {
+            passiveGain = 1;
+        }
+
+        if (attackIndex == 3)
+        {
+            passiveGain = 0;
+        }
+
+        attackHitbox.ActivateHitbox(damage, passiveGain);
     }
 
     int GetAttackDamage(int attackIndex)

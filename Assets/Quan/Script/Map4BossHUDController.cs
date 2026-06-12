@@ -156,7 +156,7 @@ public class Map4BossHUDController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         float healthPercent = (float)currentHealth / maxHealth;
-        float widthPercent = healthPercent * 100f;
+        float widthPercent = Mathf.Clamp01(healthPercent) * 100f;
 
         if (healthFill != null)
         {
@@ -164,11 +164,13 @@ public class Map4BossHUDController : MonoBehaviour
 
             if (anchorRight)
             {
-                healthFill.style.alignSelf = Align.FlexEnd;
+                healthFill.style.marginLeft = StyleKeyword.Auto;
+                healthFill.style.marginRight = 0;
             }
             else
             {
-                healthFill.style.alignSelf = Align.FlexStart;
+                healthFill.style.marginLeft = 0;
+                healthFill.style.marginRight = StyleKeyword.Auto;
             }
         }
 

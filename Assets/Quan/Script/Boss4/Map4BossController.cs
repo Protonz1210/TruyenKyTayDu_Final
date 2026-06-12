@@ -193,6 +193,9 @@ public class Map4BossController : MonoBehaviour
 
         currentHealth = maxHealth;
 
+        SyncHealthSlotByBossId();
+        FindBossHUDIfNeeded();
+
         if (target == null)
         {
             FindTargetIfNeeded();
@@ -216,6 +219,8 @@ public class Map4BossController : MonoBehaviour
 
     void Start()
     {
+        SyncHealthSlotByBossId();
+        FindBossHUDIfNeeded();
         UpdateBossHUD();
     }
 
@@ -289,6 +294,29 @@ public class Map4BossController : MonoBehaviour
     void FixedUpdate()
     {
         MaintainLockedWorldPosition();
+    }
+
+    void SyncHealthSlotByBossId()
+    {
+        if (bossId == 3)
+        {
+            healthUISlot = BossHealthUISlot.Boss3;
+        }
+        else if (bossId == 4)
+        {
+            healthUISlot = BossHealthUISlot.Boss4;
+        }
+    }
+
+    void FindBossHUDIfNeeded()
+    {
+        if (map4BossHUD != null) return;
+
+#if UNITY_2023_1_OR_NEWER
+        map4BossHUD = FindFirstObjectByType<Map4BossHUDController>();
+#else
+        map4BossHUD = FindObjectOfType<Map4BossHUDController>();
+#endif
     }
 
     void HandleTargetInsideMeleeRange()
@@ -611,7 +639,6 @@ public class Map4BossController : MonoBehaviour
         lockedMeleeTarget = null;
 
         SetMovementLock(false);
-
         ForceIdleState(false);
 
         actionCoroutine = null;
@@ -720,7 +747,6 @@ public class Map4BossController : MonoBehaviour
         ultimateAnimationEnded = false;
 
         SetMovementLock(false);
-
         ForceIdleState(false);
     }
 
@@ -751,6 +777,8 @@ public class Map4BossController : MonoBehaviour
         if (ultimateProjectileFired) return;
         if (ultimateProjectilePrefab == null) return;
         if (ultimateFirePoint == null) return;
+
+        UpdateUltimateFirePointPosition();
 
         ultimateProjectileFired = true;
 
@@ -816,9 +844,17 @@ public class Map4BossController : MonoBehaviour
         float xOffset = Mathf.Abs(ultimateFirePointLocalOffset.x) * facingDirection.x;
         float yOffset = ultimateFirePointLocalOffset.y;
 
-        ultimateFirePoint.localPosition = new Vector3(xOffset, yOffset, ultimateFirePoint.localPosition.z);
-    }
+        Vector3 basePosition = transform.position;
 
+        if (spriteRenderer != null)
+        {
+            basePosition = spriteRenderer.bounds.center;
+        }
+
+        Vector3 spawnPosition = basePosition + new Vector3(xOffset, yOffset, 0f);
+
+        ultimateFirePoint.position = spawnPosition;
+    }
     public void TakeDamage(int damageAmount)
     {
         if (isDefeated) return;
@@ -877,30 +913,42 @@ public class Map4BossController : MonoBehaviour
         animator.ResetTrigger(ultimateTriggerName);
         animator.SetFloat(speedParameterName, 0f);
 
-        if (!string.IsNullOrEmpty(idleStateName))
+        if (string.IsNullOrEmpty(idleStateName)) return;
+
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+
+        bool isIdle = currentState.IsName(idleStateName);
+        bool isTransitioning = animator.IsInTransition(0);
+
+        if (isIdle || isTransitioning)
         {
-            if (restartIdle)
-            {
-                animator.Play(idleStateName, 0, 0f);
-            }
-            else
-            {
-                animator.Play(idleStateName, 0);
-            }
+            return;
         }
+
+        animator.CrossFade(idleStateName, 0.05f, 0);
     }
 
     void UpdateBossHUD()
     {
-        if (map4BossHUD == null) return;
+        FindBossHUDIfNeeded();
 
-        if (healthUISlot == BossHealthUISlot.Boss3)
+        if (map4BossHUD == null)
+        {
+            Debug.LogWarning(bossName + " chưa gán Map4BossHUDController.");
+            return;
+        }
+
+        if (bossId == 3)
         {
             map4BossHUD.SetBoss3Health(currentHealth, maxHealth);
         }
-        else if (healthUISlot == BossHealthUISlot.Boss4)
+        else if (bossId == 4)
         {
             map4BossHUD.SetBoss4Health(currentHealth, maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning(bossName + " sai bossId. Chỉ dùng bossId = 3 hoặc 4.");
         }
     }
 
@@ -989,5 +1037,55 @@ public class Map4BossController : MonoBehaviour
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(transform.position, maxUltimateDistanceToWukong);
         }
+
+        DrawUltimateFirePointGizmo();
     }
+    void DrawUltimateFirePointGizmo()
+    {
+        Vector3 basePosition = transform.position;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        if (sr != null)
+        {
+            basePosition = sr.bounds.center;
+        }
+
+        Vector2 facingDirection = Vector2.right;
+
+        if (Application.isPlaying)
+        {
+            facingDirection = GetBossFacingDirection();
+        }
+        else
+        {
+            if (transform.localScale.x < 0f)
+            {
+                facingDirection = Vector2.left;
+            }
+            else
+            {
+                facingDirection = Vector2.right;
+            }
+        }
+
+        float xOffset = Mathf.Abs(ultimateFirePointLocalOffset.x) * facingDirection.x;
+        float yOffset = ultimateFirePointLocalOffset.y;
+
+        Vector3 spawnPosition = basePosition + new Vector3(xOffset, yOffset, 0f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(spawnPosition, 0.12f);
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(basePosition, spawnPosition);
+
+#if UNITY_EDITOR
+    UnityEditor.Handles.Label(
+        spawnPosition + Vector3.up * 0.25f,
+        "Projectile Spawn\nX: " + ultimateFirePointLocalOffset.x + " | Y: " + ultimateFirePointLocalOffset.y
+    );
+#endif
+    }
+
 }

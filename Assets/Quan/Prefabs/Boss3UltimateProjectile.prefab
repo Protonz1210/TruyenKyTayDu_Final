@@ -176,7 +176,7 @@ MonoBehaviour:
   visualRoot: {fileID: 5196508159796810982}
   hitboxCollider: {fileID: 824111275553537821}
   damageZone: {fileID: 7186300271702720184}
-  followFirePoint: 1
+  followFirePoint: 0
   stopFollowingAfterTime: 0
   followDuration: 0.4
   startWidth: 1

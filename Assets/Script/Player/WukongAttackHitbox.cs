@@ -191,15 +191,8 @@ public class WukongAttackHitbox : MonoBehaviour
     void AddPassiveAfterHit()
     {
         if (skillCooldown == null) return;
+        if (passiveGainAmount <= 0) return;
 
         skillCooldown.SendMessage("GainPassiveByHit", SendMessageOptions.DontRequireReceiver);
-
-        if (passiveGainAmount > 0)
-        {
-            skillCooldown.SendMessage("GainPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
-            skillCooldown.SendMessage("AddPassive", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
-            skillCooldown.SendMessage("AddPassiveStack", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
-            skillCooldown.SendMessage("GainPassivePoint", passiveGainAmount, SendMessageOptions.DontRequireReceiver);
-        }
     }
 }

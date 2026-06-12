@@ -50,7 +50,12 @@ public class Boss4UltimateProjectile : MonoBehaviour
     [Header("Visual")]
     [Tooltip("Lật hình ảnh theo hướng bắn.")]
     public bool flipVisualByDirection = true;
+    [Header("Visual Anchor")]
+    [Tooltip("Giữ VisualRoot ở đúng tâm projectile khi lật hướng.")]
+    public bool keepVisualRootCentered = true;
 
+    [Tooltip("Vị trí local cố định của VisualRoot.")]
+    public Vector3 visualRootCenterLocalPosition = Vector3.zero;
     [Header("Debug")]
     [Tooltip("Bật log debug.")]
     public bool enableDebugLog = true;
@@ -184,26 +189,16 @@ public void Init(Vector2 shootDirection, int projectileDamage, Transform ownerRo
 
     void UpdateHitbox(float progress)
     {
-        if (hitboxCollider == null)
-            return;
+        if (hitboxCollider == null) return;
 
-        float currentWidth = Mathf.Lerp(startWidth, maxWidth, progress);
-        float currentHeight = Mathf.Lerp(startHeight, maxHeight, progress);
+        float width = Mathf.Lerp(startWidth, maxWidth, progress);
+        float height = Mathf.Lerp(startHeight, maxHeight, progress);
 
-        currentWidth = Mathf.Max(0.01f, currentWidth);
-        currentHeight = Mathf.Max(0.01f, currentHeight);
-
-        hitboxCollider.size = new Vector2(currentWidth, currentHeight);
+        hitboxCollider.size = new Vector2(width, height);
 
         if (expandForward)
         {
-            float offsetX = currentWidth * 0.5f;
-
-            if (direction.x < 0f)
-            {
-                offsetX = -offsetX;
-            }
-
+            float offsetX = width * 0.5f * direction.x;
             hitboxCollider.offset = new Vector2(offsetX, 0f);
         }
         else
@@ -214,24 +209,27 @@ public void Init(Vector2 shootDirection, int projectileDamage, Transform ownerRo
 
     void ApplyVisualDirection()
     {
-        if (!flipVisualByDirection)
-            return;
+        if (visualRoot == null) return;
 
-        if (visualRoot == null)
-            return;
+        if (keepVisualRootCentered)
+        {
+            visualRoot.localPosition = visualRootCenterLocalPosition;
+        }
 
-        Vector3 scale = visualRoot.localScale;
+        if (!flipVisualByDirection) return;
+
+        Vector3 visualScale = visualRoot.localScale;
+
+        visualScale.x = Mathf.Abs(visualScale.x);
 
         if (direction.x < 0f)
         {
-            scale.x = -Mathf.Abs(scale.x);
-        }
-        else
-        {
-            scale.x = Mathf.Abs(scale.x);
+            visualScale.x *= -1f;
         }
 
-        visualRoot.localScale = scale;
+        visualRoot.localScale = visualScale;
+
+        transform.rotation = Quaternion.identity;
     }
 
     public void DestroyProjectile()
