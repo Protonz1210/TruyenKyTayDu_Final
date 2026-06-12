@@ -4,10 +4,10 @@ using UnityEngine;
 public class Boss4MeleeHitbox : MonoBehaviour
 {
     [Header("Owner")]
-    [Tooltip("Boss4 sở hữu hitbox này.")]
-    public Boss4Controller owner;
+    [Tooltip("Boss sở hữu hitbox này.")]
+    public Map4BossController owner;
 
-    [Tooltip("Gốc của Boss4.")]
+    [Tooltip("Gốc của boss.")]
     public Transform ownerRoot;
 
     [Header("Hitbox Objects")]
@@ -41,6 +41,7 @@ public class Boss4MeleeHitbox : MonoBehaviour
     private bool isActive;
     private BoxCollider2D activeHitbox;
     private HashSet<GameObject> hitTargets = new HashSet<GameObject>();
+
     void Awake()
     {
         SetupReferences();
@@ -61,19 +62,12 @@ public class Boss4MeleeHitbox : MonoBehaviour
     {
         if (owner == null)
         {
-            owner = GetComponentInParent<Boss4Controller>();
+            owner = GetComponentInParent<Map4BossController>();
         }
 
-        if (ownerRoot == null)
+        if (ownerRoot == null && owner != null)
         {
-            if (owner != null)
-            {
-                ownerRoot = owner.transform.root;
-            }
-            else
-            {
-                ownerRoot = transform.root;
-            }
+            ownerRoot = owner.transform;
         }
 
         if (autoFindHitboxes)
@@ -101,43 +95,40 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
         PrepareCollider(leftHitbox);
         PrepareCollider(rightHitbox);
+
         PrepareChildRelay(leftHitbox);
         PrepareChildRelay(rightHitbox);
     }
 
-    void PrepareCollider(BoxCollider2D collider)
+    void PrepareCollider(BoxCollider2D boxCollider)
     {
-        if (collider == null)
-            return;
+        if (boxCollider == null) return;
 
-        collider.isTrigger = true;
+        boxCollider.isTrigger = true;
     }
 
-    void PrepareChildRelay(BoxCollider2D collider)
+    void PrepareChildRelay(BoxCollider2D boxCollider)
     {
-        if (collider == null)
-            return;
+        if (boxCollider == null) return;
 
-        Boss4MeleeHitboxChild child = collider.GetComponent<Boss4MeleeHitboxChild>();
+        Boss4MeleeHitboxChild relay = boxCollider.GetComponent<Boss4MeleeHitboxChild>();
 
-        if (child == null)
+        if (relay == null)
         {
-            child = collider.gameObject.AddComponent<Boss4MeleeHitboxChild>();
+            relay = boxCollider.gameObject.AddComponent<Boss4MeleeHitboxChild>();
         }
 
-        child.parentHitbox = this;
+        relay.parentHitbox = this;
     }
 
     public void ActivateHitbox()
     {
-        Transform attackTarget = GetCurrentAttackTarget();
-        ActivateHitbox(attackTarget);
+        ActivateHitbox(GetCurrentAttackTarget());
     }
 
     public void ActivateHitbox(Transform attackTarget)
     {
-        Vector2 attackDirection = GetDirectionToTarget(attackTarget);
-        ActivateHitbox(attackDirection);
+        ActivateHitbox(GetDirectionToTarget(attackTarget));
     }
 
     public void ActivateHitbox(Vector2 attackDirection)
@@ -163,27 +154,17 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
         if (enableDebugLog)
         {
-            Debug.Log(
-                "Boss4 OPEN melee hitbox bằng Animation Event | Direction: " +
-                attackDirection +
-                " | Active Hitbox: " +
-                (activeHitbox != null ? activeHitbox.name : "None")
-            );
+            Debug.Log("Boss melee hitbox active: " + gameObject.name);
         }
     }
 
     public void DeactivateHitbox()
     {
         isActive = false;
-        hitTargets.Clear();
         activeHitbox = null;
+        hitTargets.Clear();
 
         DisableBothHitboxes();
-
-        if (enableDebugLog)
-        {
-            Debug.Log("Boss4 CLOSE melee hitbox bằng Animation Event.");
-        }
     }
 
     void DisableBothHitboxes()
@@ -201,14 +182,11 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
     Transform GetCurrentAttackTarget()
     {
-        if (owner == null)
-            return null;
+        if (owner == null) return null;
 
-        Transform lockedTarget = owner.GetLockedMeleeTarget();
-
-        if (lockedTarget != null)
+        if (owner.GetLockedMeleeTarget() != null)
         {
-            return lockedTarget;
+            return owner.GetLockedMeleeTarget();
         }
 
         if (owner.currentCombatTarget != null)
@@ -216,21 +194,20 @@ public class Boss4MeleeHitbox : MonoBehaviour
             return owner.currentCombatTarget;
         }
 
-        if (owner.target != null)
-        {
-            return owner.target;
-        }
-
-        return null;
+        return owner.target;
     }
 
     Vector2 GetDirectionToTarget(Transform attackTarget)
     {
         if (owner == null)
+        {
             return Vector2.right;
+        }
 
         if (attackTarget == null)
+        {
             return owner.GetBossFacingDirection();
+        }
 
         float directionX = attackTarget.position.x - owner.transform.position.x;
 
@@ -249,14 +226,20 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
     void TryHit(Collider2D other)
     {
-        if (!isActive)
-            return;
-
-        if (other == null)
-            return;
+        if (!isActive) return;
+        if (other == null) return;
 
         if (ownerRoot != null && other.transform.root == ownerRoot)
+        {
             return;
+        }
+
+        GameObject rootObject = other.transform.root.gameObject;
+
+        if (hitEachTargetBlocked(rootObject))
+        {
+            return;
+        }
 
         if (damagePlayer)
         {
@@ -264,17 +247,12 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
             if (playerHealth != null)
             {
-                GameObject targetKey = playerHealth.gameObject;
-
-                if (hitTargets.Contains(targetKey))
-                    return;
-
-                hitTargets.Add(targetKey);
+                hitTargets.Add(rootObject);
                 playerHealth.TakeDamage(damage);
 
                 if (enableDebugLog)
                 {
-                    Debug.Log("Boss4 melee gây damage Wukong: -" + damage);
+                    Debug.Log("Boss melee hit Wukong: " + damage);
                 }
 
                 return;
@@ -283,22 +261,16 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
         if (damageParty)
         {
-            PartyMemberHitReceiver partyMember =
-                other.GetComponentInParent<PartyMemberHitReceiver>();
+            PartyMemberHitReceiver partyReceiver = other.GetComponentInParent<PartyMemberHitReceiver>();
 
-            if (partyMember != null)
+            if (partyReceiver != null)
             {
-                GameObject targetKey = partyMember.gameObject;
-
-                if (hitTargets.Contains(targetKey))
-                    return;
-
-                hitTargets.Add(targetKey);
-                partyMember.TakeDamage(damage);
+                hitTargets.Add(rootObject);
+                partyReceiver.TakeDamage(damage);
 
                 if (enableDebugLog)
                 {
-                    Debug.Log("Boss4 melee gây damage đoàn thỉnh kinh: -" + damage);
+                    Debug.Log("Boss melee hit Party: " + damage);
                 }
 
                 return;
@@ -306,40 +278,31 @@ public class Boss4MeleeHitbox : MonoBehaviour
         }
     }
 
+    bool hitEachTargetBlocked(GameObject targetObject)
+    {
+        if (targetObject == null) return true;
+
+        return hitTargets.Contains(targetObject);
+    }
+
     void OnDrawGizmos()
     {
-        if (!drawDebugGizmoAlways)
-            return;
+        if (!drawDebugGizmoAlways) return;
 
         DrawHitboxGizmo(leftHitbox, Color.red);
         DrawHitboxGizmo(rightHitbox, Color.red);
         DrawHitboxGizmo(activeHitbox, Color.green);
     }
 
-    void DrawHitboxGizmo(BoxCollider2D collider, Color color)
+    void DrawHitboxGizmo(BoxCollider2D boxCollider, Color color)
     {
-        if (collider == null)
-            return;
+        if (boxCollider == null) return;
 
         Gizmos.color = color;
 
-        Matrix4x4 oldMatrix = Gizmos.matrix;
-        Gizmos.matrix = collider.transform.localToWorldMatrix;
+        Vector3 worldCenter = boxCollider.transform.TransformPoint(boxCollider.offset);
+        Vector3 worldSize = boxCollider.transform.TransformVector(boxCollider.size);
 
-        Vector3 center = new Vector3(
-            collider.offset.x,
-            collider.offset.y,
-            0f
-        );
-
-        Vector3 size = new Vector3(
-            collider.size.x,
-            collider.size.y,
-            0f
-        );
-
-        Gizmos.DrawWireCube(center, size);
-
-        Gizmos.matrix = oldMatrix;
+        Gizmos.DrawWireCube(worldCenter, new Vector3(Mathf.Abs(worldSize.x), Mathf.Abs(worldSize.y), 0f));
     }
 }
