@@ -3,33 +3,45 @@
 public class EnemySoundWaveProjectile : MonoBehaviour
 {
     [Header("Move")]
+    [Tooltip("Tốc độ bay.")]
     public float moveSpeed = 7f;
 
-    [Tooltip("Thời gian tự hủy dự phòng nếu Animation Event không chạy.")]
+    [Tooltip("Thời gian tự hủy.")]
     public float lifeTime = 3f;
 
     [Header("Hit")]
+    [Tooltip("Sát thương.")]
     public int damage = 100;
+
+    [Tooltip("Tự hủy khi va chạm.")]
     public bool destroyOnHit = true;
 
     [Header("Tags")]
+    [Tooltip("Tag của Wukong.")]
     public string playerTag = "Player";
+
+    [Tooltip("Tag của đoàn thỉnh kinh.")]
     public string partyTag = "Party";
+
+    [Tooltip("Tag của Enemy.")]
     public string enemyTag = "Enemy";
+
+    [Tooltip("Tag của mặt đất.")]
     public string groundTag = "Ground";
 
     [Header("Visual Direction")]
-    [Tooltip("Dùng cho game 2D platform. Sóng âm quay trái/phải bằng scale X.")]
+    [Tooltip("Lật hình theo hướng bay.")]
     public bool flipByDirection = true;
 
-    [Tooltip("Chỉ bật nếu sprite sóng âm cần xoay theo góc bay. Với platform ngang thường nên tắt.")]
+    [Tooltip("Xoay hình theo hướng bay.")]
     public bool rotateByDirection = false;
 
     private Vector2 moveDirection;
     private bool initialized;
     private bool isDestroyed;
 
-    public void Init(Vector2 direction, int projectileDamage)
+
+public void Init(Vector2 direction, int projectileDamage)
     {
         if (direction.sqrMagnitude <= 0.001f)
         {
