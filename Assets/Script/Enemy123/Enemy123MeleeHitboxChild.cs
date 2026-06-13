@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class TieuYeuMeleeHitboxChild : MonoBehaviour
+public class Enemy123MeleeHitboxChild : MonoBehaviour
 {
     [Tooltip("Hitbox cha xử lý damage.")]
-    public TieuYeuMeleeHitbox parentHitbox;
+    public Enemy123MeleeHitbox parentHitbox;
 
     void Awake()
     {
         if (parentHitbox == null)
         {
-            parentHitbox = GetComponentInParent<TieuYeuMeleeHitbox>();
+            parentHitbox = GetComponentInParent<Enemy123MeleeHitbox>();
         }
     }
 

@@ -1,11 +1,10 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TieuYeuHealthTextUI : MonoBehaviour
+public class Enemy123HealthTextUI : MonoBehaviour
 {
     [Header("Target")]
-    [Tooltip("Đối tượng Tiểu yêu cần đi theo.")]
+    [Tooltip("Đối tượng Enemy123 cần đi theo.")]
     public Transform target;
 
     [Tooltip("Camera chính.")]
@@ -42,8 +41,7 @@ public class TieuYeuHealthTextUI : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null)
-            return;
+        if (target == null) return;
 
         transform.position = target.position + worldOffset;
 

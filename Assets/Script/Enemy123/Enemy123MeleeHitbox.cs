@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TieuYeuMeleeHitbox : MonoBehaviour
+public class Enemy123MeleeHitbox : MonoBehaviour
 {
     [Header("Owner")]
-    [Tooltip("Tiểu yêu sở hữu hitbox này.")]
-    public TieuYeuController owner;
+    [Tooltip("Enemy123 sở hữu hitbox này.")]
+    public Enemy123Controller owner;
 
-    [Tooltip("Gốc của Tiểu yêu.")]
+    [Tooltip("Gốc của Enemy123.")]
     public Transform ownerRoot;
 
     [Header("Hitbox Objects")]
@@ -55,7 +55,7 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
     {
         if (owner == null)
         {
-            owner = GetComponentInParent<TieuYeuController>();
+            owner = GetComponentInParent<Enemy123Controller>();
         }
 
         if (ownerRoot == null)
@@ -92,16 +92,15 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
 
     void PrepareHitbox(BoxCollider2D box)
     {
-        if (box == null)
-            return;
+        if (box == null) return;
 
         box.isTrigger = true;
 
-        TieuYeuMeleeHitboxChild child = box.GetComponent<TieuYeuMeleeHitboxChild>();
+        Enemy123MeleeHitboxChild child = box.GetComponent<Enemy123MeleeHitboxChild>();
 
         if (child == null)
         {
-            child = box.gameObject.AddComponent<TieuYeuMeleeHitboxChild>();
+            child = box.gameObject.AddComponent<Enemy123MeleeHitboxChild>();
         }
 
         child.parentHitbox = this;
@@ -115,7 +114,6 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
         DisableBothHitboxes();
 
         Vector2 direction = GetDirectionToTarget(attackTarget);
-
         activeHitbox = direction.x < 0f ? leftHitbox : rightHitbox;
 
         if (activeHitbox != null)
@@ -148,11 +146,12 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
 
     Vector2 GetDirectionToTarget(Transform attackTarget)
     {
-        if (owner == null)
-            return Vector2.right;
+        if (owner == null) return Vector2.right;
 
         if (attackTarget == null)
+        {
             return owner.GetEnemyFacingDirection();
+        }
 
         float directionX = attackTarget.position.x - owner.transform.position.x;
 
@@ -166,14 +165,13 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
 
     public void ForceHitTarget(Transform forceTarget)
     {
-        if (!isActive)
-            return;
-
-        if (forceTarget == null)
-            return;
+        if (!isActive) return;
+        if (forceTarget == null) return;
 
         if (owner != null && !owner.IsTargetStillInMeleeRange(forceTarget))
+        {
             return;
+        }
 
         PlayerHealth playerHealth = forceTarget.GetComponentInParent<PlayerHealth>();
 
@@ -194,14 +192,13 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
 
     public void ReceiveTrigger(Collider2D other)
     {
-        if (!isActive)
-            return;
-
-        if (other == null)
-            return;
+        if (!isActive) return;
+        if (other == null) return;
 
         if (ownerRoot != null && other.transform.root == ownerRoot)
+        {
             return;
+        }
 
         PlayerHealth playerHealth = other.GetComponentInParent<PlayerHealth>();
 
@@ -224,8 +221,7 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
     {
         GameObject key = playerHealth.gameObject;
 
-        if (hitTargets.Contains(key))
-            return;
+        if (hitTargets.Contains(key)) return;
 
         hitTargets.Add(key);
         playerHealth.TakeDamage(damage);
@@ -235,8 +231,7 @@ public class TieuYeuMeleeHitbox : MonoBehaviour
     {
         GameObject key = partyMember.gameObject;
 
-        if (hitTargets.Contains(key))
-            return;
+        if (hitTargets.Contains(key)) return;
 
         hitTargets.Add(key);
         partyMember.TakeDamage(damage);

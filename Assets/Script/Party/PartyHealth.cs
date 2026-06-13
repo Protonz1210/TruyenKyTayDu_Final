@@ -138,6 +138,34 @@ public class PartyHealth : MonoBehaviour
                 boss5.NotifyPartyDead();
             }
         }
+#if UNITY_2023_1_OR_NEWER
+Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindObjectsSortMode.None);
+#else
+        Enemy123Controller[] enemy123List = FindObjectsOfType<Enemy123Controller>();
+#endif
+
+        foreach (Enemy123Controller enemy123 in enemy123List)
+        {
+            if (enemy123 != null)
+            {
+                enemy123.NotifyPartyDead();
+            }
+        }
+       
+#if UNITY_2023_1_OR_NEWER
+    Enemy4Controller[] enemy4List = FindObjectsByType<Enemy4Controller>(FindObjectsSortMode.None);
+#else
+            Enemy4Controller[] enemy4List = FindObjectsOfType<Enemy4Controller>();
+#endif
+
+            for (int i = 0; i < enemy4List.Length; i++)
+            {
+                if (enemy4List[i] != null)
+                {
+                    enemy4List[i].NotifyPartyDead();
+                }
+            }
+        
     }
 
     public void Heal(int amount)

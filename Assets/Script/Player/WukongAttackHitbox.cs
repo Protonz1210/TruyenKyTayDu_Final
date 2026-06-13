@@ -111,22 +111,22 @@ public class WukongAttackHitbox : MonoBehaviour
             return;
         }
 
-        if (TryHitTieuYeu(other)) return;
+        if (TryHitEnemy123(other)) return;
         if (TryHitBoss2(other)) return;
         if (TryHitEnemy4(other)) return;
         if (TryHitMap4Boss(other)) return;
     }
 
-    bool TryHitTieuYeu(Collider2D other)
+    bool TryHitEnemy123(Collider2D other)
     {
-        TieuYeuController tieuYeu = other.GetComponentInParent<TieuYeuController>();
+        Enemy123Controller enemy123 = other.GetComponentInParent<Enemy123Controller>();
 
-        if (tieuYeu == null)
+        if (enemy123 == null)
         {
             return false;
         }
 
-        GameObject targetKey = tieuYeu.gameObject;
+        GameObject targetKey = enemy123.gameObject;
 
         if (hitEnemies.Contains(targetKey))
         {
@@ -134,11 +134,11 @@ public class WukongAttackHitbox : MonoBehaviour
         }
 
         hitEnemies.Add(targetKey);
-        tieuYeu.TakeDamage(currentDamage);
+        enemy123.TakeDamage(currentDamage);
 
         AddPassiveAfterHit();
 
-        Debug.Log("Wukong đánh trúng Tiểu yêu: -" + currentDamage);
+        Debug.Log("Wukong đánh trúng Enemy123: -" + currentDamage);
 
         return true;
     }

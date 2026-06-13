@@ -1,29 +1,29 @@
 using UnityEngine;
 using TMPro;
 
-public class TieuYeuHealthCanvasUI : MonoBehaviour
+public class Enemy123HealthCanvasUI : MonoBehaviour
 {
     [Header("Target")]
-    [Tooltip("Tiểu yêu cần hiển thị máu.")]
-    public TieuYeuController tieuYeu;
+    [Tooltip("Enemy123 cần hiển thị máu.")]
+    public Enemy123Controller enemy123;
 
     [Header("UI")]
     [Tooltip("Text hiển thị máu.")]
     public TextMeshProUGUI healthText;
 
     [Header("Position")]
-    [Tooltip("Vị trí lệch so với Tiểu yêu.")]
+    [Tooltip("Vị trí lệch so với Enemy123.")]
     public Vector3 offset = new Vector3(0f, 1.8f, 0f);
 
     [Header("Display")]
-    [Tooltip("Ẩn UI khi Tiểu yêu chết.")]
+    [Tooltip("Ẩn UI khi Enemy123 chết.")]
     public bool hideWhenDead = true;
 
     [Tooltip("UI luôn quay về phía camera.")]
     public bool faceCamera = true;
 
     [Header("Fix Flip")]
-    [Tooltip("Chống chữ bị lật khi Tiểu yêu quay trái.")]
+    [Tooltip("Chống chữ bị lật khi Enemy123 quay trái.")]
     public bool fixTextFlip = true;
 
     private Camera mainCamera;
@@ -31,9 +31,9 @@ public class TieuYeuHealthCanvasUI : MonoBehaviour
 
     void Awake()
     {
-        if (tieuYeu == null)
+        if (enemy123 == null)
         {
-            tieuYeu = GetComponentInParent<TieuYeuController>();
+            enemy123 = GetComponentInParent<Enemy123Controller>();
         }
 
         if (healthText == null)
@@ -47,20 +47,21 @@ public class TieuYeuHealthCanvasUI : MonoBehaviour
 
     void LateUpdate()
     {
-        if (tieuYeu == null || healthText == null)
-            return;
+        if (enemy123 == null || healthText == null) return;
 
-        int currentHealth = tieuYeu.GetCurrentHealth();
-        int maxHealth = tieuYeu.GetMaxHealth();
+        int currentHealth = enemy123.GetCurrentHealth();
+        int maxHealth = enemy123.GetMaxHealth();
 
         if (maxHealth <= 0)
+        {
             maxHealth = 1;
+        }
 
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         healthText.text = currentHealth + " / " + maxHealth;
 
-        transform.position = tieuYeu.transform.position + offset;
+        transform.position = enemy123.transform.position + offset;
 
         if (faceCamera && mainCamera != null)
         {
@@ -80,12 +81,11 @@ public class TieuYeuHealthCanvasUI : MonoBehaviour
 
     void FixCanvasFlip()
     {
-        if (tieuYeu == null)
-            return;
+        if (enemy123 == null) return;
 
         Vector3 fixedScale = originalLocalScale;
 
-        float targetScaleX = tieuYeu.transform.lossyScale.x;
+        float targetScaleX = enemy123.transform.lossyScale.x;
 
         if (targetScaleX < 0f)
         {

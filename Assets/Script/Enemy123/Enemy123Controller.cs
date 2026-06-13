@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-public class TieuYeuController : MonoBehaviour
+public class Enemy123Controller : MonoBehaviour
 {
     [Header("Target")]
     [Tooltip("Mục tiêu chính là Wukong.")]
@@ -17,24 +16,21 @@ public class TieuYeuController : MonoBehaviour
     public bool autoFindPlayer = true;
 
     [Header("Activation")]
-    [Tooltip("Khoảng cách để Tiểu yêu bắt đầu hoạt động.")]
+    [Tooltip("Enemy123 vừa sinh ra sẽ target Wukong và hoạt động luôn.")]
+    public bool targetWukongOnStart = false;
+
+    [Tooltip("Khoảng cách để Enemy123 bắt đầu hoạt động nếu không bật Target Wukong On Start.")]
     public float activationRange = 12f;
 
     [Tooltip("Chỉ hoạt động khi Wukong lại gần.")]
     public bool activateOnlyWhenPlayerNear = true;
 
     [Header("Target Priority")]
-    [Tooltip("Cho phép đánh đoàn nếu đoàn gần hơn.")]
-    public bool canAttackPartyIfCloser = true;
+    [Tooltip("Nếu Party đứng giữa Enemy123 và Wukong, đồng thời Party trong tầm cận chiến, Enemy123 sẽ đánh Party.")]
+    public bool attackBlockingParty = true;
 
     [Tooltip("Tầm phát hiện đoàn thỉnh kinh.")]
     public float partyDetectRange = 4f;
-
-    [Tooltip("Khoảng cách để Wukong giành lại mục tiêu.")]
-    public float wukongReclaimDistance = 3f;
-
-    [Tooltip("Cho phép chạy theo đoàn nếu đoàn gần hơn.")]
-    public bool chasePartyIfCloser = false;
 
     [Header("Move")]
     [Tooltip("Tốc độ di chuyển.")]
@@ -51,7 +47,7 @@ public class TieuYeuController : MonoBehaviour
 
     [Header("Melee Attack")]
     [Tooltip("Hitbox đánh cận chiến.")]
-    public TieuYeuMeleeHitbox meleeHitbox;
+    public Enemy123MeleeHitbox meleeHitbox;
 
     [Tooltip("Tầm đánh ngang.")]
     public float meleeRange = 1.6f;
@@ -79,6 +75,13 @@ public class TieuYeuController : MonoBehaviour
     [Tooltip("Tự xóa sau animation chết.")]
     public bool destroyAfterDeath = true;
 
+    [Header("Facing")]
+    [Tooltip("Bật nếu sprite gốc của Enemy123 đang quay sang phải. Tắt nếu sprite gốc đang quay sang trái.")]
+    public bool spriteFacesRightByDefault = true;
+
+    [Tooltip("Dùng localScale X để lật hướng.")]
+    public bool useTransformScaleFlip = true;
+
     [Header("Animator")]
     [Tooltip("Tên parameter tốc độ.")]
     public string speedParameterName = "Speed";
@@ -92,7 +95,7 @@ public class TieuYeuController : MonoBehaviour
     [Tooltip("Tên state idle trong Animator.")]
     public string idleStateName = "Enemy1Idle";
 
-    [Tooltip("Ép Tiểu yêu về idle khi bắt đầu.")]
+    [Tooltip("Ép Enemy123 về idle khi bắt đầu.")]
     public bool forceIdleOnStart = true;
 
     [Header("Control")]
@@ -101,6 +104,10 @@ public class TieuYeuController : MonoBehaviour
 
     [Tooltip("Cho phép tấn công.")]
     public bool canAttack = true;
+
+    [Header("Stop Combat")]
+    [Tooltip("Dừng Enemy123 khi Wukong hoặc đoàn thỉnh kinh hết máu.")]
+    public bool combatStoppedByDeath = false;
 
     [Header("Debug")]
     [Tooltip("Bật log debug.")]
@@ -116,6 +123,8 @@ public class TieuYeuController : MonoBehaviour
     private bool isAttacking;
     private bool isDead;
     private bool facingRight = true;
+    private float originalScaleX = 1f;
+    private bool hasForcedIdleAfterCombatStop;
 
     private float meleeCooldownTimer;
     private float attackTimer;
@@ -127,14 +136,17 @@ public class TieuYeuController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
+        originalScaleX = Mathf.Abs(transform.localScale.x);
+        facingRight = spriteFacesRightByDefault;
         currentHealth = maxHealth;
         isDead = false;
         isAttacking = false;
 
+        FindPlayerIfNeeded();
+
         if (meleeHitbox == null)
         {
-            meleeHitbox = GetComponentInChildren<TieuYeuMeleeHitbox>(true);
+            meleeHitbox = GetComponentInChildren<Enemy123MeleeHitbox>(true);
         }
 
         if (meleeHitbox != null)
@@ -152,7 +164,12 @@ public class TieuYeuController : MonoBehaviour
     {
         FindPlayerIfNeeded();
 
-        if (!activateOnlyWhenPlayerNear)
+        if (targetWukongOnStart)
+        {
+            isActivated = true;
+            currentCombatTarget = target;
+        }
+        else if (!activateOnlyWhenPlayerNear)
         {
             isActivated = true;
         }
@@ -166,6 +183,22 @@ public class TieuYeuController : MonoBehaviour
         {
             StopMoveHard();
             SetAnimatorSpeed(0f);
+            return;
+        }
+
+        if (combatStoppedByDeath)
+        {
+            StopMoveHard();
+
+            if (!hasForcedIdleAfterCombatStop)
+            {
+                StopCombatAndReturnIdle();
+            }
+            else
+            {
+                KeepIdleAfterCombatStopped();
+            }
+
             return;
         }
 
@@ -222,8 +255,13 @@ public class TieuYeuController : MonoBehaviour
             return;
         }
 
-        if (!isActivated)
+        if (combatStoppedByDeath)
+        {
+            StopMoveHard();
             return;
+        }
+
+        if (!isActivated) return;
 
         if (!canMove)
         {
@@ -258,8 +296,7 @@ public class TieuYeuController : MonoBehaviour
 
     void ResetAnimatorToIdle()
     {
-        if (animator == null)
-            return;
+        if (animator == null) return;
 
         animator.ResetTrigger(meleeTriggerName);
         animator.ResetTrigger(dieTriggerName);
@@ -273,11 +310,8 @@ public class TieuYeuController : MonoBehaviour
 
     void FindPlayerIfNeeded()
     {
-        if (!autoFindPlayer)
-            return;
-
-        if (target != null)
-            return;
+        if (!autoFindPlayer) return;
+        if (target != null) return;
 
         GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
 
@@ -289,10 +323,14 @@ public class TieuYeuController : MonoBehaviour
 
     void UpdateActivation()
     {
-        if (isActivated)
+        if (targetWukongOnStart)
+        {
+            isActivated = true;
             return;
-        if (target == null)
-            return;
+        }
+
+        if (isActivated) return;
+        if (target == null) return;
 
         float distanceToPlayerX = Mathf.Abs(target.position.x - transform.position.x);
 
@@ -302,7 +340,7 @@ public class TieuYeuController : MonoBehaviour
 
             if (enableDebugLog)
             {
-                Debug.Log("Tiểu yêu đã được kích hoạt.");
+                Debug.Log("Enemy123 đã được kích hoạt.");
             }
         }
     }
@@ -317,8 +355,7 @@ public class TieuYeuController : MonoBehaviour
 
     void UpdateAttackTimer()
     {
-        if (!isAttacking)
-            return;
+        if (!isAttacking) return;
 
         attackTimer -= Time.deltaTime;
 
@@ -332,56 +369,75 @@ public class TieuYeuController : MonoBehaviour
     {
         currentCombatTarget = target;
 
-        if (!canAttackPartyIfCloser)
-            return;
+        if (target == null) return;
 
-        Transform nearestParty = FindNearestPartyMember();
-        if (nearestParty == null)
-            return;
-
-        float distanceToWukong = Mathf.Abs(target.position.x - transform.position.x);
-        float distanceToParty = Mathf.Abs(nearestParty.position.x - transform.position.x);
-
-        if (distanceToWukong <= wukongReclaimDistance)
+        if (IsTargetInMeleeRange(target))
         {
             currentCombatTarget = target;
             return;
         }
 
-        if (distanceToParty < distanceToWukong && distanceToParty <= partyDetectRange)
+        if (!attackBlockingParty) return;
+
+        Transform blockingParty = FindBlockingPartyInMeleeRange();
+
+        if (blockingParty != null)
         {
-            currentCombatTarget = nearestParty;
+            currentCombatTarget = blockingParty;
         }
     }
 
-    Transform FindNearestPartyMember()
+    Transform FindBlockingPartyInMeleeRange()
     {
+        if (target == null) return null;
+
         GameObject[] partyObjects = GameObject.FindGameObjectsWithTag(partyTag);
 
-        Transform nearestTarget = null;
+        Transform nearestBlockingParty = null;
         float nearestDistance = Mathf.Infinity;
 
         for (int i = 0; i < partyObjects.Length; i++)
         {
-            if (partyObjects[i] == null)
-                continue;
+            GameObject partyObject = partyObjects[i];
 
-            float distance = Mathf.Abs(partyObjects[i].transform.position.x - transform.position.x);
+            if (partyObject == null) continue;
 
-            if (distance < nearestDistance)
+            Transform partyTransform = partyObject.transform;
+
+            float distanceToParty = Mathf.Abs(partyTransform.position.x - transform.position.x);
+
+            if (distanceToParty > partyDetectRange) continue;
+            if (!IsTargetInMeleeRange(partyTransform)) continue;
+            if (!IsPartyBetweenEnemyAndWukong(partyTransform)) continue;
+
+            if (distanceToParty < nearestDistance)
             {
-                nearestDistance = distance;
-                nearestTarget = partyObjects[i].transform;
+                nearestDistance = distanceToParty;
+                nearestBlockingParty = partyTransform;
             }
         }
 
-        return nearestTarget;
+        return nearestBlockingParty;
+    }
+
+    bool IsPartyBetweenEnemyAndWukong(Transform partyTarget)
+    {
+        if (partyTarget == null) return false;
+        if (target == null) return false;
+
+        float enemyX = transform.position.x;
+        float wukongX = target.position.x;
+        float partyX = partyTarget.position.x;
+
+        float minX = Mathf.Min(enemyX, wukongX);
+        float maxX = Mathf.Max(enemyX, wukongX);
+
+        return partyX > minX && partyX < maxX;
     }
 
     bool IsTargetInMeleeRange(Transform checkTarget)
     {
-        if (checkTarget == null)
-            return false;
+        if (checkTarget == null) return false;
 
         float distanceX = Mathf.Abs(checkTarget.position.x - transform.position.x);
         float distanceY = Mathf.Abs(checkTarget.position.y - transform.position.y);
@@ -391,17 +447,11 @@ public class TieuYeuController : MonoBehaviour
 
     void TryStartMeleeAttack(Transform attackTarget)
     {
-        if (!canAttack)
-            return;
-
-        if (isAttacking)
-            return;
-
-        if (meleeCooldownTimer > 0f)
-            return;
-
-        if (attackTarget == null)
-            return;
+        if (!canAttack) return;
+        if (isAttacking) return;
+        if (meleeCooldownTimer > 0f) return;
+        if (attackTarget == null) return;
+        if (combatStoppedByDeath) return;
 
         isAttacking = true;
         lockedMeleeTarget = attackTarget;
@@ -433,7 +483,7 @@ public class TieuYeuController : MonoBehaviour
 
         if (enableDebugLog)
         {
-            Debug.Log("Tiểu yêu bắt đầu đánh.");
+            Debug.Log("Enemy123 bắt đầu đánh: " + attackTarget.name);
         }
     }
 
@@ -476,15 +526,7 @@ public class TieuYeuController : MonoBehaviour
 
     Transform GetMoveTarget()
     {
-        if (currentCombatTarget == null)
-            return target;
-
-        if (currentCombatTarget.CompareTag(partyTag) && !chasePartyIfCloser)
-        {
-            return target;
-        }
-
-        return currentCombatTarget;
+        return target;
     }
 
     void StopMoveHard()
@@ -498,8 +540,7 @@ public class TieuYeuController : MonoBehaviour
 
     void LockEnemyPosition()
     {
-        if (!hasAttackLockedPosition)
-            return;
+        if (!hasAttackLockedPosition) return;
 
         if (rb != null)
         {
@@ -519,8 +560,7 @@ public class TieuYeuController : MonoBehaviour
 
     void FaceTarget(Transform faceTarget)
     {
-        if (faceTarget == null)
-            return;
+        if (faceTarget == null) return;
 
         float directionX = faceTarget.position.x - transform.position.x;
         FaceDirection(directionX);
@@ -528,19 +568,27 @@ public class TieuYeuController : MonoBehaviour
 
     void FaceDirection(float directionX)
     {
-        if (Mathf.Abs(directionX) < 0.05f)
-            return;
+        if (Mathf.Abs(directionX) < 0.05f) return;
 
         bool shouldFaceRight = directionX > 0f;
 
-        if (facingRight == shouldFaceRight)
-            return;
-
         facingRight = shouldFaceRight;
 
-        Vector3 scale = transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * (facingRight ? 1f : -1f);
-        transform.localScale = scale;
+        if (useTransformScaleFlip)
+        {
+            Vector3 scale = transform.localScale;
+
+            if (spriteFacesRightByDefault)
+            {
+                scale.x = shouldFaceRight ? originalScaleX : -originalScaleX;
+            }
+            else
+            {
+                scale.x = shouldFaceRight ? -originalScaleX : originalScaleX;
+            }
+
+            transform.localScale = scale;
+        }
     }
 
     void SetAnimatorSpeed(float speed)
@@ -558,14 +606,14 @@ public class TieuYeuController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isDead)
-            return;
+        if (isDead) return;
+        if (combatStoppedByDeath) return;
 
         if (damage <= 0)
         {
             if (enableDebugLog)
             {
-                Debug.LogWarning("Tiểu yêu nhận damage <= 0 nên không trừ máu.");
+                Debug.LogWarning("Enemy123 nhận damage <= 0 nên không trừ máu.");
             }
 
             return;
@@ -580,7 +628,7 @@ public class TieuYeuController : MonoBehaviour
 
         if (enableDebugLog)
         {
-            Debug.Log("Tiểu yêu nhận damage: -" + damage + " | Máu còn: " + currentHealth + "/" + maxHealth);
+            Debug.Log("Enemy123 nhận damage: -" + damage + " | Máu còn: " + currentHealth + "/" + maxHealth);
         }
 
         if (currentHealth <= 0)
@@ -591,8 +639,7 @@ public class TieuYeuController : MonoBehaviour
 
     void Die()
     {
-        if (isDead)
-            return;
+        if (isDead) return;
 
         isDead = true;
         canMove = false;
@@ -630,17 +677,84 @@ public class TieuYeuController : MonoBehaviour
 
         if (enableDebugLog)
         {
-            Debug.Log("Tiểu yêu chết.");
+            Debug.Log("Enemy123 chết.");
+        }
+    }
+
+    public void NotifyWukongDead()
+    {
+        StopCombatAndReturnIdle();
+    }
+
+    public void NotifyPartyDead()
+    {
+        StopCombatAndReturnIdle();
+    }
+
+    public void StopCombatAndReturnIdle()
+    {
+        if (isDead) return;
+
+        combatStoppedByDeath = true;
+
+        canMove = false;
+        canAttack = false;
+        isAttacking = false;
+        lockedMeleeTarget = null;
+        hasAttackLockedPosition = false;
+
+        StopMoveHard();
+
+        if (meleeHitbox != null)
+        {
+            meleeHitbox.DeactivateHitbox();
+        }
+
+        if (animator != null)
+        {
+            animator.ResetTrigger(meleeTriggerName);
+            animator.ResetTrigger(dieTriggerName);
+            animator.SetFloat(speedParameterName, 0f);
+
+            if (!string.IsNullOrEmpty(idleStateName))
+            {
+                animator.Play(idleStateName, 0, 0f);
+                animator.Update(0f);
+            }
+        }
+
+        hasForcedIdleAfterCombatStop = true;
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Enemy123 dừng combat và về idle vì Wukong hoặc đoàn đã hết máu.");
+        }
+    }
+
+    void KeepIdleAfterCombatStopped()
+    {
+        StopMoveHard();
+
+        if (animator == null) return;
+        if (string.IsNullOrEmpty(idleStateName)) return;
+
+        animator.ResetTrigger(meleeTriggerName);
+        animator.ResetTrigger(dieTriggerName);
+        animator.SetFloat(speedParameterName, 0f);
+
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (!stateInfo.IsName(idleStateName))
+        {
+            animator.CrossFade(idleStateName, 0.05f, 0, 0f);
         }
     }
 
     public void OpenMeleeHitbox()
     {
-        if (isDead)
-            return;
-
-        if (!isAttacking)
-            return;
+        if (isDead) return;
+        if (combatStoppedByDeath) return;
+        if (!isAttacking) return;
 
         StopMoveHard();
 
@@ -673,8 +787,8 @@ public class TieuYeuController : MonoBehaviour
 
     public void EndMeleeAttackAnimation()
     {
-        if (isDead)
-            return;
+        if (isDead) return;
+        if (combatStoppedByDeath) return;
 
         isAttacking = false;
         lockedMeleeTarget = null;
@@ -691,10 +805,9 @@ public class TieuYeuController : MonoBehaviour
         }
     }
 
-    public void DestroyTieuYeuAfterDieAnimation()
+    public void DestroyEnemy123AfterDieAnimation()
     {
-        if (!isDead)
-            return;
+        if (!isDead) return;
 
         if (destroyAfterDeath)
         {
@@ -704,6 +817,11 @@ public class TieuYeuController : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    public void DestroyTieuYeuAfterDieAnimation()
+    {
+        DestroyEnemy123AfterDieAnimation();
     }
 
     public Transform GetLockedMeleeTarget()

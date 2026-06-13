@@ -171,10 +171,9 @@ MonoBehaviour:
   destroyOnHit: 1
   playerTag: Player
   partyTag: Party
-  enemyTag: Enemy
-  groundTag: Ground
-  flipByDirection: 1
-  rotateByDirection: 0
+  visualRoot: {fileID: 6416646274028205489}
+  flipVisualByDirection: 1
+  enableDebugLog: 0
 --- !u!50 &1927461008272630438
 Rigidbody2D:
   serializedVersion: 5
