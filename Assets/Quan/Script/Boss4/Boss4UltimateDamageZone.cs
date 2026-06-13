@@ -1,178 +1,152 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
 public class Boss4UltimateDamageZone : MonoBehaviour
 {
     [Header("Damage")]
-    [Tooltip("Sát thương ulti.")]
-    public int damage = 180;
+    [Tooltip("Sát thương mỗi lần gây damage.")]
+    public int damage = 100;
 
-    [Tooltip("Mỗi target chỉ trúng một lần.")]
-    public bool hitEachTargetOnlyOnce = true;
+    [Tooltip("Khoảng thời gian giữa mỗi lần gây damage.")]
+    public float damageInterval = 0.5f;
 
-    [Tooltip("Xóa projectile sau khi gây sát thương.")]
-    public bool destroyProjectileAfterHit = true;
+    [Tooltip("Gây damage ngay khi mục tiêu chạm vào vùng đánh.")]
+    public bool damageImmediatelyOnEnter = true;
 
-    [Header("Detect")]
-    [Tooltip("Gây sát thương Wukong.")]
-    public bool damagePlayer = true;
+    [Header("Target Tags")]
+    [Tooltip("Tag của Wukong.")]
+    public string playerTag = "Player";
 
-    [Tooltip("Gây sát thương đoàn thỉnh kinh.")]
-    public bool damageParty = true;
+    [Tooltip("Tag của nhóm thỉnh kinh.")]
+    public string partyTag = "Party";
 
-    [Header("Debug")]
-    [Tooltip("Bật log debug.")]
-    public bool enableDebugLog = true;
+    [Header("Owner")]
+    [Tooltip("Boss sở hữu projectile này.")]
+    public Transform owner;
 
-    private Transform ownerRoot;
-    private Boss4UltimateProjectile projectileOwner;
-    private Collider2D hitCollider;
+    Dictionary<int, float> nextDamageTimes = new Dictionary<int, float>();
 
-    private HashSet<GameObject> hitTargets = new HashSet<GameObject>();
-    private bool hasDestroyedProjectile;
-
-
-void Awake()
-    {
-        hitCollider = GetComponent<Collider2D>();
-
-        if (hitCollider != null)
-        {
-            hitCollider.isTrigger = true;
-            hitCollider.enabled = true;
-        }
-    }
-
-    public void Init(int newDamage, Transform newOwnerRoot, Boss4UltimateProjectile newProjectileOwner)
+    public void Init(int newDamage, Transform newOwner)
     {
         damage = newDamage;
-        ownerRoot = newOwnerRoot;
-        projectileOwner = newProjectileOwner;
+        owner = newOwner;
+        nextDamageTimes.Clear();
+    }
 
-        hitTargets.Clear();
-        hasDestroyedProjectile = false;
+    public void SetDamage(int newDamage, Transform newOwner)
+    {
+        Init(newDamage, newOwner);
+    }
 
-        if (hitCollider == null)
-        {
-            hitCollider = GetComponent<Collider2D>();
-        }
+    void OnEnable()
+    {
+        nextDamageTimes.Clear();
+    }
 
-        if (hitCollider != null)
-        {
-            hitCollider.isTrigger = true;
-            hitCollider.enabled = true;
-        }
-
-        if (enableDebugLog)
-        {
-            Debug.Log("Boss4UltimateDamageZone Init | Damage: " + damage);
-        }
+    void OnDisable()
+    {
+        nextDamageTimes.Clear();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        TryDamage(other);
+        if (!damageImmediatelyOnEnter) return;
+
+        TryDamageTarget(other, true);
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
-        TryDamage(other);
+        TryDamageTarget(other, false);
     }
 
-    void TryDamage(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (hasDestroyedProjectile)
-            return;
+        Transform targetRoot = GetTargetRoot(other);
+        if (targetRoot == null) return;
 
-        if (other == null)
-            return;
+        int targetId = targetRoot.gameObject.GetInstanceID();
 
-        if (ownerRoot != null && other.transform.root == ownerRoot)
-            return;
-
-        if (enableDebugLog)
+        if (nextDamageTimes.ContainsKey(targetId))
         {
-            Debug.Log(
-                "Boss4 Ulti Hitbox chạm: " +
-                other.name +
-                " | Tag: " +
-                other.tag +
-                " | Root: " +
-                other.transform.root.name
-            );
-        }
-
-        if (damagePlayer)
-        {
-            PlayerHealth playerHealth = other.GetComponentInParent<PlayerHealth>();
-
-            if (playerHealth != null)
-            {
-                GameObject targetKey = playerHealth.gameObject;
-
-                if (hitEachTargetOnlyOnce && hitTargets.Contains(targetKey))
-                    return;
-
-                hitTargets.Add(targetKey);
-
-                playerHealth.TakeDamage(damage);
-
-                Debug.Log("Boss4 Ulti gây damage Wukong: -" + damage);
-
-                DestroyProjectileAfterSuccessfulHit();
-
-                return;
-            }
-        }
-
-        if (damageParty)
-        {
-            PartyMemberHitReceiver partyMember =
-                other.GetComponentInParent<PartyMemberHitReceiver>();
-
-            if (partyMember != null)
-            {
-                GameObject targetKey = partyMember.gameObject;
-
-                if (hitEachTargetOnlyOnce && hitTargets.Contains(targetKey))
-                    return;
-
-                hitTargets.Add(targetKey);
-
-                partyMember.TakeDamage(damage);
-
-                Debug.Log("Boss4 Ulti gây damage đoàn thỉnh kinh: -" + damage);
-
-                DestroyProjectileAfterSuccessfulHit();
-
-                return;
-            }
+            nextDamageTimes.Remove(targetId);
         }
     }
 
-    void DestroyProjectileAfterSuccessfulHit()
+    void TryDamageTarget(Collider2D other, bool forceDamage)
     {
-        if (!destroyProjectileAfterHit)
-            return;
+        if (other == null) return;
 
-        if (hasDestroyedProjectile)
-            return;
+        Transform targetRoot = GetTargetRoot(other);
+        if (targetRoot == null) return;
 
-        hasDestroyedProjectile = true;
+        if (owner != null && targetRoot == owner) return;
+        if (owner != null && targetRoot.IsChildOf(owner)) return;
 
-        if (hitCollider != null)
+        if (!IsValidTarget(targetRoot, other)) return;
+
+        int targetId = targetRoot.gameObject.GetInstanceID();
+
+        if (!forceDamage)
         {
-            hitCollider.enabled = false;
+            if (nextDamageTimes.ContainsKey(targetId))
+            {
+                if (Time.time < nextDamageTimes[targetId])
+                {
+                    return;
+                }
+            }
         }
 
-        if (projectileOwner != null)
+        ApplyDamage(targetRoot, other);
+
+        nextDamageTimes[targetId] = Time.time + damageInterval;
+    }
+
+    Transform GetTargetRoot(Collider2D other)
+    {
+        if (other.attachedRigidbody != null)
         {
-            projectileOwner.DestroyProjectile();
+            return other.attachedRigidbody.transform;
         }
-        else
+
+        return other.transform.root;
+    }
+
+    bool IsValidTarget(Transform targetRoot, Collider2D other)
+    {
+        if (targetRoot.CompareTag(playerTag)) return true;
+        if (targetRoot.CompareTag(partyTag)) return true;
+
+        if (other.CompareTag(playerTag)) return true;
+        if (other.CompareTag(partyTag)) return true;
+
+        Transform current = other.transform;
+
+        while (current != null)
         {
-            Destroy(transform.root.gameObject);
+            if (current.CompareTag(playerTag)) return true;
+            if (current.CompareTag(partyTag)) return true;
+
+            if (current == targetRoot) break;
+
+            current = current.parent;
+        }
+
+        return false;
+    }
+
+    void ApplyDamage(Transform targetRoot, Collider2D other)
+    {
+        targetRoot.gameObject.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
+        targetRoot.gameObject.SendMessage("ReceiveDamage", damage, SendMessageOptions.DontRequireReceiver);
+        targetRoot.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+
+        if (other != null && other.gameObject != targetRoot.gameObject)
+        {
+            other.gameObject.SendMessageUpwards("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
+            other.gameObject.SendMessageUpwards("ReceiveDamage", damage, SendMessageOptions.DontRequireReceiver);
+            other.gameObject.SendMessageUpwards("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
         }
     }
 }

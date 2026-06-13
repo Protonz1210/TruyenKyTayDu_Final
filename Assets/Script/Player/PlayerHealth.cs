@@ -26,6 +26,7 @@ public class PlayerHealth : MonoBehaviour
 
     private PlayerController playerController;
     private bool isDead;
+    private bool hasNotifiedBossDead;
 
     void Awake()
     {
@@ -41,6 +42,9 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
         if (!enableTestKeys)
+            return;
+
+        if (Keyboard.current == null)
             return;
 
         // Test trừ máu bằng phím 1
@@ -79,7 +83,30 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            NotifyAllBossWukongDead();
             Die();
+        }
+    }
+
+    void NotifyAllBossWukongDead()
+    {
+        if (hasNotifiedBossDead)
+            return;
+
+        hasNotifiedBossDead = true;
+
+#if UNITY_2023_1_OR_NEWER
+        Map4BossController[] bosses = FindObjectsByType<Map4BossController>(FindObjectsSortMode.None);
+#else
+        Map4BossController[] bosses = FindObjectsOfType<Map4BossController>();
+#endif
+
+        foreach (Map4BossController boss in bosses)
+        {
+            if (boss != null)
+            {
+                boss.NotifyWukongDead();
+            }
         }
     }
 
@@ -134,6 +161,10 @@ public class PlayerHealth : MonoBehaviour
         if (hudController != null)
         {
             hudController.SetWukongHealth(currentHealth, maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerHealth chưa gán MapHUDController.");
         }
     }
 

@@ -27,6 +27,7 @@ public class Map4BossHUDController : MonoBehaviour
     [Tooltip("Thanh máu Boss4 bám bên phải.")]
     public bool boss4AnchorRight = true;
 
+
     private VisualElement boss3HealthFill;
     private Label boss3HealthText;
 

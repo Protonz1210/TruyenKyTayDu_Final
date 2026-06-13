@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 902856420631215953}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.02, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68,7 +68,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.029890798, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -78,7 +78,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.5, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &2794438459111403895
 Rigidbody2D:
@@ -119,12 +119,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50bed0945dec47499e4731429040c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss4UltimateDamageZone
-  damage: 180
-  hitEachTargetOnlyOnce: 1
-  destroyProjectileAfterHit: 1
-  damagePlayer: 1
-  damageParty: 1
-  enableDebugLog: 1
+  damage: 10
+  damageInterval: 0.2
+  damageImmediatelyOnEnter: 1
+  playerTag: Player
+  partyTag: Party
+  owner: {fileID: 0}
 --- !u!1 &5729544337057592393
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +152,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.178, y: 1.83, z: 0}
-  m_LocalScale: {x: 0.509, y: 0.509, z: 0.509}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7579196271326491140}
@@ -172,19 +172,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss4UltimateProjectile
   lifeTime: 2.9
-  expandDuration: 2.9
+  expandDuration: 1.45
   visualRoot: {fileID: 5196508159796810982}
   hitboxCollider: {fileID: 824111275553537821}
   damageZone: {fileID: 7186300271702720184}
   followFirePoint: 0
   stopFollowingAfterTime: 0
   followDuration: 0.4
-  startWidth: 1
-  maxWidth: 3.5
-  startHeight: 1
-  maxHeight: 3.5
+  startWidth: 0.5
+  maxWidth: 1.6
+  startHeight: 0.5
+  maxHeight: 0.7
   expandForward: 1
   flipVisualByDirection: 1
+  keepVisualRootCentered: 1
+  visualRootCenterLocalPosition: {x: 0, y: 0, z: 0}
   enableDebugLog: 1
 --- !u!1 &6361976983552923628
 GameObject:
@@ -213,8 +215,8 @@ Transform:
   m_GameObject: {fileID: 6361976983552923628}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.72, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5947335069694261231}

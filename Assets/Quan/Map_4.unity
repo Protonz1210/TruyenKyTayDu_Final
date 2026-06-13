@@ -843,11 +843,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
---- !u!4 &361432411 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-  m_PrefabInstance: {fileID: 1722957145}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &371872010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,7 +1183,7 @@ Transform:
   m_GameObject: {fileID: 427819199}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.05, y: -0.36, z: 0}
+  m_LocalPosition: {x: -18.99, y: -0.27, z: 0}
   m_LocalScale: {x: 0.38956717, y: 0.38956717, z: 0.38956717}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1211,49 +1206,55 @@ MonoBehaviour:
   bossId: 3
   bossName: "B\u1EA1ch T\u01B0\u1EE3ng Tinh"
   healthUISlot: 0
-  playerTag: Player
-  activationRange: 7
-  activated: 0
-  target: {fileID: 1679569189}
-  stopWhenWukongDead: 1
-  canAttackPartyIfCloser: 1
-  partyTag: Party
-  partyDetectRange: 4
-  wukongReclaimDistance: 3
-  chasePartyIfCloser: 0
-  currentCombatTarget: {fileID: 1679569189}
-  moveSpeed: 1
-  stopDistance: 1
-  lockMovementWhileUsingSkill: 1
-  freezeWorldPositionWhileUsingSkill: 1
-  meleeRange: 1.6
-  meleeCooldown: 0
-  meleeActionDuration: 5
-  meleeDamage: 20
-  meleeHitbox: {fileID: 1157288089}
-  ultimateCooldown: 5
-  ultimateActionDuration: 6
-  ultimateFireDelay: 0.6
-  useAnimationEventForUltimateFire: 1
-  preUltimateIdleDelay: 1
-  guaranteeUltimateProjectileSpawn: 0
-  guaranteedUltimateFireTime: 2
-  postUltimateIdleDelay: 1
-  useUltimateDistanceCondition: 1
-  minUltimateDistanceToWukong: 2
-  maxUltimateDistanceToWukong: 4
-  ultimateProjectilePrefab: {fileID: 5729544337057592393, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-  ultimateFirePoint: {fileID: 282701785}
-  ultimateDamage: 180
-  autoUpdateUltimateFirePoint: 1
-  ultimateFirePointLocalOffset: {x: 1.2, y: 0.85}
   maxHealth: 1000
   currentHealth: 1000
+  hideWhenDefeated: 0
+  rb: {fileID: 427819203}
+  animator: {fileID: 427819204}
+  spriteRenderer: {fileID: 427819205}
+  wukongTarget: {fileID: 1679569189}
   map4BossHUD: {fileID: 2053941382}
-  idleStateName: Boss3_Idle
+  meleeHitbox: {fileID: 1157288089}
+  ultimateFirePoint: {fileID: 282701785}
+  ultimateProjectilePrefab: {fileID: 5729544337057592393, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
+  stopBossWhenWukongDead: 1
+  stopBossWhenPartyDead: 1
+  combatStoppedByDeath: 0
+  playerTag: Player
+  partyTag: Party
+  autoActivate: 1
+  activationRange: 7
+  activeOnStart: 0
+  requireFirstMeleeHitBeforeUltimate: 1
+  hasFirstMeleeHit: 0
+  moveSpeed: 1.8
+  stopDistanceToWukong: 1.4
+  moveOnlyX: 1
+  spriteFacesRightByDefault: 1
+  useSpriteRendererFlip: 1
+  useTransformScaleFlip: 0
   speedParameterName: Speed
   meleeTriggerName: MeleeAttack
   ultimateTriggerName: Ultimate
+  idleStateName: Boss3_Idle
+  meleeRange: 1.6
+  meleeDamage: 20
+  meleeCooldown: 0
+  meleeAnimationMaxDuration: 5
+  postMeleeIdleDelay: 0.3
+  partyDetectRange: 2
+  ultimateDamage: 10
+  ultimateCooldown: 5
+  preUltimateIdleDelay: 1
+  ultimateAnimationMaxDuration: 5
+  postUltimateIdleDelay: 1
+  useUltimateDistanceCondition: 1
+  minUltimateDistanceToWukong: 2
+  maxUltimateDistanceToWukong: 3
+  autoUpdateUltimateFirePoint: 1
+  ultimateFirePointLocalOffset: {x: 1.2, y: 0.85}
+  freezeWorldPositionWhileUsingSkill: 1
+  enableDebugLog: 0
 --- !u!70 &427819202
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1391,7 +1392,7 @@ SpriteRenderer:
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1568513156398541054, guid: 1ab70742d419b5b40a951a107d1c75e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.8299997, y: 6.731203}
@@ -2085,7 +2086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &825432739
 Animator:
   serializedVersion: 7
@@ -2155,7 +2156,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -496481497
   m_SortingLayer: 5
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1159117816381539657, guid: 4e3b9d4438a697d41804aa66b4997cdd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2176,7 +2177,7 @@ Transform:
   m_GameObject: {fileID: 825432738}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.66, y: -0.24696994, z: 0}
+  m_LocalPosition: {x: -14.21, y: -0.41, z: 0}
   m_LocalScale: {x: 0.38956717, y: 0.38956717, z: 0.38956717}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2199,49 +2200,55 @@ MonoBehaviour:
   bossId: 4
   bossName: "Thanh S\u01B0 Tinh"
   healthUISlot: 1
-  playerTag: Player
-  activationRange: 7
-  activated: 0
-  target: {fileID: 1679569189}
-  stopWhenWukongDead: 1
-  canAttackPartyIfCloser: 1
-  partyTag: Party
-  partyDetectRange: 4
-  wukongReclaimDistance: 3
-  chasePartyIfCloser: 0
-  currentCombatTarget: {fileID: 1679569189}
-  moveSpeed: 2
-  stopDistance: 1
-  lockMovementWhileUsingSkill: 1
-  freezeWorldPositionWhileUsingSkill: 1
-  meleeRange: 1.6
-  meleeCooldown: 0
-  meleeActionDuration: 5
-  meleeDamage: 20
-  meleeHitbox: {fileID: 394518616}
-  ultimateCooldown: 5
-  ultimateActionDuration: 5
-  ultimateFireDelay: 0.6
-  useAnimationEventForUltimateFire: 1
-  preUltimateIdleDelay: 0.5
-  guaranteeUltimateProjectileSpawn: 0
-  guaranteedUltimateFireTime: 2
-  postUltimateIdleDelay: 0.35
-  useUltimateDistanceCondition: 1
-  minUltimateDistanceToWukong: 2
-  maxUltimateDistanceToWukong: 4
-  ultimateProjectilePrefab: {fileID: 6966555485024582027, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-  ultimateFirePoint: {fileID: 138357577}
-  ultimateDamage: 180
-  autoUpdateUltimateFirePoint: 1
-  ultimateFirePointLocalOffset: {x: 1, y: 0.8}
   maxHealth: 1000
   currentHealth: 1000
+  hideWhenDefeated: 0
+  rb: {fileID: 825432744}
+  animator: {fileID: 825432739}
+  spriteRenderer: {fileID: 825432740}
+  wukongTarget: {fileID: 1679569189}
   map4BossHUD: {fileID: 2053941382}
-  idleStateName: Boss4_idle
+  meleeHitbox: {fileID: 394518616}
+  ultimateFirePoint: {fileID: 138357577}
+  ultimateProjectilePrefab: {fileID: 6966555485024582027, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
+  stopBossWhenWukongDead: 1
+  stopBossWhenPartyDead: 1
+  combatStoppedByDeath: 0
+  playerTag: Player
+  partyTag: Party
+  autoActivate: 1
+  activationRange: 7
+  activeOnStart: 0
+  requireFirstMeleeHitBeforeUltimate: 1
+  hasFirstMeleeHit: 0
+  moveSpeed: 1.8
+  stopDistanceToWukong: 1.4
+  moveOnlyX: 1
+  spriteFacesRightByDefault: 1
+  useSpriteRendererFlip: 1
+  useTransformScaleFlip: 0
   speedParameterName: Speed
   meleeTriggerName: MeleeAttack
   ultimateTriggerName: Ultimate
+  idleStateName: Boss4_idle
+  meleeRange: 1.6
+  meleeDamage: 20
+  meleeCooldown: 0
+  meleeAnimationMaxDuration: 5
+  postMeleeIdleDelay: 0.15
+  partyDetectRange: 2
+  ultimateDamage: 5
+  ultimateCooldown: 5
+  preUltimateIdleDelay: 0.5
+  ultimateAnimationMaxDuration: 5
+  postUltimateIdleDelay: 0.35
+  useUltimateDistanceCondition: 1
+  minUltimateDistanceToWukong: 2
+  maxUltimateDistanceToWukong: 3
+  autoUpdateUltimateFirePoint: 1
+  ultimateFirePointLocalOffset: {x: 0.9, y: 0.8}
+  freezeWorldPositionWhileUsingSkill: 1
+  enableDebugLog: 0
 --- !u!70 &825432743
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3740,103 +3747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e0fd8d6862021b4b87aa3e54b962c19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFacing
---- !u!1001 &1722957145
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1865727405}
-    m_Modifications:
-    - target: {fileID: 824111275553537821, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 824111275553537821, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5196508159796810982, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5196508159796810982, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5196508159796810982, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5196508159796810982, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5729544337057592393, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_Name
-      value: Boss3UltimateProjectile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -23.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947335069694261231, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7579196271326491140, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 015f6b42a060bf64bafbba6bde58eba2, type: 3}
 --- !u!1 &1740482329
 GameObject:
   m_ObjectHideFlags: 0
@@ -3990,8 +3900,6 @@ Transform:
   m_Children:
   - {fileID: 1218818786}
   - {fileID: 1404122871}
-  - {fileID: 361432411}
-  - {fileID: 1959203736}
   - {fileID: 1165609751}
   - {fileID: 818422970}
   - {fileID: 918771519}
@@ -4342,112 +4250,6 @@ Transform:
   - {fileID: 491043550}
   m_Father: {fileID: 979372250}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1959203735
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1865727405}
-    m_Modifications:
-    - target: {fileID: 1954775757154868749, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954775757154868749, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954775757154868749, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954775757154868749, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5243939014600641026, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5243939014600641026, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6966555485024582027, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_Name
-      value: Boss4UltimateProjectile
-      objectReference: {fileID: 0}
-    - target: {fileID: 6997955708245168666, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_SpriteSortPoint
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7360742346393079651, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -25.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.61
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
---- !u!4 &1959203736 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8926631346686355890, guid: a040edd70a914a142bd0a67221c7a5ba, type: 3}
-  m_PrefabInstance: {fileID: 1959203735}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2053941380
 GameObject:
   m_ObjectHideFlags: 0
@@ -4495,7 +4297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Map4BossHUDController
   uiDocument: {fileID: 2053941383}
   boss3HealthFillName: boss3-health-fill
-  boss3HealthTextName: boss3-health-text
+  boss3HealthTextName: boss-3-health-text
   boss3AnchorRight: 1
   boss4HealthFillName: boss4-health-fill
   boss4HealthTextName: boss-4-health-text

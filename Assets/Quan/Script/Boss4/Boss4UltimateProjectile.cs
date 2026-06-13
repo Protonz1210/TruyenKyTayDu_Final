@@ -4,78 +4,87 @@ public class Boss4UltimateProjectile : MonoBehaviour
 {
     [Header("Life")]
     [Tooltip("Thời gian tồn tại của projectile.")]
-    public float lifeTime = 2.5f;
+    public float lifeTime = 2.9f;
 
-    [Tooltip("Thời gian hitbox nở rộng.")]
-    public float expandDuration = 1.2f;
+    [Tooltip("Thời gian projectile mở rộng hitbox.")]
+    public float expandDuration = 2.9f;
 
     [Header("References")]
-    [Tooltip("Object hình ảnh của projectile.")]
+    [Tooltip("Gốc hình ảnh của projectile.")]
     public Transform visualRoot;
 
-    [Tooltip("Collider gây sát thương của projectile.")]
+    [Tooltip("BoxCollider2D gây damage.")]
     public BoxCollider2D hitboxCollider;
 
-    [Tooltip("Vùng xử lý sát thương của projectile.")]
+    [Tooltip("Vùng gây damage.")]
     public Boss4UltimateDamageZone damageZone;
 
     [Header("Follow Fire Point")]
-    [Tooltip("Projectile bám theo Fire Point.")]
-    public bool followFirePoint = true;
+    [Tooltip("Projectile bám theo fire point khi mới sinh ra.")]
+    public bool followFirePoint = false;
 
-    [Tooltip("Dừng bám Fire Point sau một thời gian.")]
+    [Tooltip("Dừng bám fire point sau một thời gian.")]
     public bool stopFollowingAfterTime = false;
 
-    [Tooltip("Thời gian bám Fire Point.")]
+    [Tooltip("Thời gian bám fire point.")]
     public float followDuration = 0.4f;
 
-    private Transform followAnchor;
-
     [Header("Hitbox Size")]
-    [Tooltip("Chiều rộng hitbox ban đầu.")]
-    public float startWidth = 0.5f;
+    [Tooltip("Chiều rộng ban đầu.")]
+    public float startWidth = 1f;
 
-    [Tooltip("Chiều rộng hitbox tối đa.")]
-    public float maxWidth = 6f;
+    [Tooltip("Chiều rộng tối đa.")]
+    public float maxWidth = 3.5f;
 
-    [Tooltip("Chiều cao hitbox ban đầu.")]
+    [Tooltip("Chiều cao ban đầu.")]
     public float startHeight = 1f;
 
-    [Tooltip("Chiều cao hitbox tối đa.")]
-    public float maxHeight = 2.5f;
+    [Tooltip("Chiều cao tối đa.")]
+    public float maxHeight = 3.5f;
 
     [Tooltip("Hitbox nở về phía trước.")]
     public bool expandForward = true;
 
     [Header("Visual")]
-    [Tooltip("Lật hình ảnh theo hướng bắn.")]
+    [Tooltip("Lật hình theo hướng bắn.")]
     public bool flipVisualByDirection = true;
+
     [Header("Visual Anchor")]
     [Tooltip("Giữ VisualRoot ở đúng tâm projectile khi lật hướng.")]
     public bool keepVisualRootCentered = true;
 
     [Tooltip("Vị trí local cố định của VisualRoot.")]
     public Vector3 visualRootCenterLocalPosition = Vector3.zero;
+
     [Header("Debug")]
     [Tooltip("Bật log debug.")]
-    public bool enableDebugLog = true;
+    public bool enableDebugLog = false;
 
-    private Vector2 direction = Vector2.right;
-    private float spawnTime;
-    private bool isDestroyed;
+    Vector2 direction = Vector2.right;
+    Transform ownerRoot;
+    Transform followAnchor;
+    int projectileDamage = 100;
 
+    float timer;
+    bool initialized;
 
-public void Init(Vector2 shootDirection, int projectileDamage, Transform ownerRoot, Transform firePointAnchor)
+    public void Init(Vector2 shootDirection, int damage, Transform owner, Transform anchor)
     {
-        if (shootDirection.sqrMagnitude <= 0.001f)
+        direction = shootDirection;
+
+        if (direction.sqrMagnitude <= 0.01f)
         {
-            shootDirection = Vector2.right;
+            direction = Vector2.right;
         }
 
-        direction = shootDirection.normalized;
-        spawnTime = Time.time;
-        followAnchor = firePointAnchor;
-        isDestroyed = false;
+        direction.Normalize();
+
+        projectileDamage = damage;
+        ownerRoot = owner;
+        followAnchor = anchor;
+
+        initialized = true;
+        timer = 0f;
 
         if (hitboxCollider == null)
         {
@@ -115,7 +124,7 @@ public void Init(Vector2 shootDirection, int projectileDamage, Transform ownerRo
 
         if (damageZone != null)
         {
-            damageZone.Init(projectileDamage, ownerRoot, this);
+            damageZone.Init(projectileDamage, ownerRoot);
         }
         else
         {
@@ -132,56 +141,43 @@ public void Init(Vector2 shootDirection, int projectileDamage, Transform ownerRo
                 "Boss4UltimateProjectile Init thành công | Damage: " +
                 projectileDamage +
                 " | Direction: " +
-                direction +
-                " | Follow Anchor: " +
-                (followAnchor != null ? followAnchor.name : "None")
+                direction
             );
+        }
+    }
+
+    void Start()
+    {
+        if (!initialized)
+        {
+            Init(direction, projectileDamage, ownerRoot, followAnchor);
         }
     }
 
     void Update()
     {
-        if (isDestroyed)
-            return;
+        timer += Time.deltaTime;
 
-        float elapsed = Time.time - spawnTime;
+        UpdateFollowFirePoint();
 
-        float progress = 0f;
+        float progress = 1f;
 
         if (expandDuration > 0f)
         {
-            progress = Mathf.Clamp01(elapsed / expandDuration);
-        }
-        else
-        {
-            progress = 1f;
+            progress = Mathf.Clamp01(timer / expandDuration);
         }
 
         UpdateHitbox(progress);
     }
 
-    void LateUpdate()
+    void UpdateFollowFirePoint()
     {
-        if (isDestroyed)
-            return;
+        if (!followFirePoint) return;
+        if (followAnchor == null) return;
 
-        FollowFirePointIfNeeded();
-    }
-
-    void FollowFirePointIfNeeded()
-    {
-        if (!followFirePoint)
-            return;
-
-        if (followAnchor == null)
-            return;
-
-        if (stopFollowingAfterTime)
+        if (stopFollowingAfterTime && timer >= followDuration)
         {
-            float elapsed = Time.time - spawnTime;
-
-            if (elapsed > followDuration)
-                return;
+            return;
         }
 
         transform.position = followAnchor.position;
@@ -219,7 +215,6 @@ public void Init(Vector2 shootDirection, int projectileDamage, Transform ownerRo
         if (!flipVisualByDirection) return;
 
         Vector3 visualScale = visualRoot.localScale;
-
         visualScale.x = Mathf.Abs(visualScale.x);
 
         if (direction.x < 0f)
@@ -230,43 +225,5 @@ public void Init(Vector2 shootDirection, int projectileDamage, Transform ownerRo
         visualRoot.localScale = visualScale;
 
         transform.rotation = Quaternion.identity;
-    }
-
-    public void DestroyProjectile()
-    {
-        if (isDestroyed)
-            return;
-
-        isDestroyed = true;
-
-        if (hitboxCollider != null)
-        {
-            hitboxCollider.enabled = false;
-        }
-
-        Destroy(gameObject);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (hitboxCollider == null)
-        {
-            hitboxCollider = GetComponentInChildren<BoxCollider2D>();
-        }
-
-        if (hitboxCollider == null)
-            return;
-
-        Gizmos.color = Color.cyan;
-
-        Vector3 center = hitboxCollider.transform.TransformPoint(hitboxCollider.offset);
-
-        Vector3 size = new Vector3(
-            hitboxCollider.size.x * Mathf.Abs(hitboxCollider.transform.lossyScale.x),
-            hitboxCollider.size.y * Mathf.Abs(hitboxCollider.transform.lossyScale.y),
-            0f
-        );
-
-        Gizmos.DrawWireCube(center, size);
     }
 }

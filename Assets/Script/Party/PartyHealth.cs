@@ -29,9 +29,9 @@ public class PartyHealth : MonoBehaviour
     public bool gameOverWhenDead = true;
 
     private bool isDead;
+    private bool hasNotifiedBossDead;
 
-
-void Awake()
+    void Awake()
     {
         currentHealth = maxHealth;
     }
@@ -44,6 +44,9 @@ void Awake()
     void Update()
     {
         if (!enableTestKeys)
+            return;
+
+        if (Keyboard.current == null)
             return;
 
         if (Keyboard.current.digit4Key.wasPressedThisFrame)
@@ -79,7 +82,48 @@ void Awake()
 
         if (currentHealth <= 0)
         {
-            Die();
+            OnPartyHealthZero();
+        }
+    }
+
+    void OnPartyHealthZero()
+    {
+        if (isDead)
+            return;
+
+        isDead = true;
+        currentHealth = 0;
+
+        UpdateHealthUI();
+        NotifyAllBossPartyDead();
+
+        Debug.Log("Đoàn thỉnh kinh đã hết máu.");
+
+        if (gameOverWhenDead)
+        {
+            Debug.Log("GAME OVER: Máu đoàn thỉnh kinh về 0.");
+        }
+    }
+
+    void NotifyAllBossPartyDead()
+    {
+        if (hasNotifiedBossDead)
+            return;
+
+        hasNotifiedBossDead = true;
+
+#if UNITY_2023_1_OR_NEWER
+        Map4BossController[] bosses = FindObjectsByType<Map4BossController>(FindObjectsSortMode.None);
+#else
+        Map4BossController[] bosses = FindObjectsOfType<Map4BossController>();
+#endif
+
+        foreach (Map4BossController boss in bosses)
+        {
+            if (boss != null)
+            {
+                boss.NotifyPartyDead();
+            }
         }
     }
 
@@ -107,30 +151,15 @@ void Awake()
         Debug.Log("Đoàn thỉnh kinh hồi máu: " + amount + " | Máu: " + currentHealth + " / " + maxHealth);
     }
 
-    void Die()
-    {
-        if (isDead)
-            return;
-
-        isDead = true;
-        currentHealth = 0;
-
-        UpdateHealthUI();
-
-        Debug.Log("Đoàn thỉnh kinh đã bị hạ gục. Game Over.");
-
-        if (gameOverWhenDead)
-        {
-            Debug.Log("GAME OVER: Máu đoàn thỉnh kinh về 0.");
-        }
-    }
-  
-
     void UpdateHealthUI()
     {
         if (hudController != null)
         {
             hudController.SetPartyHealth(currentHealth, maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("PartyHealth chưa gán MapHUDController.");
         }
     }
 

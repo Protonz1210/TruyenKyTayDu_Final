@@ -167,6 +167,31 @@ public class Boss4MeleeHitbox : MonoBehaviour
         DisableBothHitboxes();
     }
 
+    public void OpenHitbox()
+    {
+        ActivateHitbox();
+    }
+
+    public void CloseHitbox()
+    {
+        DeactivateHitbox();
+    }
+
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+    }
+
+    public void SetOwner(Transform newOwnerRoot)
+    {
+        ownerRoot = newOwnerRoot;
+
+        if (ownerRoot != null && owner == null)
+        {
+            owner = ownerRoot.GetComponent<Map4BossController>();
+        }
+    }
+
     void DisableBothHitboxes()
     {
         if (leftHitbox != null)
@@ -236,7 +261,7 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
         GameObject rootObject = other.transform.root.gameObject;
 
-        if (hitEachTargetBlocked(rootObject))
+        if (IsTargetAlreadyHit(rootObject))
         {
             return;
         }
@@ -248,7 +273,9 @@ public class Boss4MeleeHitbox : MonoBehaviour
             if (playerHealth != null)
             {
                 hitTargets.Add(rootObject);
+
                 playerHealth.TakeDamage(damage);
+                NotifyOwnerFirstMeleeHit();
 
                 if (enableDebugLog)
                 {
@@ -266,7 +293,9 @@ public class Boss4MeleeHitbox : MonoBehaviour
             if (partyReceiver != null)
             {
                 hitTargets.Add(rootObject);
+
                 partyReceiver.TakeDamage(damage);
+                NotifyOwnerFirstMeleeHit();
 
                 if (enableDebugLog)
                 {
@@ -275,10 +304,34 @@ public class Boss4MeleeHitbox : MonoBehaviour
 
                 return;
             }
+
+            PartyHealth partyHealth = other.GetComponentInParent<PartyHealth>();
+
+            if (partyHealth != null)
+            {
+                hitTargets.Add(rootObject);
+
+                partyHealth.TakeDamage(damage);
+                NotifyOwnerFirstMeleeHit();
+
+                if (enableDebugLog)
+                {
+                    Debug.Log("Boss melee hit PartyHealth: " + damage);
+                }
+
+                return;
+            }
         }
     }
 
-    bool hitEachTargetBlocked(GameObject targetObject)
+    void NotifyOwnerFirstMeleeHit()
+    {
+        if (owner == null) return;
+
+        owner.NotifyFirstMeleeHit();
+    }
+
+    bool IsTargetAlreadyHit(GameObject targetObject)
     {
         if (targetObject == null) return true;
 
