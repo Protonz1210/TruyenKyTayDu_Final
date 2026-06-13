@@ -108,6 +108,19 @@ public class PlayerHealth : MonoBehaviour
                 boss.NotifyWukongDead();
             }
         }
+#if UNITY_2023_1_OR_NEWER
+        Boss5Controller[] boss5List = FindObjectsByType<Boss5Controller>(FindObjectsSortMode.None);
+#else
+        Boss5Controller[] boss5List = FindObjectsOfType<Boss5Controller>();
+#endif
+
+        foreach (Boss5Controller boss5 in boss5List)
+        {
+            if (boss5 != null)
+            {
+                boss5.NotifyWukongDead();
+            }
+        }
     }
 
     public void Heal(int amount)
