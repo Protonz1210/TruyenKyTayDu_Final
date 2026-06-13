@@ -2,16 +2,6 @@
 
 public class Boss5Controller : MonoBehaviour
 {
-    [Header("Health")]
-    [Tooltip("Máu tối đa.")]
-    public int maxHealth = 1000;
-
-    [Tooltip("Máu hiện tại.")]
-    public int currentHealth;
-
-    [Tooltip("Boss chết thì ẩn object.")]
-    public bool hideWhenDefeated = false;
-
     [Header("References")]
     [Tooltip("Rigidbody2D của Boss5.")]
     public Rigidbody2D rb;
@@ -35,27 +25,36 @@ public class Boss5Controller : MonoBehaviour
     [Tooltip("Tag của Wukong.")]
     public string playerTag = "Player";
 
+    [Tooltip("Tag của đoàn thỉnh kinh.")]
+    public string partyTag = "Party";
+
     [Header("Move")]
     [Tooltip("Boss tự hoạt động khi sinh ra.")]
     public bool activeOnStart = true;
 
-    [Tooltip("Tốc độ di chuyển.")]
-    public float moveSpeed = 2.5f;
+    [Tooltip("Tốc độ Boss5 di chuyển ngang.")]
+    public float moveSpeed = 3f;
 
-    [Tooltip("Khoảng cách dừng lại gần Wukong.")]
-    public float stopDistanceToWukong = 2f;
+    [Tooltip("Khoảng cách ngang tối thiểu Boss5 giữ với Wukong.")]
+    public float stopDistanceToWukong = 3f;
 
-    [Tooltip("Boss chỉ di chuyển theo trục X.")]
-    public bool moveOnlyX = true;
+    [Tooltip("Boss5 cũng giữ khoảng cách với đoàn thỉnh kinh.")]
+    public bool keepDistanceFromParty = true;
+
+    [Tooltip("Khoảng cách ngang tối thiểu Boss5 giữ với đoàn thỉnh kinh.")]
+    public float stopDistanceToParty = 2.5f;
+
+    [Tooltip("Khoảng cách ngang tối đa để tìm đoàn thỉnh kinh gần Boss5.")]
+    public float partyDetectRange = 8f;
 
     [Header("Facing")]
-    [Tooltip("Sprite gốc của Boss5 đang quay sang phải.")]
+    [Tooltip("Sprite gốc đang quay sang phải.")]
     public bool spriteFacesRightByDefault = true;
 
-    [Tooltip("Lật hướng bằng SpriteRenderer.flipX.")]
+    [Tooltip("Lật bằng SpriteRenderer.flipX.")]
     public bool useSpriteRendererFlip = true;
 
-    [Tooltip("Lật hướng bằng localScale X.")]
+    [Tooltip("Lật bằng localScale X.")]
     public bool useTransformScaleFlip = false;
 
     [Header("Animator")]
@@ -69,10 +68,7 @@ public class Boss5Controller : MonoBehaviour
     public string idleStateName = "Boss5_idle";
 
     [Header("Attack")]
-    [Tooltip("Boss có thể vừa di chuyển vừa bắn.")]
-    public bool canAttackWhileMoving = true;
-
-    [Tooltip("Khoảng cách tối đa để bắn projectile.")]
+    [Tooltip("Tầm bắn projectile tính theo khoảng cách ngang X.")]
     public float attackRange = 10f;
 
     [Tooltip("Thời gian hồi chiêu bắn.")]
@@ -87,21 +83,24 @@ public class Boss5Controller : MonoBehaviour
     [Tooltip("Thời gian tự hủy projectile.")]
     public float projectileLifeTime = 3f;
 
+    [Tooltip("Bắn projectile bằng Animation Event thay vì bắn ngay khi bắt đầu attack.")]
+    public bool useAnimationEventToFireProjectile = true;
+
     [Header("Projectile Spawn")]
-    [Tooltip("Tự cập nhật vị trí spawn projectile theo hướng nhìn.")]
+    [Tooltip("Tự cập nhật điểm spawn theo hướng nhìn.")]
     public bool autoUpdateProjectileSpawnPoint = true;
 
-    [Tooltip("Khoảng cách spawn projectile tính từ tâm sprite Boss5.")]
-    public Vector2 projectileSpawnOffset = new Vector2(1.2f, 0.5f);
+    [Tooltip("Khoảng cách spawn từ tâm sprite Boss5.")]
+    public Vector2 projectileSpawnOffset = new Vector2(1.4f, 0.4f);
 
     [Header("Stop Combat")]
-    [Tooltip("Boss dừng hoạt động khi Wukong chết.")]
+    [Tooltip("Dừng Boss5 khi Wukong chết.")]
     public bool stopBossWhenWukongDead = true;
 
-    [Tooltip("Boss dừng hoạt động khi đoàn thỉnh kinh chết.")]
+    [Tooltip("Dừng Boss5 khi đoàn thỉnh kinh chết.")]
     public bool stopBossWhenPartyDead = true;
 
-    [Tooltip("Boss đã dừng combat.")]
+    [Tooltip("Boss5 đã dừng combat.")]
     public bool combatStoppedByDeath = false;
 
     [Header("Debug")]
@@ -109,10 +108,8 @@ public class Boss5Controller : MonoBehaviour
     public bool enableDebugLog = false;
 
     bool isActive;
-    bool isDefeated;
     bool isFacingRight = true;
     bool hasForcedIdleAfterCombatStop;
-
     float attackTimer;
 
     void Awake()
@@ -132,7 +129,6 @@ public class Boss5Controller : MonoBehaviour
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
-        currentHealth = maxHealth;
         isFacingRight = spriteFacesRightByDefault;
 
         FindWukongIfNeeded();
@@ -146,8 +142,6 @@ public class Boss5Controller : MonoBehaviour
 
     void Update()
     {
-        if (isDefeated) return;
-
         if (combatStoppedByDeath)
         {
             StopMove();
@@ -175,6 +169,7 @@ public class Boss5Controller : MonoBehaviour
         if (!isActive)
         {
             StopMove();
+            ForceIdleState(false);
             return;
         }
 
@@ -200,21 +195,107 @@ public class Boss5Controller : MonoBehaviour
 
         FaceTarget(wukongTarget);
 
-        float distanceToWukong = Vector2.Distance(transform.position, wukongTarget.position);
+        float horizontalDistanceToWukong = GetHorizontalDistance(transform, wukongTarget);
 
-        if (distanceToWukong > stopDistanceToWukong)
+        bool shouldStopForWukong = horizontalDistanceToWukong <= stopDistanceToWukong;
+        bool shouldStopForParty = IsPartyTooClose();
+
+        if (shouldStopForWukong || shouldStopForParty)
         {
-            MoveToTarget(wukongTarget);
+            StopMove();
+            ForceIdleState(false);
+
+            if (enableDebugLog)
+            {
+                Debug.Log(
+                    "Boss5 dừng lại | Gần Wukong: " + shouldStopForWukong +
+                    " | Gần Party: " + shouldStopForParty +
+                    " | Distance Wukong X: " + horizontalDistanceToWukong
+                );
+            }
         }
         else
         {
-            StopMove();
+            MoveToTarget(wukongTarget);
         }
 
-        if (distanceToWukong <= attackRange && CanAttack())
+        bool canAttackWukong = horizontalDistanceToWukong <= attackRange;
+        bool canAttackParty = IsPartyInAttackRange();
+
+        if ((canAttackWukong || canAttackParty) && CanAttack())
         {
             StartAttack();
+
+            if (enableDebugLog)
+            {
+                Debug.Log(
+                    "Boss5 ra chiêu | Wukong trong vùng đánh: " + canAttackWukong +
+                    " | Party trong vùng đánh: " + canAttackParty
+                );
+            }
         }
+    }
+    bool IsPartyInAttackRange()
+    {
+        Transform nearestParty = FindNearestParty();
+
+        if (nearestParty == null) return false;
+
+        float horizontalDistanceToParty = GetHorizontalDistance(transform, nearestParty);
+
+        return horizontalDistanceToParty <= attackRange;
+    }
+    bool IsPartyTooClose()
+    {
+        if (!keepDistanceFromParty) return false;
+
+        Transform nearestParty = FindNearestParty();
+
+        if (nearestParty == null) return false;
+
+        float horizontalDistanceToParty = GetHorizontalDistance(transform, nearestParty);
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss5 check Party X distance: " + horizontalDistanceToParty);
+        }
+
+        return horizontalDistanceToParty <= stopDistanceToParty;
+    }
+
+    Transform FindNearestParty()
+    {
+        GameObject[] partyObjects = GameObject.FindGameObjectsWithTag(partyTag);
+
+        Transform nearestParty = null;
+        float nearestHorizontalDistance = Mathf.Infinity;
+
+        for (int i = 0; i < partyObjects.Length; i++)
+        {
+            GameObject partyObject = partyObjects[i];
+
+            if (partyObject == null) continue;
+
+            float horizontalDistance = Mathf.Abs(transform.position.x - partyObject.transform.position.x);
+
+            if (horizontalDistance > partyDetectRange) continue;
+
+            if (horizontalDistance < nearestHorizontalDistance)
+            {
+                nearestHorizontalDistance = horizontalDistance;
+                nearestParty = partyObject.transform;
+            }
+        }
+
+        return nearestParty;
+    }
+
+    float GetHorizontalDistance(Transform a, Transform b)
+    {
+        if (a == null) return Mathf.Infinity;
+        if (b == null) return Mathf.Infinity;
+
+        return Mathf.Abs(a.position.x - b.position.x);
     }
 
     bool CanAttack()
@@ -237,14 +318,29 @@ public class Boss5Controller : MonoBehaviour
             animator.SetTrigger(attackTriggerName);
         }
 
+        // Nếu không dùng Animation Event thì mới bắn ngay.
+        // Còn nếu dùng Animation Event, projectile sẽ được sinh ở đúng frame trong animation.
+        if (!useAnimationEventToFireProjectile)
+        {
+            FireProjectile();
+        }
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss5 bắt đầu animation attack.");
+        }
+    }
+    public void Boss5_AttackFireEvent()
+    {
+        if (combatStoppedByDeath) return;
+
         FireProjectile();
 
         if (enableDebugLog)
         {
-            Debug.Log("Boss5 bắn projectile.");
+            Debug.Log("Boss5 Animation Event: sinh projectile.");
         }
     }
-
     public void FireProjectile()
     {
         if (combatStoppedByDeath) return;
@@ -265,7 +361,17 @@ public class Boss5Controller : MonoBehaviour
 
         if (projectile != null)
         {
-            projectile.Init(shootDirection, projectileDamage, projectileSpeed, projectileLifeTime, transform);
+            projectile.Init(
+                shootDirection,
+                projectileDamage,
+                projectileSpeed,
+                projectileLifeTime,
+                transform
+            );
+        }
+        else
+        {
+            Debug.LogWarning("Prefab projectile Boss5 thiếu script Boss5Projectile.");
         }
     }
 
@@ -278,20 +384,22 @@ public class Boss5Controller : MonoBehaviour
             return;
         }
 
-        Vector2 direction = target.position - transform.position;
+        float directionX = target.position.x - transform.position.x;
 
-        if (moveOnlyX)
+        if (Mathf.Abs(directionX) < 0.01f)
         {
-            direction.y = 0f;
+            StopMove();
+            ForceIdleState(false);
+            return;
         }
 
-        float moveDirectionX = Mathf.Sign(direction.x);
+        float moveDirectionX = Mathf.Sign(directionX);
 
         FaceDirection(moveDirectionX);
 
         if (rb != null)
         {
-            rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, 0f);
         }
 
         if (animator != null)
@@ -304,7 +412,7 @@ public class Boss5Controller : MonoBehaviour
     {
         if (rb != null)
         {
-            rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            rb.linearVelocity = Vector2.zero;
         }
 
         if (animator != null)
@@ -368,11 +476,6 @@ public class Boss5Controller : MonoBehaviour
         float yOffset = projectileSpawnOffset.y;
 
         Vector3 basePosition = transform.position;
-
-        if (spriteRenderer != null)
-        {
-            basePosition = spriteRenderer.bounds.center;
-        }
 
         Vector3 spawnPosition = basePosition + new Vector3(xOffset, yOffset, 0f);
 
@@ -475,14 +578,9 @@ public class Boss5Controller : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isDefeated) return;
-
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
-        if (currentHealth <= 0)
+        if (enableDebugLog)
         {
-            Die();
+            Debug.Log("Boss5 không nhận sát thương.");
         }
     }
 
@@ -496,19 +594,6 @@ public class Boss5Controller : MonoBehaviour
         TakeDamage(damage);
     }
 
-    void Die()
-    {
-        if (isDefeated) return;
-
-        isDefeated = true;
-        StopMove();
-
-        if (hideWhenDefeated)
-        {
-            gameObject.SetActive(false);
-        }
-    }
-
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -517,19 +602,15 @@ public class Boss5Controller : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, stopDistanceToWukong);
 
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, partyDetectRange);
+
         DrawProjectileSpawnGizmo();
     }
 
     void DrawProjectileSpawnGizmo()
     {
         Vector3 basePosition = transform.position;
-
-        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
-
-        if (sr != null)
-        {
-            basePosition = sr.bounds.center;
-        }
 
         Vector2 facingDirection = isFacingRight ? Vector2.right : Vector2.left;
 
@@ -545,10 +626,10 @@ public class Boss5Controller : MonoBehaviour
         Gizmos.DrawLine(basePosition, spawnPosition);
 
 #if UNITY_EDITOR
-        UnityEditor.Handles.Label(
-            spawnPosition + Vector3.up * 0.25f,
-            "Boss5 Projectile Spawn\nX: " + projectileSpawnOffset.x + " | Y: " + projectileSpawnOffset.y
-        );
+    UnityEditor.Handles.Label(
+        spawnPosition + Vector3.up * 0.25f,
+        "Boss5 Projectile Spawn\nX: " + projectileSpawnOffset.x + " | Y: " + projectileSpawnOffset.y
+    );
 #endif
     }
 }

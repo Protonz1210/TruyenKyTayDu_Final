@@ -497,7 +497,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wuong1Idle
+  m_Name: Wukong1Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

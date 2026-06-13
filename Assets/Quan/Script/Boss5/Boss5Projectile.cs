@@ -38,6 +38,7 @@ public class Boss5Projectile : MonoBehaviour
     Vector2 moveDirection = Vector2.right;
     Transform ownerRoot;
     bool hasHit;
+    bool initialized;
 
     public void Init(Vector2 direction, int newDamage, float newSpeed, float newLifeTime, Transform owner)
     {
@@ -55,6 +56,8 @@ public class Boss5Projectile : MonoBehaviour
         lifeTime = newLifeTime;
         ownerRoot = owner;
 
+        initialized = true;
+
         SetupReferences();
         ApplyVisualDirection();
 
@@ -68,8 +71,11 @@ public class Boss5Projectile : MonoBehaviour
 
     void Start()
     {
-        ApplyVisualDirection();
-        Destroy(gameObject, lifeTime);
+        if (!initialized)
+        {
+            ApplyVisualDirection();
+            Destroy(gameObject, lifeTime);
+        }
     }
 
     void FixedUpdate()
@@ -135,19 +141,16 @@ public class Boss5Projectile : MonoBehaviour
 
         bool hitSomething = false;
 
-        if (other.CompareTag(playerTag) || other.GetComponentInParent<PlayerHealth>() != null)
+        PlayerHealth playerHealth = other.GetComponentInParent<PlayerHealth>();
+
+        if (playerHealth != null)
         {
-            PlayerHealth playerHealth = other.GetComponentInParent<PlayerHealth>();
+            playerHealth.TakeDamage(damage);
+            hitSomething = true;
 
-            if (playerHealth != null)
+            if (enableDebugLog)
             {
-                playerHealth.TakeDamage(damage);
-                hitSomething = true;
-
-                if (enableDebugLog)
-                {
-                    Debug.Log("Boss5 projectile hit Wukong: " + damage);
-                }
+                Debug.Log("Boss5 projectile hit Wukong: " + damage);
             }
         }
 

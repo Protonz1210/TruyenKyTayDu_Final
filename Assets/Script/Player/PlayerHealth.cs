@@ -14,6 +14,22 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("UI thanh máu của màn chơi.")]
     public MapHUDController hudController;
 
+    [Header("Boss5 Special Death Rule")]
+    [Tooltip("Nếu có Boss5 trong scene, Wukong hết máu sẽ chuyển về Idle thay vì Die.")]
+    public bool useIdleInsteadOfDeathWhenBoss5Exists = true;
+
+    [Tooltip("Animator của Wukong. Nếu để trống sẽ tự lấy Animator trên object.")]
+    public Animator playerAnimator;
+
+    [Tooltip("Rigidbody2D của Wukong. Nếu để trống sẽ tự lấy Rigidbody2D trên object.")]
+    public Rigidbody2D rb;
+
+    [Tooltip("Tên state Idle thật trong Animator của Wukong.")]
+    public string idleStateName = "Idle";
+
+    [Tooltip("Khi Wukong hết máu trong màn có Boss5, có tắt PlayerController không.")]
+    public bool disablePlayerControllerWhenBoss5IdleDeath = true;
+
     [Header("Test Damage / Heal")]
     [Tooltip("Bật phím test mất máu và hồi máu 1_2_3.")]
     public bool enableTestKeys = true;
@@ -31,6 +47,16 @@ public class PlayerHealth : MonoBehaviour
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
+        if (playerAnimator == null)
+        {
+            playerAnimator = GetComponent<Animator>();
+        }
+
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
         currentHealth = maxHealth;
     }
 
@@ -149,13 +175,18 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        if (isDead)
-            return;
+        if (isDead) return;
 
         isDead = true;
         currentHealth = 0;
-
         UpdateHealthUI();
+
+        if (ShouldUseBoss5IdleDeathMode())
+        {
+            Debug.Log("Wukong hết máu khi Boss5 xuất hiện: chuyển về Idle, không chạy animation chết.");
+            ForceWukongIdleByBoss5Rule();
+            return;
+        }
 
         Debug.Log("Ngộ Không đã bị hạ gục.");
 
@@ -168,7 +199,49 @@ public class PlayerHealth : MonoBehaviour
             Debug.LogWarning("Không tìm thấy PlayerController trên Ngộ Không.");
         }
     }
+    bool ShouldUseBoss5IdleDeathMode()
+    {
+        if (!useIdleInsteadOfDeathWhenBoss5Exists) return false;
 
+#if UNITY_2023_1_OR_NEWER
+    Boss5Controller[] boss5List = FindObjectsByType<Boss5Controller>(FindObjectsSortMode.None);
+#else
+        Boss5Controller[] boss5List = FindObjectsOfType<Boss5Controller>();
+#endif
+
+        for (int i = 0; i < boss5List.Length; i++)
+        {
+            Boss5Controller boss5 = boss5List[i];
+
+            if (boss5 == null) continue;
+            if (!boss5.gameObject.activeInHierarchy) continue;
+
+            return true;
+        }
+
+        return false;
+    }
+    void ForceWukongIdleByBoss5Rule()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        if (playerController != null && disablePlayerControllerWhenBoss5IdleDeath)
+        {
+            playerController.enabled = false;
+        }
+
+        if (playerAnimator != null)
+        {
+            if (!string.IsNullOrEmpty(idleStateName))
+            {
+                playerAnimator.Play(idleStateName, 0, 0f);
+                playerAnimator.Update(0f);
+            }
+        }
+    }
     void UpdateHealthUI()
     {
         if (hudController != null)
