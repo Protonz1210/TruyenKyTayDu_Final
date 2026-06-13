@@ -111,9 +111,36 @@ public class WukongAttackHitbox : MonoBehaviour
             return;
         }
 
+        if (TryHitTieuYeu(other)) return;
         if (TryHitBoss2(other)) return;
         if (TryHitEnemy4(other)) return;
         if (TryHitMap4Boss(other)) return;
+    }
+
+    bool TryHitTieuYeu(Collider2D other)
+    {
+        TieuYeuController tieuYeu = other.GetComponentInParent<TieuYeuController>();
+
+        if (tieuYeu == null)
+        {
+            return false;
+        }
+
+        GameObject targetKey = tieuYeu.gameObject;
+
+        if (hitEnemies.Contains(targetKey))
+        {
+            return true;
+        }
+
+        hitEnemies.Add(targetKey);
+        tieuYeu.TakeDamage(currentDamage);
+
+        AddPassiveAfterHit();
+
+        Debug.Log("Wukong đánh trúng Tiểu yêu: -" + currentDamage);
+
+        return true;
     }
 
     bool TryHitBoss2(Collider2D other)
