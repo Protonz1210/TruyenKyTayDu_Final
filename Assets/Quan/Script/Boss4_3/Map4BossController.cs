@@ -1429,4 +1429,18 @@ public class Map4BossController : MonoBehaviour
         );
 #endif
     }
+    public bool IsDead()
+    {
+        return currentHealth <= 0;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }

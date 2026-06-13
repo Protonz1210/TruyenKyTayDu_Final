@@ -294,4 +294,12 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
 
         return (float)currentHealth / maxHealth;
     }
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
 }

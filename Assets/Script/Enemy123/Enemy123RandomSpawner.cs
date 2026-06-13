@@ -11,6 +11,10 @@ public class Enemy123RandomSpawner : MonoBehaviour
     [Tooltip("Các điểm spawn trên map.")]
     public Transform[] spawnPoints;
 
+    [Header("Story Control")]
+    [Tooltip("Chỉ cho spawn khi story manager cho phép.")]
+    public bool isSpawning = false;
+
     [Header("Spawn Limit")]
     [Tooltip("Số enemy tối đa được tồn tại cùng lúc trên map.")]
     public int maxAliveEnemies = 2;
@@ -80,6 +84,8 @@ public class Enemy123RandomSpawner : MonoBehaviour
 
     void Update()
     {
+        if (!isSpawning) return;
+
         FindPlayerIfNeeded();
 
         checkTimer -= Time.deltaTime;
@@ -332,5 +338,15 @@ public class Enemy123RandomSpawner : MonoBehaviour
             Gizmos.DrawWireSphere(point.position, occupiedCheckRadius);
             Gizmos.DrawSphere(point.position, 0.1f);
         }
+    }
+    public void StartSpawn()
+    {
+        isSpawning = true;
+        SpawnUntilFull();
+    }
+
+    public void StopSpawn()
+    {
+        isSpawning = false;
     }
 }
