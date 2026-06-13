@@ -75,9 +75,6 @@ public class TieuYeuController : MonoBehaviour
     [Tooltip("Máu hiện tại.")]
     public int currentHealth;
 
-    [Tooltip("UI máu trên đầu.")]
-    public TieuYeuHealthTextUI healthTextUI;
-
     [Header("Death")]
     [Tooltip("Tự xóa sau animation chết.")]
     public bool destroyAfterDeath = true;
@@ -93,7 +90,7 @@ public class TieuYeuController : MonoBehaviour
     public string dieTriggerName = "Die";
 
     [Tooltip("Tên state idle trong Animator.")]
-    public string idleStateName = "TieuYeu_idle";
+    public string idleStateName = "Enemy1Idle";
 
     [Tooltip("Ép Tiểu yêu về idle khi bắt đầu.")]
     public bool forceIdleOnStart = true;
@@ -137,7 +134,7 @@ public class TieuYeuController : MonoBehaviour
 
         if (meleeHitbox == null)
         {
-            meleeHitbox = GetComponentInChildren<TieuYeuMeleeHitbox>();
+            meleeHitbox = GetComponentInChildren<TieuYeuMeleeHitbox>(true);
         }
 
         if (meleeHitbox != null)
@@ -148,13 +145,7 @@ public class TieuYeuController : MonoBehaviour
             meleeHitbox.DeactivateHitbox();
         }
 
-        if (healthTextUI == null)
-        {
-            healthTextUI = GetComponentInChildren<TieuYeuHealthTextUI>();
-        }
-
         ResetAnimatorToIdle();
-        UpdateHealthUI();
     }
 
     void Start()
@@ -167,7 +158,6 @@ public class TieuYeuController : MonoBehaviour
         }
 
         ResetAnimatorToIdle();
-        UpdateHealthUI();
     }
 
     void Update()
@@ -561,14 +551,6 @@ public class TieuYeuController : MonoBehaviour
         }
     }
 
-    void UpdateHealthUI()
-    {
-        if (healthTextUI != null)
-        {
-            healthTextUI.UpdateHealthText(currentHealth, maxHealth);
-        }
-    }
-
     public bool IsTargetStillInMeleeRange(Transform checkTarget)
     {
         return IsTargetInMeleeRange(checkTarget);
@@ -580,7 +562,14 @@ public class TieuYeuController : MonoBehaviour
             return;
 
         if (damage <= 0)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning("Tiểu yêu nhận damage <= 0 nên không trừ máu.");
+            }
+
             return;
+        }
 
         currentHealth -= damage;
 
@@ -588,8 +577,6 @@ public class TieuYeuController : MonoBehaviour
         {
             currentHealth = 0;
         }
-
-        UpdateHealthUI();
 
         if (enableDebugLog)
         {
@@ -614,7 +601,6 @@ public class TieuYeuController : MonoBehaviour
 
         StopMoveHard();
         SetAnimatorSpeed(0f);
-        UpdateHealthUI();
 
         if (meleeHitbox != null)
         {
@@ -733,5 +719,15 @@ public class TieuYeuController : MonoBehaviour
     public bool IsDead()
     {
         return isDead;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
     }
 }
