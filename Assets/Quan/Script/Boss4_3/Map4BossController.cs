@@ -1527,7 +1527,7 @@ public class Map4BossController : MonoBehaviour
 
     public bool CanShowBossUI()
     {
-        return canShowBossUI && combatActivated && !IsDead();
+        return canShowBossUI && combatActivated;
     }
 
     void ForceBossIdleForStory()

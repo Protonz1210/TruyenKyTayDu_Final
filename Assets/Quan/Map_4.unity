@@ -466,12 +466,17 @@ MonoBehaviour:
   triggerType: 0
   playerTag: Player
   triggerOnlyOnce: 1
-  requirePlayerGrounded: 1
+  waitIdleIfPlayerEnterWhileAirborne: 1
+  wukongIdleStateName: Wukong1Idle
+  airborneVelocityYThreshold: 0.08
+  idleStableTime: 0.15
+  maxWaitIdleTime: 4
+  useGroundCheck: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
   groundCheckDistance: 0.25
-  drawDebugRay: 1
+  enableDebugLog: 1
 --- !u!61 &104133614
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -506,7 +511,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.10031128, y: -0.07285452}
+  m_Offset: {x: -0.2484827, y: 0.06543821}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -516,7 +521,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.56353, y: 0.1737361}
+  m_Size: {x: 7.8110943, y: 0.4503218}
   m_EdgeRadius: 0
 --- !u!4 &104133615
 Transform:
@@ -3000,12 +3005,17 @@ MonoBehaviour:
   triggerType: 1
   playerTag: Player
   triggerOnlyOnce: 1
-  requirePlayerGrounded: 1
+  waitIdleIfPlayerEnterWhileAirborne: 1
+  wukongIdleStateName: Idle
+  airborneVelocityYThreshold: 0.08
+  idleStableTime: 0.15
+  maxWaitIdleTime: 4
+  useGroundCheck: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
   groundCheckDistance: 0.25
-  drawDebugRay: 1
+  enableDebugLog: 1
 --- !u!1001 &1113059428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4026,6 +4036,11 @@ MonoBehaviour:
   enemy4Object: {fileID: 0}
   autoDetectEnemy4Dead: 1
   enemy123Spawner: {fileID: 8438972204532524431}
+  waitWukongIdleBeforeBossDialogue: 1
+  wukongIdleStateNameForDialogueWait: Wukong1Idle
+  wukongIdleVelocityThreshold: 0.05
+  wukongIdleStableTime: 0.25
+  maxWaitWukongIdleTime: 5
   boss3: {fileID: 427819201}
   boss4: {fileID: 825432742}
   boss5Object: {fileID: 918771516}

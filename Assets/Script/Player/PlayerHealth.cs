@@ -203,7 +203,6 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
 
         Debug.Log("Ngộ Không hồi máu: " + amount + " | Máu: " + currentHealth + " / " + maxHealth);
     }
-
     void Die()
     {
         if (isDead) return;
@@ -215,7 +214,21 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
         if (ShouldUseBoss5IdleDeathMode())
         {
             Debug.Log("Wukong hết máu khi Boss5 xuất hiện: chuyển về Idle, không chạy animation chết.");
+
             ForceWukongIdleByBoss5Rule();
+
+            Map4StoryManager map4StoryManager = FindFirstObjectByType<Map4StoryManager>();
+
+            if (map4StoryManager != null)
+            {
+                Debug.Log("PlayerHealth đã gọi NotifyWukongDeadForBoss5Story.");
+                map4StoryManager.NotifyWukongDeadForBoss5Story();
+            }
+            else
+            {
+                Debug.LogWarning("Không tìm thấy Map4StoryManager để mở thoại Boss5.");
+            }
+
             return;
         }
 
@@ -228,12 +241,6 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
         else
         {
             Debug.LogWarning("Không tìm thấy PlayerController trên Ngộ Không.");
-        }
-        Map4StoryManager map4StoryManager = FindFirstObjectByType<Map4StoryManager>();
-
-        if (map4StoryManager != null)
-        {
-            map4StoryManager.NotifyWukongDeadForBoss5Story();
         }
     }
     bool ShouldUseBoss5IdleDeathMode()

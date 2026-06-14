@@ -74,6 +74,24 @@ public class Map4StoryManager : MonoBehaviour
     [Header("Enemy123 Wave")]
     public Enemy123RandomSpawner enemy123Spawner;
 
+    [Header("Before Boss Dialogue Wait Idle")]
+    [Tooltip("Sau khi diệt hết Enemy123, đợi Wukong tự đánh hết chiêu và về Idle rồi mới mở thoại.")]
+    public bool waitWukongIdleBeforeBossDialogue = true;
+
+    [Tooltip("Tên state Idle thật của Wukong trong Animator.")]
+    public string wukongIdleStateNameForDialogueWait = "Idle";
+
+    [Tooltip("Tốc độ Rigidbody nhỏ hơn số này thì coi như Wukong đã đứng yên.")]
+    public float wukongIdleVelocityThreshold = 0.05f;
+
+    [Tooltip("Wukong phải đứng Idle liên tục bao lâu mới mở thoại.")]
+    public float wukongIdleStableTime = 0.25f;
+
+    [Tooltip("Thời gian chờ tối đa. Nếu quá thời gian này vẫn chưa Idle thì mới ép mở thoại để tránh kẹt phase.")]
+    public float maxWaitWukongIdleTime = 5f;
+
+    private bool waitingBeforeBossDialogue;
+
     [Header("Boss 3 / Boss 4")]
     public Map4BossController boss3;
     public Map4BossController boss4;
@@ -277,14 +295,100 @@ public class Map4StoryManager : MonoBehaviour
     void CheckNormalEnemyWaveFinished()
     {
         if (beforeBossDialogueStarted) return;
+        if (waitingBeforeBossDialogue) return;
         if (enemy123Spawner == null) return;
 
         if (enemy123Spawner.IsSpawnFinished())
         {
-            StartBeforeBossDialogue();
+            StartCoroutine(WaitWukongIdleThenStartBeforeBossDialogue());
         }
     }
+    IEnumerator WaitWukongIdleThenStartBeforeBossDialogue()
+    {
+        waitingBeforeBossDialogue = true;
 
+        // Dừng spawner, nhưng KHÔNG khóa Wukong ngay.
+        // Để Wukong đánh hết chiêu hiện tại.
+        if (enemy123Spawner != null)
+        {
+            enemy123Spawner.StopSpawn();
+        }
+
+        float waitTimer = 0f;
+        float idleTimer = 0f;
+
+        while (waitWukongIdleBeforeBossDialogue)
+        {
+            waitTimer += Time.deltaTime;
+
+            bool isIdleReady = IsWukongIdleReadyForDialogue();
+
+            if (isIdleReady)
+            {
+                idleTimer += Time.deltaTime;
+
+                if (idleTimer >= wukongIdleStableTime)
+                {
+                    break;
+                }
+            }
+            else
+            {
+                idleTimer = 0f;
+            }
+
+            // Chống kẹt phase nếu Animator state đặt sai hoặc player giữ input mãi.
+            if (waitTimer >= maxWaitWukongIdleTime)
+            {
+                Debug.LogWarning("Chờ Wukong về Idle quá lâu. Tự mở thoại trước Boss để tránh kẹt phase.");
+                break;
+            }
+
+            yield return null;
+        }
+
+        // Đến đây Wukong đã tự hết chiêu / về Idle rồi mới khóa.
+        LockWukongAndParty();
+
+        StartBeforeBossDialogue();
+    }
+    bool IsWukongIdleReadyForDialogue()
+    {
+        if (wukongAnimator == null)
+        {
+            return true;
+        }
+
+        if (wukongAnimator.IsInTransition(0))
+        {
+            return false;
+        }
+
+        AnimatorStateInfo stateInfo = wukongAnimator.GetCurrentAnimatorStateInfo(0);
+
+        bool isIdleState = false;
+
+        if (!string.IsNullOrEmpty(wukongIdleStateNameForDialogueWait))
+        {
+            isIdleState = stateInfo.IsName(wukongIdleStateNameForDialogueWait);
+        }
+
+        if (!isIdleState)
+        {
+            return false;
+        }
+
+        if (wukongRigidbody != null)
+        {
+            float velocityX = Mathf.Abs(wukongRigidbody.linearVelocity.x);
+            float velocityY = Mathf.Abs(wukongRigidbody.linearVelocity.y);
+
+            if (velocityX > wukongIdleVelocityThreshold) return false;
+            if (velocityY > wukongIdleVelocityThreshold) return false;
+        }
+
+        return true;
+    }
     void StartBeforeBossDialogue()
     {
         if (beforeBossDialogueStarted) return;
