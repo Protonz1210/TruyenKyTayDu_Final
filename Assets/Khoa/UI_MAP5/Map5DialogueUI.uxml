@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Khoa/UI_MAP5/Map5DialogueUI_Style.uss?fileID=7433441132597879392&amp;guid=d33854b21931e46b19952e10b1e63501&amp;type=3#Map5DialogueUI_Style"/>
+    <ui:VisualElement name="dialogue-root" style="flex-grow: 1; position: absolute; left: 0; right: 0; top: 0; bottom: 0;">
+        <ui:VisualElement name="dialogue-frame" style="flex-grow: 1; position: absolute; left: 80px; right: 80px; bottom: 45px; top: 155px;"/>
+    </ui:VisualElement>
+</ui:UXML>
