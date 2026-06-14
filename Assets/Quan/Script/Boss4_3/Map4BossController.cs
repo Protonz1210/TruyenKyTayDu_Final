@@ -8,7 +8,6 @@ public class Map4BossController : MonoBehaviour
         Boss3,
         Boss4
     }
-   
 
     [Header("Boss Info")]
     [Tooltip("ID của boss. Boss3 = 3, Boss4 = 4.")]
@@ -39,6 +38,20 @@ public class Map4BossController : MonoBehaviour
 
     [Tooltip("Ép boss đứng Idle khi chưa combat.")]
     public bool forceIdleWhenNotCombat = true;
+
+    [Header("Story Idle State")]
+    [Tooltip("Các bool Animator cần tắt khi boss chưa combat.")]
+    public string[] boolParametersToFalseWhenIdle;
+
+    [Tooltip("Các trigger Animator cần reset khi boss chưa combat.")]
+    public string[] triggersToResetWhenIdle;
+
+    [Header("Story Aggro")]
+    [Tooltip("Khi ActivateCombat thì boss tự target Wukong luôn, không cần Wukong đi vào tầm phát hiện.")]
+    public bool autoTargetPlayerWhenCombat = true;
+
+    [Tooltip("Sau khi đã ActivateCombat thì bỏ qua detection range, boss luôn đuổi theo target.")]
+    public bool ignoreDetectionRangeAfterCombat = true;
 
     [Tooltip("Boss chết thì ẩn object.")]
     public bool hideWhenDefeated = false;
@@ -289,13 +302,14 @@ public class Map4BossController : MonoBehaviour
 
     void Update()
     {
+        if (isDefeated) return;
+
         if (!combatActivated)
         {
             StopMove();
             ForceBossIdleForStory();
             return;
         }
-        if (isDefeated) return;
 
         if (combatStoppedByDeath)
         {
@@ -314,6 +328,12 @@ public class Map4BossController : MonoBehaviour
         }
 
         FindWukongIfNeeded();
+
+        if (autoTargetPlayerWhenCombat && currentTarget == null)
+        {
+            FindPlayerTarget();
+        }
+
         UpdateTimers();
 
         if (autoUpdateUltimateFirePoint)
@@ -354,6 +374,13 @@ public class Map4BossController : MonoBehaviour
     {
         if (wukongTarget == null) return;
 
+        if (combatActivated && ignoreDetectionRangeAfterCombat)
+        {
+            isActive = true;
+            currentTarget = wukongTarget;
+            return;
+        }
+
         float distance = Vector2.Distance(transform.position, wukongTarget.position);
 
         if (distance <= activationRange)
@@ -361,6 +388,7 @@ public class Map4BossController : MonoBehaviour
             isActive = true;
         }
     }
+
     void RunBossAI()
     {
         if (combatStoppedByDeath)
@@ -465,6 +493,7 @@ public class Map4BossController : MonoBehaviour
         MoveToTarget(currentTarget);
         DebugTarget("Đuổi Party vì không có Wukong");
     }
+
     Transform FindBlockingPartyInMeleeRange()
     {
         if (wukongTarget == null) return null;
@@ -499,6 +528,7 @@ public class Map4BossController : MonoBehaviour
 
         return nearestBlockingParty;
     }
+
     bool IsPartyBetweenBossAndWukong(Transform partyTarget)
     {
         if (partyTarget == null) return false;
@@ -513,6 +543,7 @@ public class Map4BossController : MonoBehaviour
 
         return partyX > minX && partyX < maxX;
     }
+
     Transform FindWukongInMeleeRange()
     {
         if (wukongTarget == null) return null;
@@ -526,6 +557,7 @@ public class Map4BossController : MonoBehaviour
 
         return null;
     }
+
     Transform FindPartyInMeleeRange()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, partyDetectRange);
@@ -1004,6 +1036,7 @@ public class Map4BossController : MonoBehaviour
         combatStoppedByDeath = true;
         StopBossCombatAndReturnIdle();
     }
+
     public void NotifyFirstMeleeHit()
     {
         if (hasFirstMeleeHit) return;
@@ -1016,6 +1049,7 @@ public class Map4BossController : MonoBehaviour
             Debug.Log(bossName + " đã đánh cận chiến trúng lần đầu. Bắt đầu hồi chiêu ulti.");
         }
     }
+
     public void NotifyPartyDead()
     {
         if (!stopBossWhenPartyDead) return;
@@ -1036,6 +1070,7 @@ public class Map4BossController : MonoBehaviour
         isActive = activeOnStart;
         ForceIdleState(true);
     }
+
     public void StopBossCombatAndReturnIdle()
     {
         combatStoppedByDeath = true;
@@ -1066,6 +1101,7 @@ public class Map4BossController : MonoBehaviour
 
         hasForcedIdleAfterCombatStop = true;
     }
+
     void ForceBossAnimatorToIdleOneTime()
     {
         if (animator == null) return;
@@ -1081,6 +1117,7 @@ public class Map4BossController : MonoBehaviour
         animator.Play(idleStateName, 0, 0f);
         animator.Update(0f);
     }
+
     void ForceCloseAllBossHitbox()
     {
         CloseMeleeHitbox();
@@ -1135,6 +1172,7 @@ public class Map4BossController : MonoBehaviour
             hitboxObject.SetActive(false);
         }
     }
+
     void KeepIdleAfterCombatStopped()
     {
         StopMove();
@@ -1153,7 +1191,6 @@ public class Map4BossController : MonoBehaviour
             animator.CrossFade(idleStateName, 0.05f, 0, 0f);
         }
     }
-
 
     void ForceIdleState(bool restartIdle)
     {
@@ -1293,6 +1330,7 @@ public class Map4BossController : MonoBehaviour
 
             return;
         }
+
         if (isDefeated) return;
 
         currentHealth -= damage;
@@ -1404,6 +1442,210 @@ public class Map4BossController : MonoBehaviour
         Debug.Log(bossName + " | " + state + " | Target: " + targetName + " | Distance: " + distance.ToString("F2"));
     }
 
+    public bool IsDead()
+    {
+        return currentHealth <= 0 || isDefeated;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public void ActivateCombat()
+    {
+        combatActivated = true;
+        canReceiveDamage = true;
+        canShowBossUI = true;
+
+        combatStoppedByDeath = false;
+        hasForcedIdleAfterCombatStop = false;
+
+        isActive = true;
+
+        if (autoTargetPlayerWhenCombat)
+        {
+            FindPlayerTarget();
+        }
+
+        if (wukongTarget != null)
+        {
+            currentTarget = wukongTarget;
+            FaceTarget(currentTarget);
+        }
+
+        StopMove();
+
+        if (enableDebugLog)
+        {
+            Debug.Log(gameObject.name + " đã ActivateCombat: isActive = true, tự target Wukong, bắt đầu AI boss.");
+        }
+    }
+
+    public void DeactivateCombat()
+    {
+        combatActivated = false;
+        canReceiveDamage = false;
+        canShowBossUI = false;
+
+        isActive = false;
+        currentTarget = null;
+        lockedMeleeTarget = null;
+
+        StopMove();
+        ForceBossIdleForStory();
+    }
+
+    public void StopCombatAndReturnIdle()
+    {
+        combatActivated = false;
+        canReceiveDamage = false;
+        canShowBossUI = false;
+
+        isActive = false;
+        currentTarget = null;
+        lockedMeleeTarget = null;
+
+        StopMove();
+        ForceBossIdleForStory();
+    }
+
+    public bool IsCombatState()
+    {
+        return combatActivated;
+    }
+
+    public bool CanReceiveDamage()
+    {
+        return canReceiveDamage && combatActivated && !IsDead();
+    }
+
+    public bool CanShowBossUI()
+    {
+        return canShowBossUI && combatActivated;
+    }
+
+    void ForceBossIdleForStory()
+    {
+        if (!forceIdleWhenNotCombat) return;
+        if (animator == null) return;
+
+        SetAnimatorFloatIfExists(animator, speedParameterName, 0f);
+
+        if (boolParametersToFalseWhenIdle != null)
+        {
+            for (int i = 0; i < boolParametersToFalseWhenIdle.Length; i++)
+            {
+                SetAnimatorBoolIfExists(animator, boolParametersToFalseWhenIdle[i], false);
+            }
+        }
+
+        if (triggersToResetWhenIdle != null)
+        {
+            for (int i = 0; i < triggersToResetWhenIdle.Length; i++)
+            {
+                ResetAnimatorTriggerIfExists(animator, triggersToResetWhenIdle[i]);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(idleStateName))
+        {
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (!stateInfo.IsName(idleStateName))
+            {
+                animator.Play(idleStateName, 0, 0f);
+                animator.Update(0f);
+            }
+        }
+    }
+
+    void SetAnimatorFloatIfExists(Animator targetAnimator, string parameterName, float value)
+    {
+        if (targetAnimator == null) return;
+        if (string.IsNullOrEmpty(parameterName)) return;
+
+        AnimatorControllerParameter[] parameters = targetAnimator.parameters;
+
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            if (parameters[i].name == parameterName && parameters[i].type == AnimatorControllerParameterType.Float)
+            {
+                targetAnimator.SetFloat(parameterName, value);
+                return;
+            }
+        }
+    }
+
+    void SetAnimatorBoolIfExists(Animator targetAnimator, string parameterName, bool value)
+    {
+        if (targetAnimator == null) return;
+        if (string.IsNullOrEmpty(parameterName)) return;
+
+        AnimatorControllerParameter[] parameters = targetAnimator.parameters;
+
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            if (parameters[i].name == parameterName && parameters[i].type == AnimatorControllerParameterType.Bool)
+            {
+                targetAnimator.SetBool(parameterName, value);
+                return;
+            }
+        }
+    }
+
+    void ResetAnimatorTriggerIfExists(Animator targetAnimator, string parameterName)
+    {
+        if (targetAnimator == null) return;
+        if (string.IsNullOrEmpty(parameterName)) return;
+
+        AnimatorControllerParameter[] parameters = targetAnimator.parameters;
+
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            if (parameters[i].name == parameterName && parameters[i].type == AnimatorControllerParameterType.Trigger)
+            {
+                targetAnimator.ResetTrigger(parameterName);
+                return;
+            }
+        }
+    }
+
+    public float GetHealthPercent()
+    {
+        if (maxHealth <= 0)
+        {
+            return 0f;
+        }
+
+        return (float)currentHealth / maxHealth;
+    }
+
+    void FindPlayerTarget()
+    {
+        if (wukongTarget == null)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+
+            if (playerObject != null)
+            {
+                wukongTarget = playerObject.transform;
+            }
+            else
+            {
+                Debug.LogWarning(gameObject.name + " không tìm thấy Player có tag: " + playerTag);
+                return;
+            }
+        }
+
+        currentTarget = wukongTarget;
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -1457,82 +1699,5 @@ public class Map4BossController : MonoBehaviour
             "Projectile Spawn\nX: " + ultimateFirePointLocalOffset.x + " | Y: " + ultimateFirePointLocalOffset.y
         );
 #endif
-    }
-    public bool IsDead()
-    {
-        return currentHealth <= 0;
-    }
-
-    public int GetCurrentHealth()
-    {
-        return currentHealth;
-    }
-
-    public int GetMaxHealth()
-    {
-        return maxHealth;
-    }
-    public void ActivateCombat()
-    {
-        combatActivated = true;
-        canReceiveDamage = true;
-        canShowBossUI = true;
-
-        if (enableDebugLog)
-        {
-            Debug.Log(gameObject.name + " đã được kích hoạt COMBAT.");
-        }
-    }
-
-    public void DeactivateCombat()
-    {
-        combatActivated = false;
-        canReceiveDamage = false;
-        canShowBossUI = false;
-
-        ForceBossIdleForStory();
-
-        if (enableDebugLog)
-        {
-            Debug.Log(gameObject.name + " đã tắt combat, trở về Idle.");
-        }
-    }
-
-    public void StopCombatAndReturnIdle()
-    {
-        combatActivated = false;
-        canReceiveDamage = false;
-        canShowBossUI = false;
-
-        ForceBossIdleForStory();
-    }
-
-    public bool IsCombatState()
-    {
-        return combatActivated;
-    }
-
-    public bool CanReceiveDamage()
-    {
-        return canReceiveDamage;
-    }
-
-    public bool CanShowBossUI()
-    {
-        return canShowBossUI && combatActivated && !IsDead();
-    }
-
-    void ForceBossIdleForStory()
-    {
-        if (!forceIdleWhenNotCombat) return;
-        if (animator == null) return;
-
-        animator.SetFloat(speedParameterName, 0f);
-
-        if (!string.IsNullOrEmpty(idleStateName))
-        {
-            animator.Play(idleStateName, 0, 0f);
-            animator.Update(0f);
-        }
     }
 }

@@ -42,8 +42,21 @@ public class Map4CameraFollowTargetLimiter : MonoBehaviour
     [Tooltip("Z của CameraFollowTarget.")]
     public float fixedZ = 0f;
 
+    [Header("Smooth Follow")]
+    [Tooltip("Bật làm mượt CameraFollowTarget để tránh giật khi mở khóa phase.")]
+    public bool useSmoothFollow = true;
+
+    [Tooltip("Thời gian camera target trượt về vị trí mới. Càng nhỏ càng nhanh, càng lớn càng mượt.")]
+    public float smoothTime = 0.25f;
+
+    [Tooltip("Tốc độ tối đa khi camera target đuổi theo Wukong.")]
+    public float maxSmoothSpeed = 80f;
+
     [Header("Debug")]
     public bool enableDebugLog = false;
+
+    private Vector3 smoothVelocity;
+    private bool initialized;
 
     void Awake()
     {
@@ -53,10 +66,48 @@ public class Map4CameraFollowTargetLimiter : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (player != null)
+        {
+            Vector3 startPosition = GetClampedTargetPosition();
+            transform.position = startPosition;
+            initialized = true;
+        }
+    }
+
     void LateUpdate()
     {
         if (player == null) return;
 
+        Vector3 targetPosition = GetClampedTargetPosition();
+
+        if (!initialized)
+        {
+            transform.position = targetPosition;
+            initialized = true;
+            return;
+        }
+
+        if (useSmoothFollow)
+        {
+            transform.position = Vector3.SmoothDamp(
+                transform.position,
+                targetPosition,
+                ref smoothVelocity,
+                smoothTime,
+                maxSmoothSpeed,
+                Time.deltaTime
+            );
+        }
+        else
+        {
+            transform.position = targetPosition;
+        }
+    }
+
+    Vector3 GetClampedTargetPosition()
+    {
         Vector3 targetPosition = player.position;
 
         if (!followPlayerY)
@@ -88,7 +139,7 @@ public class Map4CameraFollowTargetLimiter : MonoBehaviour
             }
         }
 
-        transform.position = targetPosition;
+        return targetPosition;
     }
 
     bool ShouldLimitLeft()

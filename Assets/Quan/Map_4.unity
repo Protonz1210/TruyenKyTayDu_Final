@@ -466,6 +466,17 @@ MonoBehaviour:
   triggerType: 0
   playerTag: Player
   triggerOnlyOnce: 1
+  waitIdleIfPlayerEnterWhileAirborne: 1
+  wukongIdleStateName: Wukong1Idle
+  airborneVelocityYThreshold: 0.08
+  idleStableTime: 0.15
+  maxWaitIdleTime: 4
+  useGroundCheck: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  groundCheckDistance: 0.25
+  enableDebugLog: 1
 --- !u!61 &104133614
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -500,7 +511,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.10031128, y: 0.7579131}
+  m_Offset: {x: -0.2484827, y: 0.06543821}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -510,7 +521,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.56353, y: 6.037895}
+  m_Size: {x: 7.8110943, y: 0.4503218}
   m_EdgeRadius: 0
 --- !u!4 &104133615
 Transform:
@@ -521,7 +532,7 @@ Transform:
   m_GameObject: {fileID: 104133612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -35.18, y: 0.74, z: 0}
+  m_LocalPosition: {x: -35.18, y: -1.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -907,13 +918,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Groud1_0 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8080630782990854029, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8751819844293701330, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.046551
       objectReference: {fileID: 0}
     - target: {fileID: 8751819844293701330, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.02851
+      value: -3.97
       objectReference: {fileID: 0}
     - target: {fileID: 8751819844293701330, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1321,6 +1336,12 @@ MonoBehaviour:
   canReceiveDamage: 0
   canShowBossUI: 0
   forceIdleWhenNotCombat: 1
+  boolParametersToFalseWhenIdle: []
+  triggersToResetWhenIdle:
+  - MeleeAttack
+  - Ultimate
+  autoTargetPlayerWhenCombat: 1
+  ignoreDetectionRangeAfterCombat: 1
   hideWhenDefeated: 0
   rb: {fileID: 427819203}
   animator: {fileID: 427819204}
@@ -1831,7 +1852,7 @@ Transform:
   m_GameObject: {fileID: 607242795}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5200002, y: -3.02, z: 0}
+  m_LocalPosition: {x: 27.59, y: -3.02, z: 0}
   m_LocalScale: {x: 1, y: 0.9712, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2303,6 +2324,12 @@ MonoBehaviour:
   canReceiveDamage: 0
   canShowBossUI: 0
   forceIdleWhenNotCombat: 1
+  boolParametersToFalseWhenIdle: []
+  triggersToResetWhenIdle:
+  - MeleeAttack
+  - Ultimate
+  autoTargetPlayerWhenCombat: 1
+  ignoreDetectionRangeAfterCombat: 1
   hideWhenDefeated: 0
   rb: {fileID: 825432744}
   animator: {fileID: 825432739}
@@ -2935,7 +2962,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.2628264, y: -0.1403141}
+  m_Offset: {x: 1.0295848, y: -0.04338169}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2945,7 +2972,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.525653, y: 7.0802765}
+  m_Size: {x: 3.0591695, y: 0.26587653}
   m_EdgeRadius: 0
 --- !u!4 &1049067344
 Transform:
@@ -2956,7 +2983,7 @@ Transform:
   m_GameObject: {fileID: 1049067342}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 2.38102, z: 0}
+  m_LocalPosition: {x: -0.36, y: -1.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2978,6 +3005,17 @@ MonoBehaviour:
   triggerType: 1
   playerTag: Player
   triggerOnlyOnce: 1
+  waitIdleIfPlayerEnterWhileAirborne: 1
+  wukongIdleStateName: Idle
+  airborneVelocityYThreshold: 0.08
+  idleStableTime: 0.15
+  maxWaitIdleTime: 4
+  useGroundCheck: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  groundCheckDistance: 0.25
+  enableDebugLog: 1
 --- !u!1001 &1113059428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3699,6 +3737,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Groud1_0
       objectReference: {fileID: 0}
+    - target: {fileID: 8080630782990854029, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8751819844293701330, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.060707
@@ -3904,85 +3946,108 @@ MonoBehaviour:
   m_GameObject: {fileID: 1617136879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a41eb38ba87d1ec42898b54e5354c6db, type: 3}
+  m_Script: {fileID: 11500000, guid: b83264eb201a8d641aa937b4d870d77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Map4StoryManager
   currentPhase: 0
   wukongController: {fileID: 2942687483788467420}
-  wukongHealth: {fileID: 2942687483788467419}
-  wukongRb: {fileID: 2011043232}
+  wukongRigidbody: {fileID: 2011043232}
   wukongAnimator: {fileID: 2011043231}
+  partyFollowScripts: []
+  partyAnimators:
+  - {fileID: 3416482806185226599}
+  - {fileID: 3416482806185226598}
+  - {fileID: 3416482806185226597}
   wukongIdleStateName: Wukong1Idle
-  wukongTransformTriggerName: Wukong1_transition
   wukongSpeedParameterName: Speed
   wukongBoolParametersToFalse:
   - IsDead
   - IsAttacking
   wukongTriggersToReset:
   - Attack0
-  - Attack3
-  - Attack2
   - Attack1
+  - Attack2
+  - Attack3
   - Die
-  partyHealth: {fileID: 3416482806185226600}
-  partyControlScripts: []
-  partyAnimators:
-  - {fileID: 3416482806185226599}
-  - {fileID: 3416482806185226598}
-  - {fileID: 3416482806185226597}
   partyIdleStateName: 
-  enemy4: {fileID: 735098609}
-  enemy123Spawner: {fileID: 8438972204532524431}
-  enemy123SpawnedParent: {fileID: 8438972204532524430}
-  autoStartNormalEnemyWave: 1
-  boss3: {fileID: 427819201}
-  boss4: {fileID: 825432742}
-  boss5AppearHealthPercent: 0.333
-  boss5Object: {fileID: 918771516}
-  boss5Controller: {fileID: 918771520}
-  lockControlWhenBoss5Appear: 0
-  useStoryDeathWhenBoss5Appear: 1
+  partySpeedParameterName: Speed
+  partyBoolParametersToFalse: []
+  partyTriggersToReset: []
   dialogueController: {fileID: 2141784119}
   enemy4IntroLines:
   - avatar: {fileID: 4962213768438153873, guid: f600647f0442d8f45b4706ad6ba4dc53, type: 3}
     speakerName: "TI\u1EC2U TU\u1EA6N PHONG"
-    dialogueText: "\u0110\u1EA1i v\u01B0\u01A1ng sai ta \u0111i tu\u1EA7n n\xFAi,
-      tu\u1EA7n n\xFAi B\u1EAFc r\u1ED3i l\u1EA1i tu\u1EA7n n\xFAi Nam!!!"
-  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
-    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
-    dialogueText: "\xCA ti\u1EC3u y\xEAu kia m \u0111ang l\xE0m g\xEC v\u1EADy"
+    dialogueText: "Ta \u0111\u01B0\u1EE3c \u0111ai v\u01B0\u01A1ng sai \u0111i tu\u1EA7n
+      n\xFAi, tu\u1EA7n n\xFAi B\u1EAFc r\u1ED3i l\u1EA1i tu\u1EA7n n\xFAi Nam "
   - avatar: {fileID: 4962213768438153873, guid: f600647f0442d8f45b4706ad6ba4dc53, type: 3}
     speakerName: "TI\u1EC2U TU\u1EA6N PHONG"
-    dialogueText: "Ta \u0111ang \u0111\u01B0\u1EE3c \u0111\u1EA1i v\u01B0\u01A1ng
-      sai \u0111i tu\u1EA7n n\xFAi"
+    dialogueText: "N\xFAi c\u1EE7a ta c\xF3 t\xEAn l\xE0 S\u01B0 \u0110\xE0 L\u0129nh "
   - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
-    dialogueText: "\u0110\xE8o m\u1EB9, m\u1EC1n m\u1EC7t m\u1EC1n m\u1EC7t tu\u1EA7n
-      n\xFAi c\xE1i con kh\u1EC9, h\xE3y nh\u1EADn 1 ch\u01B0\u1EDFng c\u1EE7a l\xE3o
-      t\xF4n ta \u0111\xE2y "
+    dialogueText: "\u0110\xE8o m\u1EB9, Tu\u1EA7n n\xFAi c\xE1i con kh\u1EC9 nh\u1EADn
+      m\u1ED9t g\u1EADy c\u1EE7a ta \u0111\xE2y"
   bossIntroLines:
   - avatar: {fileID: 4462887484362319747, guid: f8bb26988a850d44594c55eee215ce5c, type: 3}
     speakerName: "THANH S\u01AF TINH"
-    dialogueText: "K\u1EBB n\xE0o to gan d\xE1m b\xE9n m\u1EA3ng \u0111\u1EBFn S\u01B0
-      \u0110\xE0 l\u0129nh c\u1EE7a ta !!!"
+    dialogueText: "T\xEAn n\xE0o h\u1ED1ng h\xE1ch d\xE1m b\xE9n m\u1EA3ng \u0111\u1EBFn
+      S\u01B0 \u0111\xE0 L\u0129nh c\u1EE7a ta "
   - avatar: {fileID: -120101713816299802, guid: d8f00bd141e29b34cb864d0c5979c463, type: 3}
     speakerName: "B\u1EA0CH T\u01AF\u1EE2NG TINH"
-    dialogueText: "\u0110\u1EA1i s\u01B0 huynh h\u1EAFn ch\xEDnh l\xE0 k\u1EBB h\u1ED1ng
-      h\xE1ch d\xE1m \u0111\xE1nh ch\u1EBFt Ti\u1EC3u Tu\u1EA7n Phong d\u01B0\u1EDBi
-      ch\xE2n n\xFAi \u0111\xF3 "
+    dialogueText: "N\xF3 ch\xEDnh l\xE0 t\xEAn \u0111\xE3 \u0111\xE1nh ch\u1EBFt
+      Ti\u1EC3u Tu\u1EA7n Phong \u1EDF d\u01B0\u1EDBi n\xFAi \u0111\xF3 \u0110\u1EA1i
+      s\u01B0 huynh!!!"
   - avatar: {fileID: 4462887484362319747, guid: f8bb26988a850d44594c55eee215ce5c, type: 3}
-    speakerName: "THANH S\u01AF TINH "
-    dialogueText: "To gan d\xE1m benns m\u1EA3ng \u0111\u1EBFn \u0111\xE2y c\xF2n
-      h\u1ED1ng h\xE1ch "
+    speakerName: "THANH S\u01AF TINH"
+    dialogueText: "To gan \u0111\xE3 \u0111\u1EBFn \u0111\xE2y qu\u1EA5y r\u1ED1i
+      l\u1EA1i l\xE0m ra chuy\u1EC7n t\xE0y \u0111\xECnh nh\u01B0  v\u1EADy"
   - avatar: {fileID: 4462887484362319747, guid: f8bb26988a850d44594c55eee215ce5c, type: 3}
-    speakerName: "THANH S\u01AF TINH "
-    dialogueText: "C\xE1c con \u0111\xE2u l\xEAn \u0111\xE1nh ch\u1EBFt n\xF3 cho
-      ta"
-  beforeBossFightLines: []
-  boss5StoryLines: []
-  loadNextSceneWhenEnd: 0
-  nextSceneName: Map5_Final
-  endMapDelay: 1.5
+    speakerName: "THANH S\u01AF TINH"
+    dialogueText: "C\xE1c Con \u0111\xE2u l\xEAn \u0111\u1EADp ch\u1EBFt n\xF3 cho
+      Ta "
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
+    dialogueText: "C\xF3 bao nhi\xEAu l\xEAn h\u1EBFt \u0111\xE2y cho ta  "
+  beforeBossFightLines:
+  - avatar: {fileID: 4462887484362319747, guid: f8bb26988a850d44594c55eee215ce5c, type: 3}
+    speakerName: "THANH S\u01AF TINH"
+    dialogueText: "Nh\xE0 Ng\u01B0\u01A1i c\u0169ng kh\xE1 l\u1EAFm"
+  - avatar: {fileID: 4462887484362319747, guid: f8bb26988a850d44594c55eee215ce5c, type: 3}
+    speakerName: "THANH S\u01AF TINH"
+    dialogueText: "Nh\u1ECB \u0110\u1EC7 \u0111\xE2u x\xF4ng l\xEAn"
+  - avatar: {fileID: -120101713816299802, guid: d8f00bd141e29b34cb864d0c5979c463, type: 3}
+    speakerName: "B\u1EA0CH T\u01AF\u1EE2NG TINH"
+    dialogueText: "X\xF4ng l\xEAn!!!!"
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
+    dialogueText: "C\xF3 bao nhi\xEAu b\u01A1i h\u1EBFt v\xE0o \u0111\xE2y"
+  boss5StoryLines:
+  - avatar: {fileID: -7712416698979379300, guid: f5cbf63271fdbf647af482b15d094653, type: 3}
+    speakerName: "KIM S\xCD \u0110I\u1EC2U"
+    dialogueText: "M\u1ED9t con ti\u1EC3u y\xEAu gi\u1EA3 d\u1EA1ng th\xEC l\xE0m
+      \u0111\u01B0\u1EE3c g\xEC cho \u0111\u1EDDi "
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
+    dialogueText: Im ngayyyy!!!
+  - avatar: {fileID: -7712416698979379300, guid: f5cbf63271fdbf647af482b15d094653, type: 3}
+    speakerName: "KIM S\xCD \u0110I\u1EC2U"
+    dialogueText: "M\xE3i m\xE3i ng\u01B0\u01A1i ch\u1EC9 l\xE0 c\xE1i b\xF3ng c\u1EE7a
+      t\xF4n ng\u1ED9 kh\xF4ng m\xE0 th\xF4i"
+  enemy4: {fileID: 735098609}
+  enemy4Object: {fileID: 0}
+  autoDetectEnemy4Dead: 1
+  enemy123Spawner: {fileID: 8438972204532524431}
+  waitWukongIdleBeforeBossDialogue: 1
+  wukongIdleStateNameForDialogueWait: Wukong1Idle
+  wukongIdleVelocityThreshold: 0.05
+  wukongIdleStableTime: 0.25
+  maxWaitWukongIdleTime: 5
+  boss3: {fileID: 427819201}
+  boss4: {fileID: 825432742}
+  boss5Object: {fileID: 918771516}
+  boss5SpawnPoint: {fileID: 0}
+  waitWukongDeathBeforeBoss5Story: 1
+  boss5StoryDelayAfterWukongDeath: 0.6
+  boss5AppearHealthPercent: 0.33
   enableDebugLog: 1
 --- !u!1 &1641756019
 GameObject:
@@ -4610,6 +4675,9 @@ MonoBehaviour:
   followPlayerY: 1
   fixedY: 0
   fixedZ: 0
+  useSmoothFollow: 1
+  smoothTime: 0.25
+  maxSmoothSpeed: 80
   enableDebugLog: 0
 --- !u!4 &1917600954
 Transform:
@@ -4756,12 +4824,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Map4BossHUDVisibility
   uiDocument: {fileID: 2053941383}
-  storyManager: {fileID: 1617136881}
-  bossHudElementName: Map4BossHUD
-  showInBossFight: 1
-  showInBoss5Appear: 1
-  hideInBoss5StoryDialogue: 1
-  hideWhenMapEnding: 1
+  boss3: {fileID: 427819201}
+  boss4: {fileID: 825432742}
+  bossHudElementName: boss-panel
+  showWhenAnyBossCombat: 1
   enableDebugLog: 0
 --- !u!1 &2141784117
 GameObject:
@@ -4835,6 +4901,10 @@ PrefabInstance:
     - target: {fileID: 8080630782990854029, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
       propertyPath: m_Name
       value: Groud1_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8080630782990854029, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8751819844293701330, guid: de9f127a7722e1f4894b3f77b269a995, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4999,9 +5069,21 @@ PrefabInstance:
       value: Wukong1Idle
       objectReference: {fileID: 0}
     - target: {fileID: 3085902367086757109, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: enableTestKeys
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3085902367086757109, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: playerAnimator
       value: 
       objectReference: {fileID: 2011043231}
+    - target: {fileID: 3085902367086757109, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: map4StoryManager
+      value: 
+      objectReference: {fileID: 1617136881}
+    - target: {fileID: 3521823685008880018, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: enableTestDieKey
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7651973553340407365, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.6
@@ -5010,6 +5092,10 @@ PrefabInstance:
       propertyPath: hudController
       value: 
       objectReference: {fileID: 760346489}
+    - target: {fileID: 7727485355955128746, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: enableTestKeys
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7747556491235508407, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_Name
       value: Wukong1
@@ -5023,17 +5109,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
---- !u!114 &2942687483788467419 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3085902367086757109, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
-  m_PrefabInstance: {fileID: 2942687483788467418}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3879029d648b5f24b8fe6339cca95981, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
 --- !u!114 &2942687483788467420 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3521823685008880018, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
@@ -5226,17 +5301,6 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 8590592678916498353, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
   m_PrefabInstance: {fileID: 3416482806185226596}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3416482806185226600 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2942401310541773864, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
-  m_PrefabInstance: {fileID: 3416482806185226596}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33d7b523b02d9e40bb7a19f2c2f0a39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PartyHealth
 --- !u!1001 &5566064368661280602
 PrefabInstance:
   m_ObjectHideFlags: 0
