@@ -813,4 +813,13 @@ public class Map4StoryManager : MonoBehaviour
 
         Debug.Log("[Map4StoryManager] " + message + " Current Phase = " + currentPhase);
     }
+    public void FinishWukongTransformAndEndMap()
+    {
+        currentPhase = Map4Phase.EndMap;
+
+        Debug.Log("Map4StoryManager: Wukong đã biến hình xong. Kết thúc Map 4.");
+
+        // Sau này muốn chuyển scene thì mở dòng dưới và đổi tên scene.
+        // UnityEngine.SceneManagement.SceneManager.LoadScene("Tên_Map_Tiếp_Theo");
+    }
 }
