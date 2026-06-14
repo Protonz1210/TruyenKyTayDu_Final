@@ -12,8 +12,11 @@ public class Enemy123RandomSpawner : MonoBehaviour
     public Transform[] spawnPoints;
 
     [Header("Story Control")]
-    [Tooltip("Chỉ cho spawn khi story manager cho phép.")]
+    [Tooltip("Chỉ cho spawn khi Map4StoryManager gọi StartSpawn().")]
     public bool isSpawning = false;
+
+    [Tooltip("Spawn ngay khi bắt đầu scene. Với Map 4 nên TẮT.")]
+    public bool spawnOnStart = false;
 
     [Header("Spawn Limit")]
     [Tooltip("Số enemy tối đa được tồn tại cùng lúc trên map.")]
@@ -24,9 +27,6 @@ public class Enemy123RandomSpawner : MonoBehaviour
 
     [Tooltip("Số enemy đã từng được sinh ra.")]
     public int totalSpawnedCount = 0;
-
-    [Tooltip("Spawn đủ số lượng ngay khi bắt đầu.")]
-    public bool spawnOnStart = true;
 
     [Header("Respawn")]
     [Tooltip("Có tự sinh bù khi enemy chết không.")]
@@ -78,15 +78,22 @@ public class Enemy123RandomSpawner : MonoBehaviour
 
         if (spawnOnStart)
         {
-            SpawnUntilFull();
+            StartSpawn();
+        }
+        else
+        {
+            isSpawning = false;
         }
     }
 
     void Update()
     {
-        if (!isSpawning) return;
-
         FindPlayerIfNeeded();
+
+        if (!isSpawning)
+        {
+            return;
+        }
 
         checkTimer -= Time.deltaTime;
 
@@ -107,6 +114,44 @@ public class Enemy123RandomSpawner : MonoBehaviour
             respawnTimer = respawnDelay;
             SpawnUntilFull();
         }
+    }
+
+    public void StartSpawn()
+    {
+        FindPlayerIfNeeded();
+
+        isSpawning = true;
+        respawnTimer = 0f;
+
+        SpawnUntilFull();
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Enemy123RandomSpawner: bắt đầu spawn quái thường.");
+        }
+    }
+
+    public void StopSpawn()
+    {
+        isSpawning = false;
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Enemy123RandomSpawner: dừng spawn quái thường.");
+        }
+    }
+
+    public bool IsSpawnFinished()
+    {
+        if (maxTotalSpawnCount <= 0)
+        {
+            return false;
+        }
+
+        bool spawnedEnough = totalSpawnedCount >= maxTotalSpawnCount;
+        bool noAliveEnemy = GetAliveEnemyCount() <= 0;
+
+        return spawnedEnough && noAliveEnemy;
     }
 
     void FindPlayerIfNeeded()
@@ -181,13 +226,7 @@ public class Enemy123RandomSpawner : MonoBehaviour
             return false;
         }
 
-        GameObject enemyObject = Instantiate(
-            prefab,
-            spawnPoint.position,
-            spawnPoint.rotation,
-            spawnedParent
-        );
-
+        GameObject enemyObject = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation, spawnedParent);
         totalSpawnedCount++;
 
         Enemy123Controller controller = enemyObject.GetComponent<Enemy123Controller>();
@@ -213,10 +252,7 @@ public class Enemy123RandomSpawner : MonoBehaviour
 
     bool CanSpawnMoreByTotalLimit()
     {
-        if (maxTotalSpawnCount <= 0)
-        {
-            return true;
-        }
+        if (maxTotalSpawnCount <= 0) return true;
 
         return totalSpawnedCount < maxTotalSpawnCount;
     }
@@ -338,15 +374,5 @@ public class Enemy123RandomSpawner : MonoBehaviour
             Gizmos.DrawWireSphere(point.position, occupiedCheckRadius);
             Gizmos.DrawSphere(point.position, 0.1f);
         }
-    }
-    public void StartSpawn()
-    {
-        isSpawning = true;
-        SpawnUntilFull();
-    }
-
-    public void StopSpawn()
-    {
-        isSpawning = false;
     }
 }
