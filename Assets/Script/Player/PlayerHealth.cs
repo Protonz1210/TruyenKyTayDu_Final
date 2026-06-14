@@ -30,6 +30,9 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("Khi Wukong hết máu trong màn có Boss5, có tắt PlayerController không.")]
     public bool disablePlayerControllerWhenBoss5IdleDeath = true;
 
+    [Header("Map4 Story")]
+    public Map4StoryManager map4StoryManager;
+
     [Header("Test Damage / Heal")]
     [Tooltip("Bật phím test mất máu và hồi máu 1_2_3.")]
     public bool enableTestKeys = true;
@@ -225,6 +228,12 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
         else
         {
             Debug.LogWarning("Không tìm thấy PlayerController trên Ngộ Không.");
+        }
+        Map4StoryManager map4StoryManager = FindFirstObjectByType<Map4StoryManager>();
+
+        if (map4StoryManager != null)
+        {
+            map4StoryManager.NotifyWukongDeadForBoss5Story();
         }
     }
     bool ShouldUseBoss5IdleDeathMode()

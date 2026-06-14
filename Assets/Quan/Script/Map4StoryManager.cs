@@ -1,24 +1,20 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Map4StoryManager : MonoBehaviour
 {
     public enum Map4Phase
     {
         StartMap,
-
         Enemy4IntroDialogue,
         Enemy4Combat,
         Enemy4Defeated,
-
         BossIntroDialogue,
         NormalEnemyWave,
         BeforeBossDialogue,
-
         BossFight,
         Boss5Appear,
         Boss5StoryDialogue,
-
         WukongTransform,
         EndMap
     }
@@ -26,167 +22,96 @@ public class Map4StoryManager : MonoBehaviour
     [Header("Current Phase")]
     public Map4Phase currentPhase = Map4Phase.StartMap;
 
-    [Header("Wukong")]
-    [Tooltip("PlayerController của Wukong.")]
+    [Header("Player / Party")]
     public PlayerController wukongController;
-
-    [Tooltip("Máu của Wukong.")]
-    public PlayerHealth wukongHealth;
-
-    [Tooltip("Rigidbody2D của Wukong.")]
-    public Rigidbody2D wukongRb;
-
-    [Tooltip("Animator của Wukong.")]
+    public Rigidbody2D wukongRigidbody;
     public Animator wukongAnimator;
 
-    [Tooltip("Tên state Idle của Wukong.")]
-    public string wukongIdleStateName = "Idle";
 
-    [Tooltip("Tên trigger/state transition biến hình của Wukong.")]
-    public string wukongTransformTriggerName = "Transition";
+    [Tooltip("Các script đi theo của Đường Tăng / Trư Bát Giới / Sa Tăng.")]
+    public Behaviour[] partyFollowScripts;
 
-    [Tooltip("Tên parameter tốc độ của Wukong.")]
-    public string wukongSpeedParameterName = "Speed";
-
-
-    [Tooltip("Các bool Animator cần tắt khi vào hội thoại, ví dụ IsRunning, IsJumping, IsAttacking.")]
-    public string[] wukongBoolParametersToFalse;
-
-    [Tooltip("Các trigger Animator cần reset khi vào hội thoại.")]
-    public string[] wukongTriggersToReset;
-
-    [Header("Party")]
-    [Tooltip("Máu chung của đoàn thỉnh kinh.")]
-    public PartyHealth partyHealth;
-
-    [Tooltip("Các script điều khiển đoàn thỉnh kinh cần tắt khi hội thoại/cinematic.")]
-    public Behaviour[] partyControlScripts;
-
-    [Tooltip("Animator của Đường Tăng, Trư Bát Giới, Sa Tăng.")]
+    [Tooltip("Animator của Đường Tăng / Trư Bát Giới / Sa Tăng.")]
     public Animator[] partyAnimators;
 
-    [Tooltip("Tên state Idle của đoàn. Nếu mỗi nhân vật khác tên idle, tạm thời để trống và không ép idle.")]
+    [Header("Wukong Animator")]
+    public string wukongIdleStateName = "Idle";
+    public string wukongSpeedParameterName = "Speed";
+    public string[] wukongBoolParametersToFalse;
+    public string[] wukongTriggersToReset;
+
+    [Header("Party Animator")]
     public string partyIdleStateName = "Idle";
+    public string partySpeedParameterName = "Speed";
+    public string[] partyBoolParametersToFalse;
+    public string[] partyTriggersToReset;
 
-    [Header("Enemy4 / Yêu quái tuần núi")]
-    public Enemy4Controller enemy4;
-
-    [Header("Normal Enemy Wave")]
-    [Tooltip("Spawner của Enemy1/2/3.")]
-    public Enemy123RandomSpawner enemy123Spawner;
-
-    [Tooltip("Object cha chứa các Enemy123 được spawn ra. Dùng để kiểm tra đã diệt hết quái chưa.")]
-    public Transform enemy123SpawnedParent;
-
-    [Tooltip("Tự bắt đầu wave sau khi boss intro dialogue kết thúc.")]
-    public bool autoStartNormalEnemyWave = true;
-
-    [Header("Boss3 / Boss4")]
-    [Tooltip("Thanh Sư Tinh.")]
-    public Map4BossController boss3;
-
-    [Tooltip("Bạch Tượng Tinh.")]
-    public Map4BossController boss4;
-
-    [Tooltip("Ngưỡng máu để Boss5 xuất hiện. 0.333 = 1/3 máu.")]
-    [Range(0.05f, 1f)]
-    public float boss5AppearHealthPercent = 0.333f;
-
-    [Header("Boss5 / Kim Sí Điểu")]
-    [Tooltip("Object Boss5. Ban đầu nên để inactive.")]
-    public GameObject boss5Object;
-
-    [Tooltip("Controller Boss5 nếu có.")]
-    public Boss5Controller boss5Controller;
-
-    [Tooltip("Khi Boss5 xuất hiện thì khóa điều khiển để tạo cinematic ngắn.")]
-    public bool lockControlWhenBoss5Appear = false;
-
-    [Tooltip("Sau khi Boss5 xuất hiện, nếu Wukong máu về 0 thì không xử lý chết bình thường mà chuyển sang hội thoại.")]
-    public bool useStoryDeathWhenBoss5Appear = true;
-
-    [Header("Dialogue Controller")]
+    [Header("Dialogue")]
     public DialogueController dialogueController;
 
-    [Header("Dialogues")]
-    [Tooltip("Hội thoại khi gặp Enemy4.")]
+    [Tooltip("Hội thoại khi gặp Enemy4 / Tiểu Tuần Phong.")]
     public DialogueLine[] enemy4IntroLines;
 
-    [Tooltip("Hội thoại khi gặp Thanh Sư Tinh và Bạch Tượng Tinh.")]
+    [Tooltip("Hội thoại khi gặp Boss3/Boss4.")]
     public DialogueLine[] bossIntroLines;
 
     [Tooltip("Hội thoại sau khi diệt hết quái thường, trước khi đánh Boss3/Boss4.")]
     public DialogueLine[] beforeBossFightLines;
 
-    [Tooltip("Hội thoại khi Kim Sí Điểu xuất hiện / Wukong bị áp đảo.")]
+    [Tooltip("Hội thoại khi Boss5 xuất hiện.")]
     public DialogueLine[] boss5StoryLines;
 
-    [Header("End Map")]
-    [Tooltip("Có tự chuyển scene khi kết thúc map không.")]
-    public bool loadNextSceneWhenEnd = false;
+    [Header("Enemy4")]
+    [Tooltip("Script Enemy4Controller / Enemy4 chính trong scene.")]
+    public MonoBehaviour enemy4;
 
-    [Tooltip("Tên scene map cuối.")]
-    public string nextSceneName = "Map5_Final";
+    [Tooltip("Object gốc của Enemy4. Nếu để trống, hệ thống sẽ lấy từ enemy4.")]
+    public GameObject enemy4Object;
 
-    [Tooltip("Thời gian chờ sau khi Wukong transition trước khi kết thúc map.")]
-    public float endMapDelay = 1.5f;
+    [Tooltip("Tự chuyển phase Enemy4Defeated khi Enemy4 bị Destroy hoặc SetActive(false).")]
+    public bool autoDetectEnemy4Dead = true;
+
+    [Header("Enemy123 Wave")]
+    public Enemy123RandomSpawner enemy123Spawner;
+
+    [Header("Boss 3 / Boss 4")]
+    public Map4BossController boss3;
+    public Map4BossController boss4;
+
+    [Header("Boss5")]
+    public GameObject boss5Object;
+    public Transform boss5SpawnPoint;
+    [Header("Boss5 Story Trigger")]
+    [Tooltip("Sau khi Boss5 xuất hiện, chờ Wukong chết rồi mới hiện thoại Boss5.")]
+    public bool waitWukongDeathBeforeBoss5Story = true;
+
+    [Tooltip("Delay nhỏ sau khi Wukong chết rồi mới mở thoại Boss5.")]
+    public float boss5StoryDelayAfterWukongDeath = 0.6f;
+
+    private bool waitingForWukongDeathAfterBoss5Appear;
+    private bool boss5StoryStarted;
+
+    [Range(0f, 1f)]
+    public float boss5AppearHealthPercent = 0.33f;
 
     [Header("Debug")]
     public bool enableDebugLog = true;
 
     private bool enemy4IntroStarted;
-    private bool enemy4DefeatedHandled;
-
     private bool bossIntroStarted;
     private bool normalWaveStarted;
-    private bool normalWaveFinishedHandled;
-
+    private bool beforeBossDialogueStarted;
     private bool bossFightStarted;
     private bool boss5Appeared;
-    private bool boss5StoryStarted;
-
-    private bool wukongTransformStarted;
-    private float endMapTimer;
-    private bool endMapCounting;
+    private bool endMapStarted;
 
     void Start()
     {
-        SetupInitialState();
-    }
-
-    void Update()
-    {
-        switch (currentPhase)
-        {
-            case Map4Phase.Enemy4Combat:
-                CheckEnemy4Defeated();
-                break;
-
-            case Map4Phase.NormalEnemyWave:
-                CheckNormalEnemyWaveFinished();
-                break;
-
-            case Map4Phase.BossFight:
-                CheckBoss5AppearCondition();
-                break;
-
-            case Map4Phase.Boss5Appear:
-                CheckWukongStoryDeath();
-                break;
-
-            case Map4Phase.EndMap:
-                UpdateEndMapTimer();
-                break;
-        }
-    }
-
-    void SetupInitialState()
-    {
         currentPhase = Map4Phase.StartMap;
 
-        if (enemy4 != null)
+        if (enemy4Object == null && enemy4 != null)
         {
-            enemy4.combatActivated = false;
+            enemy4Object = enemy4.gameObject;
         }
 
         if (boss5Object != null)
@@ -194,42 +119,60 @@ public class Map4StoryManager : MonoBehaviour
             boss5Object.SetActive(false);
         }
 
+        if (enemy123Spawner != null)
+        {
+            enemy123Spawner.isSpawning = false;
+            enemy123Spawner.spawnOnStart = false;
+        }
+
         if (boss3 != null)
         {
-            boss3.SendMessage("DeactivateCombat", SendMessageOptions.DontRequireReceiver);
+            boss3.DeactivateCombat();
         }
 
         if (boss4 != null)
         {
-            boss4.SendMessage("DeactivateCombat", SendMessageOptions.DontRequireReceiver);
+            boss4.DeactivateCombat();
         }
 
-        if (enableDebugLog)
-        {
-            Debug.Log("Map4StoryManager: khởi tạo Map 4.");
-        }
+        LogPhase("Map 4 bắt đầu.");
     }
 
-    // =========================
-    // ENEMY4 INTRO
-    // =========================
+    void Update()
+    {
+        if (currentPhase == Map4Phase.Enemy4Combat)
+        {
+            CheckEnemy4DeadAuto();
+        }
+
+        if (currentPhase == Map4Phase.NormalEnemyWave)
+        {
+            CheckNormalEnemyWaveFinished();
+        }
+
+        if (currentPhase == Map4Phase.BossFight)
+        {
+            CheckBoss5AppearCondition();
+        }
+    }
 
     public void StartEnemy4Intro()
     {
         if (enemy4IntroStarted) return;
-        if (currentPhase != Map4Phase.StartMap) return;
 
         enemy4IntroStarted = true;
         currentPhase = Map4Phase.Enemy4IntroDialogue;
 
         LockWukongAndParty();
 
-        if (enemy4 != null)
+        if (dialogueController != null && enemy4IntroLines != null && enemy4IntroLines.Length > 0)
         {
-            enemy4.combatActivated = false;
+            dialogueController.StartDialogue(enemy4IntroLines, OnEnemy4IntroFinished);
         }
-
-        PlayDialogue(enemy4IntroLines, OnEnemy4IntroFinished);
+        else
+        {
+            OnEnemy4IntroFinished();
+        }
 
         LogPhase("Bắt đầu hội thoại Enemy4.");
     }
@@ -242,64 +185,69 @@ public class Map4StoryManager : MonoBehaviour
 
         if (enemy4 != null)
         {
-            enemy4.ActivateCombat();
+            enemy4.SendMessage("ActivateCombat", SendMessageOptions.DontRequireReceiver);
         }
 
-        LogPhase("Hết hội thoại Enemy4. Enemy4 bắt đầu combat.");
+        LogPhase("Enemy4 bắt đầu combat.");
     }
 
-    void CheckEnemy4Defeated()
+    void CheckEnemy4DeadAuto()
     {
-        if (enemy4DefeatedHandled) return;
-        if (enemy4 == null) return;
+        if (!autoDetectEnemy4Dead) return;
 
-        if (enemy4.IsDead())
+        if (enemy4Object == null && enemy4 == null)
         {
-            enemy4DefeatedHandled = true;
-            currentPhase = Map4Phase.Enemy4Defeated;
+            NotifyEnemy4Dead();
+            return;
+        }
 
-            UnlockWukongAndParty();
-
-            LogPhase("Enemy4 đã bị hạ gục. Người chơi đi tiếp.");
+        if (enemy4Object != null && !enemy4Object.activeInHierarchy)
+        {
+            NotifyEnemy4Dead();
+            return;
         }
     }
 
-    // =========================
-    // BOSS INTRO
-    // =========================
+    public void NotifyEnemy4Dead()
+    {
+        if (currentPhase == Map4Phase.Enemy4Defeated) return;
+
+        currentPhase = Map4Phase.Enemy4Defeated;
+        LogPhase("Enemy4 đã chết. Mở khóa camera phase 1.");
+    }
 
     public void StartBossIntro()
     {
         if (bossIntroStarted) return;
-        if (currentPhase != Map4Phase.Enemy4Defeated && currentPhase != Map4Phase.StartMap) return;
 
         bossIntroStarted = true;
         currentPhase = Map4Phase.BossIntroDialogue;
 
         LockWukongAndParty();
 
-        PlayDialogue(bossIntroLines, OnBossIntroFinished);
-
-        LogPhase("Bắt đầu hội thoại Boss3/Boss4.");
-    }
-
-    void OnBossIntroFinished()
-    {
-        if (autoStartNormalEnemyWave)
+        if (boss3 != null)
         {
-            StartNormalEnemyWave();
+            boss3.DeactivateCombat();
+        }
+
+        if (boss4 != null)
+        {
+            boss4.DeactivateCombat();
+        }
+
+        if (dialogueController != null && bossIntroLines != null && bossIntroLines.Length > 0)
+        {
+            dialogueController.StartDialogue(bossIntroLines, StartNormalEnemyWave);
         }
         else
         {
-            currentPhase = Map4Phase.NormalEnemyWave;
+            StartNormalEnemyWave();
         }
+
+        LogPhase("Bắt đầu hội thoại BossIntro.");
     }
 
-    // =========================
-    // NORMAL ENEMY WAVE
-    // =========================
-
-    public void StartNormalEnemyWave()
+    void StartNormalEnemyWave()
     {
         if (normalWaveStarted) return;
 
@@ -308,92 +256,70 @@ public class Map4StoryManager : MonoBehaviour
 
         UnlockWukongAndParty();
 
-        if (enemy123Spawner != null)
+        if (boss3 != null)
         {
-            enemy123Spawner.SendMessage("StartSpawn", SendMessageOptions.DontRequireReceiver);
-            enemy123Spawner.enabled = true;
+            boss3.DeactivateCombat();
         }
 
-        LogPhase("Bắt đầu wave quái thường Enemy1/2/3.");
+        if (boss4 != null)
+        {
+            boss4.DeactivateCombat();
+        }
+
+        if (enemy123Spawner != null)
+        {
+            enemy123Spawner.StartSpawn();
+        }
+
+        LogPhase("Bắt đầu wave Enemy123.");
     }
 
     void CheckNormalEnemyWaveFinished()
     {
-        if (normalWaveFinishedHandled) return;
-        if (!normalWaveStarted) return;
+        if (beforeBossDialogueStarted) return;
+        if (enemy123Spawner == null) return;
 
-        if (IsEnemy123WaveFinished())
+        if (enemy123Spawner.IsSpawnFinished())
         {
-            normalWaveFinishedHandled = true;
-            currentPhase = Map4Phase.BeforeBossDialogue;
-
-            LockWukongAndParty();
-
-            PlayDialogue(beforeBossFightLines, OnBeforeBossFightDialogueFinished);
-
-            LogPhase("Đã diệt hết quái thường. Bắt đầu hội thoại trước boss.");
+            StartBeforeBossDialogue();
         }
     }
 
-    bool IsEnemy123WaveFinished()
+    void StartBeforeBossDialogue()
     {
-        if (enemy123Spawner == null) return false;
+        if (beforeBossDialogueStarted) return;
 
-        if (enemy123Spawner.maxTotalSpawnCount > 0)
+        beforeBossDialogueStarted = true;
+        currentPhase = Map4Phase.BeforeBossDialogue;
+
+        LockWukongAndParty();
+
+        if (enemy123Spawner != null)
         {
-            if (enemy123Spawner.totalSpawnedCount < enemy123Spawner.maxTotalSpawnCount)
-            {
-                return false;
-            }
+            enemy123Spawner.StopSpawn();
         }
 
-        int aliveCount = CountAliveEnemy123();
+        if (boss3 != null)
+        {
+            boss3.DeactivateCombat();
+        }
 
-        return aliveCount <= 0;
+        if (boss4 != null)
+        {
+            boss4.DeactivateCombat();
+        }
+
+        if (dialogueController != null && beforeBossFightLines != null && beforeBossFightLines.Length > 0)
+        {
+            dialogueController.StartDialogue(beforeBossFightLines, OnBeforeBossFightDialogueFinished);
+        }
+        else
+        {
+            StartBossFight();
+        }
+
+        LogPhase("Bắt đầu hội thoại trước BossFight.");
     }
-
-    int CountAliveEnemy123()
-    {
-        int count = 0;
-
-        if (enemy123SpawnedParent != null)
-        {
-            Enemy123Controller[] enemiesInParent = enemy123SpawnedParent.GetComponentsInChildren<Enemy123Controller>(true);
-
-            for (int i = 0; i < enemiesInParent.Length; i++)
-            {
-                if (enemiesInParent[i] == null) continue;
-                if (enemiesInParent[i].IsDead()) continue;
-                if (!enemiesInParent[i].gameObject.activeInHierarchy) continue;
-
-                count++;
-            }
-
-            return count;
-        }
-
-#if UNITY_2023_1_OR_NEWER
-        Enemy123Controller[] enemies = FindObjectsByType<Enemy123Controller>(FindObjectsSortMode.None);
-#else
-        Enemy123Controller[] enemies = FindObjectsOfType<Enemy123Controller>();
-#endif
-
-        for (int i = 0; i < enemies.Length; i++)
-        {
-            if (enemies[i] == null) continue;
-            if (enemies[i].IsDead()) continue;
-            if (!enemies[i].gameObject.activeInHierarchy) continue;
-
-            count++;
-        }
-
-        return count;
-    }
-
-    // =========================
-    // BOSS FIGHT
-    // =========================
-
     void OnBeforeBossFightDialogueFinished()
     {
         StartBossFight();
@@ -406,19 +332,54 @@ public class Map4StoryManager : MonoBehaviour
         bossFightStarted = true;
         currentPhase = Map4Phase.BossFight;
 
+        // Mở khóa Wukong và đoàn thỉnh kinh.
         UnlockWukongAndParty();
 
+        // Đảm bảo Wukong được bật lại.
+        if (wukongController != null)
+        {
+            wukongController.enabled = true;
+        }
+
+        // Đảm bảo Rigidbody không bị đứng yên do khóa hội thoại.
+        if (wukongRigidbody != null)
+        {
+            wukongRigidbody.linearVelocity = Vector2.zero;
+        }
+
+        // Bật lại các script đi theo của đoàn.
+        if (partyFollowScripts != null)
+        {
+            for (int i = 0; i < partyFollowScripts.Length; i++)
+            {
+                if (partyFollowScripts[i] != null)
+                {
+                    partyFollowScripts[i].enabled = true;
+                }
+            }
+        }
+
+        // Kích hoạt Boss3.
         if (boss3 != null)
         {
-            boss3.SendMessage("ActivateCombat", SendMessageOptions.DontRequireReceiver);
+            boss3.ActivateCombat();
+        }
+        else
+        {
+            Debug.LogWarning("Map4StoryManager chưa gán Boss3.");
         }
 
+        // Kích hoạt Boss4.
         if (boss4 != null)
         {
-            boss4.SendMessage("ActivateCombat", SendMessageOptions.DontRequireReceiver);
+            boss4.ActivateCombat();
+        }
+        else
+        {
+            Debug.LogWarning("Map4StoryManager chưa gán Boss4.");
         }
 
-        LogPhase("Boss3/Boss4 bắt đầu combat.");
+        LogPhase("Hết thoại trước boss. Boss3/Boss4 bắt đầu tấn công, Wukong được mở khóa.");
     }
 
     void CheckBoss5AppearCondition()
@@ -437,22 +398,11 @@ public class Map4StoryManager : MonoBehaviour
     bool IsBossLowHealth(Map4BossController boss)
     {
         if (boss == null) return false;
-        if (boss.IsDead()) return false;
 
-        int maxHealth = boss.GetMaxHealth();
-        int currentHealth = boss.GetCurrentHealth();
-
-        if (maxHealth <= 0) return false;
-
-        float percent = (float)currentHealth / maxHealth;
-        return percent <= boss5AppearHealthPercent;
+        return boss.GetHealthPercent() <= boss5AppearHealthPercent;
     }
 
-    // =========================
-    // BOSS5 / STORY DEATH
-    // =========================
-
-    public void StartBoss5Appear()
+    void StartBoss5Appear()
     {
         if (boss5Appeared) return;
 
@@ -461,128 +411,111 @@ public class Map4StoryManager : MonoBehaviour
 
         if (boss5Object != null)
         {
+            if (boss5SpawnPoint != null)
+            {
+                boss5Object.transform.position = boss5SpawnPoint.position;
+            }
+
             boss5Object.SetActive(true);
         }
 
-        if (boss5Controller != null)
+        // Boss5 xuất hiện nhưng KHÔNG hiện thoại ngay.
+        // Vẫn để Wukong ở gameplay để Boss5/code map làm Wukong hết máu.
+        if (waitWukongDeathBeforeBoss5Story)
         {
-            boss5Controller.SendMessage("ActivateCombat", SendMessageOptions.DontRequireReceiver);
+            waitingForWukongDeathAfterBoss5Appear = true;
+
+            LogPhase("Boss5 xuất hiện. Đang chờ Wukong hết máu rồi mới mở thoại Boss5.");
+            return;
         }
 
-        if (lockControlWhenBoss5Appear)
+        // Nếu không muốn chờ Wukong chết thì mới dùng nhánh cũ này.
+        StartBoss5StoryDialogue();
+    }
+    public void NotifyWukongDeadForBoss5Story()
+    {
+        Debug.Log("Map4StoryManager đã nhận tín hiệu Wukong chết ở phase Boss5.");
+
+        if (!waitingForWukongDeathAfterBoss5Appear)
         {
-            LockWukongAndParty();
+            Debug.LogWarning("Chưa bật waitingForWukongDeathAfterBoss5Appear nên không mở thoại Boss5.");
+            return;
         }
 
-        LogPhase("Boss5 Kim Sí Điểu xuất hiện.");
+        if (boss5StoryStarted)
+        {
+            Debug.LogWarning("Boss5 story đã chạy rồi.");
+            return;
+        }
+
+        if (currentPhase != Map4Phase.Boss5Appear)
+        {
+            Debug.LogWarning("Phase hiện tại không phải Boss5Appear. Current Phase = " + currentPhase);
+            return;
+        }
+
+        StartCoroutine(StartBoss5StoryAfterWukongDeadRoutine());
     }
 
-    void CheckWukongStoryDeath()
+    IEnumerator StartBoss5StoryAfterWukongDeadRoutine()
     {
-        if (!useStoryDeathWhenBoss5Appear) return;
-        if (boss5StoryStarted) return;
-        if (wukongHealth == null) return;
-
-        if (wukongHealth.GetCurrentHealth() <= 0)
-        {
-            StartBoss5StoryDialogue();
-        }
-    }
-
-    public void StartBoss5StoryDialogue()
-    {
-        if (boss5StoryStarted) return;
-
         boss5StoryStarted = true;
+        waitingForWukongDeathAfterBoss5Appear = false;
+
+        // Chờ một chút để animation / code chết của Wukong kịp đưa về Idle.
+        yield return new WaitForSeconds(boss5StoryDelayAfterWukongDeath);
+
+        StartBoss5StoryDialogue();
+    }
+
+    void StartBoss5StoryDialogue()
+    {
         currentPhase = Map4Phase.Boss5StoryDialogue;
 
+        // Lúc này Wukong đã chết / về idle rồi mới khóa toàn đội để nói chuyện.
         LockWukongAndParty();
 
-        StopAllMapEnemiesForStory();
-
-        ForceAnimatorIdle(wukongAnimator, wukongIdleStateName);
-
-        PlayDialogue(boss5StoryLines, OnBoss5StoryDialogueFinished);
-
-        LogPhase("Wukong bị áp đảo. Bắt đầu hội thoại Boss5.");
-    }
-
-    void OnBoss5StoryDialogueFinished()
-    {
-        StartWukongTransform();
-    }
-
-    // =========================
-    // WUKONG TRANSFORM / END MAP
-    // =========================
-
-    public void StartWukongTransform()
-    {
-        if (wukongTransformStarted) return;
-
-        wukongTransformStarted = true;
-        currentPhase = Map4Phase.WukongTransform;
-
-        LockWukongAndParty();
-
-        if (wukongAnimator != null)
+        if (boss3 != null)
         {
-            if (!string.IsNullOrEmpty(wukongTransformTriggerName))
-            {
-                wukongAnimator.ResetTrigger(wukongTransformTriggerName);
-                wukongAnimator.SetTrigger(wukongTransformTriggerName);
-            }
+            boss3.StopCombatAndReturnIdle();
         }
 
-        LogPhase("Wukong bắt đầu transition đổi trang phục.");
-    }
+        if (boss4 != null)
+        {
+            boss4.StopCombatAndReturnIdle();
+        }
 
-    public void OnWukongTransformFinished()
+        if (boss5StoryLines != null && boss5StoryLines.Length > 0 && dialogueController != null)
+        {
+            dialogueController.StartDialogue(boss5StoryLines, StartWukongTransform);
+        }
+        else
+        {
+            StartWukongTransform();
+        }
+
+        LogPhase("Wukong đã hết máu. Bắt đầu hội thoại Boss5.");
+    }
+    void StartWukongTransform()
     {
-        EndMap4();
+        currentPhase = Map4Phase.WukongTransform;
+
+        UnlockWukongAndParty();
+
+        LogPhase("Wukong chuyển trạng thái / transition.");
     }
 
     public void StartEndMapByTrigger()
     {
-        EndMap4();
-    }
+        if (endMapStarted) return;
 
-    public void EndMap4()
-    {
+        endMapStarted = true;
         currentPhase = Map4Phase.EndMap;
-        endMapTimer = endMapDelay;
-        endMapCounting = true;
 
         LockWukongAndParty();
-        StopAllMapEnemiesForStory();
 
-        LogPhase("Map 4 kết thúc.");
+        LogPhase("Kết thúc Map 4.");
     }
-
-    void UpdateEndMapTimer()
-    {
-        if (!endMapCounting) return;
-
-        endMapTimer -= Time.deltaTime;
-
-        if (endMapTimer <= 0f)
-        {
-            endMapCounting = false;
-
-            if (loadNextSceneWhenEnd && !string.IsNullOrEmpty(nextSceneName))
-            {
-                SceneManager.LoadScene(nextSceneName);
-            }
-            else
-            {
-                Debug.Log("Map4StoryManager: đã kết thúc map, chưa bật load scene.");
-            }
-        }
-    }
-
-    // =========================
-    // CONTROL
-    // =========================
 
     void LockWukongAndParty()
     {
@@ -598,10 +531,10 @@ public class Map4StoryManager : MonoBehaviour
 
     void LockWukong()
     {
-        if (wukongRb != null)
+        if (wukongRigidbody != null)
         {
-            wukongRb.linearVelocity = Vector2.zero;
-            wukongRb.angularVelocity = 0f;
+            wukongRigidbody.linearVelocity = Vector2.zero;
+            wukongRigidbody.angularVelocity = 0f;
         }
 
         if (wukongController != null)
@@ -611,16 +544,54 @@ public class Map4StoryManager : MonoBehaviour
 
         ForceWukongIdle();
     }
+    void UnlockWukong()
+    {
+        if (wukongRigidbody != null)
+        {
+            wukongRigidbody.linearVelocity = Vector2.zero;
+            wukongRigidbody.angularVelocity = 0f;
+        }
+
+        if (wukongController != null)
+        {
+            wukongController.enabled = true;
+        }
+    }
+    void LockParty()
+    {
+        if (partyFollowScripts != null)
+        {
+            for (int i = 0; i < partyFollowScripts.Length; i++)
+            {
+                if (partyFollowScripts[i] != null)
+                {
+                    partyFollowScripts[i].enabled = false;
+                }
+            }
+        }
+
+        ForcePartyIdle();
+    }
+
+    void UnlockParty()
+    {
+        if (partyFollowScripts != null)
+        {
+            for (int i = 0; i < partyFollowScripts.Length; i++)
+            {
+                if (partyFollowScripts[i] != null)
+                {
+                    partyFollowScripts[i].enabled = true;
+                }
+            }
+        }
+    }
+
     void ForceWukongIdle()
     {
         if (wukongAnimator == null) return;
 
-        if (!string.IsNullOrEmpty(wukongSpeedParameterName))
-        {
-            SetAnimatorFloatIfExists(wukongAnimator, wukongSpeedParameterName, 0f);
-        }
-
-        
+        SetAnimatorFloatIfExists(wukongAnimator, wukongSpeedParameterName, 0f);
 
         if (wukongBoolParametersToFalse != null)
         {
@@ -644,115 +615,43 @@ public class Map4StoryManager : MonoBehaviour
             wukongAnimator.Update(0f);
         }
     }
-    void UnlockWukong()
-    {
-        if (wukongController != null)
-        {
-            wukongController.enabled = true;
-        }
-    }
 
-    void LockParty()
+    void ForcePartyIdle()
     {
-        if (partyControlScripts != null)
+        if (partyAnimators == null) return;
+
+        for (int i = 0; i < partyAnimators.Length; i++)
         {
-            for (int i = 0; i < partyControlScripts.Length; i++)
+            Animator targetAnimator = partyAnimators[i];
+
+            if (targetAnimator == null) continue;
+
+            SetAnimatorFloatIfExists(targetAnimator, partySpeedParameterName, 0f);
+
+            if (partyBoolParametersToFalse != null)
             {
-                if (partyControlScripts[i] != null)
+                for (int j = 0; j < partyBoolParametersToFalse.Length; j++)
                 {
-                    partyControlScripts[i].enabled = false;
+                    SetAnimatorBoolIfExists(targetAnimator, partyBoolParametersToFalse[j], false);
                 }
             }
-        }
 
-        if (partyAnimators != null)
-        {
-            for (int i = 0; i < partyAnimators.Length; i++)
+            if (partyTriggersToReset != null)
             {
-                ForceAnimatorIdle(partyAnimators[i], partyIdleStateName);
-            }
-        }
-    }
-
-    void UnlockParty()
-    {
-        if (partyControlScripts != null)
-        {
-            for (int i = 0; i < partyControlScripts.Length; i++)
-            {
-                if (partyControlScripts[i] != null)
+                for (int j = 0; j < partyTriggersToReset.Length; j++)
                 {
-                    partyControlScripts[i].enabled = true;
+                    ResetAnimatorTriggerIfExists(targetAnimator, partyTriggersToReset[j]);
                 }
             }
+
+            if (!string.IsNullOrEmpty(partyIdleStateName))
+            {
+                targetAnimator.Play(partyIdleStateName, 0, 0f);
+                targetAnimator.Update(0f);
+            }
         }
     }
 
-    void ForceAnimatorIdle(Animator targetAnimator, string idleStateName)
-    {
-        if (targetAnimator == null) return;
-        if (string.IsNullOrEmpty(idleStateName)) return;
-
-        targetAnimator.Play(idleStateName, 0, 0f);
-        targetAnimator.Update(0f);
-    }
-
-    // =========================
-    // DIALOGUE
-    // =========================
-
-    void PlayDialogue(DialogueLine[] lines, System.Action onFinished)
-    {
-        if (dialogueController == null)
-        {
-            Debug.LogWarning("Map4StoryManager chưa gán DialogueController.");
-            onFinished?.Invoke();
-            return;
-        }
-
-        dialogueController.StartDialogue(lines, onFinished);
-    }
-
-    // =========================
-    // STOP ENEMIES FOR STORY
-    // =========================
-
-    void StopAllMapEnemiesForStory()
-    {
-        if (enemy4 != null)
-        {
-            enemy4.SendMessage("StopCombatAndReturnIdle", SendMessageOptions.DontRequireReceiver);
-        }
-
-        if (boss3 != null)
-        {
-            boss3.SendMessage("StopCombatAndReturnIdle", SendMessageOptions.DontRequireReceiver);
-            boss3.SendMessage("DeactivateCombat", SendMessageOptions.DontRequireReceiver);
-        }
-
-        if (boss4 != null)
-        {
-            boss4.SendMessage("StopCombatAndReturnIdle", SendMessageOptions.DontRequireReceiver);
-            boss4.SendMessage("DeactivateCombat", SendMessageOptions.DontRequireReceiver);
-        }
-
-        if (boss5Controller != null)
-        {
-            boss5Controller.SendMessage("StopCombatAndReturnIdle", SendMessageOptions.DontRequireReceiver);
-            boss5Controller.SendMessage("DeactivateCombat", SendMessageOptions.DontRequireReceiver);
-        }
-
-        if (enemy123Spawner != null)
-        {
-            enemy123Spawner.SendMessage("StopSpawn", SendMessageOptions.DontRequireReceiver);
-        }
-    }
-
-    void LogPhase(string message)
-    {
-        if (!enableDebugLog) return;
-        Debug.Log("[Map4StoryManager] " + message + " | Phase: " + currentPhase);
-    }
     void SetAnimatorFloatIfExists(Animator targetAnimator, string parameterName, float value)
     {
         if (targetAnimator == null) return;
@@ -802,5 +701,12 @@ public class Map4StoryManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    void LogPhase(string message)
+    {
+        if (!enableDebugLog) return;
+
+        Debug.Log("[Map4StoryManager] " + message + " Current Phase = " + currentPhase);
     }
 }

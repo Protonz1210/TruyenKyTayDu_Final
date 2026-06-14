@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySoundWaveProjectile
   moveSpeed: 5
   lifeTime: 3
-  damage: 100
+  damage: 20
   destroyOnHit: 1
   playerTag: Player
   partyTag: Party
