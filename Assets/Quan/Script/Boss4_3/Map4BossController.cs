@@ -8,6 +8,7 @@ public class Map4BossController : MonoBehaviour
         Boss3,
         Boss4
     }
+   
 
     [Header("Boss Info")]
     [Tooltip("ID của boss. Boss3 = 3, Boss4 = 4.")]
@@ -25,6 +26,19 @@ public class Map4BossController : MonoBehaviour
 
     [Tooltip("Máu hiện tại.")]
     public int currentHealth;
+
+    [Header("Story Combat State")]
+    [Tooltip("Boss đã được kích hoạt đánh thật chưa.")]
+    public bool combatActivated = false;
+
+    [Tooltip("Boss có được nhận damage từ Wukong không.")]
+    public bool canReceiveDamage = false;
+
+    [Tooltip("Boss có được hiện UI máu không.")]
+    public bool canShowBossUI = false;
+
+    [Tooltip("Ép boss đứng Idle khi chưa combat.")]
+    public bool forceIdleWhenNotCombat = true;
 
     [Tooltip("Boss chết thì ẩn object.")]
     public bool hideWhenDefeated = false;
@@ -275,6 +289,12 @@ public class Map4BossController : MonoBehaviour
 
     void Update()
     {
+        if (!combatActivated)
+        {
+            StopMove();
+            ForceBossIdleForStory();
+            return;
+        }
         if (isDefeated) return;
 
         if (combatStoppedByDeath)
@@ -1264,6 +1284,15 @@ public class Map4BossController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (!canReceiveDamage || !combatActivated)
+        {
+            if (enableDebugLog)
+            {
+                Debug.Log(gameObject.name + " chưa vào combat nên không nhận damage.");
+            }
+
+            return;
+        }
         if (isDefeated) return;
 
         currentHealth -= damage;
@@ -1442,5 +1471,68 @@ public class Map4BossController : MonoBehaviour
     public int GetMaxHealth()
     {
         return maxHealth;
+    }
+    public void ActivateCombat()
+    {
+        combatActivated = true;
+        canReceiveDamage = true;
+        canShowBossUI = true;
+
+        if (enableDebugLog)
+        {
+            Debug.Log(gameObject.name + " đã được kích hoạt COMBAT.");
+        }
+    }
+
+    public void DeactivateCombat()
+    {
+        combatActivated = false;
+        canReceiveDamage = false;
+        canShowBossUI = false;
+
+        ForceBossIdleForStory();
+
+        if (enableDebugLog)
+        {
+            Debug.Log(gameObject.name + " đã tắt combat, trở về Idle.");
+        }
+    }
+
+    public void StopCombatAndReturnIdle()
+    {
+        combatActivated = false;
+        canReceiveDamage = false;
+        canShowBossUI = false;
+
+        ForceBossIdleForStory();
+    }
+
+    public bool IsCombatState()
+    {
+        return combatActivated;
+    }
+
+    public bool CanReceiveDamage()
+    {
+        return canReceiveDamage;
+    }
+
+    public bool CanShowBossUI()
+    {
+        return canShowBossUI && combatActivated && !IsDead();
+    }
+
+    void ForceBossIdleForStory()
+    {
+        if (!forceIdleWhenNotCombat) return;
+        if (animator == null) return;
+
+        animator.SetFloat(speedParameterName, 0f);
+
+        if (!string.IsNullOrEmpty(idleStateName))
+        {
+            animator.Play(idleStateName, 0, 0f);
+            animator.Update(0f);
+        }
     }
 }

@@ -21,8 +21,8 @@ TagManager:
   - EnemyProjectile
   - Ground
   - Detector
-  - 
-  - 
+  - PlayerBlocker
+  - Boss
   - 
   - 
   - 
