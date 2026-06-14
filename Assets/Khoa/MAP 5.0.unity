@@ -814,7 +814,7 @@ MonoBehaviour:
   afterBeat3DialogueLines: []
   endDialogueLines: []
   nextSceneName: MAP 5.1
-  delayBeforeLoadNextScene: 1.5
+  delayBeforeLoadNextScene: 1
   useBuddhaIntervention: 1
   waitFadeInBeforeStartStory: 1
   startStoryDelay: 0.1
@@ -1290,7 +1290,7 @@ Transform:
   m_GameObject: {fileID: 478041506}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.021153383, z: -0, w: 0.9997763}
-  m_LocalPosition: {x: 0.6864004, y: -2.43417, z: -0.002}
+  m_LocalPosition: {x: 0.75, y: -2.11, z: 0}
   m_LocalScale: {x: 0.32368946, y: 0.33663708, z: 0.32368946}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2369,11 +2369,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Map5SceneFadeController
   uiDocument: {fileID: 831555556}
-  fadeOutDuration: 1
-  fadeInDuration: 1
+  fadeOutDuration: 2
+  fadeInDuration: 2.5
   autoFadeInOnStart: 0
   startBlack: 0
-  enableTestKey: 1
+  useCinematicTextBeforeLoad: 1
+  cinematicText: "Linh S\u01A1n \u2013 Tr\u01B0\u1EDBc Ph\u1EADt T\u1ED5"
+  textFadeInDuration: 0.6
+  textHoldDuration: 1.2
+  textFadeOutDuration: 0.6
+  cinematicTextFontSize: 60
+  cinematicTextOffsetY: 0
+  enableTestKey: 0
   isFading: 0
 --- !u!1 &844411450
 GameObject:

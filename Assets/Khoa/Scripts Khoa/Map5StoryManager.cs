@@ -12,7 +12,7 @@ public class Map5StoryManager : MonoBehaviour
     }
 
     [Header("Map Mode")]
-    [Tooltip("Ground_5_0: map dưới mặt đất, không có Phật Tổ, chạy xong thì fade đen và chuyển sang MAP 5.1. Heaven_5_1: map thiên đình, có Phật Tổ và BuddhaBowl.")]
+    [Tooltip("Ground_5_0: map dưới mặt đất, không có Phật Tổ, chạy xong thì fade đen, hiện chữ cinematic và chuyển sang MAP 5.1. Heaven_5_1: map thiên đình, có Phật Tổ và BuddhaBowl.")]
     public Map5StoryMode storyMode = Map5StoryMode.Ground_5_0;
 
     [Header("References")]
@@ -22,7 +22,7 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Kéo object FinalWukongZoneDuelTest vào đây.")]
     public FinalWukongZoneDuelTest duelTest;
 
-    [Tooltip("Kéo object có script Map5SceneFadeController vào đây. Dùng để fade đen khi chuyển scene và fade sáng khi vào scene mới.")]
+    [Tooltip("Kéo object có script Map5SceneFadeController vào đây.")]
     public Map5SceneFadeController sceneFadeController;
 
     [Tooltip("Chỉ dùng ở Heaven_5_1. Kéo object có script Map5BuddhaInterventionController vào đây.")]
@@ -35,10 +35,10 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Hội thoại sau khi 2 Wukong đánh xong lần 1.")]
     public Map5DialogueLine[] afterBeat1DialogueLines;
 
-    [Tooltip("Chỉ dùng nếu map này cần đánh lần 2.")]
+    [Tooltip("Chỉ dùng ở MAP 5.1 nếu cần đánh lần 2.")]
     public Map5DialogueLine[] afterBeat2DialogueLines;
 
-    [Tooltip("Chỉ dùng nếu map này cần đánh lần 3 hoặc đoạn chuẩn bị Phật Tổ can thiệp.")]
+    [Tooltip("Chỉ dùng ở MAP 5.1 nếu cần đánh lần 3 hoặc đoạn chuẩn bị Phật Tổ can thiệp.")]
     public Map5DialogueLine[] afterBeat3DialogueLines;
 
     [Tooltip("Chỉ dùng ở Heaven_5_1, sau khi Phật Tổ dùng bát và FakeWukong Die.")]
@@ -51,6 +51,12 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Thời gian chờ sau hội thoại cuối MAP 5.0 rồi mới bắt đầu fade đen.")]
     public float delayBeforeLoadNextScene = 1f;
 
+    [Tooltip("Bật: khi kết thúc MAP 5.0 sẽ hiện chữ cinematic trên nền đen trước khi load MAP 5.1.")]
+    public bool useTransitionTextBeforeLoad = true;
+
+    [Tooltip("Chữ hiện giữa màn hình đen khi chuyển từ MAP 5.0 sang MAP 5.1.")]
+    public string transitionTextToHeaven = "Linh Sơn – Trước Phật Tổ";
+
     [Header("Heaven 5.1 Settings")]
     [Tooltip("Heaven_5_1 có dùng Phật Tổ can thiệp không.")]
     public bool useBuddhaIntervention = true;
@@ -60,6 +66,19 @@ public class Map5StoryManager : MonoBehaviour
 
     [Tooltip("Thời gian chờ nhẹ trước khi bắt đầu story, tránh việc StoryManager chạy trước FadeController.")]
     public float startStoryDelay = 0.1f;
+
+    [Header("Final Ending")]
+    [Tooltip("Bật: sau End Dialogue ở MAP 5.1 sẽ fade đen và hiện chữ kết thúc.")]
+    public bool useFinalEndingFade = false;
+
+    [Tooltip("Thời gian chờ sau khi End Dialogue kết thúc rồi mới fade đen.")]
+    public float delayBeforeFinalFade = 0.6f;
+
+    [Tooltip("Chữ cinematic hiện ở cuối MAP 5.1.")]
+    public string finalEndingText = "Hành trình thỉnh kinh vẫn tiếp tục...";
+
+    [Tooltip("Sau khi hiện chữ kết thúc, giữ màn hình đen luôn.")]
+    public bool keepBlackScreenAfterEnding = true;
 
     [Header("Start Settings")]
     [Tooltip("Bật: vào Play là tự chạy flow cinematic.")]
@@ -78,7 +97,10 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Đang ở đoạn Phật Tổ can thiệp hay không.")]
     public bool isBuddhaInterventionRunning;
 
-    [Tooltip("Beat hiện tại đang chạy. 0 = dialogue, 1/2/3 = duel beat, 99 = Buddha intervention, 100 = end dialogue.")]
+    [Tooltip("Đang ở đoạn ending cuối map hay không.")]
+    public bool isEndingRunning;
+
+    [Tooltip("Beat hiện tại đang chạy. 0 = dialogue, 1/2/3 = duel beat, 99 = Buddha intervention, 100 = end dialogue, 999 = ending.")]
     public int currentBeatIndex;
 
     private Coroutine storyRoutine;
@@ -147,6 +169,7 @@ public class Map5StoryManager : MonoBehaviour
         isStoryRunning = true;
         isDuelBeatRunning = false;
         isBuddhaInterventionRunning = false;
+        isEndingRunning = false;
         currentBeatIndex = 0;
 
         Debug.Log("[Map5StoryManager] Bắt đầu flow MAP 5.0 dưới mặt đất.");
@@ -168,20 +191,29 @@ public class Map5StoryManager : MonoBehaviour
             0
         ));
 
-        Debug.Log("[Map5StoryManager] MAP 5.0 kết thúc. Chuẩn bị fade đen và chuyển sang scene: " + nextSceneName);
+        Debug.Log("[Map5StoryManager] MAP 5.0 kết thúc. Chuẩn bị fade đen, hiện chữ và chuyển sang scene: " + nextSceneName);
 
         yield return new WaitForSeconds(delayBeforeLoadNextScene);
 
         if (sceneFadeController != null)
         {
             yield return StartCoroutine(sceneFadeController.FadeOutRoutine());
+
+            if (useTransitionTextBeforeLoad)
+            {
+                sceneFadeController.useCinematicTextBeforeLoad = true;
+                sceneFadeController.cinematicText = transitionTextToHeaven;
+
+                yield return StartCoroutine(sceneFadeController.PlayCinematicTextRoutine());
+            }
+
+            SceneManager.LoadScene(nextSceneName);
         }
         else
         {
             Debug.LogWarning("[Map5StoryManager] Chưa gán Scene Fade Controller, sẽ chuyển scene không có fade.");
+            SceneManager.LoadScene(nextSceneName);
         }
-
-        SceneManager.LoadScene(nextSceneName);
     }
 
     private IEnumerator HeavenMapFlowRoutine()
@@ -189,6 +221,7 @@ public class Map5StoryManager : MonoBehaviour
         isStoryRunning = true;
         isDuelBeatRunning = false;
         isBuddhaInterventionRunning = false;
+        isEndingRunning = false;
         currentBeatIndex = 0;
 
         Debug.Log("[Map5StoryManager] Bắt đầu flow MAP 5.1 thiên đình.");
@@ -243,11 +276,17 @@ public class Map5StoryManager : MonoBehaviour
             100
         ));
 
+        if (useFinalEndingFade)
+        {
+            yield return StartCoroutine(PlayFinalEndingRoutine());
+        }
+
         Debug.Log("[Map5StoryManager] Flow MAP 5.1 đã chạy xong.");
 
         isStoryRunning = false;
         isDuelBeatRunning = false;
         isBuddhaInterventionRunning = false;
+        isEndingRunning = false;
         currentBeatIndex = 0;
         storyRoutine = null;
     }
@@ -328,5 +367,38 @@ public class Map5StoryManager : MonoBehaviour
         isBuddhaInterventionRunning = false;
 
         Debug.Log("[Map5StoryManager] Kết thúc Buddha Intervention.");
+    }
+
+    private IEnumerator PlayFinalEndingRoutine()
+    {
+        Debug.Log("[Map5StoryManager] Bắt đầu Final Ending.");
+
+        currentBeatIndex = 999;
+        isEndingRunning = true;
+
+        yield return new WaitForSeconds(delayBeforeFinalFade);
+
+        if (sceneFadeController == null)
+        {
+            Debug.LogWarning("[Map5StoryManager] Chưa gán Scene Fade Controller, không thể chạy ending fade.");
+            isEndingRunning = false;
+            yield break;
+        }
+
+        yield return StartCoroutine(sceneFadeController.FadeOutRoutine());
+
+        sceneFadeController.useCinematicTextBeforeLoad = true;
+        sceneFadeController.cinematicText = finalEndingText;
+
+        yield return StartCoroutine(sceneFadeController.PlayCinematicTextRoutine());
+
+        if (!keepBlackScreenAfterEnding)
+        {
+            yield return StartCoroutine(sceneFadeController.FadeInRoutine());
+        }
+
+        isEndingRunning = false;
+
+        Debug.Log("[Map5StoryManager] Kết thúc Final Ending.");
     }
 }

@@ -24,8 +24,30 @@ public class Map5SceneFadeController : MonoBehaviour
     [Tooltip("Bật nếu muốn lúc bắt đầu scene màn hình đang đen hoàn toàn.")]
     public bool startBlack = false;
 
+    [Header("Cinematic Text")]
+    [Tooltip("Bật: khi chuyển scene sẽ hiện chữ cinematic trên nền đen trước khi load scene mới.")]
+    public bool useCinematicTextBeforeLoad = true;
+
+    [Tooltip("Dòng chữ cinematic hiện giữa màn hình khi chuyển map.")]
+    public string cinematicText = "Linh Sơn";
+
+    [Tooltip("Thời gian chữ mờ dần hiện lên.")]
+    public float textFadeInDuration = 0.6f;
+
+    [Tooltip("Thời gian giữ chữ rõ trên màn hình.")]
+    public float textHoldDuration = 1.2f;
+
+    [Tooltip("Thời gian chữ mờ dần biến mất.")]
+    public float textFadeOutDuration = 0.6f;
+
+    [Tooltip("Cỡ chữ cinematic.")]
+    public int cinematicTextFontSize = 42;
+
+    [Tooltip("Vị trí chữ theo trục Y. Số âm là thấp xuống, số dương là cao lên.")]
+    public float cinematicTextOffsetY = 0f;
+
     [Header("Test")]
-    [Tooltip("Bật để bấm F test fade out rồi fade in, chưa chuyển scene.")]
+    [Tooltip("Bật để bấm F test fade out, hiện text, fade in, chưa chuyển scene.")]
     public bool enableTestKey = true;
 
     [Header("State")]
@@ -34,6 +56,7 @@ public class Map5SceneFadeController : MonoBehaviour
 
     private VisualElement root;
     private VisualElement fadeOverlay;
+    private Label cinematicTextLabel;
 
     private void Awake()
     {
@@ -54,6 +77,8 @@ public class Map5SceneFadeController : MonoBehaviour
             SetOverlayAlpha(0f);
             HideOverlay();
         }
+
+        HideCinematicText();
 
         if (autoFadeInOnStart)
         {
@@ -77,7 +102,7 @@ public class Map5SceneFadeController : MonoBehaviour
         {
             if (!isFading)
             {
-                StartCoroutine(TestFadeRoutine());
+                StartCoroutine(TestFadeWithTextRoutine());
             }
         }
     }
@@ -103,25 +128,48 @@ public class Map5SceneFadeController : MonoBehaviour
             return;
         }
 
-        if (fadeOverlay != null)
+        if (fadeOverlay == null)
         {
-            return;
+            fadeOverlay = new VisualElement();
+            fadeOverlay.name = "map5-scene-fade-overlay";
+
+            fadeOverlay.style.position = Position.Absolute;
+            fadeOverlay.style.left = 0;
+            fadeOverlay.style.right = 0;
+            fadeOverlay.style.top = 0;
+            fadeOverlay.style.bottom = 0;
+            fadeOverlay.style.backgroundColor = new Color(0f, 0f, 0f, 1f);
+            fadeOverlay.style.opacity = 0f;
+            fadeOverlay.style.display = DisplayStyle.None;
+
+            root.Add(fadeOverlay);
         }
 
-        fadeOverlay = new VisualElement();
-        fadeOverlay.name = "map5-scene-fade-overlay";
+        if (cinematicTextLabel == null)
+        {
+            cinematicTextLabel = new Label();
+            cinematicTextLabel.name = "map5-cinematic-text";
+            cinematicTextLabel.text = cinematicText;
 
-        fadeOverlay.style.position = Position.Absolute;
-        fadeOverlay.style.left = 0;
-        fadeOverlay.style.right = 0;
-        fadeOverlay.style.top = 0;
-        fadeOverlay.style.bottom = 0;
-        fadeOverlay.style.backgroundColor = new Color(0f, 0f, 0f, 1f);
-        fadeOverlay.style.opacity = 0f;
-        fadeOverlay.style.display = DisplayStyle.None;
+            cinematicTextLabel.style.position = Position.Absolute;
+            cinematicTextLabel.style.left = 0;
+            cinematicTextLabel.style.right = 0;
+            cinematicTextLabel.style.top = Length.Percent(50);
+            cinematicTextLabel.style.translate = new Translate(0, cinematicTextOffsetY, 0);
 
-        root.Add(fadeOverlay);
+            cinematicTextLabel.style.height = 80;
+            cinematicTextLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+            cinematicTextLabel.style.fontSize = cinematicTextFontSize;
+            cinematicTextLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+            cinematicTextLabel.style.color = new Color(1f, 0.82f, 0.36f, 1f);
+            cinematicTextLabel.style.opacity = 0f;
+            cinematicTextLabel.style.display = DisplayStyle.None;
+
+            root.Add(cinematicTextLabel);
+        }
+
         fadeOverlay.BringToFront();
+        cinematicTextLabel.BringToFront();
     }
 
     public void FadeOutThenLoadScene(string sceneName)
@@ -142,6 +190,7 @@ public class Map5SceneFadeController : MonoBehaviour
         isFading = true;
         ShowOverlay();
         fadeOverlay.BringToFront();
+        cinematicTextLabel.BringToFront();
 
         float timer = 0f;
 
@@ -165,7 +214,9 @@ public class Map5SceneFadeController : MonoBehaviour
         isFading = true;
         ShowOverlay();
         fadeOverlay.BringToFront();
+        cinematicTextLabel.BringToFront();
         SetOverlayAlpha(1f);
+        HideCinematicText();
 
         float timer = 0f;
 
@@ -184,9 +235,62 @@ public class Map5SceneFadeController : MonoBehaviour
         isFading = false;
     }
 
+    public IEnumerator PlayCinematicTextRoutine()
+    {
+        SetupOverlay();
+
+        if (!useCinematicTextBeforeLoad)
+        {
+            yield break;
+        }
+
+        ShowOverlay();
+        SetOverlayAlpha(1f);
+        ShowCinematicText();
+        SetCinematicTextAlpha(0f);
+
+        cinematicTextLabel.text = cinematicText;
+        cinematicTextLabel.style.fontSize = cinematicTextFontSize;
+        cinematicTextLabel.style.translate = new Translate(0, cinematicTextOffsetY, 0);
+
+        float timer = 0f;
+
+        while (timer < textFadeInDuration)
+        {
+            float t = timer / textFadeInDuration;
+            SetCinematicTextAlpha(t);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        SetCinematicTextAlpha(1f);
+
+        yield return new WaitForSeconds(textHoldDuration);
+
+        timer = 0f;
+
+        while (timer < textFadeOutDuration)
+        {
+            float t = timer / textFadeOutDuration;
+            SetCinematicTextAlpha(1f - t);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        SetCinematicTextAlpha(0f);
+        HideCinematicText();
+    }
+
     private IEnumerator FadeOutThenLoadSceneRoutine(string sceneName)
     {
         yield return StartCoroutine(FadeOutRoutine());
+
+        if (useCinematicTextBeforeLoad)
+        {
+            yield return StartCoroutine(PlayCinematicTextRoutine());
+        }
 
         if (string.IsNullOrEmpty(sceneName))
         {
@@ -198,10 +302,11 @@ public class Map5SceneFadeController : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    private IEnumerator TestFadeRoutine()
+    private IEnumerator TestFadeWithTextRoutine()
     {
         yield return StartCoroutine(FadeOutRoutine());
-        yield return new WaitForSeconds(0.35f);
+        yield return StartCoroutine(PlayCinematicTextRoutine());
+        yield return new WaitForSeconds(0.2f);
         yield return StartCoroutine(FadeInRoutine());
     }
 
@@ -226,6 +331,30 @@ public class Map5SceneFadeController : MonoBehaviour
         if (fadeOverlay != null)
         {
             fadeOverlay.style.opacity = Mathf.Clamp01(alpha);
+        }
+    }
+
+    private void ShowCinematicText()
+    {
+        if (cinematicTextLabel != null)
+        {
+            cinematicTextLabel.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    private void HideCinematicText()
+    {
+        if (cinematicTextLabel != null)
+        {
+            cinematicTextLabel.style.display = DisplayStyle.None;
+        }
+    }
+
+    private void SetCinematicTextAlpha(float alpha)
+    {
+        if (cinematicTextLabel != null)
+        {
+            cinematicTextLabel.style.opacity = Mathf.Clamp01(alpha);
         }
     }
 }
