@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3134de43e3b54b645a2453dc0078d9e0
+guid: e0a45f705f9984b0faed5f61a198c436
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4021760769795009831
-    second: forceground_0
+      213: -3279107853299987018
+    second: ChatGPT Image 23_46_10 15 thg 6, 2026_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: forceground_0
+      name: ChatGPT Image 23_46_10 15 thg 6, 2026_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 66
-        width: 3772
-        height: 410
+        x: 0
+        y: 0
+        width: 2365
+        height: 665
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72dab37ac1a20d730800000000000000
-      internalID: 4021760769795009831
+      spriteID: 6bd4cd7e7c44e72d0800000000000000
+      internalID: -3279107853299987018
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      forceground_0: 4021760769795009831
+      ChatGPT Image 23_46_10 15 thg 6, 2026_0: -3279107853299987018
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
