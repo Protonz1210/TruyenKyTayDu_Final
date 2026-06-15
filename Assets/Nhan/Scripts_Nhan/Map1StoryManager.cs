@@ -461,15 +461,56 @@ public class Map1StoryManager : MonoBehaviour
     }
     private void ShowSupplyHealObject()
     {
-        if (supplyHealObject != null)
-        {
-            supplyHealObject.SetActive(true);
-            Debug.Log("Map1StoryManager: Đã hiện object hồi máu sau hội thoại NPC.");
-        }
-        else
+        if (supplyHealObject == null)
         {
             Debug.LogWarning("Map1StoryManager: Chưa gán Supply Heal Object.");
+            return;
         }
+
+        supplyHealObject.SetActive(true);
+
+        SpriteRenderer[] spriteRenderers = supplyHealObject.GetComponentsInChildren<SpriteRenderer>(true);
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            if (spriteRenderers[i] != null)
+            {
+                spriteRenderers[i].gameObject.SetActive(true);
+                spriteRenderers[i].enabled = true;
+            }
+        }
+
+        Collider2D[] colliders = supplyHealObject.GetComponentsInChildren<Collider2D>(true);
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i] != null)
+            {
+                colliders[i].gameObject.SetActive(true);
+                colliders[i].enabled = true;
+            }
+        }
+
+        HealInteractable healInteractable = supplyHealObject.GetComponentInChildren<HealInteractable>(true);
+
+        if (healInteractable != null)
+        {
+            healInteractable.gameObject.SetActive(true);
+            healInteractable.enabled = true;
+
+            if (healInteractable.interactHintObject != null)
+            {
+                healInteractable.interactHintObject.SetActive(false);
+            }
+        }
+
+        Debug.Log(
+            "Map1StoryManager: Đã hiện object hồi máu: "
+            + supplyHealObject.name
+            + " | ActiveSelf = " + supplyHealObject.activeSelf
+            + " | ActiveInHierarchy = " + supplyHealObject.activeInHierarchy
+            + " | Position = " + supplyHealObject.transform.position
+        );
     }
     private IEnumerator PlayIntroRoutine()
     {
