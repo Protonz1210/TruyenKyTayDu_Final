@@ -139,7 +139,6 @@ public class Map1StoryManager : MonoBehaviour
     [Tooltip("Tên object cha của box hội thoại trong GlobalHUD.")]
     public string globalDialogueBoxElementName = "dialogue-box";
 
-
     [Header("Wukong Lock")]
     [Tooltip("Kéo object Wukong vào đây. Script sẽ tự tìm PlayerController, Rigidbody2D và Animator bên trong.")]
     public GameObject wukongObject;
@@ -273,6 +272,8 @@ public class Map1StoryManager : MonoBehaviour
     private Coroutine postTutorialDialogueCoroutine;
 
     private Coroutine enemyWaveMonitorCoroutine;
+    private bool enemyWaveStarted;
+    private bool enemyWaveCleared;
 
     private bool skipIntroRequested;
     private Label dialogueHint;
@@ -845,6 +846,12 @@ public class Map1StoryManager : MonoBehaviour
 
     public void StartEnemyWaveByTrigger()
     {
+        if (enemyWaveStarted)
+        {
+            Debug.Log("Map1StoryManager: EnemyWave đã bắt đầu rồi, không gọi lại StartSpawn.");
+            return;
+        }
+
         if (currentPhase != Map1Phase.FreeMoveBeforeEnemyWave)
         {
             Debug.Log("Map1StoryManager: Không thể bắt đầu EnemyWave vì phase hiện tại là " + currentPhase);
@@ -853,29 +860,38 @@ public class Map1StoryManager : MonoBehaviour
 
         StartEnemyWave();
     }
+
     public void StartSupplyPointByTrigger()
-{
-    Debug.Log("Map1StoryManager: Trigger SupplyPoint đã được kích hoạt. Phase tiếp tế sẽ làm sau.");
+    {
+        Debug.Log("Map1StoryManager: Trigger SupplyPoint đã được kích hoạt. Phase tiếp tế sẽ làm sau.");
 
-    // Tạm thời chỉ log để giữ flow sạch và tránh lỗi compile.
-    // Sau này sẽ triển khai:
-    // SetPhase(Map1Phase.SupplyDialogue);
-    // Hiện thoại NPC tiếp tế.
-    // Hết thoại thì hiện vật phẩm hồi máu.
-}
+        // Sau này:
+        // SetPhase(Map1Phase.SupplyDialogue);
+        // Hiện dialogue NPC tiếp tế.
+        // Hết thoại thì hiện vật phẩm hồi máu.
+    }
 
-public void StartEndMapByTrigger()
-{
-    Debug.Log("Map1StoryManager: Trigger EndMap đã được kích hoạt. Phase chuyển map sẽ làm sau.");
+    public void StartEndMapByTrigger()
+    {
+        Debug.Log("Map1StoryManager: Trigger EndMap đã được kích hoạt. Phase chuyển map sẽ làm sau.");
 
-    // Tạm thời chỉ log để giữ flow sạch và tránh lỗi compile.
-    // Sau này sẽ triển khai:
-    // SetPhase(Map1Phase.WaitWukongIdleBeforeChangeMap);
-    // Chờ Wukong về Idle.
-    // Chuyển sang map tiếp theo.
-}
+        // Sau này:
+        // SetPhase(Map1Phase.WaitWukongIdleBeforeChangeMap);
+        // Chờ Wukong về Idle.
+        // Chuyển sang map tiếp theo.
+    }
+
     private void StartEnemyWave()
     {
+        if (enemyWaveStarted)
+        {
+            Debug.Log("Map1StoryManager: StartEnemyWave bị gọi lại, đã chặn.");
+            return;
+        }
+
+        enemyWaveStarted = true;
+        enemyWaveCleared = false;
+
         SetPhase(Map1Phase.EnemyWaveMission);
 
         if (enemyWaveRightBlockerObject != null)
@@ -900,6 +916,7 @@ public void StartEndMapByTrigger()
         if (enemyWaveSpawner != null)
         {
             enemyWaveSpawner.StartSpawn();
+            Debug.Log("Map1StoryManager: Đã gọi Enemy123RandomSpawner.StartSpawn đúng 1 lần.");
         }
         else
         {
@@ -911,16 +928,20 @@ public void StartEndMapByTrigger()
         if (enemyWaveMonitorCoroutine != null)
         {
             StopCoroutine(enemyWaveMonitorCoroutine);
+            enemyWaveMonitorCoroutine = null;
         }
 
         enemyWaveMonitorCoroutine = StartCoroutine(MonitorEnemyWaveRoutine());
 
         Debug.Log("Map1StoryManager: Đã bắt đầu Enemy123 Wave.");
     }
+
     private IEnumerator MonitorEnemyWaveRoutine()
     {
         while (true)
         {
+            yield return new WaitForSeconds(enemyWaveClearCheckInterval);
+
             if (enemyWaveSpawner == null)
             {
                 yield break;
@@ -931,13 +952,18 @@ public void StartEndMapByTrigger()
                 EnemyWaveCleared();
                 yield break;
             }
-
-            yield return new WaitForSeconds(enemyWaveClearCheckInterval);
         }
     }
 
     private void EnemyWaveCleared()
     {
+        if (enemyWaveCleared)
+        {
+            return;
+        }
+
+        enemyWaveCleared = true;
+
         if (enemyWaveSpawner != null)
         {
             enemyWaveSpawner.StopSpawn();
@@ -1410,10 +1436,9 @@ public void StartEndMapByTrigger()
             globalHUDObject.SetActive(true);
         }
 
-        // Khi UI tổng bật lại, box thoại vẫn phải tắt.
-        // Chỉ khi Map1GlobalDialogueController.PlayDialogue() được gọi thì dialogue-box mới hiện.
         HideGlobalHUDDialogueBox();
     }
+
     private void HideGlobalHUDDialogueBox()
     {
         if (!hideGlobalDialogueBoxWhenShowHUD)
@@ -1448,6 +1473,7 @@ public void StartEndMapByTrigger()
 
         Debug.Log("Map1StoryManager: Đã ẩn dialogue-box của GlobalHUD.");
     }
+
     private void ReleaseStartRightLimitAfterPostTutorialDialogue()
     {
         if (!releaseStartRightLimitAfterPostTutorialDialogue)
@@ -1482,8 +1508,6 @@ public void StartEndMapByTrigger()
 
         if (wukongSkillCooldown != null)
         {
-            // Không tắt component, chỉ khóa logic cooldown bên trong.
-            // Như vậy về sau SendMessage vẫn gọi được.
             wukongSkillCooldown.enabled = true;
 
             wukongSkillCooldown.SendMessage(
@@ -1516,20 +1540,17 @@ public void StartEndMapByTrigger()
         {
             wukongSkillCooldown.enabled = true;
 
-            // Bật lại logic hồi chiêu.
             wukongSkillCooldown.SendMessage(
                 "SetCooldownEnabled",
                 true,
                 SendMessageOptions.DontRequireReceiver
             );
 
-            // Ép WukongSkillCooldown tìm lại HUD sau khi GlobalHUD đã bật.
             wukongSkillCooldown.SendMessage(
                 "RefreshHUDReference",
                 SendMessageOptions.DontRequireReceiver
             );
 
-            // Ép cập nhật UI ngay lập tức.
             wukongSkillCooldown.SendMessage(
                 "UpdateHUD",
                 SendMessageOptions.DontRequireReceiver
