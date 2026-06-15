@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine.SceneManagement;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
@@ -238,6 +239,29 @@ public class Map1StoryManager : MonoBehaviour
     [Tooltip("Bao lâu kiểm tra một lần xem Enemy123 đã chết hết chưa.")]
     public float enemyWaveClearCheckInterval = 0.5f;
 
+    [Header("After Enemy Wave Dialogue")]
+    [Tooltip("Dialogue hiện sau khi Enemy123 chết hết. Không cho skip, chỉ hiện thông báo / thoại ngắn.")]
+    public Map1GlobalDialogueController afterEnemyWaveDialogue;
+
+    [Header("Supply / NPC Dialogue")]
+    [Tooltip("Dialogue NPC tiếp tế. Dạng này cho phép nhấn E để chuyển câu.")]
+    public Map1GlobalDialogueController supplyPointDialogue;
+
+    [Tooltip("Khóa Wukong và đoàn khi nói chuyện với NPC.")]
+    public bool lockPlayerAndPartyDuringSupplyDialogue = true;
+
+    [Tooltip("Ẩn thoại sau EnemyWave khi bắt đầu nói chuyện với NPC.")]
+    public bool hideAfterEnemyWaveDialogueWhenNpcTalk = true;
+
+    private bool supplyPointStarted;
+
+    [Header("Supply Item")]
+    [Tooltip("Object hồi máu sẽ hiện ra sau khi nói chuyện xong với NPC.")]
+    public GameObject supplyHealObject;
+
+    [Tooltip("Ẩn object hồi máu khi bắt đầu scene, chỉ hiện sau hội thoại NPC.")]
+    public bool hideSupplyHealObjectOnStart = true;
+
     [Header("Text And Audio Sync")]
     [Tooltip("Nếu câu không có audio, mỗi ký tự sẽ hiện sau khoảng thời gian này.")]
     public float fallbackCharDelay = 0.04f;
@@ -251,6 +275,24 @@ public class Map1StoryManager : MonoBehaviour
     [Header("Audio")]
     [Tooltip("AudioSource dùng để phát giọng đọc. Nếu bỏ trống, script sẽ tự thêm AudioSource vào object này.")]
     public AudioSource voiceAudioSource;
+
+    [Header("Change Map After Heal")]
+    [Tooltip("Bật lên để sau khi dùng vật phẩm hồi máu sẽ chuyển sang màn tiếp theo.")]
+    public bool changeMapAfterHeal = true;
+
+    [Tooltip("Tên scene/map sẽ chuyển tới sau khi hồi máu.")]
+    public string nextSceneName = "Map2";
+
+    [Tooltip("Delay nhẹ sau khi hồi máu rồi mới chuyển màn.")]
+    public float delayBeforeChangeMapAfterHeal = 1f;
+
+    [Tooltip("Chờ Wukong về Idle trước khi chuyển màn.")]
+    public bool waitWukongIdleBeforeChangeMapAfterHeal = true;
+
+    [Tooltip("Thời gian tối đa chờ Wukong về Idle trước khi chuyển màn.")]
+    public float maxWaitWukongIdleBeforeChangeMapAfterHeal = 3f;
+
+    private bool healUsedStarted;
 
     private Behaviour wukongController;
     private Rigidbody2D wukongRigidbody;
@@ -294,6 +336,7 @@ public class Map1StoryManager : MonoBehaviour
         AutoFindWukongSkillCooldown();
         CachePartyComponents();
         BindUIElements();
+        SetupSupplyHealObject();
 
         if (autoStartIntroOnStart && hideGlobalHUDDuringIntro)
         {
@@ -387,7 +430,18 @@ public class Map1StoryManager : MonoBehaviour
 
         StartMap1Intro();
     }
+    private void SetupSupplyHealObject()
+    {
+        if (!hideSupplyHealObjectOnStart)
+        {
+            return;
+        }
 
+        if (supplyHealObject != null)
+        {
+            supplyHealObject.SetActive(false);
+        }
+    }
     public void StartMap1Intro()
     {
         if (introRunning)
@@ -405,7 +459,18 @@ public class Map1StoryManager : MonoBehaviour
 
         introCoroutine = StartCoroutine(PlayIntroRoutine());
     }
-
+    private void ShowSupplyHealObject()
+    {
+        if (supplyHealObject != null)
+        {
+            supplyHealObject.SetActive(true);
+            Debug.Log("Map1StoryManager: Đã hiện object hồi máu sau hội thoại NPC.");
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Heal Object.");
+        }
+    }
     private IEnumerator PlayIntroRoutine()
     {
         introRunning = true;
@@ -863,12 +928,61 @@ public class Map1StoryManager : MonoBehaviour
 
     public void StartSupplyPointByTrigger()
     {
-        Debug.Log("Map1StoryManager: Trigger SupplyPoint đã được kích hoạt. Phase tiếp tế sẽ làm sau.");
+        if (supplyPointStarted)
+        {
+            Debug.Log("Map1StoryManager: SupplyPoint đã chạy rồi, không kích hoạt lại.");
+            return;
+        }
 
-        // Sau này:
-        // SetPhase(Map1Phase.SupplyDialogue);
-        // Hiện dialogue NPC tiếp tế.
-        // Hết thoại thì hiện vật phẩm hồi máu.
+        if (currentPhase != Map1Phase.EnemyWaveCleared)
+        {
+            Debug.Log("Map1StoryManager: Chưa thể kích hoạt SupplyPoint vì phase hiện tại là " + currentPhase);
+            return;
+        }
+
+        supplyPointStarted = true;
+
+        SetPhase(Map1Phase.SupplyDialogue);
+
+        // Khi bắt đầu nói chuyện với NPC thì tắt box thoại sau EnemyWave nếu đang hiện.
+        if (hideAfterEnemyWaveDialogueWhenNpcTalk && afterEnemyWaveDialogue != null)
+        {
+            afterEnemyWaveDialogue.HideDialogue();
+        }
+
+        if (lockPlayerAndPartyDuringSupplyDialogue)
+        {
+            LockPlayerAndParty();
+        }
+
+        if (supplyPointDialogue != null)
+        {
+            supplyPointDialogue.StartDialogue(
+                supplyPointDialogue.dialogueLines,
+                OnSupplyPointDialogueFinished
+            );
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Point Dialogue.");
+            OnSupplyPointDialogueFinished();
+        }
+
+        Debug.Log("Map1StoryManager: Bắt đầu hội thoại NPC tiếp tế.");
+    }
+
+    private void OnSupplyPointDialogueFinished()
+    {
+        if (lockPlayerAndPartyDuringSupplyDialogue)
+        {
+            UnlockPlayerAndParty();
+        }
+
+        ShowSupplyHealObject();
+
+        SetPhase(Map1Phase.SupplyItemWait);
+
+        Debug.Log("Map1StoryManager: Đã nói chuyện xong với NPC. Đã hiện object hồi máu và chuyển sang phase SupplyItemWait.");
     }
 
     public void StartEndMapByTrigger()
@@ -954,7 +1068,63 @@ public class Map1StoryManager : MonoBehaviour
             }
         }
     }
+    public void NotifyHealUsed()
+    {
+        if (healUsedStarted)
+        {
+            return;
+        }
 
+        healUsedStarted = true;
+
+        SetPhase(Map1Phase.HealFullParty);
+
+        Debug.Log("Map1StoryManager: Người chơi đã dùng vật phẩm hồi máu. Chuyển sang phase HealFullParty.");
+
+        if (changeMapAfterHeal)
+        {
+            StartCoroutine(ChangeMapAfterHealRoutine());
+        }
+    }
+    private IEnumerator ChangeMapAfterHealRoutine()
+    {
+        if (delayBeforeChangeMapAfterHeal > 0f)
+        {
+            yield return new WaitForSeconds(delayBeforeChangeMapAfterHeal);
+        }
+
+        SetPhase(Map1Phase.WaitWukongIdleBeforeChangeMap);
+
+        if (waitWukongIdleBeforeChangeMapAfterHeal)
+        {
+            FindWukongComponents();
+
+            float timer = 0f;
+
+            while (timer < maxWaitWukongIdleBeforeChangeMapAfterHeal)
+            {
+                if (IsWukongIdleAndStable())
+                {
+                    break;
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        SetPhase(Map1Phase.ChangeMap);
+
+        if (string.IsNullOrEmpty(nextSceneName))
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa nhập Next Scene Name nên không thể chuyển màn.");
+            yield break;
+        }
+
+        Debug.Log("Map1StoryManager: Chuyển sang scene " + nextSceneName);
+
+        SceneManager.LoadScene(nextSceneName);
+    }
     private void EnemyWaveCleared()
     {
         if (enemyWaveCleared)
@@ -969,6 +1139,7 @@ public class Map1StoryManager : MonoBehaviour
             enemyWaveSpawner.StopSpawn();
         }
 
+        // Ẩn box nhiệm vụ khi đang đánh EnemyWave.
         if (enemyWaveDialogue != null)
         {
             enemyWaveDialogue.HideDialogue();
@@ -988,9 +1159,19 @@ public class Map1StoryManager : MonoBehaviour
 
         enemyWaveMonitorCoroutine = null;
 
-        Debug.Log("Map1StoryManager: Enemy123 Wave đã clear.");
-    }
+        // Hiện thoại sau khi enemy chết hết.
+        // Dialogue này nên để MissionSingleLine, không có E, không skip.
+        if (afterEnemyWaveDialogue != null)
+        {
+            afterEnemyWaveDialogue.PlayDialogue();
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán After Enemy Wave Dialogue.");
+        }
 
+        Debug.Log("Map1StoryManager: Enemy123 Wave đã clear. Đã hiện thoại sau trận.");
+    }
     private void ShowTutorialBox()
     {
         if (dialogueBox != null)
