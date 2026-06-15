@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3134de43e3b54b645a2453dc0078d9e0
+guid: 47cde69e67aea4d24935e8beb521fe5c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4021760769795009831
-    second: forceground_0
+      213: 3414016858367770934
+    second: 0608 (2)(1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: forceground_0
+      name: 0608 (2)(1)_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 66
-        width: 3772
-        height: 410
+        x: 0
+        y: 906
+        width: 3832
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72dab37ac1a20d730800000000000000
-      internalID: 4021760769795009831
+      spriteID: 631c4349e36016f20800000000000000
+      internalID: 3414016858367770934
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      forceground_0: 4021760769795009831
+      0608 (2)(1)_0: 3414016858367770934
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
