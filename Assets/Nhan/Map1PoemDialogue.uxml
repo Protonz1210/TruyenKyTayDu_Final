@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="DialogueBox_mask" style="flex-grow: 1; position: absolute; height: 789px; width: 1371px; top: 593px; left: 287px;">
+    <ui:VisualElement name="DialogueBox_mask" style="flex-grow: 1; position: absolute; height: 789px; width: 1371px; top: 593px; left: 287px; font-size: 13px;">
         <ui:VisualElement name="DialogueBox" style="flex-grow: 1; background-image: resource(&quot;UI/Boxchat_UI&quot;); position: absolute; height: 320px; width: 1042px; top: 211px; left: 174px;">
             <ui:Label text="ĐƯỜNG XA MƯỜI VẠN TÁM NGÀN," name="DialogueText" binding-path="" style="background-image: none; position: absolute; height: 186px; width: 962px; top: 55px; left: 36px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 28px; -unity-font-style: bold;"/>
             <ui:Label text="E" name="DialogueHint" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 114px; width: 168px; top: 160px; left: 795px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 20px; -unity-font-style: bold;"/>

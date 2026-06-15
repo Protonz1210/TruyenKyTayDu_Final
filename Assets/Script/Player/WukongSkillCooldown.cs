@@ -7,6 +7,10 @@ public class WukongSkillCooldown : MonoBehaviour
     [Tooltip("UI hiển thị hồi chiêu và nội tại.")]
     public MapHUDController hudController;
 
+    [Header("Tutorial Lock")]
+    [Tooltip("Bật/tắt hệ thống hồi chiêu. Tắt đi thì skill luôn sẵn sàng và không bị đưa vào hồi chiêu.")]
+    public bool cooldownEnabled = true;
+
     [Header("Skill 1 - Attack1")]
     [Tooltip("Thời gian thực hiện skill 1.")]
     public float skill1ActionDuration = 5f;
@@ -66,6 +70,15 @@ public class WukongSkillCooldown : MonoBehaviour
 
     void UpdateCooldownTimers()
     {
+        // Trong tutorial thì không chạy hồi chiêu.
+        if (!cooldownEnabled)
+        {
+            skill1CooldownTimer = 0f;
+            skill2CooldownTimer = 0f;
+            currentPassiveStack = skill3RequiredPassive;
+            return;
+        }
+
         if (skill1CooldownTimer > 0f)
         {
             skill1CooldownTimer -= Time.deltaTime;
@@ -86,7 +99,6 @@ public class WukongSkillCooldown : MonoBehaviour
             }
         }
     }
-
     void HandleTestKeys()
     {
         if (!enableTestKeys)
@@ -132,6 +144,14 @@ public class WukongSkillCooldown : MonoBehaviour
 
     bool TryUseSkill1()
     {
+        // Trong tutorial: cho dùng skill nhưng không đưa vào hồi chiêu.
+        if (!cooldownEnabled)
+        {
+            skill1CooldownTimer = 0f;
+            Debug.Log("Dùng chiêu 1 trong tutorial. Không hồi chiêu.");
+            return true;
+        }
+
         if (skill1CooldownTimer > 0f)
         {
             Debug.Log("Chiêu 1 đang hồi: " + Mathf.CeilToInt(skill1CooldownTimer) + "s");
@@ -147,6 +167,14 @@ public class WukongSkillCooldown : MonoBehaviour
 
     bool TryUseSkill2()
     {
+        // Trong tutorial: cho dùng skill nhưng không đưa vào hồi chiêu.
+        if (!cooldownEnabled)
+        {
+            skill2CooldownTimer = 0f;
+            Debug.Log("Dùng chiêu 2 trong tutorial. Không hồi chiêu.");
+            return true;
+        }
+
         if (skill2CooldownTimer > 0f)
         {
             Debug.Log("Chiêu 2 đang hồi: " + Mathf.CeilToInt(skill2CooldownTimer) + "s");
@@ -162,6 +190,16 @@ public class WukongSkillCooldown : MonoBehaviour
 
     bool TryUseSkill3()
     {
+        // Trong tutorial: cho dùng skill 3 luôn, không cần nội tại.
+        if (!cooldownEnabled)
+        {
+            currentPassiveStack = skill3RequiredPassive;
+            UpdateHUD();
+
+            Debug.Log("Dùng chiêu 3 trong tutorial. Không cần nội tại.");
+            return true;
+        }
+
         if (currentPassiveStack < skill3RequiredPassive)
         {
             Debug.Log("Chiêu 3 chưa đủ nội tại: " + currentPassiveStack + " / " + skill3RequiredPassive);
@@ -278,21 +316,57 @@ public class WukongSkillCooldown : MonoBehaviour
 
     public bool IsSkill1Ready()
     {
+        if (!cooldownEnabled)
+        {
+            return true;
+        }
+
         return skill1CooldownTimer <= 0f;
     }
 
     public bool IsSkill2Ready()
     {
+        if (!cooldownEnabled)
+        {
+            return true;
+        }
+
         return skill2CooldownTimer <= 0f;
     }
 
     public bool IsSkill3Ready()
     {
+        if (!cooldownEnabled)
+        {
+            return true;
+        }
+
         return currentPassiveStack >= skill3RequiredPassive;
     }
 
     public int GetCurrentPassiveStack()
     {
         return currentPassiveStack;
+    }
+    public void SetCooldownEnabled(bool enabled)
+    {
+        cooldownEnabled = enabled;
+
+        // Mỗi lần bật/tắt chế độ cooldown đều đưa skill về trạng thái sẵn sàng.
+        ResetAllCooldowns();
+
+        if (cooldownEnabled)
+        {
+            Debug.Log("WukongSkillCooldown: Đã bật lại hồi chiêu.");
+        }
+        else
+        {
+            Debug.Log("WukongSkillCooldown: Đã tắt hồi chiêu trong Tutorial.");
+        }
+    }
+
+    public bool IsCooldownEnabled()
+    {
+        return cooldownEnabled;
     }
 }
