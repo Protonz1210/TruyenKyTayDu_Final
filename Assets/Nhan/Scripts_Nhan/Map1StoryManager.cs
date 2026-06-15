@@ -6,20 +6,16 @@ using UnityEngine.InputSystem.Controls;
 
 /// <summary>
 /// Quản lý cốt truyện Map1.
-/// Cơ chế hiện tại:
-/// - Vừa vào map sẽ chờ Wukong spawn xong và về Idle.
-/// - Sau đó tắt UI tổng.
-/// - Khóa điều khiển Wukong.
-/// - Khóa đoàn thỉnh kinh đứng yên.
-/// - Hiện một UI Document riêng chỉ có box chữ.
-/// - Mỗi câu thoại / câu thơ có thể gán audio riêng.
-/// - Chữ hiện dần theo thời lượng audio.
-/// - Audio đọc xong câu hiện tại thì tự chuyển sang câu tiếp theo.
-/// - Hết toàn bộ lời thoại thì ẩn box, bật lại UI tổng và mở lại điều khiển Wukong.
-/// 
-/// UI Document riêng chỉ cần có:
-/// - VisualElement tên: DialogueBox
-/// - Label tên: DialogueText
+/// Flow chính:
+/// Spawn
+/// -> Intro bài thơ
+/// -> Tutorial
+/// -> Post Tutorial Dialogue
+/// -> Mở giới hạn phải đầu map
+/// -> Chờ trigger Enemy123
+/// -> Spawn Enemy123 + hiện box nhiệm vụ
+/// -> Enemy chết hết thì mở giới hạn phải EnemyWave
+/// -> Các phase tiếp theo: Supply / Heal / ChangeMap sẽ làm sau.
 /// </summary>
 public class Map1StoryManager : MonoBehaviour
 {
@@ -33,6 +29,7 @@ public class Map1StoryManager : MonoBehaviour
         [Tooltip("File âm thanh đọc câu này. Mỗi câu nên dùng 1 audio riêng để chữ và tiếng khớp nhau.")]
         public AudioClip voiceClip;
     }
+
     [System.Serializable]
     public class PostTutorialDialogueLine
     {
@@ -40,11 +37,13 @@ public class Map1StoryManager : MonoBehaviour
         [Tooltip("Nội dung box hội thoại sau tutorial.")]
         public string text;
     }
+
     public enum TutorialCompleteMode
     {
         AnyKey,
         AllKeys
     }
+
     public enum Map1Phase
     {
         Spawn,
@@ -61,6 +60,7 @@ public class Map1StoryManager : MonoBehaviour
         WaitWukongIdleBeforeChangeMap,
         ChangeMap
     }
+
     [System.Serializable]
     public class TutorialLine
     {
@@ -68,7 +68,7 @@ public class Map1StoryManager : MonoBehaviour
         [Tooltip("Nội dung hướng dẫn sẽ hiện trong box.")]
         public string text;
 
-        [Tooltip(" AnyKey = bấm 1 trong các phím. AllKeys = phải bấm đủ tất cả phím.")]
+        [Tooltip("AnyKey = bấm 1 trong các phím. AllKeys = phải bấm đủ tất cả phím.")]
         public TutorialCompleteMode completeMode = TutorialCompleteMode.AnyKey;
 
         [Tooltip("Danh sách phím cần người chơi bấm. Có thể thêm bao nhiêu phím tùy ý trong Inspector.")]
@@ -130,6 +130,16 @@ public class Map1StoryManager : MonoBehaviour
     [Tooltip("Bật lên nếu muốn tắt UI tổng trong lúc intro bài thơ.")]
     public bool hideGlobalHUDDuringIntro = true;
 
+    [Tooltip("UIDocument của GlobalHUD. Dùng để tắt box hội thoại trong UI tổng khi vừa bật HUD.")]
+    public UIDocument globalHUDUIDocument;
+
+    [Tooltip("Bật lên để khi GlobalHUD hiện lại thì tự ẩn box hội thoại của UI tổng.")]
+    public bool hideGlobalDialogueBoxWhenShowHUD = true;
+
+    [Tooltip("Tên object cha của box hội thoại trong GlobalHUD.")]
+    public string globalDialogueBoxElementName = "dialogue-box";
+
+
     [Header("Wukong Lock")]
     [Tooltip("Kéo object Wukong vào đây. Script sẽ tự tìm PlayerController, Rigidbody2D và Animator bên trong.")]
     public GameObject wukongObject;
@@ -144,6 +154,7 @@ public class Map1StoryManager : MonoBehaviour
     [Header("Dialogue UI")]
     [Tooltip("Kéo UIDocument của Map1PoemDialogueUI vào đây. Không kéo GlobalHUD.")]
     public UIDocument dialogueUIDocument;
+
     [Tooltip("Tên VisualElement của box thoại trong UI Document.")]
     public string dialogueBoxElementName = "DialogueBox";
 
@@ -154,9 +165,10 @@ public class Map1StoryManager : MonoBehaviour
     public string dialogueHintElementName = "DialogueHint";
 
     [Header("Input")]
-    [Tooltip("Bật lên để cho phép nhấn phím bỏ qua intro.")]
+    [Tooltip("Bật lên để cho phép nhấn phím bỏ qua intro / chuyển box thoại.")]
     public bool useSkipKeyToNext = true;
-    [Tooltip("Phím dùng để bỏ qua intro. Mặc định là E.")]
+
+    [Tooltip("Phím dùng để bỏ qua intro / chuyển box thoại.")]
     public Key skipKey = Key.E;
 
     [Tooltip("Nội dung hiển thị trong DialogueHint. Ví dụ: E, SPACE, ENTER.")]
@@ -211,6 +223,22 @@ public class Map1StoryManager : MonoBehaviour
     [Tooltip("Bật lên để hết Post Tutorial Dialogue thì tắt box chặn phải đầu map.")]
     public bool releaseStartRightLimitAfterPostTutorialDialogue = true;
 
+    [Tooltip("CameraFollowTarget có gắn Map1CameraFollowTargetLimiter.")]
+    public Map1CameraFollowTargetLimiter map1CameraLimiter;
+
+    [Header("Enemy Wave")]
+    [Tooltip("Spawner Enemy123 của Map1.")]
+    public Enemy123RandomSpawner enemyWaveSpawner;
+
+    [Tooltip("Box chặn phải khi đang đánh Enemy123.")]
+    public GameObject enemyWaveRightBlockerObject;
+
+    [Tooltip("Dialogue hiện trên GlobalHUD khi Enemy123 xuất hiện.")]
+    public Map1GlobalDialogueController enemyWaveDialogue;
+
+    [Tooltip("Bao lâu kiểm tra một lần xem Enemy123 đã chết hết chưa.")]
+    public float enemyWaveClearCheckInterval = 0.5f;
+
     [Header("Text And Audio Sync")]
     [Tooltip("Nếu câu không có audio, mỗi ký tự sẽ hiện sau khoảng thời gian này.")]
     public float fallbackCharDelay = 0.04f;
@@ -244,6 +272,8 @@ public class Map1StoryManager : MonoBehaviour
     private bool postTutorialDialogueRunning;
     private Coroutine postTutorialDialogueCoroutine;
 
+    private Coroutine enemyWaveMonitorCoroutine;
+
     private bool skipIntroRequested;
     private Label dialogueHint;
 
@@ -258,6 +288,7 @@ public class Map1StoryManager : MonoBehaviour
     private void Awake()
     {
         SetPhase(Map1Phase.Spawn);
+
         AutoFindMissingReferences();
         AutoFindWukongSkillCooldown();
         CachePartyComponents();
@@ -279,14 +310,9 @@ public class Map1StoryManager : MonoBehaviour
             StartCoroutine(StartIntroAfterWukongReadyRoutine());
         }
     }
-    private void SetPhase(Map1Phase newPhase)
-    {
-        currentPhase = newPhase;
-        Debug.Log("Map1StoryManager: Chuyển phase sang " + currentPhase);
-    }
+
     private void Update()
     {
-        // Skip intro bằng phím đã chọn trong Inspector.
         if (introRunning && useSkipKeyToNext)
         {
             if (WasKeyPressed(skipKey))
@@ -295,6 +321,13 @@ public class Map1StoryManager : MonoBehaviour
             }
         }
     }
+
+    private void SetPhase(Map1Phase newPhase)
+    {
+        currentPhase = newPhase;
+        Debug.Log("Map1StoryManager: Chuyển phase sang " + currentPhase);
+    }
+
     private bool WasKeyPressed(Key key)
     {
         if (Keyboard.current == null)
@@ -306,6 +339,7 @@ public class Map1StoryManager : MonoBehaviour
 
         return keyControl != null && keyControl.wasPressedThisFrame;
     }
+
     private bool IsKeyPressed(Key key)
     {
         if (Keyboard.current == null)
@@ -317,15 +351,11 @@ public class Map1StoryManager : MonoBehaviour
 
         return keyControl != null && keyControl.isPressed;
     }
-    /// <summary>
-    /// Chờ Wukong spawn ổn định và về Idle rồi mới chạy intro.
-    /// </summary>
+
     private IEnumerator StartIntroAfterWukongReadyRoutine()
     {
-        // Chờ 1 frame để Wukong, Animator, Rigidbody2D spawn ổn định trước.
         yield return null;
 
-        // Tìm lại component nếu lúc Awake chưa kịp tìm đủ.
         FindWukongComponents();
 
         if (waitWukongIdleBeforeIntro)
@@ -343,7 +373,6 @@ public class Map1StoryManager : MonoBehaviour
                 yield return null;
             }
 
-            // Nếu chờ quá lâu mà Wukong vẫn chưa Idle thì ép về Idle để tránh kẹt.
             if (!IsWukongIdleAndStable())
             {
                 ForceWukongIdle();
@@ -358,15 +387,13 @@ public class Map1StoryManager : MonoBehaviour
         StartMap1Intro();
     }
 
-    /// <summary>
-    /// Gọi hàm này nếu muốn bắt đầu intro thủ công từ script khác.
-    /// </summary>
     public void StartMap1Intro()
     {
         if (introRunning)
         {
             return;
         }
+
         SetPhase(Map1Phase.IntroPoem);
         skipIntroRequested = false;
 
@@ -377,6 +404,7 @@ public class Map1StoryManager : MonoBehaviour
 
         introCoroutine = StartCoroutine(PlayIntroRoutine());
     }
+
     private IEnumerator PlayIntroRoutine()
     {
         introRunning = true;
@@ -451,8 +479,6 @@ public class Map1StoryManager : MonoBehaviour
 
         Debug.Log("Map1StoryManager: Đã chạy xong đoạn thoại mở đầu Map1.");
 
-        // Sau intro thì chạy tutorial.
-        // GlobalHUD chưa bật ở đây. Chỉ bật sau khi tutorial kết thúc.
         if (startTutorialAfterIntro)
         {
             StartTutorial();
@@ -463,6 +489,7 @@ public class Map1StoryManager : MonoBehaviour
             EnableCooldownAfterTutorial();
         }
     }
+
     private void SkipIntro()
     {
         if (!introRunning)
@@ -472,13 +499,11 @@ public class Map1StoryManager : MonoBehaviour
 
         skipIntroRequested = true;
 
-        // Dừng âm thanh đang đọc.
         if (voiceAudioSource != null && voiceAudioSource.isPlaying)
         {
             voiceAudioSource.Stop();
         }
 
-        // Nếu đang chạy coroutine intro thì dừng luôn.
         if (introCoroutine != null)
         {
             StopCoroutine(introCoroutine);
@@ -492,8 +517,6 @@ public class Map1StoryManager : MonoBehaviour
 
         Debug.Log("Map1StoryManager: Người chơi đã skip intro Map1.");
 
-        // Skip intro xong vẫn vào tutorial.
-        // GlobalHUD chưa bật ở đây. Chỉ bật sau khi tutorial kết thúc.
         if (startTutorialAfterIntro)
         {
             StartTutorial();
@@ -504,6 +527,7 @@ public class Map1StoryManager : MonoBehaviour
             EnableCooldownAfterTutorial();
         }
     }
+
     private void StartTutorial()
     {
         if (tutorialRunning)
@@ -520,87 +544,7 @@ public class Map1StoryManager : MonoBehaviour
 
         tutorialCoroutine = StartCoroutine(PlayTutorialRoutine());
     }
-    private IEnumerator WaitTutorialActionCompleteRoutine(TutorialLine line)
-    {
-        if (line == null)
-        {
-            yield break;
-        }
 
-        if (!line.waitWukongActionComplete)
-        {
-            yield break;
-        }
-
-        FindWukongComponents();
-
-        // 1. Chờ tối thiểu một chút để Animator / Rigidbody kịp nhận hành động.
-        if (line.minWaitBeforeIdleCheck > 0f)
-        {
-            yield return new WaitForSeconds(line.minWaitBeforeIdleCheck);
-        }
-
-        // 2. Nếu Wukong vẫn đang Idle, chờ một khoảng ngắn xem có rời Idle không.
-        // Mục đích: tránh vừa bấm phím là code thấy Idle rồi chuyển box ngay.
-        float leaveIdleTimer = 0f;
-
-        while (leaveIdleTimer < line.maxWaitForLeaveIdleTime)
-        {
-            if (!IsWukongIdleAndStable())
-            {
-                break;
-            }
-
-            leaveIdleTimer += Time.deltaTime;
-            yield return null;
-        }
-
-        // 3. Nếu yêu cầu nhả phím, bắt buộc người chơi nhả hết các phím của box hiện tại.
-        if (line.requireKeyReleaseBeforeNextBox)
-        {
-            while (IsAnyTutorialKeyPressed(line))
-            {
-                yield return null;
-            }
-        }
-
-        // 4. Chờ Wukong thật sự về Idle ổn định.
-        while (!IsWukongIdleAndStable())
-        {
-            yield return null;
-        }
-
-        // 5. Chờ thêm delay riêng của box sau khi đã Idle.
-        if (line.delayAfterComplete > 0f)
-        {
-            yield return new WaitForSeconds(line.delayAfterComplete);
-        }
-    }
-    private bool IsAnyTutorialKeyPressed(TutorialLine line)
-    {
-        if (Keyboard.current == null)
-        {
-            return false;
-        }
-
-        if (line == null || line.requiredKeys == null)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < line.requiredKeys.Length; i++)
-        {
-            Key key = line.requiredKeys[i];
-            KeyControl keyControl = Keyboard.current[key];
-
-            if (keyControl != null && keyControl.isPressed)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
     private IEnumerator PlayTutorialRoutine()
     {
         tutorialRunning = true;
@@ -632,12 +576,9 @@ public class Map1StoryManager : MonoBehaviour
             {
                 dialogueText.text = line.text;
             }
+
             yield return StartCoroutine(WaitForTutorialInput(line));
-
-            // Sau khi bấm đúng phím, chờ hành động của Wukong kết thúc thật,
-            // nhả phím xong và về Idle rồi mới chuyển box.
             yield return StartCoroutine(WaitTutorialActionCompleteRoutine(line));
-
         }
 
         HideDialogueBox();
@@ -647,8 +588,6 @@ public class Map1StoryManager : MonoBehaviour
 
         Debug.Log("Map1StoryManager: Đã hoàn thành tutorial Map1.");
 
-        // Sau tutorial, nếu có hội thoại sau tutorial thì chạy trước.
-        // GlobalHUD và cooldown vẫn chưa bật.
         if (startPostTutorialDialogueAfterTutorial)
         {
             StartPostTutorialDialogue();
@@ -661,6 +600,134 @@ public class Map1StoryManager : MonoBehaviour
             Debug.Log("Map1StoryManager: Không có post tutorial dialogue. GlobalHUD và cooldown đã được bật.");
         }
     }
+
+    private IEnumerator WaitTutorialActionCompleteRoutine(TutorialLine line)
+    {
+        if (line == null)
+        {
+            yield break;
+        }
+
+        if (!line.waitWukongActionComplete)
+        {
+            yield break;
+        }
+
+        FindWukongComponents();
+
+        if (line.minWaitBeforeIdleCheck > 0f)
+        {
+            yield return new WaitForSeconds(line.minWaitBeforeIdleCheck);
+        }
+
+        float leaveIdleTimer = 0f;
+
+        while (leaveIdleTimer < line.maxWaitForLeaveIdleTime)
+        {
+            if (!IsWukongIdleAndStable())
+            {
+                break;
+            }
+
+            leaveIdleTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (line.requireKeyReleaseBeforeNextBox)
+        {
+            while (IsAnyTutorialKeyPressed(line))
+            {
+                yield return null;
+            }
+        }
+
+        while (!IsWukongIdleAndStable())
+        {
+            yield return null;
+        }
+
+        if (line.delayAfterComplete > 0f)
+        {
+            yield return new WaitForSeconds(line.delayAfterComplete);
+        }
+    }
+
+    private bool IsAnyTutorialKeyPressed(TutorialLine line)
+    {
+        if (Keyboard.current == null)
+        {
+            return false;
+        }
+
+        if (line == null || line.requiredKeys == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < line.requiredKeys.Length; i++)
+        {
+            Key key = line.requiredKeys[i];
+            KeyControl keyControl = Keyboard.current[key];
+
+            if (keyControl != null && keyControl.isPressed)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private IEnumerator WaitForTutorialInput(TutorialLine line)
+    {
+        if (line.requiredKeys == null || line.requiredKeys.Length == 0)
+        {
+            Debug.LogWarning("Map1StoryManager: TutorialLine chưa có Required Keys. Bước này sẽ tự bỏ qua.");
+            yield break;
+        }
+
+        bool[] pressedKeys = new bool[line.requiredKeys.Length];
+
+        while (true)
+        {
+            for (int i = 0; i < line.requiredKeys.Length; i++)
+            {
+                Key key = line.requiredKeys[i];
+
+                if (WasKeyPressed(key))
+                {
+                    pressedKeys[i] = true;
+
+                    if (line.completeMode == TutorialCompleteMode.AnyKey)
+                    {
+                        yield break;
+                    }
+                }
+            }
+
+            if (line.completeMode == TutorialCompleteMode.AllKeys)
+            {
+                bool allPressed = true;
+
+                for (int i = 0; i < pressedKeys.Length; i++)
+                {
+                    if (!pressedKeys[i])
+                    {
+                        allPressed = false;
+                        break;
+                    }
+                }
+
+                if (allPressed)
+                {
+                    yield break;
+                }
+            }
+
+            yield return null;
+        }
+    }
+
     private void StartPostTutorialDialogue()
     {
         if (postTutorialDialogueRunning)
@@ -715,7 +782,6 @@ public class Map1StoryManager : MonoBehaviour
                 dialogueText.text = line.text;
             }
 
-            // Chờ người chơi nhấn phím Next để qua box tiếp theo.
             yield return StartCoroutine(WaitForPostTutorialNextKey());
 
             if (postTutorialDelayBetweenLines > 0f)
@@ -726,13 +792,9 @@ public class Map1StoryManager : MonoBehaviour
 
         HideDialogueBox();
 
-        // Hết Post Tutorial Dialogue thì mở chặn phải đầu map.
         ReleaseStartRightLimitAfterPostTutorialDialogue();
-
-        // Từ đây người chơi được đi tiếp đến trigger Enemy Wave.
         SetPhase(Map1Phase.FreeMoveBeforeEnemyWave);
 
-        // Hết hội thoại sau tutorial mới bật UI và hồi chiêu.
         ShowGlobalHUD();
         EnableCooldownAfterTutorial();
 
@@ -744,7 +806,6 @@ public class Map1StoryManager : MonoBehaviour
 
     private IEnumerator WaitForPostTutorialNextKey()
     {
-        // Chờ nhả phím trước để tránh ăn phím từ bước tutorial trước đó.
         while (useSkipKeyToNext && IsKeyPressed(skipKey))
         {
             yield return null;
@@ -761,6 +822,162 @@ public class Map1StoryManager : MonoBehaviour
         }
     }
 
+    public void OnMap1StoryTriggerEntered(Map1StoryTrigger.Map1TriggerType triggerType)
+    {
+        if (triggerType == Map1StoryTrigger.Map1TriggerType.EnemyWave)
+        {
+            StartEnemyWaveByTrigger();
+            return;
+        }
+
+        if (triggerType == Map1StoryTrigger.Map1TriggerType.SupplyPoint)
+        {
+            StartSupplyPointByTrigger();
+            return;
+        }
+
+        if (triggerType == Map1StoryTrigger.Map1TriggerType.EndMap)
+        {
+            StartEndMapByTrigger();
+            return;
+        }
+    }
+
+    public void StartEnemyWaveByTrigger()
+    {
+        if (currentPhase != Map1Phase.FreeMoveBeforeEnemyWave)
+        {
+            Debug.Log("Map1StoryManager: Không thể bắt đầu EnemyWave vì phase hiện tại là " + currentPhase);
+            return;
+        }
+
+        StartEnemyWave();
+    }
+    public void StartSupplyPointByTrigger()
+{
+    Debug.Log("Map1StoryManager: Trigger SupplyPoint đã được kích hoạt. Phase tiếp tế sẽ làm sau.");
+
+    // Tạm thời chỉ log để giữ flow sạch và tránh lỗi compile.
+    // Sau này sẽ triển khai:
+    // SetPhase(Map1Phase.SupplyDialogue);
+    // Hiện thoại NPC tiếp tế.
+    // Hết thoại thì hiện vật phẩm hồi máu.
+}
+
+public void StartEndMapByTrigger()
+{
+    Debug.Log("Map1StoryManager: Trigger EndMap đã được kích hoạt. Phase chuyển map sẽ làm sau.");
+
+    // Tạm thời chỉ log để giữ flow sạch và tránh lỗi compile.
+    // Sau này sẽ triển khai:
+    // SetPhase(Map1Phase.WaitWukongIdleBeforeChangeMap);
+    // Chờ Wukong về Idle.
+    // Chuyển sang map tiếp theo.
+}
+    private void StartEnemyWave()
+    {
+        SetPhase(Map1Phase.EnemyWaveMission);
+
+        if (enemyWaveRightBlockerObject != null)
+        {
+            enemyWaveRightBlockerObject.SetActive(true);
+        }
+
+        if (map1CameraLimiter != null)
+        {
+            map1CameraLimiter.ActivateEnemyWaveRightLimit();
+        }
+
+        if (enemyWaveDialogue != null)
+        {
+            enemyWaveDialogue.PlayDialogue();
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Enemy Wave Dialogue.");
+        }
+
+        if (enemyWaveSpawner != null)
+        {
+            enemyWaveSpawner.StartSpawn();
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Enemy Wave Spawner.");
+        }
+
+        SetPhase(Map1Phase.EnemyWaveFight);
+
+        if (enemyWaveMonitorCoroutine != null)
+        {
+            StopCoroutine(enemyWaveMonitorCoroutine);
+        }
+
+        enemyWaveMonitorCoroutine = StartCoroutine(MonitorEnemyWaveRoutine());
+
+        Debug.Log("Map1StoryManager: Đã bắt đầu Enemy123 Wave.");
+    }
+    private IEnumerator MonitorEnemyWaveRoutine()
+    {
+        while (true)
+        {
+            if (enemyWaveSpawner == null)
+            {
+                yield break;
+            }
+
+            if (enemyWaveSpawner.IsSpawnFinished())
+            {
+                EnemyWaveCleared();
+                yield break;
+            }
+
+            yield return new WaitForSeconds(enemyWaveClearCheckInterval);
+        }
+    }
+
+    private void EnemyWaveCleared()
+    {
+        if (enemyWaveSpawner != null)
+        {
+            enemyWaveSpawner.StopSpawn();
+        }
+
+        if (enemyWaveDialogue != null)
+        {
+            enemyWaveDialogue.HideDialogue();
+        }
+
+        if (enemyWaveRightBlockerObject != null)
+        {
+            enemyWaveRightBlockerObject.SetActive(false);
+        }
+
+        if (map1CameraLimiter != null)
+        {
+            map1CameraLimiter.ReleaseEnemyWaveRightLimit();
+        }
+
+        SetPhase(Map1Phase.EnemyWaveCleared);
+
+        enemyWaveMonitorCoroutine = null;
+
+        Debug.Log("Map1StoryManager: Enemy123 Wave đã clear.");
+    }
+
+    private void ShowTutorialBox()
+    {
+        if (dialogueBox != null)
+        {
+            dialogueBox.style.display = DisplayStyle.Flex;
+        }
+
+        if (dialogueHint != null)
+        {
+            dialogueHint.style.display = DisplayStyle.None;
+        }
+    }
+
     private void ShowPostTutorialDialogueBox()
     {
         if (dialogueBox != null)
@@ -774,69 +991,7 @@ public class Map1StoryManager : MonoBehaviour
             dialogueHint.style.display = DisplayStyle.Flex;
         }
     }
-    private IEnumerator WaitForTutorialInput(TutorialLine line)
-    {
-        if (line.requiredKeys == null || line.requiredKeys.Length == 0)
-        {
-            Debug.LogWarning("Map1StoryManager: TutorialLine chưa có Required Keys. Bước này sẽ tự bỏ qua.");
-            yield break;
-        }
 
-        bool[] pressedKeys = new bool[line.requiredKeys.Length];
-
-        while (true)
-        {
-            for (int i = 0; i < line.requiredKeys.Length; i++)
-            {
-                Key key = line.requiredKeys[i];
-
-                if (WasKeyPressed(key))
-                {
-                    pressedKeys[i] = true;
-
-                    if (line.completeMode == TutorialCompleteMode.AnyKey)
-                    {
-                        yield break;
-                    }
-                }
-            }
-
-            if (line.completeMode == TutorialCompleteMode.AllKeys)
-            {
-                bool allPressed = true;
-
-                for (int i = 0; i < pressedKeys.Length; i++)
-                {
-                    if (!pressedKeys[i])
-                    {
-                        allPressed = false;
-                        break;
-                    }
-                }
-
-                if (allPressed)
-                {
-                    yield break;
-                }
-            }
-
-            yield return null;
-        }
-    }
-
-    private void ShowTutorialBox()
-    {
-        if (dialogueBox != null)
-        {
-            dialogueBox.style.display = DisplayStyle.Flex;
-        }
-
-        // Tutorial bắt người chơi thao tác nên không hiện nút skip.
-        if (dialogueHint != null)
-        {
-            dialogueHint.style.display = DisplayStyle.None;
-        }
-    }
     private IEnumerator PlayOneLineRoutine(DialogueLine line)
     {
         if (dialogueText == null)
@@ -871,7 +1026,6 @@ public class Map1StoryManager : MonoBehaviour
 
         if (audioLength > 0f && fullText.Length > 0)
         {
-            // Chia thời lượng audio cho số ký tự để chữ hiện khớp tương đối với giọng đọc.
             charDelay = audioLength / fullText.Length;
         }
 
@@ -892,10 +1046,8 @@ public class Map1StoryManager : MonoBehaviour
             yield break;
         }
 
-        // Đảm bảo hiện đủ câu sau khi chạy hiệu ứng chữ.
         dialogueText.text = fullText;
 
-        // Nếu audio còn đang đọc thì chờ đọc xong mới qua câu sau.
         if (playVoiceAudio && voiceAudioSource != null)
         {
             while (voiceAudioSource.isPlaying)
@@ -918,6 +1070,7 @@ public class Map1StoryManager : MonoBehaviour
             yield return StartCoroutine(WaitWithSkip(delayBetweenLines));
         }
     }
+
     private IEnumerator WaitWithSkip(float duration)
     {
         float timer = 0f;
@@ -933,14 +1086,13 @@ public class Map1StoryManager : MonoBehaviour
             yield return null;
         }
     }
+
     private void AutoFindMissingReferences()
     {
         FindWukongComponents();
 
         if (dialogueUIDocument == null)
         {
-            // Chỉ là dự phòng.
-            // Tốt nhất vẫn nên kéo tay UIDocument riêng của Map1PoemDialogueUI vào Inspector.
             dialogueUIDocument = Object.FindFirstObjectByType<UIDocument>();
         }
 
@@ -970,7 +1122,6 @@ public class Map1StoryManager : MonoBehaviour
             return;
         }
 
-        // Tìm PlayerController trên chính object Wukong.
         Behaviour[] behaviours = wukongObject.GetComponents<Behaviour>();
 
         foreach (Behaviour behaviour in behaviours)
@@ -982,7 +1133,6 @@ public class Map1StoryManager : MonoBehaviour
             }
         }
 
-        // Nếu root không có PlayerController thì tìm trong object con.
         if (wukongController == null)
         {
             Behaviour[] childBehaviours = wukongObject.GetComponentsInChildren<Behaviour>(true);
@@ -999,16 +1149,11 @@ public class Map1StoryManager : MonoBehaviour
 
         if (wukongController == null)
         {
-            Debug.LogWarning(
-                "Map1StoryManager: Không tìm thấy PlayerController trên Wukong hoặc object con. " +
-                "Intro vẫn chạy, nhưng có thể không khóa được điều khiển Wukong."
-            );
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy PlayerController trên Wukong hoặc object con.");
         }
 
-        // Tìm Rigidbody2D trên root Wukong.
         wukongRigidbody = wukongObject.GetComponent<Rigidbody2D>();
 
-        // Nếu root không có Rigidbody2D thì tìm trong object con.
         if (wukongRigidbody == null)
         {
             wukongRigidbody = wukongObject.GetComponentInChildren<Rigidbody2D>(true);
@@ -1016,16 +1161,11 @@ public class Map1StoryManager : MonoBehaviour
 
         if (wukongRigidbody == null)
         {
-            Debug.LogWarning(
-                "Map1StoryManager: Không tìm thấy Rigidbody2D trên Wukong hoặc object con. " +
-                "Intro vẫn chạy, nhưng không thể dừng vận tốc Wukong."
-            );
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy Rigidbody2D trên Wukong hoặc object con.");
         }
 
-        // Tìm Animator trên root Wukong.
         wukongAnimator = wukongObject.GetComponent<Animator>();
 
-        // Nếu root không có Animator thì tìm trong object con.
         if (wukongAnimator == null)
         {
             wukongAnimator = wukongObject.GetComponentInChildren<Animator>(true);
@@ -1033,15 +1173,18 @@ public class Map1StoryManager : MonoBehaviour
 
         if (wukongAnimator == null)
         {
-            Debug.LogWarning(
-                "Map1StoryManager: Không tìm thấy Animator trên Wukong hoặc object con. " +
-                "Intro vẫn chạy, nhưng không thể ép Wukong về Idle."
-            );
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy Animator trên Wukong hoặc object con.");
         }
     }
+
     private void AutoFindWukongSkillCooldown()
     {
         if (!autoFindWukongSkillCooldown)
+        {
+            return;
+        }
+
+        if (wukongSkillCooldown != null)
         {
             return;
         }
@@ -1064,18 +1207,18 @@ public class Map1StoryManager : MonoBehaviour
             if (behaviour.GetType().Name == "WukongSkillCooldown")
             {
                 wukongSkillCooldown = behaviour;
-                Debug.Log("Map1StoryManager: Đã tự tìm thấy WukongSkillCooldown trong Wukong Object.");
+                Debug.Log("Map1StoryManager: Đã tìm thấy WukongSkillCooldown trong Wukong Object.");
                 return;
             }
         }
 
         Debug.LogWarning("Map1StoryManager: Không tìm thấy WukongSkillCooldown trong Wukong Object.");
     }
+
     private bool IsWukongIdleAndStable()
     {
         if (wukongAnimator == null)
         {
-            // Không có Animator thì coi như ổn để tránh kẹt intro.
             return true;
         }
 
@@ -1085,7 +1228,6 @@ public class Map1StoryManager : MonoBehaviour
         }
 
         AnimatorStateInfo stateInfo = wukongAnimator.GetCurrentAnimatorStateInfo(0);
-
         bool isIdleState = stateInfo.IsName(wukongIdleStateName);
 
         bool isRigidbodyStable = true;
@@ -1099,6 +1241,7 @@ public class Map1StoryManager : MonoBehaviour
 
         return isIdleState && isRigidbodyStable;
     }
+
     private IEnumerator WaitWukongIdleBeforeEndTutorialRoutine()
     {
         if (!waitWukongIdleBeforeEndTutorial)
@@ -1121,7 +1264,6 @@ public class Map1StoryManager : MonoBehaviour
             yield return null;
         }
 
-        // Nếu chờ quá lâu mà Wukong vẫn chưa Idle thì ép về Idle để không kẹt tutorial.
         if (!IsWukongIdleAndStable())
         {
             ForceWukongIdle();
@@ -1132,6 +1274,7 @@ public class Map1StoryManager : MonoBehaviour
             yield return new WaitForSeconds(extraDelayAfterTutorialIdle);
         }
     }
+
     private void ForceWukongIdle()
     {
         if (wukongAnimator == null)
@@ -1174,7 +1317,7 @@ public class Map1StoryManager : MonoBehaviour
     {
         if (dialogueUIDocument == null)
         {
-            Debug.LogWarning("Map1StoryManager: Chưa gán Dialogue UIDocument. Hãy kéo UIDocument của Map1PoemDialogueUI vào Inspector.");
+            Debug.LogWarning("Map1StoryManager: Chưa gán Dialogue UIDocument.");
             return;
         }
 
@@ -1206,7 +1349,7 @@ public class Map1StoryManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(dialogueHintElementName) && dialogueHint == null)
         {
-            Debug.LogWarning("Map1StoryManager: Không tìm thấy UI element tên " + dialogueHintElementName + " trong UXML. Nếu không dùng hint thì có thể để trống field này.");
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy UI element tên " + dialogueHintElementName + " trong UXML.");
         }
     }
 
@@ -1219,11 +1362,11 @@ public class Map1StoryManager : MonoBehaviour
 
         if (dialogueHint != null)
         {
-            // Chữ hint có thể đổi trong Inspector.
             dialogueHint.text = nextHint;
             dialogueHint.style.display = DisplayStyle.Flex;
         }
     }
+
     private void HideDialogueBox()
     {
         if (dialogueBox != null)
@@ -1266,6 +1409,44 @@ public class Map1StoryManager : MonoBehaviour
         {
             globalHUDObject.SetActive(true);
         }
+
+        // Khi UI tổng bật lại, box thoại vẫn phải tắt.
+        // Chỉ khi Map1GlobalDialogueController.PlayDialogue() được gọi thì dialogue-box mới hiện.
+        HideGlobalHUDDialogueBox();
+    }
+    private void HideGlobalHUDDialogueBox()
+    {
+        if (!hideGlobalDialogueBoxWhenShowHUD)
+        {
+            return;
+        }
+
+        if (globalHUDUIDocument == null && globalHUDObject != null)
+        {
+            globalHUDUIDocument = globalHUDObject.GetComponent<UIDocument>();
+        }
+
+        if (globalHUDUIDocument == null)
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Global HUD UIDocument nên không thể ẩn dialogue-box.");
+            return;
+        }
+
+        VisualElement root = globalHUDUIDocument.rootVisualElement;
+
+        if (root == null)
+        {
+            return;
+        }
+
+        VisualElement globalDialogueBox = root.Q<VisualElement>(globalDialogueBoxElementName);
+
+        if (globalDialogueBox != null)
+        {
+            globalDialogueBox.style.display = DisplayStyle.None;
+        }
+
+        Debug.Log("Map1StoryManager: Đã ẩn dialogue-box của GlobalHUD.");
     }
     private void ReleaseStartRightLimitAfterPostTutorialDialogue()
     {
@@ -1274,13 +1455,19 @@ public class Map1StoryManager : MonoBehaviour
             return;
         }
 
+        if (map1CameraLimiter != null)
+        {
+            map1CameraLimiter.ReleaseStartTemporaryRightLimit();
+        }
+
         if (startTemporaryRightBlockerObject != null)
         {
             startTemporaryRightBlockerObject.SetActive(false);
         }
 
-        Debug.Log("Map1StoryManager: Đã tắt giới hạn phải tạm thời đầu map.");
+        Debug.Log("Map1StoryManager: Đã tắt giới hạn phải tạm thời đầu map và mở camera.");
     }
+
     private void DisableCooldownUntilTutorialEnd()
     {
         if (!disableCooldownUntilTutorialEnd)
@@ -1288,9 +1475,28 @@ public class Map1StoryManager : MonoBehaviour
             return;
         }
 
+        if (wukongSkillCooldown == null)
+        {
+            AutoFindWukongSkillCooldown();
+        }
+
         if (wukongSkillCooldown != null)
         {
-            wukongSkillCooldown.SendMessage("SetCooldownEnabled", false, SendMessageOptions.DontRequireReceiver);
+            // Không tắt component, chỉ khóa logic cooldown bên trong.
+            // Như vậy về sau SendMessage vẫn gọi được.
+            wukongSkillCooldown.enabled = true;
+
+            wukongSkillCooldown.SendMessage(
+                "SetCooldownEnabled",
+                false,
+                SendMessageOptions.DontRequireReceiver
+            );
+
+            Debug.Log("Map1StoryManager: Đã tắt tạm cơ chế hồi chiêu Wukong trong tutorial.");
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Không tắt được hồi chiêu vì chưa tìm thấy WukongSkillCooldown.");
         }
     }
 
@@ -1301,20 +1507,49 @@ public class Map1StoryManager : MonoBehaviour
             return;
         }
 
+        if (wukongSkillCooldown == null)
+        {
+            AutoFindWukongSkillCooldown();
+        }
+
         if (wukongSkillCooldown != null)
         {
-            wukongSkillCooldown.SendMessage("SetCooldownEnabled", true, SendMessageOptions.DontRequireReceiver);
+            wukongSkillCooldown.enabled = true;
+
+            // Bật lại logic hồi chiêu.
+            wukongSkillCooldown.SendMessage(
+                "SetCooldownEnabled",
+                true,
+                SendMessageOptions.DontRequireReceiver
+            );
+
+            // Ép WukongSkillCooldown tìm lại HUD sau khi GlobalHUD đã bật.
+            wukongSkillCooldown.SendMessage(
+                "RefreshHUDReference",
+                SendMessageOptions.DontRequireReceiver
+            );
+
+            // Ép cập nhật UI ngay lập tức.
+            wukongSkillCooldown.SendMessage(
+                "UpdateHUD",
+                SendMessageOptions.DontRequireReceiver
+            );
+
+            Debug.Log("Map1StoryManager: Đã bật lại hồi chiêu và ép cập nhật UI cooldown.");
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Không bật được hồi chiêu vì chưa tìm thấy WukongSkillCooldown.");
         }
     }
+
     private void LockPlayerAndParty()
     {
-        // Tắt điều khiển Wukong.
         if (wukongController != null)
         {
             wukongController.enabled = false;
         }
 
-        // Dừng vật lý Wukong để không bị trôi lúc intro.
         if (wukongRigidbody != null)
         {
             wukongRigidbody.linearVelocity = Vector2.zero;
@@ -1326,8 +1561,6 @@ public class Map1StoryManager : MonoBehaviour
                 cachedWukongConstraints = true;
             }
 
-            // Khóa X và Rotation để Wukong không trôi ngang.
-            // Không khóa Y để tránh kẹt nếu nhân vật vừa spawn hơi lệch mặt đất.
             wukongRigidbody.constraints =
                 originalWukongConstraints |
                 RigidbodyConstraints2D.FreezePositionX |
@@ -1335,13 +1568,11 @@ public class Map1StoryManager : MonoBehaviour
         }
 
         ForceWukongIdle();
-
         StopPartyMovement();
     }
 
     private void UnlockPlayerAndParty()
     {
-        // Trả lại constraint gốc cho Wukong.
         if (wukongRigidbody != null && cachedWukongConstraints)
         {
             wukongRigidbody.constraints = originalWukongConstraints;
@@ -1349,7 +1580,6 @@ public class Map1StoryManager : MonoBehaviour
             wukongRigidbody.angularVelocity = 0f;
         }
 
-        // Mở lại điều khiển Wukong.
         if (wukongController != null)
         {
             wukongController.enabled = true;

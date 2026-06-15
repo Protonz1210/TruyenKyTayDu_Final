@@ -111,14 +111,39 @@ public class WukongSkillCooldown : MonoBehaviour
             return;
         }
 
+        // Test hồi chiêu skill 1
+        if (Keyboard.current.digit1Key.wasPressedThisFrame)
+        {
+            TryUseSkill1();
+            UpdateHUD();
+        }
+
+        // Test hồi chiêu skill 2
+        if (Keyboard.current.digit2Key.wasPressedThisFrame)
+        {
+            TryUseSkill2();
+            UpdateHUD();
+        }
+
+        // Test dùng skill 3
+        if (Keyboard.current.digit3Key.wasPressedThisFrame)
+        {
+            TryUseSkill3();
+            UpdateHUD();
+        }
+
+        // Test cộng nội tại skill 3
         if (Keyboard.current.digit7Key.wasPressedThisFrame)
         {
             AddPassiveStackFromHit();
+            UpdateHUD();
         }
 
+        // Test reset toàn bộ cooldown
         if (Keyboard.current.digit8Key.wasPressedThisFrame)
         {
             ResetAllCooldowns();
+            UpdateHUD();
         }
     }
 
@@ -268,11 +293,21 @@ public class WukongSkillCooldown : MonoBehaviour
     {
         skill1CooldownTimer = 0f;
         skill2CooldownTimer = 0f;
-        currentPassiveStack = skill3RequiredPassive;
+
+        // Nếu Skill 3 Ready At Start bật thì reset sẽ cho skill 3 đầy.
+        // Nếu tắt thì skill 3 về 0 nội tại.
+        if (skill3ReadyAtStart)
+        {
+            currentPassiveStack = skill3RequiredPassive;
+        }
+        else
+        {
+            currentPassiveStack = 0;
+        }
 
         UpdateHUD();
 
-        Debug.Log("Reset toàn bộ hồi chiêu.");
+        Debug.Log("Reset toàn bộ hồi chiêu. Skill 3 nội tại = " + currentPassiveStack + " / " + skill3RequiredPassive);
     }
 
     void UpdateHUD()

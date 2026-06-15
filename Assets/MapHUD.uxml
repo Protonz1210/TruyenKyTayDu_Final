@@ -15,7 +15,7 @@
         </ui:VisualElement>
         <ui:Label text="1000 / 1000" name="party-health-text" selectable="false" focusable="false" style="color: rgb(255, 255, 255); font-size: 17px; -unity-font-style: bold; position: absolute; top: 65px; left: 241px; width: 270px; height: 16px; -unity-text-align: middle-center; text-shadow: 0 0 0 rgba(0, 0, 0, 0);"/>
     </ui:VisualElement>
-    <ui:VisualElement name="skill-panel" style="flex-grow: 1; position: absolute; height: 360px; width: 620px; top: 823px; left: 271px;">
+    <ui:VisualElement name="skill-panel" style="flex-grow: 1; position: absolute; height: 360px; width: 620px; top: 824px; left: 181px;">
         <ui:VisualElement name="skill-group-1" style="flex-grow: 1; position: absolute; height: 355px; width: 364px;">
             <ui:VisualElement name="skill-slot-1" style="flex-grow: 1;">
                 <ui:VisualElement name="skill-slot-1-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Attack1_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 416px; width: 582px; top: -50px; left: -68px;"/>
@@ -23,8 +23,8 @@
             </ui:VisualElement>
             <ui:VisualElement name="skill-cd-bar-1" style="flex-grow: 1;">
                 <ui:VisualElement name="skill-cd-bar-frame-1" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 57px; width: 152px; top: 25px; left: 76px;"/>
-                <ui:VisualElement name="skill-cd-bar-mask-1" style="flex-grow: 1; position: absolute; height: 12px; width: 122px; top: 47px; left: 91px;">
-                    <ui:VisualElement name="skill-cd-bar-fill-1" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;);"/>
+                <ui:VisualElement name="skill-cd-bar-mask-1" style="flex-grow: 1; position: absolute; height: 12px; width: 122px; top: 47px; left: 91px; overflow: hidden;">
+                    <ui:VisualElement name="skill-cd-bar-fill-1" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;); width: 100%; height: 100%; position: absolute;"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
@@ -35,29 +35,29 @@
             </ui:VisualElement>
             <ui:VisualElement name="skill-cd-bar-2" style="flex-grow: 1;">
                 <ui:VisualElement name="skill-cd-bar-frame-2" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 57px; width: 152px; top: 25px; left: 76px;"/>
-                <ui:VisualElement name="skill-cd-bar-mask-2" style="flex-grow: 1; position: absolute; height: 11px; width: 123px; top: 47px; left: 91px;">
-                    <ui:VisualElement name="skill-cd-bar-fill-2" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;);"/>
+                <ui:VisualElement name="skill-cd-bar-mask-2" style="flex-grow: 1; position: absolute; height: 13px; width: 123px; top: 48px; left: 90px; overflow: hidden;">
+                    <ui:VisualElement name="skill-cd-bar-fill-2" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;); width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0;"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="skill-group-3" style="flex-grow: 1; position: absolute; height: 355px; width: 364px; top: 0; left: 324px;">
             <ui:VisualElement name="skill-slot-3" style="flex-grow: 1;">
-                <ui:VisualElement name="skill-slot-3-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Attack3_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 416px; width: 582px; top: -49px; left: -150px;"/>
+                <ui:VisualElement name="skill-slot-3-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Attack3_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 416px; width: 582px; top: -48px; left: -150px;"/>
                 <ui:Label text="I" name="skill-slot-3-name" style="color: rgb(255, 255, 255); font-size: 19px; -unity-font-style: bold; position: absolute; top: 61px; left: 130px; width: 38px; height: 25px; -unity-text-align: middle-center;"/>
             </ui:VisualElement>
             <ui:VisualElement name="skill-cd-bar-3" style="flex-grow: 1;">
                 <ui:VisualElement name="skill-cd-bar-frame-3" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 57px; width: 152px; top: 25px; left: 76px;"/>
-                <ui:VisualElement name="skill-cd-bar-mask-3" style="flex-grow: 1; position: absolute; height: 11px; width: 123px; top: 48px; left: 91px;">
-                    <ui:VisualElement name="skill-cd-bar-fill-3" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;);"/>
+                <ui:VisualElement name="skill-cd-bar-mask-3" style="flex-grow: 1; position: absolute; height: 14px; width: 123px; top: 46px; left: 91px; overflow: hidden;">
+                    <ui:VisualElement name="skill-cd-bar-fill-3" style="flex-grow: 1; background-image: resource(&quot;UI/Follower_UI1&quot;); width: 100%; height: 100%; overflow: hidden; position: absolute;"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="dialogue-box" style="flex-grow: 1; position: absolute; height: 364px; width: 1369px; top: 764px; left: 764px; background-image: none;">
+    <ui:VisualElement name="dialogue-box" style="flex-grow: 1; position: absolute; height: 364px; width: 1369px; top: 763px; left: 683px; background-image: none;">
         <ui:VisualElement name="dialogue-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Boxchat_UI&quot;); position: absolute; height: 350px; width: 1126px; top: 33px; left: 34px;"/>
         <ui:VisualElement name="dialogue-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Box_wukong&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 202px; width: 364px; top: 90px; left: 30px;"/>
-        <ui:Label text="Ta là TÔN NGỘ KHÔNG!! Như vậy clean hơn, dễ quản lý hơn, và đúng với flow cốt truyện Map 4 của bạn: khi gặp yêu quái tuần núi thì khóa điều khiển, hiện box thoại, người chơi nhấn phím để chuyển qua từng câu thoại; sau hội thoại mới mở lại điều khiển để đánh quái" name="dialogue-text" style="position: absolute; height: 121px; width: 736px; top: 129px; left: 321px; color: rgb(255, 255, 255); font-size: 20px; white-space: pre-wrap; -unity-text-align: upper-left; text-overflow: clip; word-spacing: 0; -unity-paragraph-spacing: 0; letter-spacing: 5px; -unity-text-outline-width: 0;"/>
         <ui:Label text="TON NGO KHONG" name="dialogue-name" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 136px; width: 430px; top: 21px; left: 186px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;"/>
         <ui:Label text="E" name="dialogue-hint" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 110px; width: 164px; top: 209px; left: 913px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;"/>
+        <ui:Label text="Ta là TÔN NGỘ KHÔNG!! Như vậy clean hơn, dễ quản lý hơn, và đúng với flow cốt truyện Map 4 của bạn: khi gặp yêu quái tuần núi thì khóa điều khiển, hiện box thoại, người chơi nhấn phím để chuyển qua từng câu thoại; sau hội thoại mới mở lại điều khiển để đánh quái" name="dialogue-text" style="position: absolute; height: 121px; width: 736px; top: 129px; left: 321px; color: rgb(255, 255, 255); font-size: 20px; white-space: pre-wrap; -unity-text-align: upper-left; text-overflow: clip; word-spacing: 0; -unity-paragraph-spacing: 0; letter-spacing: 5px; -unity-text-outline-width: 0;"/>
     </ui:VisualElement>
 </ui:UXML>
