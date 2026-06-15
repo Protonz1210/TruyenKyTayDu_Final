@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 /// <summary>
 /// Quản lý cốt truyện Map1.
@@ -73,6 +75,23 @@ public class Map1StoryManager : MonoBehaviour
     [Header("Dialogue UI")]
     [Tooltip("Kéo UIDocument của Map1PoemDialogueUI vào đây. Không kéo GlobalHUD.")]
     public UIDocument dialogueUIDocument;
+    [Tooltip("Tên VisualElement của box thoại trong UI Document.")]
+    public string dialogueBoxElementName = "DialogueBox";
+
+    [Tooltip("Tên Label hiển thị nội dung thoại trong UI Document.")]
+    public string dialogueTextElementName = "DialogueText";
+
+    [Tooltip("Tên Label hiển thị gợi ý skip, ví dụ nút E. Có thể để trống nếu không dùng.")]
+    public string dialogueHintElementName = "DialogueHint";
+
+    [Header("Input")]
+    [Tooltip("Bật lên để cho phép nhấn phím bỏ qua intro.")]
+    public bool useSkipKeyToNext = true;
+    [Tooltip("Phím dùng để bỏ qua intro. Mặc định là E.")]
+    public Key skipKey = Key.E;
+
+    [Tooltip("Nội dung hiển thị trong DialogueHint. Ví dụ: E, SPACE, ENTER.")]
+    public string nextHint = "E";
 
     [Header("Dialogue Lines")]
     [Tooltip("Danh sách câu thoại / câu thơ. Mỗi Element là 1 câu. Có thể gán audio riêng cho từng câu.")]
@@ -104,6 +123,9 @@ public class Map1StoryManager : MonoBehaviour
 
     private bool introRunning;
     private Coroutine introCoroutine;
+
+    private bool skipIntroRequested;
+    private Label dialogueHint;
 
     private Behaviour[] cachedPartyMoveScripts;
     private Rigidbody2D[] cachedPartyRigidbodies;
@@ -137,7 +159,31 @@ public class Map1StoryManager : MonoBehaviour
             StartCoroutine(StartIntroAfterWukongReadyRoutine());
         }
     }
+    private void Update()
+    {
+        // Project đang dùng New Input System nên không dùng Input.GetKeyDown.
+        if (!introRunning)
+        {
+            return;
+        }
 
+        if (!useSkipKeyToNext)
+        {
+            return;
+        }
+
+        if (Keyboard.current == null)
+        {
+            return;
+        }
+
+        KeyControl keyControl = Keyboard.current[skipKey];
+
+        if (keyControl != null && keyControl.wasPressedThisFrame)
+        {
+            SkipIntro();
+        }
+    }
     /// <summary>
     /// Chờ Wukong spawn ổn định và về Idle rồi mới chạy intro.
     /// </summary>
@@ -189,6 +235,8 @@ public class Map1StoryManager : MonoBehaviour
             return;
         }
 
+        skipIntroRequested = false;
+
         if (introCoroutine != null)
         {
             StopCoroutine(introCoroutine);
@@ -196,17 +244,23 @@ public class Map1StoryManager : MonoBehaviour
 
         introCoroutine = StartCoroutine(PlayIntroRoutine());
     }
-
     private IEnumerator PlayIntroRoutine()
     {
         introRunning = true;
+        skipIntroRequested = false;
 
+        HideGlobalHUD();
         LockPlayerAndParty();
         HideDialogueBox();
 
         if (startDelay > 0f)
         {
-            yield return new WaitForSeconds(startDelay);
+            yield return StartCoroutine(WaitWithSkip(startDelay));
+        }
+
+        if (skipIntroRequested)
+        {
+            yield break;
         }
 
         ShowDialogueBox();
@@ -225,6 +279,11 @@ public class Map1StoryManager : MonoBehaviour
 
         for (int i = 0; i < dialogueLines.Length; i++)
         {
+            if (skipIntroRequested)
+            {
+                yield break;
+            }
+
             DialogueLine line = dialogueLines[i];
 
             if (line == null)
@@ -235,15 +294,50 @@ public class Map1StoryManager : MonoBehaviour
             yield return StartCoroutine(PlayOneLineRoutine(line));
         }
 
+        if (skipIntroRequested)
+        {
+            yield break;
+        }
+
+        HideDialogueBox();
+        ShowGlobalHUD();
+        UnlockPlayerAndParty();
+
+        introRunning = false;
+        introCoroutine = null;
+
+        Debug.Log("Map1StoryManager: Đã chạy xong đoạn thoại mở đầu Map1.");
+    }
+    private void SkipIntro()
+    {
+        if (!introRunning)
+        {
+            return;
+        }
+
+        skipIntroRequested = true;
+
+        // Dừng âm thanh đang đọc.
+        if (voiceAudioSource != null && voiceAudioSource.isPlaying)
+        {
+            voiceAudioSource.Stop();
+        }
+
+        // Nếu đang chạy coroutine intro thì dừng luôn.
+        if (introCoroutine != null)
+        {
+            StopCoroutine(introCoroutine);
+            introCoroutine = null;
+        }
+
         HideDialogueBox();
         ShowGlobalHUD();
         UnlockPlayerAndParty();
 
         introRunning = false;
 
-        Debug.Log("Map1StoryManager: Đã chạy xong đoạn thoại mở đầu Map1.");
+        Debug.Log("Map1StoryManager: Người chơi đã nhấn E để skip intro Map1.");
     }
-
     private IEnumerator PlayOneLineRoutine(DialogueLine line)
     {
         if (dialogueText == null)
@@ -284,8 +378,19 @@ public class Map1StoryManager : MonoBehaviour
 
         for (int i = 0; i < fullText.Length; i++)
         {
+            if (skipIntroRequested)
+            {
+                yield break;
+            }
+
             dialogueText.text += fullText[i];
-            yield return new WaitForSeconds(charDelay);
+
+            yield return StartCoroutine(WaitWithSkip(charDelay));
+        }
+
+        if (skipIntroRequested)
+        {
+            yield break;
         }
 
         // Đảm bảo hiện đủ câu sau khi chạy hiệu ứng chữ.
@@ -296,20 +401,39 @@ public class Map1StoryManager : MonoBehaviour
         {
             while (voiceAudioSource.isPlaying)
             {
+                if (skipIntroRequested)
+                {
+                    yield break;
+                }
+
                 yield return null;
             }
         }
         else if (audioLength > 0f)
         {
-            yield return new WaitForSeconds(audioLength);
+            yield return StartCoroutine(WaitWithSkip(audioLength));
         }
 
         if (delayBetweenLines > 0f)
         {
-            yield return new WaitForSeconds(delayBetweenLines);
+            yield return StartCoroutine(WaitWithSkip(delayBetweenLines));
         }
     }
+    private IEnumerator WaitWithSkip(float duration)
+    {
+        float timer = 0f;
 
+        while (timer < duration)
+        {
+            if (skipIntroRequested)
+            {
+                yield break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
     private void AutoFindMissingReferences()
     {
         FindWukongComponents();
@@ -500,17 +624,27 @@ public class Map1StoryManager : MonoBehaviour
             return;
         }
 
-        dialogueBox = root.Q<VisualElement>("DialogueBox");
-        dialogueText = root.Q<Label>("DialogueText");
+        dialogueBox = root.Q<VisualElement>(dialogueBoxElementName);
+        dialogueText = root.Q<Label>(dialogueTextElementName);
+
+        if (!string.IsNullOrEmpty(dialogueHintElementName))
+        {
+            dialogueHint = root.Q<Label>(dialogueHintElementName);
+        }
 
         if (dialogueBox == null)
         {
-            Debug.LogWarning("Map1StoryManager: Không tìm thấy UI element tên DialogueBox trong UXML.");
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy UI element tên " + dialogueBoxElementName + " trong UXML.");
         }
 
         if (dialogueText == null)
         {
-            Debug.LogWarning("Map1StoryManager: Không tìm thấy UI element tên DialogueText trong UXML.");
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy UI element tên " + dialogueTextElementName + " trong UXML.");
+        }
+
+        if (!string.IsNullOrEmpty(dialogueHintElementName) && dialogueHint == null)
+        {
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy UI element tên " + dialogueHintElementName + " trong UXML. Nếu không dùng hint thì có thể để trống field này.");
         }
     }
 
@@ -520,8 +654,14 @@ public class Map1StoryManager : MonoBehaviour
         {
             dialogueBox.style.display = DisplayStyle.Flex;
         }
-    }
 
+        if (dialogueHint != null)
+        {
+            // Chữ hint có thể đổi trong Inspector.
+            dialogueHint.text = nextHint;
+            dialogueHint.style.display = DisplayStyle.Flex;
+        }
+    }
     private void HideDialogueBox()
     {
         if (dialogueBox != null)
@@ -532,6 +672,11 @@ public class Map1StoryManager : MonoBehaviour
         if (dialogueText != null)
         {
             dialogueText.text = "";
+        }
+
+        if (dialogueHint != null)
+        {
+            dialogueHint.style.display = DisplayStyle.None;
         }
     }
 
