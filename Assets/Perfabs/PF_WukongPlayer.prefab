@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: -8394178503623942700}
   - component: {fileID: 3085902367086757109}
   - component: {fileID: 7727485355955128746}
+  - component: {fileID: 5529076049568500394}
   m_Layer: 6
   m_Name: PF_WukongPlayer
   m_TagString: Player
@@ -467,7 +468,7 @@ MonoBehaviour:
   attack2Damage: 180
   attack3Damage: 300
   attackHitbox: {fileID: 6312452544603304273}
-  enableTestDieKey: 1
+  enableTestDieKey: 0
 --- !u!70 &6803099332546083542
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -532,7 +533,13 @@ MonoBehaviour:
   maxHealth: 1000
   currentHealth: 1000
   hudController: {fileID: 0}
-  enableTestKeys: 1
+  useIdleInsteadOfDeathWhenBoss5Exists: 1
+  playerAnimator: {fileID: 4337263153026329436}
+  rb: {fileID: 6390234740372086973}
+  idleStateName: Wukong1Idle
+  disablePlayerControllerWhenBoss5IdleDeath: 1
+  map4StoryManager: {fileID: 0}
+  enableTestKeys: 0
   testDamageAmount: 100
   testHealAmount: 100
 --- !u!114 &7727485355955128746
@@ -556,4 +563,69 @@ MonoBehaviour:
   skill3RequiredPassive: 10
   passiveGainPerHit: 1
   skill3ReadyAtStart: 0
-  enableTestKeys: 1
+  enableTestKeys: 0
+--- !u!114 &5529076049568500394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747556491235508407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4de4b687b6f0a49ba396228c55456f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WukongAutoTransformRunner
+  wukong: {fileID: 369953598425223012}
+  wukongRigidbody: {fileID: 6390234740372086973}
+  wukongAnimator: {fileID: 4337263153026329436}
+  wukongController: {fileID: 3521823685008880018}
+  storyManager: {fileID: 0}
+  autoStartWhenWukongTransformPhase: 1
+  extraScriptsToDisableDuringCinematic: []
+  partyObjectsToStop:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  freezePartyPhysicsDuringCinematic: 1
+  partySpeedParameterName: Speed
+  partyIdleStateName: Idle
+  boss3: {fileID: 0}
+  boss4: {fileID: 0}
+  boss5Controller: {fileID: 0}
+  boss5Object: {fileID: 0}
+  bossLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  scanBoxWidth: 15
+  scanBoxHeight: 10
+  scanBoxOffset: {x: 0, y: 4}
+  safeStableTime: 0.3
+  autoRunSpeed: 4
+  maxRunTime: 6
+  maxRunDistance: 14
+  stuckVelocityThreshold: 0.05
+  stuckSwitchDirectionTime: 0.35
+  disableBossCollidersDuringCinematic: 1
+  boss3Colliders:
+  - {fileID: 0}
+  boss4Colliders:
+  - {fileID: 0}
+  boss5Colliders:
+  - {fileID: 0}
+  freezeBossPhysicsDuringCinematic: 1
+  boss3Rigidbodies:
+  - {fileID: 0}
+  boss4Rigidbodies:
+  - {fileID: 0}
+  speedParameterName: Speed
+  idleStateName: Wukong1Idle
+  transitionTriggerName: Transform
+  armoredIdleStateName: Wukong1Idle2
+  transitionDuration: 2.5
+  idleBeforeTransitionTime: 0.35
+  armoredIdleHoldTime: 1.2
+  useLocalScaleFlip: 1
+  spriteFacesRightByDefault: 1
+  enableDebugLog: 1
+  drawScanGizmo: 1
