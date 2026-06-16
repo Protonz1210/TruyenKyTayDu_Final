@@ -46,6 +46,38 @@ public class Map4StoryManager : MonoBehaviour
     public string[] partyBoolParametersToFalse;
     public string[] partyTriggersToReset;
 
+    [Header("Start Location Intro")]
+    [Tooltip("Bật intro địa danh khi mới vào Map 4.")]
+    public bool playLocationIntroOnStart = true;
+
+    [TextArea(2, 5)]
+    [Tooltip("Nội dung địa danh đầu map.")]
+    public string startLocationTitleText = "SƯ\nĐÀ\nLĨNH";
+
+    [Tooltip("Sau khi vào map, chờ Wukong và đoàn về Idle rồi mới khóa di chuyển.")]
+    public bool waitIdleBeforeLockStartIntro = true;
+
+    [Tooltip("Tên state Idle thật của Wukong và đoàn.")]
+    public string startIntroIdleStateName = "Idle";
+
+    [Tooltip("Tốc độ Rigidbody nhỏ hơn số này thì coi như đã đứng yên.")]
+    public float startIntroIdleVelocityThreshold = 0.05f;
+
+    [Tooltip("Phải đứng Idle ổn định bao lâu rồi mới khóa và hiện bảng địa danh.")]
+    public float startIntroIdleStableTime = 0.2f;
+
+    [Tooltip("Thời gian chờ tối đa. Nếu quá thời gian này vẫn chưa Idle thì vẫn chạy intro để tránh kẹt.")]
+    public float startIntroMaxWaitIdleTime = 4f;
+
+    [Header("Start Location Intro References")]
+    [Tooltip("HUD tổng của Map 4.")]
+    public MapHUDController mapHUDController;
+
+    [Tooltip("Rigidbody2D của đoàn thỉnh kinh.")]
+    public Rigidbody2D[] partyRigidbodies;
+
+    private bool hasPlayedStartLocationIntro;
+
     [Header("Dialogue")]
     public DialogueController dialogueController;
 
@@ -154,6 +186,11 @@ public class Map4StoryManager : MonoBehaviour
         }
 
         LogPhase("Map 4 bắt đầu.");
+        if (playLocationIntroOnStart)
+        {
+            StartCoroutine(PlayStartLocationIntroRoutine());
+        }
+
     }
 
     void Update()
@@ -821,5 +858,142 @@ public class Map4StoryManager : MonoBehaviour
 
         // Sau này muốn chuyển scene thì mở dòng dưới và đổi tên scene.
         // UnityEngine.SceneManagement.SceneManager.LoadScene("Tên_Map_Tiếp_Theo");
+    }
+    IEnumerator PlayStartLocationIntroRoutine()
+    {
+        if (hasPlayedStartLocationIntro)
+        {
+            yield break;
+        }
+
+        hasPlayedStartLocationIntro = true;
+
+        // Bước 1: Vào map, chờ Wukong + đoàn tự về Idle trước.
+        if (waitIdleBeforeLockStartIntro)
+        {
+            yield return StartCoroutine(WaitAllActorsIdleBeforeStartIntro());
+        }
+
+        // Bước 2: Khi đã Idle rồi mới khóa di chuyển.
+        LockWukongAndParty();
+
+        // Bước 3: Hiện bảng địa danh.
+        if (mapHUDController != null)
+        {
+            mapHUDController.SetLocationTitleText(startLocationTitleText);
+            yield return StartCoroutine(mapHUDController.PlayLocationTitleRoutine(startLocationTitleText));
+        }
+        else
+        {
+            Debug.LogWarning("Map4StoryManager chưa gán MapHUDController cho Start Location Intro.");
+        }
+
+        // Bước 4: Ẩn box xong thì mở lại di chuyển.
+        UnlockWukongAndParty();
+
+        LogPhase("Hoàn thành intro địa danh đầu Map 4.");
+    }
+
+    IEnumerator WaitAllActorsIdleBeforeStartIntro()
+    {
+        float waitTimer = 0f;
+        float idleTimer = 0f;
+
+        while (true)
+        {
+            waitTimer += Time.deltaTime;
+
+            bool allIdle = AreAllActorsIdleForStartIntro();
+
+            if (allIdle)
+            {
+                idleTimer += Time.deltaTime;
+
+                if (idleTimer >= startIntroIdleStableTime)
+                {
+                    break;
+                }
+            }
+            else
+            {
+                idleTimer = 0f;
+            }
+
+            if (waitTimer >= startIntroMaxWaitIdleTime)
+            {
+                Debug.LogWarning("Chờ Wukong + đoàn về Idle quá lâu. Tự chạy intro địa danh để tránh kẹt.");
+                break;
+            }
+
+            yield return null;
+        }
+    }
+
+    bool AreAllActorsIdleForStartIntro()
+    {
+        if (!IsActorIdleForStartIntro(wukongAnimator, wukongRigidbody))
+        {
+            return false;
+        }
+
+        if (partyAnimators != null)
+        {
+            for (int i = 0; i < partyAnimators.Length; i++)
+            {
+                Animator partyAnimator = partyAnimators[i];
+                Rigidbody2D partyRb = null;
+
+                if (partyRigidbodies != null && i < partyRigidbodies.Length)
+                {
+                    partyRb = partyRigidbodies[i];
+                }
+
+                if (!IsActorIdleForStartIntro(partyAnimator, partyRb))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool IsActorIdleForStartIntro(Animator targetAnimator, Rigidbody2D targetRb)
+    {
+        if (targetRb != null)
+        {
+            float velocityX = Mathf.Abs(targetRb.linearVelocity.x);
+            float velocityY = Mathf.Abs(targetRb.linearVelocity.y);
+
+            if (velocityX > startIntroIdleVelocityThreshold)
+            {
+                return false;
+            }
+
+            if (velocityY > startIntroIdleVelocityThreshold)
+            {
+                return false;
+            }
+        }
+
+        if (targetAnimator != null)
+        {
+            if (targetAnimator.IsInTransition(0))
+            {
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(startIntroIdleStateName))
+            {
+                AnimatorStateInfo stateInfo = targetAnimator.GetCurrentAnimatorStateInfo(0);
+
+                if (!stateInfo.IsName(startIntroIdleStateName))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

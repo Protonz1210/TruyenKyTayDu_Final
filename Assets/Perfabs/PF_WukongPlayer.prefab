@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 3085902367086757109}
   - component: {fileID: 7727485355955128746}
   - component: {fileID: 5529076049568500394}
+  - component: {fileID: 2742020905455546016}
   m_Layer: 6
   m_Name: PF_WukongPlayer
   m_TagString: Player
@@ -555,6 +556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WukongSkillCooldown
   hudController: {fileID: 0}
+  cooldownEnabled: 1
   skill1ActionDuration: 5
   skill1CooldownDuration: 10
   skill2ActionDuration: 4
@@ -629,3 +631,32 @@ MonoBehaviour:
   spriteFacesRightByDefault: 1
   enableDebugLog: 1
   drawScanGizmo: 1
+--- !u!114 &2742020905455546016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747556491235508407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fc4e4d571a624e94a88a91f0282d1c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationSFXPlayer
+  audioSource: {fileID: 0}
+  footstepSFX: {fileID: 0}
+  jumpSFX: {fileID: 0}
+  landSFX: {fileID: 0}
+  attack0SFX: {fileID: 0}
+  attack1SFX: {fileID: 0}
+  attack2SFX: {fileID: 0}
+  attack3SFX: {fileID: 0}
+  hitSFX: {fileID: 0}
+  dieSFX: {fileID: 0}
+  footstepVolume: 0.45
+  jumpVolume: 0.7
+  attackVolume: 0.8
+  otherVolume: 0.8
+  randomizePitch: 1
+  minPitch: 0.95
+  maxPitch: 1.05

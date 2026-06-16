@@ -2919,8 +2919,8 @@ MonoBehaviour:
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
     dialogueText: "H\xF3a ra th\u1EBF n\xE0yyy"
   loadNextSceneAfterPostBossDialogue: 1
-  nextSceneName: Map3
-  delayBeforeLoadNextScene: 0.5
+  nextSceneName: Map_4
+  delayBeforeLoadNextScene: 1
   hideBoss1UIWhenPostDialogueStart: 1
   movementScriptNamesToDisable:
   - PlayerController
@@ -3816,6 +3816,58 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.76, y: 2.17954, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1566032221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1566032223}
+  - component: {fileID: 1566032222}
+  m_Layer: 0
+  m_Name: Map2SceneFadeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1566032222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566032221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e93ba46a27d8b94fb508b3e23ae325e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Map2SceneFadeController
+  uiDocument: {fileID: 11078592}
+  fadeOutDuration: 1
+  fadeInDuration: 1
+  autoFadeInOnStart: 1
+  startBlack: 1
+  fadeOverlayName: map2-scene-fade-overlay
+  isFading: 0
+  enableDebugLog: 0
+--- !u!4 &1566032223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566032221}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3856, y: 7.0876, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6004,3 +6056,4 @@ SceneRoots:
   - {fileID: 1095883037}
   - {fileID: 152357509}
   - {fileID: 106100574}
+  - {fileID: 1566032223}
