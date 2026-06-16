@@ -8159,6 +8159,19 @@ MonoBehaviour:
   partySpeedParameterName: Speed
   partyBoolParametersToFalse: []
   partyTriggersToReset: []
+  playLocationIntroOnStart: 1
+  startLocationTitleText: "S\u01AF\n\u0110\xC0\nL\u0128NH"
+  waitIdleBeforeLockStartIntro: 1
+  startIntroIdleStateName: Idle
+  startIntroIdleVelocityThreshold: 0.05
+  startIntroIdleStableTime: 0.2
+  startIntroMaxWaitIdleTime: 4
+  mapHUDController: {fileID: 2053941382}
+  partyRigidbodies:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   dialogueController: {fileID: 2141784119}
   enemy4IntroLines:
   - avatar: {fileID: 4962213768438153873, guid: f600647f0442d8f45b4706ad6ba4dc53, type: 3}
@@ -10704,6 +10717,13 @@ MonoBehaviour:
   boss4HealthFillName: boss4-health-fill
   boss4HealthTextName: boss-4-health-text
   boss4AnchorRight: 1
+  locationBoxName: Box_mask
+  locationTextName: Box_text
+  locationTitleText: "S\u01AF\n\u0110\xC0\nL\u0128NH"
+  locationFadeInTime: 1
+  locationHoldTime: 2
+  locationFadeOutTime: 1
+  enableDebugLog: 1
 --- !u!114 &2053941383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11310,7 +11330,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -77.81459
+      value: -77.81486
       objectReference: {fileID: 0}
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11532,7 +11552,7 @@ PrefabInstance:
       objectReference: {fileID: 1917600954}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -77.81459
+      value: -77.81486
       objectReference: {fileID: 0}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.y
