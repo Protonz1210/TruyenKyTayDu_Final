@@ -1888,7 +1888,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427819199}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -2352,7 +2352,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.009852, y: 3.4886584}
+  m_Offset: {x: 3.009852, y: 2.9096792}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2362,7 +2362,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.019703, y: 8.120686}
+  m_Size: {x: 7.019703, y: 6.962727}
   m_EdgeRadius: 0
 --- !u!4 &474540714 stripped
 Transform:
@@ -3922,7 +3922,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735098605}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -4190,9 +4190,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 818422970}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Boss3_mask
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4451,7 +4451,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825432738}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -5355,6 +5355,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 875971814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &945634180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 945634182}
+  - component: {fileID: 945634181}
+  m_Layer: 0
+  m_Name: Map4SceneFadeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &945634181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945634180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3b127915142c44196dc2f0061a53dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Map4SceneFadeController
+  uiDocument: {fileID: 2053941383}
+  fadeOutDuration: 1
+  fadeInDuration: 1
+  autoFadeInOnStart: 1
+  startBlack: 1
+  fadeOverlayName: map4-scene-fade-overlay
+  isFading: 0
+  enableDebugLog: 0
+--- !u!4 &945634182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945634180}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.90362, y: 3.24948, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &979372249
 GameObject:
   m_ObjectHideFlags: 0
@@ -5564,7 +5616,7 @@ Transform:
   m_GameObject: {fileID: 989343329}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -68.68208, y: -8.897369, z: 0}
+  m_LocalPosition: {x: -68.63, y: -9.29, z: 0}
   m_LocalScale: {x: 0.53037816, y: 0.520496, z: 0.5813}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6201,9 +6253,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1165609751}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Boss4_mask
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6217,7 +6269,7 @@ Transform:
   m_GameObject: {fileID: 1165609750}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.42, y: -3.14, z: 0}
+  m_LocalPosition: {x: 1.41, y: -3.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7455,7 +7507,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.1063373, y: 3.560343}
+  m_Offset: {x: -3.1063373, y: 3.092587}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -7465,7 +7517,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.2126746, y: 8.120686}
+  m_Size: {x: 7.2126746, y: 7.185174}
   m_EdgeRadius: 0
 --- !u!114 &1421250160
 MonoBehaviour:
@@ -8144,6 +8196,12 @@ MonoBehaviour:
   - {fileID: 3416482806185226599}
   - {fileID: 3416482806185226598}
   - {fileID: 3416482806185226597}
+  gameplayUIDocument: {fileID: 1369307544}
+  gameplayElementNamesToHide:
+  - wukong-health-group
+  - party-health-group
+  - skill-panel
+  hideGameplayElementsWhenBoss5StoryStart: 1
   wukongIdleStateName: Wukong1Idle
   wukongSpeedParameterName: Speed
   wukongBoolParametersToFalse:
@@ -8155,23 +8213,27 @@ MonoBehaviour:
   - Attack2
   - Attack3
   - Die
+  wukongTransformTriggerName: Transform
+  wukongTransformStateName: Wukong1_transition
+  wukongTransformIdleStateName: WukongIdle2
+  maxWaitWukongTransformIdleTime: 5
+  loadSceneImmediatelyWhenIdle2Reached: 1
   partyIdleStateName: 
   partySpeedParameterName: Speed
   partyBoolParametersToFalse: []
   partyTriggersToReset: []
   playLocationIntroOnStart: 1
-  startLocationTitleText: "S\u01AF\n\u0110\xC0\nL\u0128NH"
-  waitIdleBeforeLockStartIntro: 1
-  startIntroIdleStateName: Idle
-  startIntroIdleVelocityThreshold: 0.05
-  startIntroIdleStableTime: 0.2
-  startIntroMaxWaitIdleTime: 4
+  waitBeforeLockTime: 0.25
+  waitIdleAfterLockTime: 0.25
+  restoreMovementAfterIntro: 1
   mapHUDController: {fileID: 2053941382}
-  partyRigidbodies:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  locationBoxName: Box_mask
+  locationTextName: Box_text
+  locationTitleText: "S\u01AF\n\u0110\xC0\nL\u0128NH"
+  locationFadeInTime: 1
+  locationHoldTime: 2
+  locationFadeOutTime: 1
+  overrideHUDLocationSettings: 1
   dialogueController: {fileID: 2141784119}
   enemy4IntroLines:
   - avatar: {fileID: 4962213768438153873, guid: f600647f0442d8f45b4706ad6ba4dc53, type: 3}
@@ -8246,8 +8308,12 @@ MonoBehaviour:
   boss5SpawnPoint: {fileID: 0}
   waitWukongDeathBeforeBoss5Story: 1
   boss5StoryDelayAfterWukongDeath: 0.6
-  boss5AppearHealthPercent: 0.33
+  boss5AppearHealthPercent: 0.497
   enableDebugLog: 1
+  sceneFadeController: {fileID: 945634181}
+  nextSceneName: Map 2.0
+  autoLoadNextSceneWhenEndMap: 1
+  delayBeforeLoadNextScene: 0
 --- !u!1 &1641756019
 GameObject:
   m_ObjectHideFlags: 0
@@ -9002,7 +9068,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -545027729
   m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7381227047696295414, guid: 66a4f3c8a0d57bf468ff8a0a7ca93ef4, type: 3}
   m_Color: {r: 0.6320754, g: 0.59927905, b: 0.59927905, a: 1}
@@ -9421,7 +9487,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.0098517, y: 3.5603428}
+  m_Offset: {x: -3.0098517, y: 2.933906}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9431,7 +9497,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.0197034, y: 8.120686}
+  m_Size: {x: 7.0197034, y: 6.867812}
   m_EdgeRadius: 0
 --- !u!114 &1868962991
 MonoBehaviour:
@@ -9528,7 +9594,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 3.0824456, y: 3.4886584}
+  m_Offset: {x: 3.0824456, y: 3.0891173}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9538,7 +9604,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.1648903, y: 7.977317}
+  m_Size: {x: 7.1648903, y: 7.1782346}
   m_EdgeRadius: 0
 --- !u!114 &1878818318
 MonoBehaviour:
@@ -11240,6 +11306,18 @@ PrefabInstance:
       propertyPath: enableTestDieKey
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4680424123468829468, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283215848477717761, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501517448980359852, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: boss3
       value: 
@@ -11253,13 +11331,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 918771516}
     - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: scanBoxWidth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: storyManager
       value: 
       objectReference: {fileID: 1617136881}
     - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: maxRunDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: safeStableTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: boss5Controller
       value: 
       objectReference: {fileID: 918771520}
+    - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: scanBoxOffset.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: bossLayer.m_Bits
+      value: 8192
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: partyIdleStateName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: 'boss3Colliders.Array.data[0]'
       value: 
@@ -11707,3 +11809,4 @@ SceneRoots:
   - {fileID: 1910909193}
   - {fileID: 875971814}
   - {fileID: 1653997233}
+  - {fileID: 945634182}

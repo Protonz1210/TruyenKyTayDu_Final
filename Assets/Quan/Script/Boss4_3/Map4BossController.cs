@@ -408,7 +408,9 @@ public class Map4BossController : MonoBehaviour
             currentTarget = wukongTarget;
             FaceTarget(currentTarget);
 
-            float distanceToWukong = Vector2.Distance(transform.position, wukongTarget.position);
+            // FIX: Combat distance dùng trục X.
+            // Khi Wukong đứng trên đầu boss, khoảng cách Y không làm boss hiểu là xa nữa.
+            float distanceToWukong = GetCombatDistanceToTarget(wukongTarget);
 
             if (distanceToWukong <= meleeRange)
             {
@@ -513,7 +515,8 @@ public class Map4BossController : MonoBehaviour
 
             if (!IsPartyTarget(targetRoot, hit)) continue;
 
-            float distanceToParty = Vector2.Distance(transform.position, targetRoot.position);
+            // FIX: Party distance dùng trục X cho combat.
+            float distanceToParty = GetCombatDistanceToTarget(targetRoot);
 
             if (distanceToParty > meleeRange) continue;
 
@@ -544,20 +547,6 @@ public class Map4BossController : MonoBehaviour
         return partyX > minX && partyX < maxX;
     }
 
-    Transform FindWukongInMeleeRange()
-    {
-        if (wukongTarget == null) return null;
-
-        float distanceToWukong = Vector2.Distance(transform.position, wukongTarget.position);
-
-        if (distanceToWukong <= meleeRange)
-        {
-            return wukongTarget;
-        }
-
-        return null;
-    }
-
     Transform FindPartyInMeleeRange()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, partyDetectRange);
@@ -575,7 +564,8 @@ public class Map4BossController : MonoBehaviour
 
             if (!IsPartyTarget(targetRoot, hit)) continue;
 
-            float distance = Vector2.Distance(transform.position, targetRoot.position);
+            // FIX: Party distance dùng trục X cho combat.
+            float distance = GetCombatDistanceToTarget(targetRoot);
 
             if (distance > meleeRange) continue;
 
@@ -587,35 +577,6 @@ public class Map4BossController : MonoBehaviour
         }
 
         return nearestParty;
-    }
-
-    Transform FindBestCombatTarget()
-    {
-        Transform bestTarget = null;
-        float bestDistance = Mathf.Infinity;
-
-        if (wukongTarget != null)
-        {
-            float distanceToWukong = Vector2.Distance(transform.position, wukongTarget.position);
-
-            bestTarget = wukongTarget;
-            bestDistance = distanceToWukong;
-        }
-
-        Transform nearestParty = FindNearestPartyTarget();
-
-        if (nearestParty != null)
-        {
-            float distanceToParty = Vector2.Distance(transform.position, nearestParty.position);
-
-            if (distanceToParty < bestDistance)
-            {
-                bestTarget = nearestParty;
-                bestDistance = distanceToParty;
-            }
-        }
-
-        return bestTarget;
     }
 
     Transform FindNearestPartyTarget()
@@ -635,7 +596,8 @@ public class Map4BossController : MonoBehaviour
 
             if (!IsPartyTarget(targetRoot, hit)) continue;
 
-            float distance = Vector2.Distance(transform.position, targetRoot.position);
+            // FIX: Tìm party gần nhất theo khoảng cách combat trục X.
+            float distance = GetCombatDistanceToTarget(targetRoot);
 
             if (distance < nearestDistance)
             {
@@ -1253,6 +1215,27 @@ public class Map4BossController : MonoBehaviour
         transform.position = lockedWorldPosition;
     }
 
+    // ================= COMBAT DISTANCE FIX =================
+    // Boss vẫn va chạm với Wukong bình thường.
+    // Chỉ thay đổi cách tính khoảng cách chiến đấu.
+    // Vì map là 2D đi ngang, boss nên đánh/đuổi theo trục X.
+    // Nếu Wukong đứng trên đầu boss, boss không bị sai logic vì lệch trục Y.
+
+    float GetCombatDistanceToTarget(Transform targetTransform)
+    {
+        if (targetTransform == null)
+        {
+            return Mathf.Infinity;
+        }
+
+        if (moveOnlyX)
+        {
+            return Mathf.Abs(targetTransform.position.x - transform.position.x);
+        }
+
+        return Vector2.Distance(transform.position, targetTransform.position);
+    }
+
     void FaceTarget(Transform targetTransform)
     {
         if (targetTransform == null) return;
@@ -1437,9 +1420,9 @@ public class Map4BossController : MonoBehaviour
         if (!enableDebugLog) return;
 
         string targetName = currentTarget != null ? currentTarget.name : "NULL";
-        float distance = currentTarget != null ? Vector2.Distance(transform.position, currentTarget.position) : -1f;
+        float distance = currentTarget != null ? GetCombatDistanceToTarget(currentTarget) : -1f;
 
-        Debug.Log(bossName + " | " + state + " | Target: " + targetName + " | Distance: " + distance.ToString("F2"));
+        Debug.Log(bossName + " | " + state + " | Target: " + targetName + " | Combat Distance: " + distance.ToString("F2"));
     }
 
     public bool IsDead()

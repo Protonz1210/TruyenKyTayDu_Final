@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="boss-panel" style="flex-grow: 1; position: absolute; height: 252px; width: 1268px; left: 678px; top: 3px; opacity: 0;">
+    <ui:VisualElement name="boss-panel" style="flex-grow: 1; position: absolute; height: 252px; width: 1268px; left: 678px; top: 3px; opacity: 1;">
         <ui:VisualElement name="boss-4-group" style="flex-grow: 1; position: absolute; flex-direction: row-reverse; height: 244px; width: 647px; top: 3px; left: 617px;">
             <ui:Label text="THANH SƯ TINH" name="boss-4-name" style="background-image: resource(&quot;UI/Boss_name&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 145px; width: 578px; left: 53px; top: -21px; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold; white-space: nowrap; -unity-text-align: middle-center;"/>
             <ui:VisualElement name="boss-4-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 134px; width: 452px; left: 30px; top: 36px;"/>
@@ -27,6 +27,6 @@
         <ui:VisualElement name="Box_avatar" style="flex-grow: 1; position: absolute; height: 952px; width: 2184px; top: -202px; left: 712px;">
             <ui:VisualElement name="Box_image" style="flex-grow: 1; background-image: resource(&quot;UI/Boxchat_UI&quot;); rotate: 90deg; scale: -0.15 0.2 0.1; opacity: 0.88;"/>
         </ui:VisualElement>
+        <ui:Label text="SƯ&#10;ĐÀ&#10;LĨNH" name="Box_text" style="position: absolute; height: 302px; width: 113px; top: 120px; left: 1751px; -unity-text-align: middle-center; white-space: normal; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 34px; -unity-paragraph-spacing: 80px;"/>
     </ui:VisualElement>
-    <ui:Label text="SƯ&#10;ĐÀ&#10;LĨNH" name="Box_text" style="position: absolute; height: 302px; width: 113px; top: 120px; left: 1751px; -unity-text-align: middle-center; white-space: normal; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 34px; -unity-paragraph-spacing: 80px;"/>
 </ui:UXML>

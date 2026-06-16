@@ -47,8 +47,15 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Bán kính kiểm tra mặt đất.")]
     public float groundCheckRadius = 0.15f;
 
-    [Tooltip("Tag của mặt đất.")]
+    [Tooltip("Tag của mặt đất thật. Chỉ tag này mới reset nhảy.")]
     public string groundTag = "Ground";
+
+    [Header("Visual Stand Animation")]
+    [Tooltip("Bật cái này để Wukong đứng trên collider không phải Ground vẫn hiện Idle/Run, nhưng không reset nhảy.")]
+    public bool idleOnOtherSolidColliders = true;
+
+    [Tooltip("Bỏ qua các collider dạng Trigger khi check đứng để tránh box trigger hội thoại/skill làm sai animation.")]
+    public bool ignoreTriggerForVisualStand = true;
 
     [Header("Attack Settings")]
     [Tooltip("Khóa di chuyển khi đang đánh.")]
@@ -82,7 +89,13 @@ public class PlayerController : MonoBehaviour
 
     private float moveInput;
 
+    // isGrounded: chỉ là Ground thật, dùng cho gameplay như reset jump.
     private bool isGrounded;
+
+    // visualGrounded: dùng riêng cho Animator.
+    // Nếu Wukong đứng trên Party/Boss/Enemy/Box có collider thường thì vẫn hiện Idle/Run.
+    private bool visualGrounded;
+
     private bool wasGrounded;
     private bool isAttacking;
     private bool isDead;
@@ -142,7 +155,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        CheckGroundByTag();
+        CheckGroundAndVisualStand();
         ResetJumpWhenGrounded();
 
         ReadMoveInput();
@@ -237,11 +250,16 @@ public class PlayerController : MonoBehaviour
         );
 
         jumpCount++;
+
+        // Sau khi nhảy, Ground thật và Visual Ground đều tắt tạm thời.
         isGrounded = false;
+        visualGrounded = false;
     }
 
     void ResetJumpWhenGrounded()
     {
+        // Chỉ Ground thật mới được reset nhảy.
+        // Đứng trên Party/Boss/Enemy/Box không reset jump.
         if (isGrounded && !wasGrounded)
         {
             jumpCount = 0;
@@ -489,11 +507,12 @@ public class PlayerController : MonoBehaviour
         return isDead;
     }
 
-    // ================= GROUND CHECK BY TAG =================
+    // ================= GROUND / VISUAL STAND CHECK =================
 
-    void CheckGroundByTag()
+    void CheckGroundAndVisualStand()
     {
         isGrounded = false;
+        visualGrounded = false;
 
         if (groundCheck == null)
             return;
@@ -505,10 +524,30 @@ public class PlayerController : MonoBehaviour
 
         foreach (Collider2D col in colliders)
         {
+            if (col == null)
+                continue;
+
+            // Bỏ qua collider của chính Wukong.
+            if (col.transform == transform || col.transform.IsChildOf(transform))
+                continue;
+
+            // Ground thật: chỉ nhận đúng tag Ground.
             if (col.CompareTag(groundTag))
             {
                 isGrounded = true;
-                break;
+                visualGrounded = true;
+                continue;
+            }
+
+            // Các collider khác không phải Ground:
+            // Không tính là Ground thật, không reset jump.
+            // Nhưng vẫn cho Animator hiểu là đang đứng để về Idle/Run.
+            if (idleOnOtherSolidColliders)
+            {
+                if (ignoreTriggerForVisualStand && col.isTrigger)
+                    continue;
+
+                visualGrounded = true;
             }
         }
     }
@@ -518,7 +557,11 @@ public class PlayerController : MonoBehaviour
     void UpdateAnimation()
     {
         animator.SetFloat("Speed", Mathf.Abs(moveInput));
-        animator.SetBool("IsGrounded", isGrounded);
+
+        // Animator dùng visualGrounded.
+        // Nghĩa là đứng trên Ground thật hoặc đứng trên collider thường khác đều về Idle/Run.
+        animator.SetBool("IsGrounded", visualGrounded);
+
         animator.SetBool("IsAttacking", isAttacking);
         animator.SetBool("IsDead", isDead);
     }
