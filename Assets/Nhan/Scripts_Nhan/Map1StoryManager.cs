@@ -253,6 +253,9 @@ public class Map1StoryManager : MonoBehaviour
     [Tooltip("Ẩn thoại sau EnemyWave khi bắt đầu nói chuyện với NPC.")]
     public bool hideAfterEnemyWaveDialogueWhenNpcTalk = true;
 
+    [Tooltip("Box chặn bên trái sẽ bật khi bắt đầu hội thoại NPC, để người chơi không quay lại đầu map.")]
+    public GameObject supplyLeftBlockerObject;
+
     private bool supplyPointStarted;
 
     [Header("Supply Item")]
@@ -337,6 +340,7 @@ public class Map1StoryManager : MonoBehaviour
         CachePartyComponents();
         BindUIElements();
         SetupSupplyHealObject();
+        SetupSupplyLeftBlocker();
 
         if (autoStartIntroOnStart && hideGlobalHUDDuringIntro)
         {
@@ -985,7 +989,8 @@ public class Map1StoryManager : MonoBehaviour
 
         SetPhase(Map1Phase.SupplyDialogue);
 
-        // Khi bắt đầu nói chuyện với NPC thì tắt box thoại sau EnemyWave nếu đang hiện.
+        ActivateSupplyLeftBlocker();
+
         if (hideAfterEnemyWaveDialogueWhenNpcTalk && afterEnemyWaveDialogue != null)
         {
             afterEnemyWaveDialogue.HideDialogue();
@@ -1011,7 +1016,34 @@ public class Map1StoryManager : MonoBehaviour
 
         Debug.Log("Map1StoryManager: Bắt đầu hội thoại NPC tiếp tế.");
     }
+    private void ActivateSupplyLeftBlocker()
+    {
+        if (supplyLeftBlockerObject != null)
+        {
+            supplyLeftBlockerObject.SetActive(true);
+            Debug.Log("Map1StoryManager: Đã bật box chặn trái SupplyPoint.");
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Left Blocker Object.");
+        }
 
+        if (map1CameraLimiter != null)
+        {
+            map1CameraLimiter.ActivateSupplyLeftCameraLimit();
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Map1CameraFollowTargetLimiter nên không khóa được camera trái SupplyPoint.");
+        }
+    }
+    private void SetupSupplyLeftBlocker()
+    {
+        if (supplyLeftBlockerObject != null)
+        {
+            supplyLeftBlockerObject.SetActive(false);
+        }
+    }
     private void OnSupplyPointDialogueFinished()
     {
         if (lockPlayerAndPartyDuringSupplyDialogue)

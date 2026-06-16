@@ -6,8 +6,15 @@ using UnityEngine.InputSystem.Controls;
 
 /// <summary>
 /// Object hồi máu dùng chung.
-/// Gắn script này lên bất kỳ vật phẩm / bàn ăn / bình thuốc nào.
-/// Người chơi đi vào vùng trigger và bấm phím tương tác thì sẽ hồi đầy máu cho các target được gán.
+/// Script này chỉ xử lý:
+/// - Người chơi vào vùng trigger.
+/// - Hiện/tắt hint nếu có.
+/// - Nhấn phím tương tác.
+/// - Hồi đầy máu cho các target.
+/// - Báo Notify về object khác nếu cần.
+///
+/// Script KHÔNG tự ẩn object hồi máu.
+/// Việc ẩn/hiện object hồi máu để StoryManager hoặc cốt truyện xử lý.
 /// </summary>
 public class HealInteractable : MonoBehaviour
 {
@@ -23,18 +30,18 @@ public class HealInteractable : MonoBehaviour
     public GameObject[] healTargets;
 
     [Header("Hint")]
-    [Tooltip("Object gợi ý bấm E. Có thể là TextMeshPro, Sprite, UI nhỏ. Nếu không dùng thì bỏ trống.")]
+    [Tooltip("Object gợi ý bấm E. Nên kéo HealHintCanvas vào đây. Không kéo chính object hồi máu.")]
     public GameObject interactHintObject;
 
-    [Tooltip("Ẩn hint khi bắt đầu scene.")]
+    [Tooltip("Tự tắt hint khi bắt đầu scene. Chỉ tắt hint, không tắt object hồi máu.")]
     public bool hideHintOnStart = true;
 
-    [Header("After Use")]
-    [Tooltip("Sau khi hồi máu xong thì ẩn object hồi máu.")]
-    public bool hideHealObjectAfterUse = true;
-
+    [Header("Use Control")]
     [Tooltip("Chỉ cho dùng một lần.")]
     public bool useOnlyOnce = true;
+
+    [Tooltip("Sau khi dùng xong thì khóa script tương tác, nhưng không ẩn object hồi máu.")]
+    public bool disableInteractAfterUse = true;
 
     [Header("Optional Notify")]
     [Tooltip("Object nhận thông báo sau khi hồi máu xong. Có thể kéo StoryManager vào nếu map cần đổi phase.")]
@@ -51,10 +58,7 @@ public class HealInteractable : MonoBehaviour
 
     private void Awake()
     {
-        if (hideHintOnStart && interactHintObject != null)
-        {
-            interactHintObject.SetActive(false);
-        }
+        SetupHintOnStart();
     }
 
     private void Update()
@@ -87,12 +91,13 @@ public class HealInteractable : MonoBehaviour
             return;
         }
 
-        playerInside = true;
-
-        if (interactHintObject != null)
+        if (hasUsed && useOnlyOnce)
         {
-            interactHintObject.SetActive(true);
+            return;
         }
+
+        playerInside = true;
+        SetHintActive(true);
 
         if (enableDebugLog)
         {
@@ -113,11 +118,42 @@ public class HealInteractable : MonoBehaviour
         }
 
         playerInside = false;
+        SetHintActive(false);
+    }
 
-        if (interactHintObject != null)
+    private void SetupHintOnStart()
+    {
+        if (!hideHintOnStart)
         {
-            interactHintObject.SetActive(false);
+            return;
         }
+
+        SetHintActive(false);
+    }
+
+    private void SetHintActive(bool active)
+    {
+        if (interactHintObject == null)
+        {
+            return;
+        }
+
+        // Chống gán nhầm chính object hồi máu vào ô Hint.
+        // Nếu gán nhầm như vậy, không được tắt chính object này.
+        if (interactHintObject == gameObject)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning(
+                    gameObject.name + ": Interact Hint Object đang gán nhầm chính object hồi máu. " +
+                    "Hãy kéo HealHintCanvas vào ô Interact Hint Object, không kéo Map1_SupplyHealItem."
+                );
+            }
+
+            return;
+        }
+
+        interactHintObject.SetActive(active);
     }
 
     private bool WasKeyPressed(Key key)
@@ -149,21 +185,18 @@ public class HealInteractable : MonoBehaviour
             }
         }
 
-        if (interactHintObject != null)
-        {
-            interactHintObject.SetActive(false);
-        }
-
-        NotifyAfterHeal();
+        SetHintActive(false);
 
         if (enableDebugLog)
         {
             Debug.Log(gameObject.name + ": Đã hồi đầy máu cho toàn bộ Heal Targets.");
         }
 
-        if (hideHealObjectAfterUse)
+        NotifyAfterHeal();
+
+        if (disableInteractAfterUse)
         {
-            gameObject.SetActive(false);
+            enabled = false;
         }
     }
 

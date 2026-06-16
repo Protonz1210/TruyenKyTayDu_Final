@@ -70,6 +70,25 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
     [Tooltip("Bật lên để script tự bật/tắt box chặn Enemy Wave theo phase.")]
     public bool controlEnemyWaveRightBlocker = true;
 
+    [Header("Supply Left Limit")]
+    [Tooltip("Điểm này là mép trái mới sau khi bắt đầu hội thoại NPC. Có thể kéo thẳng Map1_SupplyLeftBlocker vào đây.")]
+    public Transform supplyLeftEdgePoint;
+
+    [Tooltip("Bật giới hạn camera bên trái mới sau khi bắt đầu hội thoại NPC.")]
+    public bool useSupplyLeftLimit = false;
+
+    [Tooltip("Offset riêng cho mép trái Supply. Âm là cho nhìn thêm sang trái, dương là che nhiều hơn bên trái.")]
+    public float supplyLeftEdgeOffset = 0f;
+
+    [Tooltip("Collider box chặn trái khu NPC/Supply. Bật khi bắt đầu hội thoại NPC.")]
+    public Collider2D supplyLeftBlockerCollider;
+
+    [Tooltip("Object hình ảnh box/tường chặn trái khu NPC/Supply. Có thể để trống nếu tường vô hình.")]
+    public GameObject supplyLeftBlockerVisual;
+
+    [Tooltip("Bật lên để script tự bật/tắt box chặn trái Supply theo trạng thái useSupplyLeftLimit.")]
+    public bool controlSupplyLeftBlocker = true;
+
     [Header("Follow")]
     [Tooltip("Có đi theo trục Y của Wukong không.")]
     public bool followPlayerY = false;
@@ -98,6 +117,7 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
 
     private bool lastStartTemporaryBlockerActive;
     private bool lastEnemyWaveBlockerActive;
+    private bool lastSupplyLeftBlockerActive;
 
     private void Awake()
     {
@@ -111,6 +131,7 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
     {
         UpdateStartTemporaryBlocker();
         UpdateEnemyWaveBlocker();
+        UpdateSupplyLeftBlocker();
 
         if (player != null)
         {
@@ -129,6 +150,7 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
 
         UpdateStartTemporaryBlocker();
         UpdateEnemyWaveBlocker();
+        UpdateSupplyLeftBlocker();
 
         Vector3 targetPosition = GetClampedTargetPosition();
 
@@ -169,14 +191,11 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
 
         float halfCameraWidth = GetHalfCameraWidth();
 
-        if (ShouldLimitLeft())
-        {
-            float minTargetX = mapLeftEdgePoint.position.x + halfCameraWidth + leftEdgeOffset;
+        float minTargetX = GetCurrentLeftLimitX(halfCameraWidth);
 
-            if (targetPosition.x < minTargetX)
-            {
-                targetPosition.x = minTargetX;
-            }
+        if (targetPosition.x < minTargetX)
+        {
+            targetPosition.x = minTargetX;
         }
 
         if (ShouldLimitRightStartTemporary())
@@ -212,6 +231,33 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
         return targetPosition;
     }
 
+    private float GetCurrentLeftLimitX(float halfCameraWidth)
+    {
+        bool hasAnyLeftLimit = false;
+        float minTargetX = float.NegativeInfinity;
+
+        if (ShouldLimitLeft())
+        {
+            float baseLeftLimit = mapLeftEdgePoint.position.x + halfCameraWidth + leftEdgeOffset;
+            minTargetX = Mathf.Max(minTargetX, baseLeftLimit);
+            hasAnyLeftLimit = true;
+        }
+
+        if (ShouldLimitSupplyLeft())
+        {
+            float supplyLeftLimit = supplyLeftEdgePoint.position.x + halfCameraWidth + supplyLeftEdgeOffset;
+            minTargetX = Mathf.Max(minTargetX, supplyLeftLimit);
+            hasAnyLeftLimit = true;
+        }
+
+        if (!hasAnyLeftLimit)
+        {
+            return float.NegativeInfinity;
+        }
+
+        return minTargetX;
+    }
+
     private bool ShouldLimitLeft()
     {
         if (!limitLeftAlways)
@@ -220,6 +266,21 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
         }
 
         if (mapLeftEdgePoint == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool ShouldLimitSupplyLeft()
+    {
+        if (!useSupplyLeftLimit)
+        {
+            return false;
+        }
+
+        if (supplyLeftEdgePoint == null)
         {
             return false;
         }
@@ -334,6 +395,30 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
         }
     }
 
+    private void UpdateSupplyLeftBlocker()
+    {
+        if (!controlSupplyLeftBlocker)
+        {
+            return;
+        }
+
+        bool shouldBeActive = useSupplyLeftLimit;
+
+        if (shouldBeActive == lastSupplyLeftBlockerActive)
+        {
+            return;
+        }
+
+        lastSupplyLeftBlockerActive = shouldBeActive;
+
+        SetSupplyLeftBlockerActive(shouldBeActive);
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map1CameraFollowTargetLimiter: Supply Left Blocker " + (shouldBeActive ? "ON" : "OFF"));
+        }
+    }
+
     private void SetStartTemporaryBlockerActive(bool active)
     {
         if (startTemporaryRightBlockerCollider != null)
@@ -357,6 +442,19 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
         if (enemyWaveRightBlockerVisual != null)
         {
             enemyWaveRightBlockerVisual.SetActive(active);
+        }
+    }
+
+    private void SetSupplyLeftBlockerActive(bool active)
+    {
+        if (supplyLeftBlockerCollider != null)
+        {
+            supplyLeftBlockerCollider.enabled = active;
+        }
+
+        if (supplyLeftBlockerVisual != null)
+        {
+            supplyLeftBlockerVisual.SetActive(active);
         }
     }
 
@@ -390,6 +488,17 @@ public class Map1CameraFollowTargetLimiter : MonoBehaviour
         if (enableDebugLog)
         {
             Debug.Log("Map1CameraFollowTargetLimiter: Đã mở giới hạn phải Enemy Wave.");
+        }
+    }
+
+    public void ActivateSupplyLeftCameraLimit()
+    {
+        useSupplyLeftLimit = true;
+        SetSupplyLeftBlockerActive(true);
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map1CameraFollowTargetLimiter: Đã bật thêm giới hạn trái camera SupplyPoint.");
         }
     }
 
