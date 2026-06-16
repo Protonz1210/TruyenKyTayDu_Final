@@ -71,7 +71,7 @@ public class Map4StoryManager : MonoBehaviour
 
     [Header("Start Location Intro References")]
     [Tooltip("HUD tổng của Map 4.")]
-    public MapHUDController mapHUDController;
+    public Map4BossHUDController mapHUDController;
 
     [Tooltip("Rigidbody2D của đoàn thỉnh kinh.")]
     public Rigidbody2D[] partyRigidbodies;
