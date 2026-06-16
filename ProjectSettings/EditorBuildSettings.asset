@@ -6,20 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Khoa/MAP 5.0.unity
-    guid: cf160efdbacce444283bd5363abb067e
-  - enabled: 1
     path: Assets/Khoa/Menu/Scenes/MainMenu.unity
     guid: 34a71c3b921dac749b3ce1d3703c0fdc
-  - enabled: 1
-    path: Assets/Khoa/MAP 5.1.unity
-    guid: a785b664821031c4f89832b5b3354605
   - enabled: 1
     path: Assets/Nhan/Scene_Nhan/Map_1.unity
     guid: 30de380d699f846039b11db2843cb497
   - enabled: 1
     path: Assets/Quan/Map_4.unity
     guid: 5e2f31ce05410fa419b1344de144ec67
+  - enabled: 1
+    path: Assets/Khoa/MAP 5.0.unity
+    guid: cf160efdbacce444283bd5363abb067e
+  - enabled: 1
+    path: Assets/Khoa/MAP 5.1.unity
+    guid: a785b664821031c4f89832b5b3354605
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
