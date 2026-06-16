@@ -678,7 +678,7 @@ MonoBehaviour:
   fixedY: -2.6
   fixedZ: 0
   useSmoothFollow: 1
-  smoothTime: 0.18
+  smoothTime: 0.5
   maxSmoothSpeed: 80
   enableDebugLog: 0
 --- !u!1 &169142955
@@ -1052,7 +1052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369953598425223012, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.29
+      value: -3.42
       objectReference: {fileID: 0}
     - target: {fileID: 369953598425223012, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1085,6 +1085,14 @@ PrefabInstance:
     - target: {fileID: 369953598425223012, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1999225810832015683, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: m_Size.x
+      value: 6.6108856
+      objectReference: {fileID: 0}
+    - target: {fileID: 1999225810832015683, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.13613892
       objectReference: {fileID: 0}
     - target: {fileID: 3085902367086757109, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: hudController
@@ -4987,6 +4995,10 @@ PrefabInstance:
       propertyPath: playerFacing
       value: 
       objectReference: {fileID: 1765673188}
+    - target: {fileID: 2254779444502524009, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 2942401310541773864, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
       propertyPath: hudController
       value: 
@@ -5005,7 +5017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5650758104980042614, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.41
+      value: -3.43
       objectReference: {fileID: 0}
     - target: {fileID: 5650758104980042614, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5639,7 +5651,9 @@ MonoBehaviour:
   uiDocument: {fileID: 11078592}
   bossGroupName: boss-1-group
   bossNameTextName: boss-1-name
-  bossHealthFillName: boss-1-health-fill
+  bossHealthRootName: boss1-health-root
+  bossHealthTrackName: boss1-health-track
+  bossHealthFillName: boss1-health-fill
   bossHealthTextName: boss-1-health-text
   bossDisplayName: "M\xC3NG X\xC0 TINH"
   anchorRight: 1
