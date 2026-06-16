@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4746111885654469086}
   - component: {fileID: 7948173425031309502}
   - component: {fileID: 4709885459128283506}
+  - component: {fileID: 1699928709821415285}
   m_Layer: 0
   m_Name: Boss1Projectile
   m_TagString: Untagged
@@ -183,4 +184,30 @@ MonoBehaviour:
   lifeTime: 3
   damage: 80
   destroyOnHit: 1
+  playerTag: Player
+  partyTag: Party
+  owner: {fileID: 0}
+  notifyOwnerWhenHitValidTarget: 1
   enableDebugLog: 1
+--- !u!95 &1699928709821415285
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492548578907805266}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cc9691ab1657fbe419a841e91a98e234, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

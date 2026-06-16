@@ -177,7 +177,20 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
                     enemy4List[i].NotifyWukongDead();
                 }
             }
-        
+#if UNITY_2023_1_OR_NEWER
+        Boss1Controller[] boss1List = FindObjectsByType<Boss1Controller>(FindObjectsSortMode.None);
+#else
+        Boss1Controller[] boss1List = FindObjectsOfType<Boss1Controller>();
+#endif
+
+        foreach (Boss1Controller boss1 in boss1List)
+        {
+            if (boss1 != null)
+            {
+                boss1.NotifyWukongDead();
+            }
+        }
+
     }
 
     public void Heal(int amount)

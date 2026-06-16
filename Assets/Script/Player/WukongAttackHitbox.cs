@@ -106,15 +106,45 @@ public class WukongAttackHitbox : MonoBehaviour
         if (!isActive) return;
         if (other == null) return;
 
+        // Không tự đánh trúng chính Wukong.
         if (ownerRoot != null && other.transform.root == ownerRoot)
         {
             return;
         }
 
+        // Thêm Boss1 vào danh sách xử lý damage.
+        if (TryHitBoss1(other)) return;
+
         if (TryHitEnemy123(other)) return;
         if (TryHitBoss2(other)) return;
         if (TryHitEnemy4(other)) return;
         if (TryHitMap4Boss(other)) return;
+    }
+
+    bool TryHitBoss1(Collider2D other)
+    {
+        Boss1Controller boss1 = other.GetComponentInParent<Boss1Controller>();
+
+        if (boss1 == null)
+        {
+            return false;
+        }
+
+        GameObject targetKey = boss1.gameObject;
+
+        if (hitEnemies.Contains(targetKey))
+        {
+            return true;
+        }
+
+        hitEnemies.Add(targetKey);
+        boss1.TakeDamage(currentDamage);
+
+        AddPassiveAfterHit();
+
+        Debug.Log("Wukong đánh trúng Boss1 - Mãng Xà Tinh: -" + currentDamage);
+
+        return true;
     }
 
     bool TryHitEnemy123(Collider2D other)
@@ -164,6 +194,8 @@ public class WukongAttackHitbox : MonoBehaviour
 
         AddPassiveAfterHit();
 
+        Debug.Log("Wukong đánh trúng Boss2: -" + currentDamage);
+
         return true;
     }
 
@@ -188,6 +220,8 @@ public class WukongAttackHitbox : MonoBehaviour
 
         AddPassiveAfterHit();
 
+        Debug.Log("Wukong đánh trúng Enemy4: -" + currentDamage);
+
         return true;
     }
 
@@ -211,6 +245,8 @@ public class WukongAttackHitbox : MonoBehaviour
         map4Boss.TakeDamage(currentDamage);
 
         AddPassiveAfterHit();
+
+        Debug.Log("Wukong đánh trúng Map4Boss: -" + currentDamage);
 
         return true;
     }

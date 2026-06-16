@@ -7,11 +7,13 @@ using UnityEngine;
 /// - Khi được ActivateCombat() thì Boss1 mới bắt đầu hoạt động.
 /// - Boss1 target Wukong.
 /// - Nếu đoàn thỉnh kinh đứng giữa Boss1 và Wukong, Boss1 ưu tiên bắn đoàn thỉnh kinh.
-/// - Boss1 giữ khoảng cách với Wukong / đoàn, không áp sát.
+/// - Boss1 giữ khoảng cách với Wukong / đoàn khi đang trong Attack Window.
 /// - Boss1 không vừa chạy vừa tấn công.
 /// - Khi vào tầm đánh, Boss1 dừng lại, về Idle ổn định rồi mới Attack.
 /// - Projectile sinh bằng Animation Event.
-/// - Boss1 nhận damage, có máu để Boss1HealthUIBinder đọc và hiển thị lên UI.
+/// - Khi projectile trúng Wukong lần đầu, Boss mới bắt đầu đếm Attack Window.
+/// - Hết Attack Window, Boss về Idle rồi mới bắt đầu tính giờ nghỉ.
+/// - Trong giờ nghỉ, Boss đứng Idle, không bắn, không lùi, Wukong có thể áp sát đánh.
 /// - Khi chết: chuyển Die, đợi Die chạy xong rồi biến mất.
 /// </summary>
 public class Boss1Controller : MonoBehaviour
@@ -107,6 +109,43 @@ public class Boss1Controller : MonoBehaviour
     [Tooltip("Tên state Die thật trong Animator Boss1. Phải đúng y hệt tên state trong Animator.")]
     public string dieStateName = "Boss1_die";
 
+    [Header("Combat Cycle")]
+    [Tooltip("Bật cơ chế Boss1 có chu kỳ tấn công rồi nghỉ để Wukong có thời gian áp sát.")]
+    public bool useCombatCycle = true;
+
+    [Tooltip("Thời gian Boss1 được phép giữ khoảng cách và tấn công sau khi Wukong trúng chiêu lần đầu.")]
+    public float attackWindowDuration = 10f;
+
+    [Tooltip("Thời gian Boss1 nghỉ sau khi hết Attack Window. Trong thời gian này Boss đứng Idle, không bắn, không lùi.")]
+    public float vulnerableCooldownDuration = 5f;
+
+    [Tooltip("Bắt đầu combat bằng phase tấn công.")]
+    public bool startWithAttackWindow = true;
+
+    [Tooltip("Chỉ bắt đầu đếm Attack Window khi projectile của Boss1 trúng Wukong lần đầu.")]
+    public bool waitFirstWukongHitToStartAttackTimer = true;
+
+    [Tooltip("Boss1 đang trong phase được phép tấn công.")]
+    public bool isInAttackWindow = true;
+
+    [Tooltip("Attack Window đã bắt đầu đếm giờ chưa.")]
+    public bool attackWindowTimerStarted;
+
+    [Tooltip("Boss đang chuyển từ phase tấn công sang phase nghỉ. Lúc này chờ Boss về Idle rồi mới đếm giờ nghỉ.")]
+    public bool isPreparingVulnerableCooldown;
+
+    [Tooltip("Boss đang chờ attack hiện tại kết thúc rồi mới vào phase nghỉ.")]
+    public bool pendingEnterVulnerableCooldown;
+
+    [Tooltip("Thời gian còn lại của phase hiện tại.")]
+    public float combatCycleTimer;
+
+    [Tooltip("Boss phải đứng Idle ổn định bao lâu trước khi bắt đầu tính giờ nghỉ.")]
+    public float idleStableTimeBeforeVulnerableCooldown = 0.2f;
+
+    [Tooltip("Thời gian chờ tối đa để Boss về Idle trước khi bắt đầu tính giờ nghỉ.")]
+    public float maxWaitIdleBeforeVulnerableCooldown = 1.5f;
+
     [Header("Attack")]
     [Tooltip("Tầm bắn projectile tính theo khoảng cách ngang X.")]
     public float attackRange = 9f;
@@ -190,6 +229,7 @@ public class Boss1Controller : MonoBehaviour
     private float attackTimer;
     private Coroutine attackRoutine;
     private Coroutine deathRoutine;
+    private Coroutine vulnerableCooldownRoutine;
     private Transform currentTarget;
 
     private void Awake()
@@ -205,6 +245,7 @@ public class Boss1Controller : MonoBehaviour
     private void Start()
     {
         ForceIdleState(true);
+        SetupCombatCycle();
 
         if (activeOnStart || forceCombatOnStart)
         {
@@ -238,8 +279,7 @@ public class Boss1Controller : MonoBehaviour
             }
 
             return;
-        } 
-    
+        }
 
         FindWukongIfNeeded();
         UpdateAttackTimer();
@@ -253,6 +293,22 @@ public class Boss1Controller : MonoBehaviour
         {
             StopMove();
             ForceIdleState(false);
+            return;
+        }
+
+        UpdateCombatCycle();
+
+        if (useCombatCycle && (!isInAttackWindow || isPreparingVulnerableCooldown))
+        {
+            StopMove();
+
+            if (wukongTarget != null)
+            {
+                FaceTarget(wukongTarget);
+            }
+
+            // Không gọi ForceIdleState liên tục ở đây.
+            // Nếu gọi liên tục, animation Idle dễ bị giữ ở frame đầu như ảnh tĩnh.
             return;
         }
 
@@ -293,6 +349,235 @@ public class Boss1Controller : MonoBehaviour
             {
                 attackTimer = 0f;
             }
+        }
+    }
+
+    private void SetupCombatCycle()
+    {
+        if (!useCombatCycle)
+        {
+            isInAttackWindow = true;
+            attackWindowTimerStarted = true;
+            isPreparingVulnerableCooldown = false;
+            pendingEnterVulnerableCooldown = false;
+            combatCycleTimer = 0f;
+            return;
+        }
+
+        isInAttackWindow = startWithAttackWindow;
+        isPreparingVulnerableCooldown = false;
+        pendingEnterVulnerableCooldown = false;
+
+        if (vulnerableCooldownRoutine != null)
+        {
+            StopCoroutine(vulnerableCooldownRoutine);
+            vulnerableCooldownRoutine = null;
+        }
+
+        if (isInAttackWindow)
+        {
+            combatCycleTimer = attackWindowDuration;
+            attackWindowTimerStarted = !waitFirstWukongHitToStartAttackTimer;
+        }
+        else
+        {
+            combatCycleTimer = vulnerableCooldownDuration;
+            attackWindowTimerStarted = false;
+        }
+    }
+
+    private void UpdateCombatCycle()
+    {
+        if (!useCombatCycle)
+        {
+            isInAttackWindow = true;
+            attackWindowTimerStarted = true;
+            return;
+        }
+
+        if (isPreparingVulnerableCooldown)
+        {
+            return;
+        }
+
+        if (isInAttackWindow)
+        {
+            if (waitFirstWukongHitToStartAttackTimer && !attackWindowTimerStarted)
+            {
+                // Boss vẫn được đánh, nhưng chưa tính 10 giây cho tới khi Wukong trúng chiêu đầu tiên.
+                return;
+            }
+
+            combatCycleTimer -= Time.deltaTime;
+
+            if (combatCycleTimer <= 0f)
+            {
+                RequestEnterVulnerableCooldown();
+            }
+
+            return;
+        }
+
+        // Đang trong phase nghỉ.
+        combatCycleTimer -= Time.deltaTime;
+
+        if (combatCycleTimer <= 0f)
+        {
+            EnterAttackWindow();
+        }
+    }
+
+    private void EnterAttackWindow()
+    {
+        isInAttackWindow = true;
+        isPreparingVulnerableCooldown = false;
+        pendingEnterVulnerableCooldown = false;
+
+        combatCycleTimer = attackWindowDuration;
+        attackWindowTimerStarted = !waitFirstWukongHitToStartAttackTimer;
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss1: Bắt đầu Attack Window. Boss được phép giữ khoảng cách và tấn công.");
+        }
+    }
+
+    private void RequestEnterVulnerableCooldown()
+    {
+        if (isPreparingVulnerableCooldown)
+        {
+            return;
+        }
+
+        if (!isInAttackWindow)
+        {
+            return;
+        }
+
+        if (isAttacking)
+        {
+            pendingEnterVulnerableCooldown = true;
+
+            if (enableDebugLog)
+            {
+                Debug.Log("Boss1: Hết Attack Window nhưng đang attack. Chờ attack kết thúc rồi mới nghỉ.");
+            }
+
+            return;
+        }
+
+        StartVulnerableCooldownAfterIdle();
+    }
+
+    private void StartVulnerableCooldownAfterIdle()
+    {
+        isInAttackWindow = false;
+        isPreparingVulnerableCooldown = true;
+        pendingEnterVulnerableCooldown = false;
+        attackWindowTimerStarted = false;
+
+        StopMove();
+
+        // Chỉ ép về Idle một lần khi bắt đầu chuyển phase nghỉ.
+        ForceIdleState(false);
+
+        if (vulnerableCooldownRoutine != null)
+        {
+            StopCoroutine(vulnerableCooldownRoutine);
+        }
+
+        vulnerableCooldownRoutine = StartCoroutine(StartVulnerableCooldownWhenIdleRoutine());
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss1: Chuyển về Idle trước khi bắt đầu tính giờ nghỉ.");
+        }
+    }
+
+    private IEnumerator StartVulnerableCooldownWhenIdleRoutine()
+    {
+        float timer = 0f;
+        float stableTimer = 0f;
+
+        while (timer < maxWaitIdleBeforeVulnerableCooldown)
+        {
+            timer += Time.deltaTime;
+
+            bool idleReady = true;
+
+            if (animator != null && !string.IsNullOrEmpty(idleStateName))
+            {
+                if (animator.IsInTransition(0))
+                {
+                    idleReady = false;
+                }
+                else
+                {
+                    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+                    if (!stateInfo.IsName(idleStateName))
+                    {
+                        idleReady = false;
+                    }
+                }
+            }
+
+            if (idleReady)
+            {
+                stableTimer += Time.deltaTime;
+
+                if (stableTimer >= idleStableTimeBeforeVulnerableCooldown)
+                {
+                    break;
+                }
+            }
+            else
+            {
+                stableTimer = 0f;
+            }
+
+            yield return null;
+        }
+
+        isPreparingVulnerableCooldown = false;
+        combatCycleTimer = vulnerableCooldownDuration;
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss1: Bắt đầu Vulnerable Cooldown. Wukong có thể áp sát đánh Boss.");
+        }
+
+        vulnerableCooldownRoutine = null;
+    }
+
+    public void NotifyWukongHitByProjectile()
+    {
+        if (!useCombatCycle)
+        {
+            return;
+        }
+
+        if (!isActive || isDead || combatStoppedByDeath)
+        {
+            return;
+        }
+
+        if (!isInAttackWindow)
+        {
+            return;
+        }
+
+        if (attackWindowTimerStarted)
+        {
+            return;
+        }
+
+        attackWindowTimerStarted = true;
+        combatCycleTimer = attackWindowDuration;
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss1: Wukong trúng chiêu lần đầu. Bắt đầu đếm Attack Window " + attackWindowDuration + " giây.");
         }
     }
 
@@ -450,6 +735,8 @@ public class Boss1Controller : MonoBehaviour
         if (combatStoppedByDeath) return false;
         if (isAttacking) return false;
         if (attackTimer > 0f) return false;
+        if (useCombatCycle && !isInAttackWindow) return false;
+        if (useCombatCycle && isPreparingVulnerableCooldown) return false;
         if (projectilePrefab == null) return false;
         if (projectileSpawnPoint == null) return false;
 
@@ -512,11 +799,41 @@ public class Boss1Controller : MonoBehaviour
             yield return new WaitForSeconds(attackLockDuration);
         }
 
+        FinishAttackState();
+    }
+
+    public void EndRangedAttackAnimation()
+    {
+        if (isDead)
+        {
+            return;
+        }
+
+        FinishAttackState();
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Boss1: Animation Event EndRangedAttackAnimation. Kết thúc attack.");
+        }
+    }
+
+    private void FinishAttackState()
+    {
+        if (!isAttacking && attackRoutine == null)
+        {
+            return;
+        }
+
         StopMove();
         ForceIdleState(false);
 
         isAttacking = false;
         attackRoutine = null;
+
+        if (pendingEnterVulnerableCooldown)
+        {
+            StartVulnerableCooldownAfterIdle();
+        }
 
         if (enableDebugLog)
         {
@@ -562,9 +879,6 @@ public class Boss1Controller : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Gắn hàm này vào Animation Event ở frame muốn bắn projectile.
-    /// </summary>
     public void Boss1_AttackFireEvent()
     {
         if (isDead) return;
@@ -578,9 +892,6 @@ public class Boss1Controller : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Có thể dùng tên event khác nếu animation đang gọi FireProjectile trực tiếp.
-    /// </summary>
     public void FireProjectile()
     {
         if (isDead) return;
@@ -799,6 +1110,8 @@ public class Boss1Controller : MonoBehaviour
         combatStoppedByDeath = false;
         hasForcedIdleAfterCombatStop = false;
 
+        SetupCombatCycle();
+
         if (enableDebugLog)
         {
             Debug.Log("Boss1: Đã kích hoạt combat.");
@@ -962,6 +1275,12 @@ public class Boss1Controller : MonoBehaviour
         {
             StopCoroutine(attackRoutine);
             attackRoutine = null;
+        }
+
+        if (vulnerableCooldownRoutine != null)
+        {
+            StopCoroutine(vulnerableCooldownRoutine);
+            vulnerableCooldownRoutine = null;
         }
 
         StopMove();

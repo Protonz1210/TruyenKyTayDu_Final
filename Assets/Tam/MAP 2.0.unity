@@ -648,7 +648,7 @@ Transform:
   m_GameObject: {fileID: 167573259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.63, y: -2.55, z: 0}
+  m_LocalPosition: {x: -2.82, y: -2.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -666,7 +666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b454f8fb2ad74f65b464a964b932efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Map2CameraFollowTargetLimiter
-  player: {fileID: 1765673184}
+  player: {fileID: 733679125}
   targetCamera: {fileID: 2119101535}
   mapLeftEdgePoint: {fileID: 1002530181}
   limitLeft: 1
@@ -674,8 +674,8 @@ MonoBehaviour:
   mapRightEdgePoint: {fileID: 858904329}
   limitRight: 1
   rightEdgeOffset: -3
-  followPlayerY: 1
-  fixedY: 0
+  followPlayerY: 0
+  fixedY: -2.6
   fixedZ: 0
   useSmoothFollow: 1
   smoothTime: 0.18
@@ -1048,11 +1048,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 369953598425223012, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.13
+      value: -1.61
       objectReference: {fileID: 0}
     - target: {fileID: 369953598425223012, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: -3.29
       objectReference: {fileID: 0}
     - target: {fileID: 369953598425223012, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1097,6 +1097,14 @@ PrefabInstance:
     - target: {fileID: 5529076049568500394, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: autoStartWhenWukongTransformPhase
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7651973553340407365, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 7651973553340407365, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.54
       objectReference: {fileID: 0}
     - target: {fileID: 7727485355955128746, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
       propertyPath: hudController
@@ -1205,7 +1213,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9745889
+      value: -0.16458869
       objectReference: {fileID: 0}
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2159,6 +2167,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2116266851}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &733679125 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7651973553340407365, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+  m_PrefabInstance: {fileID: 301164240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &843436719
 GameObject:
   m_ObjectHideFlags: 0
@@ -2955,7 +2968,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.6041384}
+  m_Offset: {x: 0, y: -0.49384576}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2965,7 +2978,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 38.33345, y: 2.6017232}
+  m_Size: {x: 38.33345, y: 2.8223085}
   m_EdgeRadius: 0
 --- !u!1 &1186296278
 GameObject:
@@ -4208,7 +4221,7 @@ PrefabInstance:
       objectReference: {fileID: 167573260}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9745889
+      value: -0.16458869
       objectReference: {fileID: 0}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5528,7 +5541,7 @@ GameObject:
   - component: {fileID: 7779862659583325972}
   - component: {fileID: 1731831579}
   m_Layer: 13
-  m_Name: Boss1_MangXaTinh
+  m_Name: Boss1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5574,6 +5587,18 @@ MonoBehaviour:
   dieTriggerName: Die
   idleStateName: Boss1Idle
   dieStateName: Boss1Die
+  useCombatCycle: 1
+  attackWindowDuration: 10
+  vulnerableCooldownDuration: 10
+  startWithAttackWindow: 1
+  waitFirstWukongHitToStartAttackTimer: 1
+  isInAttackWindow: 1
+  attackWindowTimerStarted: 0
+  isPreparingVulnerableCooldown: 0
+  pendingEnterVulnerableCooldown: 0
+  combatCycleTimer: 0
+  idleStableTimeBeforeVulnerableCooldown: 0.2
+  maxWaitIdleBeforeVulnerableCooldown: 1.5
   attackRange: 12
   attackCooldown: 2
   projectileDamage: 80
@@ -5611,17 +5636,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss1HealthUIBinder
   boss1Controller: {fileID: 6778443427709039040}
-  uiDocument: {fileID: 0}
+  uiDocument: {fileID: 11078592}
   bossGroupName: boss-1-group
   bossNameTextName: boss-1-name
-  bossHealthMaskName: boss-1-health-mask
   bossHealthFillName: boss-1-health-fill
   bossHealthTextName: boss-1-health-text
   bossDisplayName: "M\xC3NG X\xC0 TINH"
-  hideWhenDead: 0
-  drainFromLeftToRight: 1
-  autoFindBossController: 1
-  autoFindUIDocument: 1
+  anchorRight: 1
+  hideWhenBossDead: 0
+  updateEveryFrame: 1
   enableDebugLog: 1
 --- !u!95 &8927174547981170240
 Animator:
