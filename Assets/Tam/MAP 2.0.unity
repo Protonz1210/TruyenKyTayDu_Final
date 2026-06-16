@@ -531,6 +531,102 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2116266851}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.881}
+--- !u!1 &106100571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 106100574}
+  - component: {fileID: 106100573}
+  - component: {fileID: 106100572}
+  m_Layer: 0
+  m_Name: Map2_PreBossDialogueTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &106100572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106100571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d22cda99a30b8e449c30a5779896e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Map2PreBossDialogueTrigger
+  storyManager: {fileID: 1095883036}
+  playerTag: Player
+  triggerOnlyOnce: 1
+  disableTriggerObjectAfterTriggered: 1
+  enableDebugLog: 1
+--- !u!61 &106100573
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106100571}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 1.922411, y: 0.07878733}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.844822, y: 1.1575747}
+  m_EdgeRadius: 0
+--- !u!4 &106100574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106100571}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.05, y: -3.76, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &144584906
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,6 +718,66 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2116266851}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &152357507
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 152357509}
+  - component: {fileID: 152357508}
+  m_Layer: 0
+  m_Name: Map2GlobalDialogueController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &152357508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152357507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee293f18ecbcc8459aa1321a396f50b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Map2GlobalDialogueController
+  uiDocument: {fileID: 1582188871}
+  dialogueBoxName: dialogue-box
+  avatarImageName: dialogue-avatar
+  speakerNameTextName: dialogue-name
+  dialogueTextName: dialogue-text
+  nextHintTextName: dialogue-hint
+  dialogueMode: 1
+  nextKey: 19
+  useKeyToNext: 1
+  nextHint: E
+  showHintInConversation: 1
+  waitKeyReleaseBeforeConversationInput: 1
+  dialogueLines: []
+  maxWaitForUIDocumentReady: 2
+  isDialoguePlaying: 0
+  enableDebugLog: 0
+--- !u!4 &152357509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152357507}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.75284, y: 0.57116, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &167573259
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,7 +804,7 @@ Transform:
   m_GameObject: {fileID: 167573259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.82, y: -2.55, z: 0}
+  m_LocalPosition: {x: 9.96, y: -2.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1221,7 +1377,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.16458869
+      value: 12.615412
       objectReference: {fileID: 0}
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1818,6 +1974,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &524658884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8720587110815841581, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
+  m_PrefabInstance: {fileID: 2060761532}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &538983245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,6 +2063,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1440954219}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &545079242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7747556491235508407, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+  m_PrefabInstance: {fileID: 301164240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &612375534
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,6 +2598,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1440954219}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &854976396 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 618383683499856318, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
+  m_PrefabInstance: {fileID: 2060761532}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &858904328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2673,6 +2844,105 @@ Transform:
   m_Children:
   - {fileID: 1566661224}
   - {fileID: 11078591}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1095883035
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1095883037}
+  - component: {fileID: 1095883036}
+  m_Layer: 0
+  m_Name: Map2StoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1095883036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095883035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a249851d5c96ae64197ca95ff1c96d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Map2StoryManager
+  currentPhase: 0
+  map2HUDDocument: {fileID: 11078592}
+  gameplayUIObjects:
+  - {fileID: 1582188870}
+  dialogueController: {fileID: 152357508}
+  autoFindDialogueController: 1
+  boss1GroupName: boss-panel
+  locationBoxName: box_mask
+  locationTextName: box_text
+  locationTitleText: "TH\xC1C\nLINH\nV\xC2N"
+  locationFadeInTime: 1
+  locationHoldTime: 2
+  locationFadeOutTime: 1
+  waitBeforeLockTime: 1
+  waitIdleAfterLockTime: 0.25
+  preBossDialogueLines:
+  - avatar: {fileID: 8425205569314270067, guid: 18bbf80a74ce4a149aa74a7dcd047388, type: 3}
+    speakerName: "M\xC3NG X\xC0 TINH"
+    dialogueText: "T\xEAn n\xE0o to gan d\xE1m v\xE1c x\xE1c \u0111\u1EBFn \u0111\xE2y"
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG "
+    dialogueText: "Ta l\xE0 T\u1EC1 Thi\xEAn \u0110\u1EA1i Th\xE1nh"
+  lockCharactersDuringPreBossDialogue: 1
+  waitWukongIdleBeforePreBossDialogue: 1
+  wukongObject: {fileID: 545079242}
+  wukongAnimator: {fileID: 1765673194}
+  wukongRigidbody: {fileID: 1765673195}
+  wukongIdleStateNameForDialogueWait: Wukong1Idle
+  wukongIdleVelocityThreshold: 0.05
+  wukongIdleStableTime: 0.25
+  maxWaitWukongIdleTime: 5
+  charactersToFreeze:
+  - {fileID: 545079242}
+  - {fileID: 524658884}
+  - {fileID: 1250651073}
+  - {fileID: 854976396}
+  postBossDialogueLines:
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
+    dialogueText: "T\u01B0\u1EDFng th\u1EBF n\xE0oooo"
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
+    dialogueText: "H\xF3a ra th\u1EBF n\xE0yyy"
+  loadNextSceneAfterPostBossDialogue: 1
+  nextSceneName: Map3
+  delayBeforeLoadNextScene: 0.5
+  hideBoss1UIWhenPostDialogueStart: 1
+  movementScriptNamesToDisable:
+  - PlayerController
+  - FollowerController
+  freezeRigidbodyWhenLocked: 1
+  setAnimatorSpeedToZeroWhenLocked: 1
+  restoreMovementAfterIntro: 1
+  boss1: {fileID: 6778443427709039040}
+  enableDebugLog: 1
+--- !u!4 &1095883037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095883035}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.32773, y: -0.4915, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1135222701
@@ -3066,6 +3336,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1250651073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3831449220520277120, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
+  m_PrefabInstance: {fileID: 2060761532}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1304280758
 GameObject:
   m_ObjectHideFlags: 0
@@ -3551,7 +3826,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5891305645050396353, guid: e1b1704a1c200e14791286a02e1df15b, type: 3}
   m_PrefabInstance: {fileID: 1582188869}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1582188870}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3aa9cb6504890c4a901661c34168b2e, type: 3}
@@ -3710,6 +3985,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1b1704a1c200e14791286a02e1df15b, type: 3}
+--- !u!1 &1582188870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1675860126566349339, guid: e1b1704a1c200e14791286a02e1df15b, type: 3}
+  m_PrefabInstance: {fileID: 1582188869}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1582188871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6812855548531467118, guid: e1b1704a1c200e14791286a02e1df15b, type: 3}
+  m_PrefabInstance: {fileID: 1582188869}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582188870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
 --- !u!1 &1585836665
 GameObject:
   m_ObjectHideFlags: 0
@@ -4205,12 +4496,22 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -8394178503623942700, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
   m_PrefabInstance: {fileID: 301164240}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 545079242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e0fd8d6862021b4b87aa3e54b962c19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFacing
+--- !u!95 &1765673194 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4337263153026329436, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+  m_PrefabInstance: {fileID: 301164240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1765673195 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6390234740372086973, guid: 8cc9f3f3629e13447a15ca097d56eddc, type: 3}
+  m_PrefabInstance: {fileID: 301164240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1793472807
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4229,7 +4530,7 @@ PrefabInstance:
       objectReference: {fileID: 167573260}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.16458869
+      value: 12.615412
       objectReference: {fileID: 0}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5518,7 +5819,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6733879281312969172}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -5579,9 +5880,9 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7492548578907805266, guid: a512f0c877766d34685c398eeb108d1a, type: 3}
   playerTag: Player
   partyTag: Party
-  activeOnStart: 1
-  forceCombatOnStart: 1
-  isActive: 1
+  activeOnStart: 0
+  forceCombatOnStart: 0
+  isActive: 0
   moveSpeed: 3.2
   stopDistanceToWukong: 3.5
   keepDistanceFromParty: 1
@@ -5630,7 +5931,7 @@ MonoBehaviour:
   waitDieAnimationBeforeDisappear: 1
   maxWaitDieAnimationTime: 3
   disappearAfterDie: 1
-  disappearDelayAfterDie: 0.15
+  disappearDelayAfterDie: 0
   stopBossWhenWukongDead: 1
   stopBossWhenPartyDead: 1
   combatStoppedByDeath: 0
@@ -5700,3 +6001,6 @@ SceneRoots:
   - {fileID: 1002530181}
   - {fileID: 171198383149948380}
   - {fileID: 1005664753}
+  - {fileID: 1095883037}
+  - {fileID: 152357509}
+  - {fileID: 106100574}
