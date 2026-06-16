@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="boss-panel" style="flex-grow: 1; position: absolute; height: 252px; width: 1268px; left: 870px; top: 3px;">
+    <ui:VisualElement name="boss-panel" style="flex-grow: 1; position: absolute; height: 252px; width: 1268px; left: 662px; top: 5px;">
         <ui:VisualElement name="boss-2-group" style="flex-grow: 1; position: absolute; flex-direction: row-reverse; height: 244px; width: 647px; top: 3px; left: 617px;">
             <ui:Label text="SÀI THÁI TUẾ" name="boss-2-name" style="background-image: resource(&quot;UI/Boss_name&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 145px; width: 578px; left: 53px; top: -21px; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold; white-space: nowrap; -unity-text-align: middle-center;"/>
             <ui:VisualElement name="boss-2-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 134px; width: 452px; left: 30px; top: 36px;"/>
@@ -7,7 +7,7 @@
                 <ui:VisualElement name="boss-2-health-fill" style="flex-grow: 1; background-image: resource(&quot;UI/Health_UI&quot;);"/>
             </ui:VisualElement>
             <ui:Label text="1000 / 1000" name="boss-2-health-text" style="font-size: 18px; color: rgb(255, 255, 255); -unity-font-style: bold; position: absolute; top: 88px; left: 76px; width: 354px; height: 22px; -unity-text-align: middle-center;"/>
-            <ui:VisualElement name="boss-2-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Boss4_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 204px; width: 433px; flex-direction: row-reverse; top: -4px; left: 300px;"/>
+            <ui:VisualElement name="boss-2-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Boss2_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 182px; width: 403px; flex-direction: row-reverse; top: 2px; left: 312px;"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
