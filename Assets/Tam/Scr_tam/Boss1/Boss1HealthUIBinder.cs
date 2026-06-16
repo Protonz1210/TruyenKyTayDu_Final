@@ -8,7 +8,7 @@ public class Boss1HealthUIBinder : MonoBehaviour
     public Boss1Controller boss1Controller;
 
     [Header("UI Document")]
-    [Tooltip("UI Document chứa HUD của map.")]
+    [Tooltip("UI Document chứa HUD của Boss1.")]
     public UIDocument uiDocument;
 
     [Header("UI Element Names")]
@@ -18,11 +18,11 @@ public class Boss1HealthUIBinder : MonoBehaviour
     [Tooltip("Tên text tên Boss1.")]
     public string bossNameTextName = "boss-1-name";
 
-    [Tooltip("Tên mask chứa thanh máu Boss1.")]
-    public string bossHealthMaskName = "boss-1-health-mask";
+    [Tooltip("Tên vùng mask/root chứa thanh máu Boss1.")]
+    public string bossHealthMaskName = "boss1-health-root";
 
     [Tooltip("Tên fill máu Boss1.")]
-    public string bossHealthFillName = "boss-1-health-fill";
+    public string bossHealthFillName = "boss1-health-fill";
 
     [Tooltip("Tên text máu Boss1.")]
     public string bossHealthTextName = "boss-1-health-text";
@@ -35,7 +35,7 @@ public class Boss1HealthUIBinder : MonoBehaviour
     public bool hideWhenDead = false;
 
     [Header("Direction")]
-    [Tooltip("Bật để máu tụt từ trái qua phải, phần đỏ bám mép phải giống Boss2.")]
+    [Tooltip("Bật để máu tụt từ trái qua phải, phần máu bám mép phải.")]
     public bool drainFromLeftToRight = true;
 
     [Header("Auto Find")]
@@ -59,50 +59,60 @@ public class Boss1HealthUIBinder : MonoBehaviour
     private int lastCurrentHealth = -999;
     private int lastMaxHealth = -999;
 
-    void Awake()
+    private void Awake()
     {
         FindReferencesIfNeeded();
         CacheUI();
         UpdateBossHealthUI(true);
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         FindReferencesIfNeeded();
         CacheUI();
         UpdateBossHealthUI(true);
     }
 
-    void Start()
+    private void Start()
     {
         FindReferencesIfNeeded();
         CacheUI();
         UpdateBossHealthUI(true);
     }
 
-    void Update()
+    private void Update()
     {
         FindReferencesIfNeeded();
 
         if (boss1Controller == null)
+        {
             return;
+        }
 
-        if (boss1Controller.GetCurrentHealth() != lastCurrentHealth || boss1Controller.GetMaxHealth() != lastMaxHealth)
+        int currentHealth = boss1Controller.GetCurrentHealth();
+        int maxHealth = boss1Controller.GetMaxHealth();
+
+        if (currentHealth != lastCurrentHealth || maxHealth != lastMaxHealth)
         {
             UpdateBossHealthUI(false);
         }
 
-        if (hideWhenDead && bossGroup != null && boss1Controller.GetCurrentHealth() <= 0)
+        if (hideWhenDead && bossGroup != null && currentHealth <= 0)
         {
             bossGroup.style.display = DisplayStyle.None;
         }
     }
 
-    void FindReferencesIfNeeded()
+    private void FindReferencesIfNeeded()
     {
         if (autoFindBossController && boss1Controller == null)
         {
             boss1Controller = GetComponent<Boss1Controller>();
+
+            if (boss1Controller == null)
+            {
+                boss1Controller = FindFirstObjectByType<Boss1Controller>();
+            }
         }
 
         if (autoFindUIDocument && uiDocument == null)
@@ -112,12 +122,16 @@ public class Boss1HealthUIBinder : MonoBehaviour
             for (int i = 0; i < documents.Length; i++)
             {
                 if (documents[i] == null)
+                {
                     continue;
+                }
 
                 VisualElement docRoot = documents[i].rootVisualElement;
 
                 if (docRoot == null)
+                {
                     continue;
+                }
 
                 VisualElement foundFill = docRoot.Q<VisualElement>(bossHealthFillName);
 
@@ -127,21 +141,16 @@ public class Boss1HealthUIBinder : MonoBehaviour
                     break;
                 }
             }
-
-            if (uiDocument == null)
-            {
-                uiDocument = FindFirstObjectByType<UIDocument>();
-            }
         }
     }
 
-    void CacheUI()
+    private void CacheUI()
     {
         if (uiDocument == null)
         {
             if (enableDebugLog)
             {
-                Debug.LogWarning("Boss1HealthUIBinder chưa có UIDocument.");
+                Debug.LogWarning("Boss1HealthUIBinder: Chưa có UIDocument.");
             }
 
             return;
@@ -153,7 +162,7 @@ public class Boss1HealthUIBinder : MonoBehaviour
         {
             if (enableDebugLog)
             {
-                Debug.LogWarning("Boss1HealthUIBinder không tìm thấy rootVisualElement.");
+                Debug.LogWarning("Boss1HealthUIBinder: Không tìm thấy rootVisualElement.");
             }
 
             return;
@@ -176,32 +185,32 @@ public class Boss1HealthUIBinder : MonoBehaviour
         {
             if (bossGroup == null)
             {
-                Debug.LogWarning("Không tìm thấy Boss1 Group: " + bossGroupName);
+                Debug.LogWarning("Boss1HealthUIBinder: Không tìm thấy Boss Group: " + bossGroupName);
             }
 
             if (bossHealthMask == null)
             {
-                Debug.LogWarning("Không tìm thấy Boss1 Health Mask: " + bossHealthMaskName);
+                Debug.LogWarning("Boss1HealthUIBinder: Không tìm thấy Health Mask/Root: " + bossHealthMaskName);
             }
 
             if (bossHealthFill == null)
             {
-                Debug.LogWarning("Không tìm thấy Boss1 Health Fill: " + bossHealthFillName);
+                Debug.LogWarning("Boss1HealthUIBinder: Không tìm thấy Health Fill: " + bossHealthFillName);
             }
 
             if (bossHealthText == null)
             {
-                Debug.LogWarning("Không tìm thấy Boss1 Health Text: " + bossHealthTextName);
+                Debug.LogWarning("Boss1HealthUIBinder: Không tìm thấy Health Text: " + bossHealthTextName);
             }
 
             if (bossNameText == null)
             {
-                Debug.LogWarning("Không tìm thấy Boss1 Name Text: " + bossNameTextName);
+                Debug.LogWarning("Boss1HealthUIBinder: Không tìm thấy Name Text: " + bossNameTextName);
             }
         }
     }
 
-    void SetupHealthFillDirection()
+    private void SetupHealthFillDirection()
     {
         if (bossHealthMask != null)
         {
@@ -210,7 +219,9 @@ public class Boss1HealthUIBinder : MonoBehaviour
         }
 
         if (bossHealthFill == null)
+        {
             return;
+        }
 
         bossHealthFill.style.position = Position.Absolute;
         bossHealthFill.style.top = 0;
@@ -240,7 +251,7 @@ public class Boss1HealthUIBinder : MonoBehaviour
         {
             if (enableDebugLog)
             {
-                Debug.LogWarning("Boss1HealthUIBinder chưa có Boss1Controller.");
+                Debug.LogWarning("Boss1HealthUIBinder: Chưa có Boss1Controller.");
             }
 
             return;
@@ -285,7 +296,23 @@ public class Boss1HealthUIBinder : MonoBehaviour
 
         if (enableDebugLog)
         {
-            Debug.Log("Boss1 UI cập nhật: " + currentHealth + "/" + maxHealth);
+            Debug.Log("Boss1HealthUIBinder: UI cập nhật " + currentHealth + " / " + maxHealth);
+        }
+    }
+
+    public void ShowBossUI()
+    {
+        if (bossGroup != null)
+        {
+            bossGroup.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    public void HideBossUI()
+    {
+        if (bossGroup != null)
+        {
+            bossGroup.style.display = DisplayStyle.None;
         }
     }
 }
