@@ -162,7 +162,6 @@ public class Boss2Controller : MonoBehaviour
     [Tooltip("Bật log debug.")]
     public bool enableDebugLog = false;
 
-    bool isActive;
     bool isPreparingAttack;
     bool isAttacking;
     bool isDead;
@@ -170,7 +169,6 @@ public class Boss2Controller : MonoBehaviour
     bool pendingDie;
     bool meleeAnimationEnded;
     bool isFacingRight = true;
-    bool hasForcedIdleAfterCombatStop;
 
     float meleeTimer;
 
@@ -385,6 +383,7 @@ public class Boss2Controller : MonoBehaviour
             DebugTarget("Không có target");
             return;
         }
+
         FaceTarget(currentCombatTarget);
 
         float distanceX = Mathf.Abs(currentCombatTarget.position.x - transform.position.x);
@@ -1038,8 +1037,6 @@ public class Boss2Controller : MonoBehaviour
 
         ForceBossAnimatorToIdleImmediately();
 
-        hasForcedIdleAfterCombatStop = true;
-
         if (enableDebugLog)
         {
             Debug.Log(bossName + " dừng combat vì Wukong hoặc đoàn thỉnh kinh đã chết. Boss chuyển về Idle.");
@@ -1140,9 +1137,7 @@ public class Boss2Controller : MonoBehaviour
         canReceiveDamage = true;
         canShowBossUI = true;
         combatStoppedByDeath = false;
-        hasForcedIdleAfterCombatStop = false;
 
-        isActive = true;
         canMove = true;
         canAttack = true;
 
@@ -1173,7 +1168,6 @@ public class Boss2Controller : MonoBehaviour
         canReceiveDamage = false;
         canShowBossUI = false;
 
-        isActive = false;
         isPreparingAttack = false;
         isAttacking = false;
         currentCombatTarget = null;
