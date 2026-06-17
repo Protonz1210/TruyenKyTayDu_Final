@@ -53,7 +53,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="dialogue-box" style="flex-grow: 1; position: absolute; height: 364px; width: 1369px; top: 763px; left: 683px; background-image: none; display: none;">
+    <ui:VisualElement name="dialogue-box" style="flex-grow: 1; position: absolute; height: 364px; width: 1369px; top: 763px; left: 683px; background-image: none; display: flex;">
         <ui:VisualElement name="dialogue-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Boxchat_UI&quot;); position: absolute; height: 350px; width: 1126px; top: 33px; left: 34px;"/>
         <ui:VisualElement name="dialogue-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Box_NPC4&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 202px; width: 364px; top: 90px; left: 30px;"/>
         <ui:Label text="TON NGO KHONG" name="dialogue-name" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 136px; width: 430px; top: 21px; left: 186px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;"/>
