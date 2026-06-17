@@ -272,7 +272,6 @@ public class Map25DialogueController : MonoBehaviour
 
         callback?.Invoke();
     }
-
     public void ShowDialogue()
     {
         SetupReferences();
@@ -281,6 +280,8 @@ public class Map25DialogueController : MonoBehaviour
         {
             dialogueBox.style.display = DisplayStyle.Flex;
             dialogueBox.style.visibility = Visibility.Visible;
+            dialogueBox.style.opacity = 1f;
+            dialogueBox.pickingMode = PickingMode.Position;
         }
     }
 
@@ -289,6 +290,9 @@ public class Map25DialogueController : MonoBehaviour
         if (dialogueBox != null)
         {
             dialogueBox.style.display = DisplayStyle.None;
+            dialogueBox.style.visibility = Visibility.Hidden;
+            dialogueBox.style.opacity = 0f;
+            dialogueBox.pickingMode = PickingMode.Ignore;
         }
     }
 

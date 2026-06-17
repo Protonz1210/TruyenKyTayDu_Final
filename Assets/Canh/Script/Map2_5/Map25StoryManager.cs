@@ -119,6 +119,16 @@ public class Map25StoryManager : MonoBehaviour
     [Tooltip("Nếu Wukong vào trigger khi chưa đủ đoàn, code sẽ chờ đủ đoàn rồi mới mở thoại.")]
     public bool waitUntilPartyReadyAfterTrigger = true;
 
+    [Header("Dialogue Box Force Hide")]
+    [Tooltip("UIDocument chứa box thoại. Nếu bỏ trống, code sẽ ưu tiên lấy từ Dialogue Controller rồi fallback sang Map HUD Document.")]
+    public UIDocument dialogueUIDocument;
+
+    [Tooltip("Tên VisualElement cha của box thoại trong UI Builder.")]
+    public string dialogueBoxName = "DialogueBox";
+
+    [Tooltip("Ép ẩn box thoại ngay từ Awake/Start, chỉ khi StartDialogue mới hiện.")]
+    public bool forceHideDialogueBoxOnStart = true;
+
     [Header("Heal After NPC Dialogue")]
     [Tooltip("Object hồi máu có gắn HealInteractable. Object vẫn hiện từ đầu, chỉ khóa tương tác.")]
     public HealInteractable postDialogueHealObject;
@@ -153,6 +163,7 @@ public class Map25StoryManager : MonoBehaviour
     private VisualElement bossUIGroup;
     private VisualElement locationBox;
     private Label locationText;
+    private VisualElement dialogueBoxElement;
 
     private bool introStarted;
     private bool introFinished;
@@ -168,6 +179,12 @@ public class Map25StoryManager : MonoBehaviour
     {
         FindReferencesIfNeeded();
         FindUIElements();
+        FindDialogueBoxElement();
+
+        if (forceHideDialogueBoxOnStart)
+        {
+            ForceHideDialogueBoxImmediate();
+        }
 
         CachePostDialogueHealColliders();
 
@@ -192,6 +209,12 @@ public class Map25StoryManager : MonoBehaviour
 
         FindReferencesIfNeeded();
         FindUIElements();
+        FindDialogueBoxElement();
+
+        if (forceHideDialogueBoxOnStart)
+        {
+            ForceHideDialogueBoxImmediate();
+        }
 
         PrepareMapStartState();
 
@@ -307,6 +330,10 @@ public class Map25StoryManager : MonoBehaviour
         yield return StartCoroutine(ShowLocationTitleRoutine());
 
         ShowGameplayUI();
+
+        // Chờ 1 frame để UIDocument/GlobalHUD bật lại xong,
+        // rồi mới ép ẩn box thoại. Nếu không, box thoại có thể hiện lại theo UXML.
+        yield return null;
 
         HideBossUI();
         HideDialogueUI();
@@ -980,10 +1007,122 @@ public class Map25StoryManager : MonoBehaviour
         Log("Map2.5 Story Finished.");
     }
 
+    private void FindDialogueBoxElement()
+    {
+        if (dialogueUIDocument == null && dialogueController != null)
+        {
+            dialogueUIDocument = dialogueController.uiDocument;
+        }
+
+        if (dialogueUIDocument == null)
+        {
+            dialogueUIDocument = mapHUDDocument;
+        }
+
+        if (dialogueUIDocument == null)
+        {
+            dialogueUIDocument = FindUIDocumentContainingElement(dialogueBoxName);
+        }
+
+        if (dialogueUIDocument == null)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning("Map25StoryManager: Chưa tìm thấy UIDocument chứa box thoại.");
+            }
+
+            return;
+        }
+
+        VisualElement dialogueRoot = dialogueUIDocument.rootVisualElement;
+
+        if (dialogueRoot == null)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning("Map25StoryManager: Dialogue UIDocument chưa có rootVisualElement.");
+            }
+
+            return;
+        }
+
+        dialogueBoxElement = dialogueRoot.Q<VisualElement>(dialogueBoxName);
+
+        if (dialogueBoxElement == null && enableDebugLog)
+        {
+            Debug.LogWarning("Map25StoryManager: Không tìm thấy box thoại tên: " + dialogueBoxName);
+        }
+    }
+
+    private UIDocument FindUIDocumentContainingElement(string elementName)
+    {
+        if (string.IsNullOrEmpty(elementName))
+        {
+            return null;
+        }
+
+#if UNITY_2023_1_OR_NEWER
+        UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+#else
+        UIDocument[] documents = FindObjectsOfType<UIDocument>();
+#endif
+
+        for (int i = 0; i < documents.Length; i++)
+        {
+            UIDocument document = documents[i];
+
+            if (document == null || document.rootVisualElement == null)
+            {
+                continue;
+            }
+
+            if (document.rootVisualElement.Q<VisualElement>(elementName) != null)
+            {
+                return document;
+            }
+        }
+
+        return null;
+    }
+    private void ForceHideDialogueBoxImmediate()
+    {
+        if (dialogueBoxElement == null)
+        {
+            FindDialogueBoxElement();
+        }
+
+        if (dialogueBoxElement == null)
+        {
+            return;
+        }
+
+        dialogueBoxElement.style.display = DisplayStyle.None;
+        dialogueBoxElement.style.opacity = 0f;
+        dialogueBoxElement.style.visibility = Visibility.Hidden;
+        dialogueBoxElement.pickingMode = PickingMode.Ignore;
+    }
+
     // ======================================================
     // UI HELPERS
     // ======================================================
+    private IEnumerator ForceHideDialogueBoxAfterUIDocumentRefreshRoutine()
+    {
+        // Ép ẩn trong vài frame để chống trường hợp GlobalHUD/UIDocument vừa bật lại
+        // làm box thoại hiện lại theo trạng thái gốc của UXML.
+        for (int i = 0; i < 3; i++)
+        {
+            yield return null;
 
+            FindDialogueBoxElement();
+
+            if (dialogueController != null)
+            {
+                dialogueController.ForceStopDialogue();
+            }
+
+            ForceHideDialogueBoxImmediate();
+        }
+    }
     private void FindHUDDocumentIfNeeded()
     {
         if (mapHUDDocument != null)
@@ -1175,7 +1314,14 @@ public class Map25StoryManager : MonoBehaviour
     {
         if (dialogueController != null)
         {
-            dialogueController.HideDialogue();
+            dialogueController.ForceStopDialogue();
+        }
+
+        ForceHideDialogueBoxImmediate();
+
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(ForceHideDialogueBoxAfterUIDocumentRefreshRoutine());
         }
     }
 
