@@ -1,21 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class MainMenu : MonoBehaviour
+public class ChonMan : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Play()
+    public void Map1()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     // Update is called once per frame
-    public void Setting()
+    public void Map2()
     {
-        
+        SceneManager.LoadScene(3);
     }
-    public void Out()
+    public void Map3()
     {
-        Application.Quit();
+        SceneManager.LoadScene(4);
     }
 }
