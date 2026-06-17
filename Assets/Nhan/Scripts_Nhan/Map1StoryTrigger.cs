@@ -6,7 +6,8 @@ public class Map1StoryTrigger : MonoBehaviour
     {
         EnemyWave,
         SupplyPoint,
-        EndMap
+        EndMap,
+        LocationTitle
     }
 
     [Header("Manager")]
@@ -22,6 +23,10 @@ public class Map1StoryTrigger : MonoBehaviour
 
     [Tooltip("Trigger chỉ chạy một lần.")]
     public bool triggerOnlyOnce = true;
+
+    [Header("Location Title Trigger")]
+    [Tooltip("Chỉ dùng khi Trigger Type = LocationTitle. Bật lên để chỉ hiện UI địa điểm sau khi EnemyWave đã clear.")]
+    public bool locationTitleOnlyAfterEnemyWaveCleared = true;
 
     [Header("Jump / Fall Handling")]
     [Tooltip("Nếu Wukong nhảy/rơi vào trigger thì chờ Wukong về Idle rồi mới kích hoạt.")]
@@ -60,6 +65,31 @@ public class Map1StoryTrigger : MonoBehaviour
     private Collider2D waitingPlayerCollider;
     private Rigidbody2D waitingPlayerRigidbody;
     private Animator waitingPlayerAnimator;
+
+    private void Reset()
+    {
+        Collider2D col = GetComponent<Collider2D>();
+
+        if (col != null)
+        {
+            col.isTrigger = true;
+        }
+    }
+
+    private void Awake()
+    {
+        Collider2D col = GetComponent<Collider2D>();
+
+        if (col != null)
+        {
+            col.isTrigger = true;
+        }
+
+        if (storyManager == null)
+        {
+            storyManager = FindFirstObjectByType<Map1StoryManager>();
+        }
+    }
 
     private void Update()
     {
@@ -274,13 +304,32 @@ public class Map1StoryTrigger : MonoBehaviour
             return;
         }
 
-        hasTriggered = true;
-
         if (storyManager == null)
         {
             Debug.LogWarning(gameObject.name + " chưa gán Map1StoryManager.");
             return;
         }
+
+        // Với LocationTitle, nếu yêu cầu sau EnemyWave thì kiểm tra phase trước.
+        // Nếu chưa đúng phase thì không đánh dấu hasTriggered, để Wukong đi qua lại sau vẫn kích hoạt được.
+        if (triggerType == Map1TriggerType.LocationTitle)
+        {
+            if (locationTitleOnlyAfterEnemyWaveCleared && !CanPlayLocationTitleNow())
+            {
+                if (enableDebugLog)
+                {
+                    Debug.Log(
+                        gameObject.name
+                        + ": Chưa hiện UI địa điểm vì EnemyWave chưa clear. Phase hiện tại: "
+                        + storyManager.currentPhase
+                    );
+                }
+
+                return;
+            }
+        }
+
+        hasTriggered = true;
 
         if (enableDebugLog)
         {
@@ -300,27 +349,28 @@ public class Map1StoryTrigger : MonoBehaviour
             case Map1TriggerType.EndMap:
                 storyManager.StartEndMapByTrigger();
                 break;
+
+            case Map1TriggerType.LocationTitle:
+                storyManager.PlayLocationTitleFromBoxTrigger();
+                break;
         }
     }
-    public void StartSupplyPointByTrigger()
-    {
-        Debug.Log("Map1StoryManager: Trigger SupplyPoint đã được kích hoạt. Phase tiếp tế sẽ làm sau.");
 
-        // Sau này sẽ làm:
-        // SetPhase(Map1Phase.SupplyDialogue);
-        // Hiện dialogue NPC tiếp tế.
-        // Hết thoại thì hiện vật phẩm hồi máu.
+    private bool CanPlayLocationTitleNow()
+    {
+        if (storyManager == null)
+        {
+            return false;
+        }
+
+        return storyManager.currentPhase == Map1StoryManager.Map1Phase.EnemyWaveCleared
+            || storyManager.currentPhase == Map1StoryManager.Map1Phase.SupplyDialogue
+            || storyManager.currentPhase == Map1StoryManager.Map1Phase.SupplyItemWait
+            || storyManager.currentPhase == Map1StoryManager.Map1Phase.HealFullParty
+            || storyManager.currentPhase == Map1StoryManager.Map1Phase.WaitWukongIdleBeforeChangeMap
+            || storyManager.currentPhase == Map1StoryManager.Map1Phase.ChangeMap;
     }
 
-    public void StartEndMapByTrigger()
-    {
-        Debug.Log("Map1StoryManager: Trigger EndMap đã được kích hoạt. Phase chuyển map sẽ làm sau.");
-
-        // Sau này sẽ làm:
-        // SetPhase(Map1Phase.WaitWukongIdleBeforeChangeMap);
-        // Chờ Wukong về Idle.
-        // Chuyển scene/map.
-    }
     private void ResetWaitingState()
     {
         isWaitingForIdle = false;

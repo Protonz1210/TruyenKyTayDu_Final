@@ -160,24 +160,5 @@ public class Map2CameraFollowTargetLimiter : MonoBehaviour
         return halfHeight * targetCamera.aspect;
     }
 
-    void OnDrawGizmos()
-    {
-        if (mapLeftEdgePoint != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(
-                new Vector3(mapLeftEdgePoint.position.x, mapLeftEdgePoint.position.y - 10f, 0f),
-                new Vector3(mapLeftEdgePoint.position.x, mapLeftEdgePoint.position.y + 10f, 0f)
-            );
-        }
-
-        if (mapRightEdgePoint != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(
-                new Vector3(mapRightEdgePoint.position.x, mapRightEdgePoint.position.y - 10f, 0f),
-                new Vector3(mapRightEdgePoint.position.x, mapRightEdgePoint.position.y + 10f, 0f)
-            );
-        }
-    }
+   
 }

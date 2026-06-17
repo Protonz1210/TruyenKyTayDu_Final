@@ -13,10 +13,18 @@ using UnityEngine.InputSystem.Controls;
 /// -> Tutorial
 /// -> Post Tutorial Dialogue
 /// -> Mở giới hạn phải đầu map
+/// -> Bật GlobalHUD + hiện UI địa điểm đầu map
 /// -> Chờ trigger Enemy123
 /// -> Spawn Enemy123 + hiện box nhiệm vụ
 /// -> Enemy chết hết thì mở giới hạn phải EnemyWave
-/// -> Các phase tiếp theo: Supply / Heal / ChangeMap sẽ làm sau.
+/// -> Hiện thoại sau EnemyWave
+/// -> Trigger UI địa điểm sau EnemyWave nếu có box trigger riêng
+/// -> Trigger NPC tiếp tế
+/// -> Bật giới hạn trái mới + khóa camera trái mới
+/// -> Nói chuyện NPC
+/// -> Hiện object hồi máu
+/// -> Nhấn E hồi máu
+/// -> Chuyển map
 /// </summary>
 public class Map1StoryManager : MonoBehaviour
 {
@@ -216,6 +224,41 @@ public class Map1StoryManager : MonoBehaviour
     [Tooltip("Chờ nhẹ sau mỗi box hội thoại sau tutorial.")]
     public float postTutorialDelayBetweenLines = 0.15f;
 
+    [Header("Location Title UI")]
+    [Tooltip("UIDocument chứa UI hiện tên địa điểm. Có thể dùng chung Map1PoemDialogueUI.")]
+    public UIDocument locationTitleUIDocument;
+
+    [Tooltip("Tên VisualElement khung địa điểm trong UI Builder. Phải đúng y hệt name trong UI Builder.")]
+    public string locationBoxName = "Box_mask";
+
+    [Tooltip("Tên TextElement hiển thị chữ địa điểm trong UI Builder. Phải đúng y hệt name trong UI Builder.")]
+    public string locationTextName = "Box_text";
+
+    [TextArea(2, 5)]
+    [Tooltip("Nội dung tên địa điểm mặc định sẽ hiện khi GlobalHUD bật lần đầu.")]
+    public string locationTitleText = "THẮC\nLINH\nVÂN";
+
+    [Tooltip("Bật hiện địa điểm khi UI tổng được bật theo cốt truyện.")]
+    public bool showLocationTitleWhenGlobalHUDShown = true;
+
+    [TextArea(2, 5)]
+    [Tooltip("Nội dung địa điểm hiện khi Wukong đi qua box trigger LocationTitle.")]
+    public string locationTitleTriggerText = "ĐỘNG\nHẮC\nPHONG";
+
+    [Tooltip("Thời gian hiện rõ dần.")]
+    public float locationFadeInTime = 1f;
+
+    [Tooltip("Thời gian giữ nguyên sau khi hiện rõ.")]
+    public float locationHoldTime = 2f;
+
+    [Tooltip("Thời gian mờ dần rồi ẩn.")]
+    public float locationFadeOutTime = 1f;
+
+    private VisualElement locationBoxElement;
+    private TextElement locationTextElement;
+    private Coroutine locationTitleCoroutine;
+    private bool locationTitleHasPlayed;
+
     [Header("Map Limit Release")]
     [Tooltip("Object box chặn tạm thời bên phải đầu map. Hết Post Tutorial Dialogue sẽ tắt object này.")]
     public GameObject startTemporaryRightBlockerObject;
@@ -265,6 +308,9 @@ public class Map1StoryManager : MonoBehaviour
     [Tooltip("Ẩn object hồi máu khi bắt đầu scene, chỉ hiện sau hội thoại NPC.")]
     public bool hideSupplyHealObjectOnStart = true;
 
+    [Tooltip("Ẩn object hồi máu sau khi người chơi dùng xong. Việc ẩn do StoryManager xử lý.")]
+    public bool hideSupplyHealObjectAfterUse = true;
+
     [Header("Text And Audio Sync")]
     [Tooltip("Nếu câu không có audio, mỗi ký tự sẽ hiện sau khoảng thời gian này.")]
     public float fallbackCharDelay = 0.04f;
@@ -282,6 +328,12 @@ public class Map1StoryManager : MonoBehaviour
     [Header("Change Map After Heal")]
     [Tooltip("Bật lên để sau khi dùng vật phẩm hồi máu sẽ chuyển sang màn tiếp theo.")]
     public bool changeMapAfterHeal = true;
+
+    [Header("Scene Fade")]
+    [Tooltip("Controller fade đen khi vào Map1 và khi chuyển sang map tiếp theo.")]
+    public Map1SceneFadeController sceneFadeController;
+    [Tooltip("Tắt UI tổng trước khi fade chuyển map.")]
+    public bool hideGlobalHUDBeforeChangeMap = true;
 
     [Tooltip("Tên scene/map sẽ chuyển tới sau khi hồi máu.")]
     public string nextSceneName = "Map2";
@@ -306,6 +358,7 @@ public class Map1StoryManager : MonoBehaviour
 
     private VisualElement dialogueBox;
     private Label dialogueText;
+    private Label dialogueHint;
 
     private bool introRunning;
     private Coroutine introCoroutine;
@@ -321,7 +374,6 @@ public class Map1StoryManager : MonoBehaviour
     private bool enemyWaveCleared;
 
     private bool skipIntroRequested;
-    private Label dialogueHint;
 
     private Behaviour[] cachedPartyMoveScripts;
     private Rigidbody2D[] cachedPartyRigidbodies;
@@ -339,6 +391,7 @@ public class Map1StoryManager : MonoBehaviour
         AutoFindWukongSkillCooldown();
         CachePartyComponents();
         BindUIElements();
+        BindLocationTitleUI();
         SetupSupplyHealObject();
         SetupSupplyLeftBlocker();
 
@@ -434,6 +487,7 @@ public class Map1StoryManager : MonoBehaviour
 
         StartMap1Intro();
     }
+
     private void SetupSupplyHealObject()
     {
         if (!hideSupplyHealObjectOnStart)
@@ -446,6 +500,15 @@ public class Map1StoryManager : MonoBehaviour
             supplyHealObject.SetActive(false);
         }
     }
+
+    private void SetupSupplyLeftBlocker()
+    {
+        if (supplyLeftBlockerObject != null)
+        {
+            supplyLeftBlockerObject.SetActive(false);
+        }
+    }
+
     public void StartMap1Intro()
     {
         if (introRunning)
@@ -463,59 +526,7 @@ public class Map1StoryManager : MonoBehaviour
 
         introCoroutine = StartCoroutine(PlayIntroRoutine());
     }
-    private void ShowSupplyHealObject()
-    {
-        if (supplyHealObject == null)
-        {
-            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Heal Object.");
-            return;
-        }
 
-        supplyHealObject.SetActive(true);
-
-        SpriteRenderer[] spriteRenderers = supplyHealObject.GetComponentsInChildren<SpriteRenderer>(true);
-
-        for (int i = 0; i < spriteRenderers.Length; i++)
-        {
-            if (spriteRenderers[i] != null)
-            {
-                spriteRenderers[i].gameObject.SetActive(true);
-                spriteRenderers[i].enabled = true;
-            }
-        }
-
-        Collider2D[] colliders = supplyHealObject.GetComponentsInChildren<Collider2D>(true);
-
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i] != null)
-            {
-                colliders[i].gameObject.SetActive(true);
-                colliders[i].enabled = true;
-            }
-        }
-
-        HealInteractable healInteractable = supplyHealObject.GetComponentInChildren<HealInteractable>(true);
-
-        if (healInteractable != null)
-        {
-            healInteractable.gameObject.SetActive(true);
-            healInteractable.enabled = true;
-
-            if (healInteractable.interactHintObject != null)
-            {
-                healInteractable.interactHintObject.SetActive(false);
-            }
-        }
-
-        Debug.Log(
-            "Map1StoryManager: Đã hiện object hồi máu: "
-            + supplyHealObject.name
-            + " | ActiveSelf = " + supplyHealObject.activeSelf
-            + " | ActiveInHierarchy = " + supplyHealObject.activeInHierarchy
-            + " | Position = " + supplyHealObject.transform.position
-        );
-    }
     private IEnumerator PlayIntroRoutine()
     {
         introRunning = true;
@@ -933,6 +944,166 @@ public class Map1StoryManager : MonoBehaviour
         }
     }
 
+    private void BindLocationTitleUI()
+    {
+        if (locationTitleUIDocument == null)
+        {
+            return;
+        }
+
+        VisualElement root = locationTitleUIDocument.rootVisualElement;
+
+        if (root == null)
+        {
+            return;
+        }
+
+        locationBoxElement = root.Q<VisualElement>(locationBoxName);
+        locationTextElement = root.Q<TextElement>(locationTextName);
+
+        if (locationBoxElement != null)
+        {
+            locationBoxElement.style.display = DisplayStyle.None;
+            locationBoxElement.style.opacity = 0f;
+        }
+
+        if (locationTextElement != null)
+        {
+            locationTextElement.text = locationTitleText;
+        }
+    }
+
+    private void PlayLocationTitle()
+    {
+        if (!showLocationTitleWhenGlobalHUDShown)
+        {
+            return;
+        }
+
+        if (locationTitleHasPlayed)
+        {
+            return;
+        }
+
+        locationTitleHasPlayed = true;
+
+        if (locationTitleCoroutine != null)
+        {
+            StopCoroutine(locationTitleCoroutine);
+            locationTitleCoroutine = null;
+        }
+
+        locationTitleCoroutine = StartCoroutine(LocationTitleRoutine(locationTitleText));
+    }
+
+    public void PlayLocationTitleFromBoxTrigger()
+    {
+        if (string.IsNullOrEmpty(locationTitleTriggerText))
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa nhập Location Title Trigger Text.");
+            return;
+        }
+
+        if (locationTitleCoroutine != null)
+        {
+            StopCoroutine(locationTitleCoroutine);
+            locationTitleCoroutine = null;
+        }
+
+        locationTitleCoroutine = StartCoroutine(LocationTitleRoutine(locationTitleTriggerText));
+    }
+
+    public void PlayLocationTitleFromTrigger(string newLocationTitleText)
+    {
+        if (string.IsNullOrEmpty(newLocationTitleText))
+        {
+            Debug.LogWarning("Map1StoryManager: Location title trigger chưa nhập text.");
+            return;
+        }
+
+        if (locationTitleCoroutine != null)
+        {
+            StopCoroutine(locationTitleCoroutine);
+            locationTitleCoroutine = null;
+        }
+
+        locationTitleCoroutine = StartCoroutine(LocationTitleRoutine(newLocationTitleText));
+    }
+
+    private IEnumerator LocationTitleRoutine(string overrideText = "")
+    {
+        if (locationTitleUIDocument == null)
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Location Title UIDocument.");
+            yield break;
+        }
+
+        if (locationBoxElement == null || locationTextElement == null)
+        {
+            BindLocationTitleUI();
+        }
+
+        if (locationBoxElement == null)
+        {
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy Location Box Element tên: " + locationBoxName);
+            yield break;
+        }
+
+        if (locationTextElement == null)
+        {
+            Debug.LogWarning("Map1StoryManager: Không tìm thấy Location Text Element tên: " + locationTextName);
+            yield break;
+        }
+
+        if (!string.IsNullOrEmpty(overrideText))
+        {
+            locationTextElement.text = overrideText;
+        }
+        else
+        {
+            locationTextElement.text = locationTitleText;
+        }
+
+        locationBoxElement.style.display = DisplayStyle.Flex;
+        locationBoxElement.style.opacity = 0f;
+
+        float timer = 0f;
+
+        while (timer < locationFadeInTime)
+        {
+            timer += Time.deltaTime;
+
+            float t = locationFadeInTime <= 0f ? 1f : timer / locationFadeInTime;
+            locationBoxElement.style.opacity = Mathf.Clamp01(t);
+
+            yield return null;
+        }
+
+        locationBoxElement.style.opacity = 1f;
+
+        if (locationHoldTime > 0f)
+        {
+            yield return new WaitForSeconds(locationHoldTime);
+        }
+
+        timer = 0f;
+
+        while (timer < locationFadeOutTime)
+        {
+            timer += Time.deltaTime;
+
+            float t = locationFadeOutTime <= 0f ? 1f : timer / locationFadeOutTime;
+            locationBoxElement.style.opacity = 1f - Mathf.Clamp01(t);
+
+            yield return null;
+        }
+
+        locationBoxElement.style.opacity = 0f;
+        locationBoxElement.style.display = DisplayStyle.None;
+
+        locationTitleCoroutine = null;
+    }
+
     public void OnMap1StoryTriggerEntered(Map1StoryTrigger.Map1TriggerType triggerType)
     {
         if (triggerType == Map1StoryTrigger.Map1TriggerType.EnemyWave)
@@ -969,103 +1140,6 @@ public class Map1StoryManager : MonoBehaviour
         }
 
         StartEnemyWave();
-    }
-
-    public void StartSupplyPointByTrigger()
-    {
-        if (supplyPointStarted)
-        {
-            Debug.Log("Map1StoryManager: SupplyPoint đã chạy rồi, không kích hoạt lại.");
-            return;
-        }
-
-        if (currentPhase != Map1Phase.EnemyWaveCleared)
-        {
-            Debug.Log("Map1StoryManager: Chưa thể kích hoạt SupplyPoint vì phase hiện tại là " + currentPhase);
-            return;
-        }
-
-        supplyPointStarted = true;
-
-        SetPhase(Map1Phase.SupplyDialogue);
-
-        ActivateSupplyLeftBlocker();
-
-        if (hideAfterEnemyWaveDialogueWhenNpcTalk && afterEnemyWaveDialogue != null)
-        {
-            afterEnemyWaveDialogue.HideDialogue();
-        }
-
-        if (lockPlayerAndPartyDuringSupplyDialogue)
-        {
-            LockPlayerAndParty();
-        }
-
-        if (supplyPointDialogue != null)
-        {
-            supplyPointDialogue.StartDialogue(
-                supplyPointDialogue.dialogueLines,
-                OnSupplyPointDialogueFinished
-            );
-        }
-        else
-        {
-            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Point Dialogue.");
-            OnSupplyPointDialogueFinished();
-        }
-
-        Debug.Log("Map1StoryManager: Bắt đầu hội thoại NPC tiếp tế.");
-    }
-    private void ActivateSupplyLeftBlocker()
-    {
-        if (supplyLeftBlockerObject != null)
-        {
-            supplyLeftBlockerObject.SetActive(true);
-            Debug.Log("Map1StoryManager: Đã bật box chặn trái SupplyPoint.");
-        }
-        else
-        {
-            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Left Blocker Object.");
-        }
-
-        if (map1CameraLimiter != null)
-        {
-            map1CameraLimiter.ActivateSupplyLeftCameraLimit();
-        }
-        else
-        {
-            Debug.LogWarning("Map1StoryManager: Chưa gán Map1CameraFollowTargetLimiter nên không khóa được camera trái SupplyPoint.");
-        }
-    }
-    private void SetupSupplyLeftBlocker()
-    {
-        if (supplyLeftBlockerObject != null)
-        {
-            supplyLeftBlockerObject.SetActive(false);
-        }
-    }
-    private void OnSupplyPointDialogueFinished()
-    {
-        if (lockPlayerAndPartyDuringSupplyDialogue)
-        {
-            UnlockPlayerAndParty();
-        }
-
-        ShowSupplyHealObject();
-
-        SetPhase(Map1Phase.SupplyItemWait);
-
-        Debug.Log("Map1StoryManager: Đã nói chuyện xong với NPC. Đã hiện object hồi máu và chuyển sang phase SupplyItemWait.");
-    }
-
-    public void StartEndMapByTrigger()
-    {
-        Debug.Log("Map1StoryManager: Trigger EndMap đã được kích hoạt. Phase chuyển map sẽ làm sau.");
-
-        // Sau này:
-        // SetPhase(Map1Phase.WaitWukongIdleBeforeChangeMap);
-        // Chờ Wukong về Idle.
-        // Chuyển sang map tiếp theo.
     }
 
     private void StartEnemyWave()
@@ -1141,6 +1215,188 @@ public class Map1StoryManager : MonoBehaviour
             }
         }
     }
+
+    private void EnemyWaveCleared()
+    {
+        if (enemyWaveCleared)
+        {
+            return;
+        }
+
+        enemyWaveCleared = true;
+
+        if (enemyWaveSpawner != null)
+        {
+            enemyWaveSpawner.StopSpawn();
+        }
+
+        if (enemyWaveDialogue != null)
+        {
+            enemyWaveDialogue.HideDialogue();
+        }
+
+        if (enemyWaveRightBlockerObject != null)
+        {
+            enemyWaveRightBlockerObject.SetActive(false);
+        }
+
+        if (map1CameraLimiter != null)
+        {
+            map1CameraLimiter.ReleaseEnemyWaveRightLimit();
+        }
+
+        SetPhase(Map1Phase.EnemyWaveCleared);
+
+        enemyWaveMonitorCoroutine = null;
+
+        if (afterEnemyWaveDialogue != null)
+        {
+            afterEnemyWaveDialogue.PlayDialogue();
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán After Enemy Wave Dialogue.");
+        }
+
+        Debug.Log("Map1StoryManager: Enemy123 Wave đã clear. Đã hiện thoại sau trận.");
+    }
+
+    public void StartSupplyPointByTrigger()
+    {
+        if (supplyPointStarted)
+        {
+            Debug.Log("Map1StoryManager: SupplyPoint đã chạy rồi, không kích hoạt lại.");
+            return;
+        }
+
+        if (currentPhase != Map1Phase.EnemyWaveCleared)
+        {
+            Debug.Log("Map1StoryManager: Chưa thể kích hoạt SupplyPoint vì phase hiện tại là " + currentPhase);
+            return;
+        }
+
+        supplyPointStarted = true;
+
+        SetPhase(Map1Phase.SupplyDialogue);
+
+        ActivateSupplyLeftBlocker();
+
+        if (hideAfterEnemyWaveDialogueWhenNpcTalk && afterEnemyWaveDialogue != null)
+        {
+            afterEnemyWaveDialogue.HideDialogue();
+        }
+
+        if (lockPlayerAndPartyDuringSupplyDialogue)
+        {
+            LockPlayerAndParty();
+        }
+
+        if (supplyPointDialogue != null)
+        {
+            supplyPointDialogue.StartDialogue(
+                supplyPointDialogue.dialogueLines,
+                OnSupplyPointDialogueFinished
+            );
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Point Dialogue.");
+            OnSupplyPointDialogueFinished();
+        }
+
+        Debug.Log("Map1StoryManager: Bắt đầu hội thoại NPC tiếp tế.");
+    }
+
+    private void ActivateSupplyLeftBlocker()
+    {
+        if (supplyLeftBlockerObject != null)
+        {
+            supplyLeftBlockerObject.SetActive(true);
+            Debug.Log("Map1StoryManager: Đã bật box chặn trái SupplyPoint.");
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Left Blocker Object.");
+        }
+
+        if (map1CameraLimiter != null)
+        {
+            map1CameraLimiter.ActivateSupplyLeftCameraLimit();
+        }
+        else
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Map1CameraFollowTargetLimiter nên không khóa được camera trái SupplyPoint.");
+        }
+    }
+
+    private void OnSupplyPointDialogueFinished()
+    {
+        if (lockPlayerAndPartyDuringSupplyDialogue)
+        {
+            UnlockPlayerAndParty();
+        }
+
+        ShowSupplyHealObject();
+
+        SetPhase(Map1Phase.SupplyItemWait);
+
+        Debug.Log("Map1StoryManager: Đã nói chuyện xong với NPC. Đã hiện object hồi máu và chuyển sang phase SupplyItemWait.");
+    }
+
+    private void ShowSupplyHealObject()
+    {
+        if (supplyHealObject == null)
+        {
+            Debug.LogWarning("Map1StoryManager: Chưa gán Supply Heal Object.");
+            return;
+        }
+
+        supplyHealObject.SetActive(true);
+
+        SpriteRenderer[] spriteRenderers = supplyHealObject.GetComponentsInChildren<SpriteRenderer>(true);
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            if (spriteRenderers[i] != null)
+            {
+                spriteRenderers[i].gameObject.SetActive(true);
+                spriteRenderers[i].enabled = true;
+            }
+        }
+
+        Collider2D[] colliders = supplyHealObject.GetComponentsInChildren<Collider2D>(true);
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i] != null)
+            {
+                colliders[i].gameObject.SetActive(true);
+                colliders[i].enabled = true;
+            }
+        }
+
+        HealInteractable healInteractable = supplyHealObject.GetComponentInChildren<HealInteractable>(true);
+
+        if (healInteractable != null)
+        {
+            healInteractable.gameObject.SetActive(true);
+            healInteractable.enabled = true;
+
+            if (healInteractable.interactHintObject != null)
+            {
+                healInteractable.interactHintObject.SetActive(false);
+            }
+        }
+
+        Debug.Log(
+            "Map1StoryManager: Đã hiện object hồi máu: "
+            + supplyHealObject.name
+            + " | ActiveSelf = " + supplyHealObject.activeSelf
+            + " | ActiveInHierarchy = " + supplyHealObject.activeInHierarchy
+            + " | Position = " + supplyHealObject.transform.position
+        );
+    }
+
     public void NotifyHealUsed()
     {
         if (healUsedStarted)
@@ -1149,6 +1405,11 @@ public class Map1StoryManager : MonoBehaviour
         }
 
         healUsedStarted = true;
+
+        if (hideSupplyHealObjectAfterUse && supplyHealObject != null)
+        {
+            supplyHealObject.SetActive(false);
+        }
 
         SetPhase(Map1Phase.HealFullParty);
 
@@ -1159,6 +1420,7 @@ public class Map1StoryManager : MonoBehaviour
             StartCoroutine(ChangeMapAfterHealRoutine());
         }
     }
+
     private IEnumerator ChangeMapAfterHealRoutine()
     {
         if (delayBeforeChangeMapAfterHeal > 0f)
@@ -1194,57 +1456,27 @@ public class Map1StoryManager : MonoBehaviour
             yield break;
         }
 
-        Debug.Log("Map1StoryManager: Chuyển sang scene " + nextSceneName);
+        HideUIBeforeChangeMap();
 
-        SceneManager.LoadScene(nextSceneName);
-    }
-    private void EnemyWaveCleared()
-    {
-        if (enemyWaveCleared)
+        yield return null;
+
+        Debug.Log("Map1StoryManager: Chuẩn bị fade đen và chuyển sang scene " + nextSceneName);
+
+        if (sceneFadeController != null)
         {
-            return;
-        }
-
-        enemyWaveCleared = true;
-
-        if (enemyWaveSpawner != null)
-        {
-            enemyWaveSpawner.StopSpawn();
-        }
-
-        // Ẩn box nhiệm vụ khi đang đánh EnemyWave.
-        if (enemyWaveDialogue != null)
-        {
-            enemyWaveDialogue.HideDialogue();
-        }
-
-        if (enemyWaveRightBlockerObject != null)
-        {
-            enemyWaveRightBlockerObject.SetActive(false);
-        }
-
-        if (map1CameraLimiter != null)
-        {
-            map1CameraLimiter.ReleaseEnemyWaveRightLimit();
-        }
-
-        SetPhase(Map1Phase.EnemyWaveCleared);
-
-        enemyWaveMonitorCoroutine = null;
-
-        // Hiện thoại sau khi enemy chết hết.
-        // Dialogue này nên để MissionSingleLine, không có E, không skip.
-        if (afterEnemyWaveDialogue != null)
-        {
-            afterEnemyWaveDialogue.PlayDialogue();
+            sceneFadeController.FadeOutThenLoadScene(nextSceneName);
         }
         else
         {
-            Debug.LogWarning("Map1StoryManager: Chưa gán After Enemy Wave Dialogue.");
+            SceneManager.LoadScene(nextSceneName);
         }
-
-        Debug.Log("Map1StoryManager: Enemy123 Wave đã clear. Đã hiện thoại sau trận.");
     }
+
+    public void StartEndMapByTrigger()
+    {
+        Debug.Log("Map1StoryManager: Trigger EndMap đã được kích hoạt. Phase chuyển map hiện đang dùng sau khi hồi máu.");
+    }
+
     private void ShowTutorialBox()
     {
         if (dialogueBox != null)
@@ -1522,39 +1754,6 @@ public class Map1StoryManager : MonoBehaviour
         return isIdleState && isRigidbodyStable;
     }
 
-    private IEnumerator WaitWukongIdleBeforeEndTutorialRoutine()
-    {
-        if (!waitWukongIdleBeforeEndTutorial)
-        {
-            yield break;
-        }
-
-        FindWukongComponents();
-
-        float timer = 0f;
-
-        while (timer < maxWaitForTutorialEndIdleTime)
-        {
-            if (IsWukongIdleAndStable())
-            {
-                break;
-            }
-
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        if (!IsWukongIdleAndStable())
-        {
-            ForceWukongIdle();
-        }
-
-        if (extraDelayAfterTutorialIdle > 0f)
-        {
-            yield return new WaitForSeconds(extraDelayAfterTutorialIdle);
-        }
-    }
-
     private void ForceWukongIdle()
     {
         if (wukongAnimator == null)
@@ -1691,6 +1890,7 @@ public class Map1StoryManager : MonoBehaviour
         }
 
         HideGlobalHUDDialogueBox();
+        PlayLocationTitle();
     }
 
     private void HideGlobalHUDDialogueBox()
@@ -1815,6 +2015,37 @@ public class Map1StoryManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Map1StoryManager: Không bật được hồi chiêu vì chưa tìm thấy WukongSkillCooldown.");
+        }
+    }
+
+    private void HideUIBeforeChangeMap()
+    {
+        HideDialogueBox();
+
+        if (hideGlobalHUDBeforeChangeMap && globalHUDObject != null)
+        {
+            globalHUDObject.SetActive(false);
+        }
+
+        if (enemyWaveDialogue != null)
+        {
+            enemyWaveDialogue.HideDialogue();
+        }
+
+        if (afterEnemyWaveDialogue != null)
+        {
+            afterEnemyWaveDialogue.HideDialogue();
+        }
+
+        if (supplyPointDialogue != null)
+        {
+            supplyPointDialogue.HideDialogue();
+        }
+
+        if (locationBoxElement != null)
+        {
+            locationBoxElement.style.display = DisplayStyle.None;
+            locationBoxElement.style.opacity = 0f;
         }
     }
 

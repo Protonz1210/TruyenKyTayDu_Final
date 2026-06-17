@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class Map4StoryManager : MonoBehaviour
 {
@@ -27,24 +29,97 @@ public class Map4StoryManager : MonoBehaviour
     public Rigidbody2D wukongRigidbody;
     public Animator wukongAnimator;
 
-
     [Tooltip("Các script đi theo của Đường Tăng / Trư Bát Giới / Sa Tăng.")]
     public Behaviour[] partyFollowScripts;
 
     [Tooltip("Animator của Đường Tăng / Trư Bát Giới / Sa Tăng.")]
     public Animator[] partyAnimators;
 
+    [Header("Gameplay UI Elements To Hide")]
+    [Tooltip("UIDocument chứa UI tổng Map4. Không kéo object box thoại riêng vào đây.")]
+    public UIDocument gameplayUIDocument;
+
+    [Tooltip("Tên các VisualElement cần ẩn khi vào đoạn Boss5 story. Không nhập tên box thoại.")]
+    public string[] gameplayElementNamesToHide =
+    {
+        "wukong-health-group",
+        "party-health-group",
+        "skill-cooldown-group"
+    };
+
+    [Tooltip("Tắt các element máu/kỹ năng khi Wukong hết máu ở phase Boss5.")]
+    public bool hideGameplayElementsWhenBoss5StoryStart = true;
+
     [Header("Wukong Animator")]
-    public string wukongIdleStateName = "Idle";
+    [Tooltip("Idle cũ của Wukong. Chỉ dùng cho các đoạn khóa bình thường, không dùng ở đoạn transform cuối map.")]
+    public string wukongIdleStateName = "Wukong1Idle";
+
     public string wukongSpeedParameterName = "Speed";
     public string[] wukongBoolParametersToFalse;
     public string[] wukongTriggersToReset;
+
+    [Header("Wukong Transform Animator")]
+    [Tooltip("Tên trigger trong Animator để chạy transition biến hình. Theo Animator của bạn là Transform.")]
+    public string wukongTransformTriggerName = "Transform";
+
+    [Tooltip("Tên state animation transition biến hình.")]
+    public string wukongTransformStateName = "Wukong1_transition";
+
+    [Tooltip("Tên state Idle mới sau khi biến hình. Theo Animator của bạn là WukongIdle2.")]
+    public string wukongTransformIdleStateName = "WukongIdle2";
+
+    [Tooltip("Thời gian chờ tối đa để Wukong vào Idle2. Quá thời gian sẽ ép sang Idle2 để tránh kẹt.")]
+    public float maxWaitWukongTransformIdleTime = 5f;
+
+    [Tooltip("Khi Wukong vừa vào Idle2 thì chuyển map luôn.")]
+    public bool loadSceneImmediatelyWhenIdle2Reached = true;
 
     [Header("Party Animator")]
     public string partyIdleStateName = "Idle";
     public string partySpeedParameterName = "Speed";
     public string[] partyBoolParametersToFalse;
     public string[] partyTriggersToReset;
+
+    [Header("Start Location Intro")]
+    [Tooltip("Bật intro địa danh khi mới vào Map 4.")]
+    public bool playLocationIntroOnStart = true;
+
+    [Tooltip("Chờ một khoảng ngắn sau khi load map rồi mới khóa. Làm giống cơ chế ổn định của Map2.")]
+    public float waitBeforeLockTime = 0.25f;
+
+    [Tooltip("Sau khi khóa di chuyển, chờ thêm một chút cho animation về Idle.")]
+    public float waitIdleAfterLockTime = 0.25f;
+
+    [Tooltip("Sau intro có mở lại di chuyển không.")]
+    public bool restoreMovementAfterIntro = true;
+
+    [Header("Location Title UI")]
+    [Tooltip("HUD tổng của Map 4. Kéo object chứa Map4BossHUDController vào đây.")]
+    public Map4BossHUDController mapHUDController;
+
+    [Tooltip("Tên box chứa bảng địa danh trong UI Builder.")]
+    public string locationBoxName = "Box_mask";
+
+    [Tooltip("Tên text địa danh trong UI Builder.")]
+    public string locationTextName = "Box_text";
+
+    [TextArea(2, 5)]
+    [Tooltip("Nội dung địa danh đầu map. Có thể xuống dòng.")]
+    public string locationTitleText = "SƯ\nĐÀ\nLĨNH";
+
+    [Tooltip("Thời gian fade in bảng địa danh.")]
+    public float locationFadeInTime = 1f;
+
+    [Tooltip("Thời gian giữ bảng địa danh.")]
+    public float locationHoldTime = 2f;
+
+    [Tooltip("Thời gian fade out bảng địa danh.")]
+    public float locationFadeOutTime = 1f;
+
+    [Tooltip("Nếu bật, Map4StoryManager sẽ ghi đè setting Location Title UI sang Map4BossHUDController khi chạy intro.")]
+    public bool overrideHUDLocationSettings = true;
+
+    private bool hasPlayedStartLocationIntro;
 
     [Header("Dialogue")]
     public DialogueController dialogueController;
@@ -79,7 +154,7 @@ public class Map4StoryManager : MonoBehaviour
     public bool waitWukongIdleBeforeBossDialogue = true;
 
     [Tooltip("Tên state Idle thật của Wukong trong Animator.")]
-    public string wukongIdleStateNameForDialogueWait = "Idle";
+    public string wukongIdleStateNameForDialogueWait = "Wukong1Idle";
 
     [Tooltip("Tốc độ Rigidbody nhỏ hơn số này thì coi như Wukong đã đứng yên.")]
     public float wukongIdleVelocityThreshold = 0.05f;
@@ -99,6 +174,7 @@ public class Map4StoryManager : MonoBehaviour
     [Header("Boss5")]
     public GameObject boss5Object;
     public Transform boss5SpawnPoint;
+
     [Header("Boss5 Story Trigger")]
     [Tooltip("Sau khi Boss5 xuất hiện, chờ Wukong chết rồi mới hiện thoại Boss5.")]
     public bool waitWukongDeathBeforeBoss5Story = true;
@@ -115,6 +191,21 @@ public class Map4StoryManager : MonoBehaviour
     [Header("Debug")]
     public bool enableDebugLog = true;
 
+    [Header("Scene Transition")]
+    [Tooltip("Controller fade đen chuyển cảnh của Map4.")]
+    public Map4SceneFadeController sceneFadeController;
+
+    [Tooltip("Tên scene tiếp theo sau Map4. Ví dụ: Map5 hoặc MAP 5.1.")]
+    public string nextSceneName = "Map5";
+
+    [Tooltip("Tự chuyển scene khi gọi StartEndMapByTrigger hoặc FinishWukongTransformAndEndMap.")]
+    public bool autoLoadNextSceneWhenEndMap = true;
+
+    [Tooltip("Thời gian chờ ngắn trước khi bắt đầu fade chuyển map. Đoạn transform cuối map sẽ bỏ qua delay này.")]
+    public float delayBeforeLoadNextScene = 0.2f;
+
+    private bool isLoadingNextScene;
+
     private bool enemy4IntroStarted;
     private bool bossIntroStarted;
     private bool normalWaveStarted;
@@ -123,9 +214,18 @@ public class Map4StoryManager : MonoBehaviour
     private bool boss5Appeared;
     private bool endMapStarted;
 
+    private bool wukongTransformStarted;
+    private bool wukongReachedIdle2;
+    private bool keepWukongIdle2UntilSceneLoad;
+    private Coroutine wukongTransformCoroutine;
+
     void Start()
     {
         currentPhase = Map4Phase.StartMap;
+
+        wukongTransformStarted = false;
+        wukongReachedIdle2 = false;
+        keepWukongIdle2UntilSceneLoad = false;
 
         if (enemy4Object == null && enemy4 != null)
         {
@@ -153,7 +253,14 @@ public class Map4StoryManager : MonoBehaviour
             boss4.DeactivateCombat();
         }
 
+        PrepareLocationTitleStartState();
+
         LogPhase("Map 4 bắt đầu.");
+
+        if (playLocationIntroOnStart)
+        {
+            StartCoroutine(PlayStartLocationIntroRoutine());
+        }
     }
 
     void Update()
@@ -172,6 +279,78 @@ public class Map4StoryManager : MonoBehaviour
         {
             CheckBoss5AppearCondition();
         }
+
+        // Sau khi đã vào Idle2, giữ Wukong ở Idle2 cho tới khi scene mới load.
+        // Không gọi ForceWukongIdle(), không ép về Idle1 nữa.
+        if (keepWukongIdle2UntilSceneLoad && wukongReachedIdle2)
+        {
+            MaintainWukongIdle2UntilSceneLoad();
+        }
+    }
+
+    void PrepareLocationTitleStartState()
+    {
+        if (mapHUDController == null)
+        {
+            return;
+        }
+
+        ApplyLocationTitleSettingsToHUD();
+        mapHUDController.HideLocationTitleImmediate();
+    }
+
+    IEnumerator PlayStartLocationIntroRoutine()
+    {
+        if (hasPlayedStartLocationIntro)
+        {
+            yield break;
+        }
+
+        hasPlayedStartLocationIntro = true;
+
+        if (waitBeforeLockTime > 0f)
+        {
+            yield return new WaitForSeconds(waitBeforeLockTime);
+        }
+
+        LockWukongAndParty();
+
+        if (waitIdleAfterLockTime > 0f)
+        {
+            yield return new WaitForSeconds(waitIdleAfterLockTime);
+        }
+
+        if (mapHUDController != null)
+        {
+            ApplyLocationTitleSettingsToHUD();
+
+            mapHUDController.SetLocationTitleText(locationTitleText);
+            yield return StartCoroutine(mapHUDController.PlayLocationTitleRoutine(locationTitleText));
+        }
+        else
+        {
+            Debug.LogWarning("Map4StoryManager chưa gán Map4BossHUDController cho Location Title UI.");
+        }
+
+        if (restoreMovementAfterIntro)
+        {
+            UnlockWukongAndParty();
+        }
+
+        LogPhase("Hoàn thành intro địa danh đầu Map 4.");
+    }
+
+    void ApplyLocationTitleSettingsToHUD()
+    {
+        if (mapHUDController == null) return;
+        if (!overrideHUDLocationSettings) return;
+
+        mapHUDController.locationBoxName = locationBoxName;
+        mapHUDController.locationTextName = locationTextName;
+        mapHUDController.locationTitleText = locationTitleText;
+        mapHUDController.locationFadeInTime = locationFadeInTime;
+        mapHUDController.locationHoldTime = locationHoldTime;
+        mapHUDController.locationFadeOutTime = locationFadeOutTime;
     }
 
     public void StartEnemy4Intro()
@@ -303,12 +482,11 @@ public class Map4StoryManager : MonoBehaviour
             StartCoroutine(WaitWukongIdleThenStartBeforeBossDialogue());
         }
     }
+
     IEnumerator WaitWukongIdleThenStartBeforeBossDialogue()
     {
         waitingBeforeBossDialogue = true;
 
-        // Dừng spawner, nhưng KHÔNG khóa Wukong ngay.
-        // Để Wukong đánh hết chiêu hiện tại.
         if (enemy123Spawner != null)
         {
             enemy123Spawner.StopSpawn();
@@ -337,7 +515,6 @@ public class Map4StoryManager : MonoBehaviour
                 idleTimer = 0f;
             }
 
-            // Chống kẹt phase nếu Animator state đặt sai hoặc player giữ input mãi.
             if (waitTimer >= maxWaitWukongIdleTime)
             {
                 Debug.LogWarning("Chờ Wukong về Idle quá lâu. Tự mở thoại trước Boss để tránh kẹt phase.");
@@ -347,11 +524,11 @@ public class Map4StoryManager : MonoBehaviour
             yield return null;
         }
 
-        // Đến đây Wukong đã tự hết chiêu / về Idle rồi mới khóa.
         LockWukongAndParty();
 
         StartBeforeBossDialogue();
     }
+
     bool IsWukongIdleReadyForDialogue()
     {
         if (wukongAnimator == null)
@@ -389,6 +566,7 @@ public class Map4StoryManager : MonoBehaviour
 
         return true;
     }
+
     void StartBeforeBossDialogue()
     {
         if (beforeBossDialogueStarted) return;
@@ -424,6 +602,7 @@ public class Map4StoryManager : MonoBehaviour
 
         LogPhase("Bắt đầu hội thoại trước BossFight.");
     }
+
     void OnBeforeBossFightDialogueFinished()
     {
         StartBossFight();
@@ -436,22 +615,18 @@ public class Map4StoryManager : MonoBehaviour
         bossFightStarted = true;
         currentPhase = Map4Phase.BossFight;
 
-        // Mở khóa Wukong và đoàn thỉnh kinh.
         UnlockWukongAndParty();
 
-        // Đảm bảo Wukong được bật lại.
         if (wukongController != null)
         {
             wukongController.enabled = true;
         }
 
-        // Đảm bảo Rigidbody không bị đứng yên do khóa hội thoại.
         if (wukongRigidbody != null)
         {
             wukongRigidbody.linearVelocity = Vector2.zero;
         }
 
-        // Bật lại các script đi theo của đoàn.
         if (partyFollowScripts != null)
         {
             for (int i = 0; i < partyFollowScripts.Length; i++)
@@ -463,7 +638,6 @@ public class Map4StoryManager : MonoBehaviour
             }
         }
 
-        // Kích hoạt Boss3.
         if (boss3 != null)
         {
             boss3.ActivateCombat();
@@ -473,7 +647,6 @@ public class Map4StoryManager : MonoBehaviour
             Debug.LogWarning("Map4StoryManager chưa gán Boss3.");
         }
 
-        // Kích hoạt Boss4.
         if (boss4 != null)
         {
             boss4.ActivateCombat();
@@ -523,8 +696,6 @@ public class Map4StoryManager : MonoBehaviour
             boss5Object.SetActive(true);
         }
 
-        // Boss5 xuất hiện nhưng KHÔNG hiện thoại ngay.
-        // Vẫn để Wukong ở gameplay để Boss5/code map làm Wukong hết máu.
         if (waitWukongDeathBeforeBoss5Story)
         {
             waitingForWukongDeathAfterBoss5Appear = true;
@@ -533,9 +704,9 @@ public class Map4StoryManager : MonoBehaviour
             return;
         }
 
-        // Nếu không muốn chờ Wukong chết thì mới dùng nhánh cũ này.
         StartBoss5StoryDialogue();
     }
+
     public void NotifyWukongDeadForBoss5Story()
     {
         Debug.Log("Map4StoryManager đã nhận tín hiệu Wukong chết ở phase Boss5.");
@@ -566,7 +737,6 @@ public class Map4StoryManager : MonoBehaviour
         boss5StoryStarted = true;
         waitingForWukongDeathAfterBoss5Appear = false;
 
-        // Chờ một chút để animation / code chết của Wukong kịp đưa về Idle.
         yield return new WaitForSeconds(boss5StoryDelayAfterWukongDeath);
 
         StartBoss5StoryDialogue();
@@ -576,7 +746,11 @@ public class Map4StoryManager : MonoBehaviour
     {
         currentPhase = Map4Phase.Boss5StoryDialogue;
 
-        // Lúc này Wukong đã chết / về idle rồi mới khóa toàn đội để nói chuyện.
+        if (hideGameplayElementsWhenBoss5StoryStart)
+        {
+            HideGameplayElementsOnly();
+        }
+
         LockWukongAndParty();
 
         if (boss3 != null)
@@ -598,15 +772,112 @@ public class Map4StoryManager : MonoBehaviour
             StartWukongTransform();
         }
 
-        LogPhase("Wukong đã hết máu. Bắt đầu hội thoại Boss5.");
+        LogPhase("Wukong đã hết máu. Ẩn UI máu/kỹ năng và bắt đầu hội thoại Boss5.");
     }
+
     void StartWukongTransform()
     {
+        if (wukongTransformStarted)
+        {
+            return;
+        }
+
+        wukongTransformStarted = true;
+        wukongReachedIdle2 = false;
+        keepWukongIdle2UntilSceneLoad = false;
+
         currentPhase = Map4Phase.WukongTransform;
 
-        UnlockWukongAndParty();
+        // Không UnlockWukongAndParty ở đây.
+        // Nếu Unlock, PlayerController sẽ kéo Animator về state cũ.
+        LockWukongForTransformWithoutPlayingIdle1();
+        LockParty();
 
-        LogPhase("Wukong chuyển trạng thái / transition.");
+        StartWukongTransformAnimation();
+
+        if (wukongTransformCoroutine != null)
+        {
+            StopCoroutine(wukongTransformCoroutine);
+        }
+
+        wukongTransformCoroutine = StartCoroutine(WaitWukongIdle2ThenEndMapRoutine());
+
+        LogPhase("Wukong bắt đầu transition bằng trigger Transform.");
+    }
+
+    void StartWukongTransformAnimation()
+    {
+        if (wukongAnimator == null)
+        {
+            return;
+        }
+
+        wukongAnimator.enabled = true;
+
+        SetAnimatorFloatIfExists(wukongAnimator, wukongSpeedParameterName, 0f);
+
+        if (wukongBoolParametersToFalse != null)
+        {
+            for (int i = 0; i < wukongBoolParametersToFalse.Length; i++)
+            {
+                SetAnimatorBoolIfExists(wukongAnimator, wukongBoolParametersToFalse[i], false);
+            }
+        }
+
+        ResetWukongTriggersExceptTransform();
+
+        SetAnimatorTriggerIfExists(wukongAnimator, wukongTransformTriggerName);
+        wukongAnimator.Update(0f);
+    }
+
+    IEnumerator WaitWukongIdle2ThenEndMapRoutine()
+    {
+        float timer = 0f;
+
+        // Chờ ít nhất 1 frame để Animator nhận trigger Transform.
+        yield return null;
+
+        while (timer < maxWaitWukongTransformIdleTime)
+        {
+            LockWukongForTransformWithoutPlayingIdle1();
+
+            if (wukongAnimator == null)
+            {
+                break;
+            }
+
+            bool isIdle2 =
+                IsAnimatorInState(wukongAnimator, wukongTransformIdleStateName) &&
+                !wukongAnimator.IsInTransition(0);
+
+            if (isIdle2)
+            {
+                break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        wukongReachedIdle2 = true;
+        keepWukongIdle2UntilSceneLoad = true;
+
+        LockWukongForTransformWithoutPlayingIdle1();
+
+        if (wukongAnimator != null)
+        {
+            ResetAnimatorTriggerIfExists(wukongAnimator, wukongTransformTriggerName);
+
+            if (!IsAnimatorInState(wukongAnimator, wukongTransformIdleStateName))
+            {
+                PlayAnimatorStateIfExists(wukongAnimator, wukongTransformIdleStateName);
+            }
+        }
+
+        if (loadSceneImmediatelyWhenIdle2Reached)
+        {
+            FinishWukongTransformAndEndMap();
+        }
     }
 
     public void StartEndMapByTrigger()
@@ -616,14 +887,37 @@ public class Map4StoryManager : MonoBehaviour
         endMapStarted = true;
         currentPhase = Map4Phase.EndMap;
 
-        LockWukongAndParty();
+        if (keepWukongIdle2UntilSceneLoad)
+        {
+            LockWukongForTransformWithoutPlayingIdle1();
+            LockParty();
+        }
+        else
+        {
+            LockWukongAndParty();
+        }
 
         LogPhase("Kết thúc Map 4.");
+
+        if (autoLoadNextSceneWhenEndMap)
+        {
+            LoadNextSceneWithFade();
+        }
     }
 
     void LockWukongAndParty()
     {
-        LockWukong();
+        // Nếu đã vào flow transform thì tuyệt đối không gọi LockWukong() nữa,
+        // vì LockWukong() sẽ ForceWukongIdle() và kéo về Idle1.
+        if (keepWukongIdle2UntilSceneLoad || currentPhase == Map4Phase.WukongTransform || currentPhase == Map4Phase.EndMap)
+        {
+            LockWukongForTransformWithoutPlayingIdle1();
+        }
+        else
+        {
+            LockWukong();
+        }
+
         LockParty();
     }
 
@@ -648,6 +942,54 @@ public class Map4StoryManager : MonoBehaviour
 
         ForceWukongIdle();
     }
+
+    void LockWukongForTransformWithoutPlayingIdle1()
+    {
+        if (wukongRigidbody != null)
+        {
+            wukongRigidbody.linearVelocity = Vector2.zero;
+            wukongRigidbody.angularVelocity = 0f;
+        }
+
+        if (wukongController != null)
+        {
+            wukongController.enabled = false;
+        }
+
+        // Không gọi ForceWukongIdle ở đây.
+        // Hàm này chỉ khóa vật lý/controller, không ép về Idle1.
+    }
+
+    void MaintainWukongIdle2UntilSceneLoad()
+    {
+        LockWukongForTransformWithoutPlayingIdle1();
+
+        if (wukongAnimator == null)
+        {
+            return;
+        }
+
+        SetAnimatorFloatIfExists(wukongAnimator, wukongSpeedParameterName, 0f);
+
+        if (wukongBoolParametersToFalse != null)
+        {
+            for (int i = 0; i < wukongBoolParametersToFalse.Length; i++)
+            {
+                SetAnimatorBoolIfExists(wukongAnimator, wukongBoolParametersToFalse[i], false);
+            }
+        }
+
+        ResetWukongTriggersExceptTransform();
+        ResetAnimatorTriggerIfExists(wukongAnimator, wukongTransformTriggerName);
+
+        // Nếu đang ở Idle2 thì không Play lại, để Idle2 vẫn loop mượt.
+        // Nếu vì lý do nào đó bị kéo về Idle1, kéo lại Idle2 ngay.
+        if (!IsAnimatorInOrGoingToState(wukongAnimator, wukongTransformIdleStateName))
+        {
+            PlayAnimatorStateIfExists(wukongAnimator, wukongTransformIdleStateName);
+        }
+    }
+
     void UnlockWukong()
     {
         if (wukongRigidbody != null)
@@ -661,6 +1003,7 @@ public class Map4StoryManager : MonoBehaviour
             wukongController.enabled = true;
         }
     }
+
     void LockParty()
     {
         if (partyFollowScripts != null)
@@ -713,11 +1056,7 @@ public class Map4StoryManager : MonoBehaviour
             }
         }
 
-        if (!string.IsNullOrEmpty(wukongIdleStateName))
-        {
-            wukongAnimator.Play(wukongIdleStateName, 0, 0f);
-            wukongAnimator.Update(0f);
-        }
+        PlayAnimatorStateIfExists(wukongAnimator, wukongIdleStateName);
     }
 
     void ForcePartyIdle()
@@ -748,10 +1087,110 @@ public class Map4StoryManager : MonoBehaviour
                 }
             }
 
-            if (!string.IsNullOrEmpty(partyIdleStateName))
+            PlayAnimatorStateIfExists(targetAnimator, partyIdleStateName);
+        }
+    }
+
+    void PlayAnimatorStateIfExists(Animator targetAnimator, string stateName)
+    {
+        if (targetAnimator == null) return;
+        if (string.IsNullOrEmpty(stateName)) return;
+
+        int stateHash = Animator.StringToHash(stateName);
+
+        if (!targetAnimator.HasState(0, stateHash))
+        {
+            if (enableDebugLog)
             {
-                targetAnimator.Play(partyIdleStateName, 0, 0f);
-                targetAnimator.Update(0f);
+                Debug.LogWarning(
+                    "Map4StoryManager: Animator " +
+                    targetAnimator.gameObject.name +
+                    " không có state '" +
+                    stateName +
+                    "'. Bỏ qua Play để tránh lỗi GotoState."
+                );
+            }
+
+            return;
+        }
+
+        targetAnimator.Play(stateName, 0, 0f);
+        targetAnimator.Update(0f);
+    }
+
+    bool IsAnimatorInState(Animator targetAnimator, string stateName)
+    {
+        if (targetAnimator == null) return false;
+        if (string.IsNullOrEmpty(stateName)) return false;
+
+        AnimatorStateInfo currentState = targetAnimator.GetCurrentAnimatorStateInfo(0);
+        return currentState.IsName(stateName);
+    }
+
+    bool IsAnimatorInOrGoingToState(Animator targetAnimator, string stateName)
+    {
+        if (targetAnimator == null) return false;
+        if (string.IsNullOrEmpty(stateName)) return false;
+
+        AnimatorStateInfo currentState = targetAnimator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentState.IsName(stateName))
+        {
+            return true;
+        }
+
+        if (targetAnimator.IsInTransition(0))
+        {
+            AnimatorStateInfo nextState = targetAnimator.GetNextAnimatorStateInfo(0);
+
+            if (nextState.IsName(stateName))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void HideGameplayElementsOnly()
+    {
+        if (gameplayUIDocument == null)
+        {
+            Debug.LogWarning("Map4StoryManager chưa gán Gameplay UI Document.");
+            return;
+        }
+
+        VisualElement root = gameplayUIDocument.rootVisualElement;
+
+        if (root == null)
+        {
+            Debug.LogWarning("Map4StoryManager không lấy được rootVisualElement của Gameplay UI.");
+            return;
+        }
+
+        if (gameplayElementNamesToHide == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < gameplayElementNamesToHide.Length; i++)
+        {
+            string elementName = gameplayElementNamesToHide[i];
+
+            if (string.IsNullOrEmpty(elementName))
+            {
+                continue;
+            }
+
+            VisualElement element = root.Q<VisualElement>(elementName);
+
+            if (element != null)
+            {
+                element.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                Debug.LogWarning("Không tìm thấy UI element cần ẩn: " + elementName);
             }
         }
     }
@@ -790,6 +1229,25 @@ public class Map4StoryManager : MonoBehaviour
         }
     }
 
+    void SetAnimatorTriggerIfExists(Animator targetAnimator, string parameterName)
+    {
+        if (targetAnimator == null) return;
+        if (string.IsNullOrEmpty(parameterName)) return;
+
+        AnimatorControllerParameter[] parameters = targetAnimator.parameters;
+
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            if (parameters[i].name == parameterName && parameters[i].type == AnimatorControllerParameterType.Trigger)
+            {
+                targetAnimator.SetTrigger(parameterName);
+                return;
+            }
+        }
+
+        Debug.LogWarning("Map4StoryManager: Animator không có Trigger '" + parameterName + "'.");
+    }
+
     void ResetAnimatorTriggerIfExists(Animator targetAnimator, string parameterName)
     {
         if (targetAnimator == null) return;
@@ -807,19 +1265,119 @@ public class Map4StoryManager : MonoBehaviour
         }
     }
 
+    void ResetWukongTriggersExceptTransform()
+    {
+        if (wukongAnimator == null) return;
+        if (wukongTriggersToReset == null) return;
+
+        for (int i = 0; i < wukongTriggersToReset.Length; i++)
+        {
+            string triggerName = wukongTriggersToReset[i];
+
+            if (string.IsNullOrEmpty(triggerName))
+            {
+                continue;
+            }
+
+            if (triggerName == wukongTransformTriggerName)
+            {
+                continue;
+            }
+
+            ResetAnimatorTriggerIfExists(wukongAnimator, triggerName);
+        }
+    }
+
     void LogPhase(string message)
     {
         if (!enableDebugLog) return;
 
         Debug.Log("[Map4StoryManager] " + message + " Current Phase = " + currentPhase);
     }
-    public void FinishWukongTransformAndEndMap()
+
+    public void LoadNextSceneWithFade()
     {
+        if (isLoadingNextScene)
+            return;
+
+        StartCoroutine(LoadNextSceneWithFadeRoutine());
+    }
+
+    public void LoadSceneWithFade(string sceneName)
+    {
+        if (isLoadingNextScene)
+            return;
+
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("Map4StoryManager: Scene Name đang trống, không thể chuyển map.");
+            return;
+        }
+
+        StartCoroutine(LoadSceneWithFadeRoutine(sceneName));
+    }
+
+    IEnumerator LoadNextSceneWithFadeRoutine()
+    {
+        yield return StartCoroutine(LoadSceneWithFadeRoutine(nextSceneName));
+    }
+
+    IEnumerator LoadSceneWithFadeRoutine(string sceneName)
+    {
+        if (isLoadingNextScene)
+            yield break;
+
+        isLoadingNextScene = true;
+
         currentPhase = Map4Phase.EndMap;
 
-        Debug.Log("Map4StoryManager: Wukong đã biến hình xong. Kết thúc Map 4.");
+        if (keepWukongIdle2UntilSceneLoad)
+        {
+            LockWukongForTransformWithoutPlayingIdle1();
+            LockParty();
+            MaintainWukongIdle2UntilSceneLoad();
+        }
+        else
+        {
+            LockWukongAndParty();
 
-        // Sau này muốn chuyển scene thì mở dòng dưới và đổi tên scene.
-        // UnityEngine.SceneManagement.SceneManager.LoadScene("Tên_Map_Tiếp_Theo");
+            if (delayBeforeLoadNextScene > 0f)
+            {
+                yield return new WaitForSeconds(delayBeforeLoadNextScene);
+            }
+        }
+
+        if (sceneFadeController != null)
+        {
+            sceneFadeController.FadeOutThenLoadScene(sceneName);
+        }
+        else
+        {
+            Debug.LogWarning("Map4StoryManager chưa gán Map4SceneFadeController. Chuyển scene trực tiếp.");
+            SceneManager.LoadScene(sceneName);
+        }
+    }
+
+    public void FinishWukongTransformAndEndMap()
+    {
+        if (endMapStarted) return;
+
+        endMapStarted = true;
+        currentPhase = Map4Phase.EndMap;
+
+        keepWukongIdle2UntilSceneLoad = true;
+
+        // Chỉ khóa vật lý/controller, không Play Idle1.
+        LockWukongForTransformWithoutPlayingIdle1();
+        LockParty();
+
+        MaintainWukongIdle2UntilSceneLoad();
+
+        Debug.Log("Map4StoryManager: Wukong đã vào WukongIdle2. Chuyển map ngay, không quay về WukongIdle.");
+
+        if (autoLoadNextSceneWhenEndMap)
+        {
+            LoadNextSceneWithFade();
+        }
     }
 }

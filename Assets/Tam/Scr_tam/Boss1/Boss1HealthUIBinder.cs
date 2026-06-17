@@ -3,10 +3,10 @@ using UnityEngine.UIElements;
 
 /// <summary>
 /// Binder UI máu Boss1 - Mãng Xà Tinh.
-/// Script này đọc máu từ Boss1Controller và cập nhật lên Map2HUD.
-/// Cách cập nhật thanh máu giống Map4BossHUDController:
-/// - Text máu cập nhật theo current / max.
-/// - Thanh đỏ boss1-health-fill đổi width theo phần trăm máu.
+/// Cách hoạt động giống Map4BossHUDController:
+/// - Đọc máu từ Boss1Controller.
+/// - Cập nhật text máu.
+/// - Co trực tiếp thanh đỏ boss1-health-fill theo phần trăm máu.
 /// </summary>
 public class Boss1HealthUIBinder : MonoBehaviour
 {
@@ -24,7 +24,13 @@ public class Boss1HealthUIBinder : MonoBehaviour
     [Tooltip("Tên Label hiển thị tên Boss1.")]
     public string bossNameTextName = "boss-1-name";
 
-    [Tooltip("Tên thanh máu đỏ cần co giãn.")]
+    [Tooltip("Root của thanh máu Boss1.")]
+    public string bossHealthRootName = "boss1-health-root";
+
+    [Tooltip("Track chứa fill.")]
+    public string bossHealthTrackName = "boss1-health-track";
+
+    [Tooltip("Thanh máu đỏ cần co giãn. Phải đúng là boss1-health-fill.")]
     public string bossHealthFillName = "boss1-health-fill";
 
     [Tooltip("Tên text hiển thị máu Boss1.")]
@@ -49,6 +55,8 @@ public class Boss1HealthUIBinder : MonoBehaviour
 
     private VisualElement bossGroup;
     private Label bossNameText;
+    private VisualElement bossHealthRoot;
+    private VisualElement bossHealthTrack;
     private VisualElement bossHealthFill;
     private Label bossHealthText;
 
@@ -98,10 +106,49 @@ public class Boss1HealthUIBinder : MonoBehaviour
             uiDocument = GetComponent<UIDocument>();
         }
 
+#if UNITY_2023_1_OR_NEWER
         if (uiDocument == null)
         {
-            uiDocument = FindFirstObjectByType<UIDocument>();
+            UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+
+            for (int i = 0; i < documents.Length; i++)
+            {
+                if (documents[i] == null)
+                {
+                    continue;
+                }
+
+                VisualElement root = documents[i].rootVisualElement;
+
+                if (root != null && root.Q<VisualElement>(bossHealthFillName) != null)
+                {
+                    uiDocument = documents[i];
+                    break;
+                }
+            }
         }
+#else
+        if (uiDocument == null)
+        {
+            UIDocument[] documents = FindObjectsOfType<UIDocument>();
+
+            for (int i = 0; i < documents.Length; i++)
+            {
+                if (documents[i] == null)
+                {
+                    continue;
+                }
+
+                VisualElement root = documents[i].rootVisualElement;
+
+                if (root != null && root.Q<VisualElement>(bossHealthFillName) != null)
+                {
+                    uiDocument = documents[i];
+                    break;
+                }
+            }
+        }
+#endif
     }
 
     private void FindUIElements()
@@ -132,6 +179,8 @@ public class Boss1HealthUIBinder : MonoBehaviour
 
         bossGroup = root.Q<VisualElement>(bossGroupName);
         bossNameText = root.Q<Label>(bossNameTextName);
+        bossHealthRoot = root.Q<VisualElement>(bossHealthRootName);
+        bossHealthTrack = root.Q<VisualElement>(bossHealthTrackName);
         bossHealthFill = root.Q<VisualElement>(bossHealthFillName);
         bossHealthText = root.Q<Label>(bossHealthTextName);
 
@@ -145,10 +194,19 @@ public class Boss1HealthUIBinder : MonoBehaviour
             bossGroup.style.display = DisplayStyle.Flex;
         }
 
+        if (bossHealthRoot != null)
+        {
+            bossHealthRoot.style.overflow = Overflow.Hidden;
+        }
+
+        if (bossHealthTrack != null)
+        {
+            bossHealthTrack.style.overflow = Overflow.Hidden;
+        }
+
         if (bossHealthFill != null)
         {
-            // Rất quan trọng:
-            // Không để flexGrow tự kéo đầy thanh, vì như vậy width percent sẽ khó thấy thay đổi.
+            // Quan trọng: không để flexGrow kéo fill full bất chấp width.
             bossHealthFill.style.flexGrow = 0;
             bossHealthFill.style.flexShrink = 0;
         }
@@ -160,6 +218,8 @@ public class Boss1HealthUIBinder : MonoBehaviour
             Debug.Log(
                 "Boss1HealthUIBinder FindUIElements | Group: " + (bossGroup != null) +
                 " | Name: " + (bossNameText != null) +
+                " | Root: " + (bossHealthRoot != null) +
+                " | Track: " + (bossHealthTrack != null) +
                 " | Fill: " + (bossHealthFill != null) +
                 " | Text: " + (bossHealthText != null)
             );
@@ -195,6 +255,8 @@ public class Boss1HealthUIBinder : MonoBehaviour
         {
             return;
         }
+
+        FindUIElements();
 
         int currentHealth = boss1Controller.GetCurrentHealth();
         int maxHealth = boss1Controller.GetMaxHealth();
@@ -234,10 +296,10 @@ public class Boss1HealthUIBinder : MonoBehaviour
             }
         }
 
+        // FIX CHÍNH:
+        // Làm giống Boss3/Boss4: co trực tiếp thanh đỏ boss1-health-fill.
         if (bossHealthFill != null)
         {
-            // Đây là phần fix chính:
-            // Cập nhật trực tiếp vào boss1-health-fill giống Map4BossHUDController.
             bossHealthFill.style.width = Length.Percent(widthPercent);
 
             if (anchorRight)
@@ -259,7 +321,11 @@ public class Boss1HealthUIBinder : MonoBehaviour
 
         if (enableDebugLog)
         {
-            Debug.Log("Boss1HealthUIBinder: UI cập nhật " + currentHealth + " / " + maxHealth + " | Fill = " + widthPercent + "%");
+            Debug.Log(
+                "Boss1HealthUIBinder: UI cập nhật " +
+                currentHealth + " / " + maxHealth +
+                " | Fill Width = " + widthPercent + "%"
+            );
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -6,52 +7,41 @@ using UnityEngine.UIElements;
 [Serializable]
 public class Map3DialogueLine
 {
-    [Tooltip("Ảnh nhân vật đang nói.")]
     public Sprite avatar;
-
-    [Tooltip("Tên nhân vật đang nói.")]
     public string speakerName;
 
     [TextArea(2, 5)]
-    [Tooltip("Nội dung lời thoại.")]
     public string dialogueText;
 }
 
 public class Map3DialogueController : MonoBehaviour
 {
-    [Header("UI Document")]
-    [Tooltip("UIDocument riêng của map bạn.")]
+    [Header("UI Document - GlobalHUD")]
     public UIDocument uiDocument;
 
     [Header("Element Names")]
-    [Tooltip("Tên VisualElement cha của box thoại.")]
     public string dialogueBoxName = "dialogue-box";
-
-    [Tooltip("Tên VisualElement avatar.")]
+    public string dialogueFrameName = "dialogue-frame";
     public string avatarImageName = "dialogue-avatar";
-
-    [Tooltip("Tên Label hiển thị tên nhân vật.")]
     public string speakerNameTextName = "dialogue-name";
-
-    [Tooltip("Tên Label hiển thị nội dung thoại.")]
     public string dialogueTextName = "dialogue-text";
-
-    [Tooltip("Tên Label hiển thị gợi ý phím.")]
     public string nextHintTextName = "dialogue-hint";
 
     [Header("Input")]
-    [Tooltip("Dùng phím E để chuyển câu thoại.")]
     public bool useEKeyToNext = true;
-
-    [Tooltip("Text gợi ý phím tiếp tục.")]
     public string nextHint = "E";
 
+    [Header("Fade")]
+    public bool useFade = true;
+    public float fadeInTime = 0.25f;
+    public float fadeOutTime = 0.2f;
+
     [Header("State")]
-    [Tooltip("Đang chạy thoại hay không.")]
     public bool isDialoguePlaying;
 
     private VisualElement root;
     private VisualElement dialogueBox;
+    private VisualElement dialogueFrame;
     private VisualElement avatarImage;
     private Label speakerNameText;
     private Label dialogueText;
@@ -60,71 +50,50 @@ public class Map3DialogueController : MonoBehaviour
     private Map3DialogueLine[] currentLines;
     private int currentIndex;
     private Action onDialogueFinished;
+    private bool isFinishing;
 
-    void Awake()
+    private void Awake()
     {
         SetupReferences();
         HideDialogue();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         SetupReferences();
-        HideDialogue();
     }
 
-    void Update()
+    private void Update()
     {
-        if (!isDialoguePlaying)
+        if (!isDialoguePlaying || isFinishing)
             return;
 
         if (useEKeyToNext && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
-        {
             ShowNextLine();
-        }
     }
 
-    void SetupReferences()
+    private void SetupReferences()
     {
         if (uiDocument == null)
-        {
             uiDocument = GetComponent<UIDocument>();
-        }
 
         if (uiDocument == null)
         {
-            Debug.LogWarning("Map3DialogueController chưa có UIDocument.");
+            Debug.LogWarning("Map3DialogueController: Chưa gán UIDocument GlobalHUD.");
             return;
         }
 
         root = uiDocument.rootVisualElement;
 
         if (root == null)
-        {
-            Debug.LogWarning("Map3DialogueController không tìm thấy rootVisualElement.");
             return;
-        }
 
         dialogueBox = root.Q<VisualElement>(dialogueBoxName);
+        dialogueFrame = root.Q<VisualElement>(dialogueFrameName);
         avatarImage = root.Q<VisualElement>(avatarImageName);
         speakerNameText = root.Q<Label>(speakerNameTextName);
         dialogueText = root.Q<Label>(dialogueTextName);
         nextHintText = root.Q<Label>(nextHintTextName);
-
-        if (dialogueBox == null)
-            Debug.LogWarning("Map3 không tìm thấy dialogue-box: " + dialogueBoxName);
-
-        if (avatarImage == null)
-            Debug.LogWarning("Map3 không tìm thấy dialogue-avatar: " + avatarImageName);
-
-        if (speakerNameText == null)
-            Debug.LogWarning("Map3 không tìm thấy dialogue-name: " + speakerNameTextName);
-
-        if (dialogueText == null)
-            Debug.LogWarning("Map3 không tìm thấy dialogue-text: " + dialogueTextName);
-
-        if (nextHintText == null)
-            Debug.LogWarning("Map3 không tìm thấy dialogue-hint: " + nextHintTextName);
     }
 
     public void StartDialogue(Map3DialogueLine[] lines, Action onFinished = null)
@@ -133,6 +102,7 @@ public class Map3DialogueController : MonoBehaviour
 
         if (lines == null || lines.Length == 0)
         {
+            Debug.LogWarning("Map3DialogueController: Không có câu thoại.");
             onFinished?.Invoke();
             return;
         }
@@ -141,8 +111,19 @@ public class Map3DialogueController : MonoBehaviour
         currentIndex = 0;
         onDialogueFinished = onFinished;
         isDialoguePlaying = true;
+        isFinishing = false;
 
-        ShowDialogue();
+        ShowCurrentLine();
+        StartCoroutine(StartDialogueRoutine());
+    }
+
+    private IEnumerator StartDialogueRoutine()
+    {
+        if (useFade)
+            yield return StartCoroutine(FadeInDialogue());
+        else
+            ShowDialogueInstant();
+
         ShowCurrentLine();
     }
 
@@ -162,7 +143,7 @@ public class Map3DialogueController : MonoBehaviour
         ShowCurrentLine();
     }
 
-    void ShowCurrentLine()
+    private void ShowCurrentLine()
     {
         if (currentLines == null)
             return;
@@ -170,67 +151,137 @@ public class Map3DialogueController : MonoBehaviour
         if (currentIndex < 0 || currentIndex >= currentLines.Length)
             return;
 
+        SetupReferences();
+
         Map3DialogueLine line = currentLines[currentIndex];
 
         if (avatarImage != null)
         {
+            avatarImage.style.display = DisplayStyle.Flex;
+            avatarImage.style.opacity = 1f;
+
             if (line.avatar != null)
-            {
-                avatarImage.style.display = DisplayStyle.Flex;
                 avatarImage.style.backgroundImage = new StyleBackground(line.avatar);
-            }
             else
-            {
                 avatarImage.style.backgroundImage = null;
-                avatarImage.style.display = DisplayStyle.None;
-            }
         }
 
         if (speakerNameText != null)
         {
+            speakerNameText.style.display = DisplayStyle.Flex;
+            speakerNameText.style.opacity = 1f;
             speakerNameText.text = line.speakerName;
         }
 
         if (dialogueText != null)
         {
+            dialogueText.style.display = DisplayStyle.Flex;
+            dialogueText.style.opacity = 1f;
             dialogueText.text = line.dialogueText;
         }
 
         if (nextHintText != null)
         {
+            nextHintText.style.display = DisplayStyle.Flex;
+            nextHintText.style.opacity = 1f;
             nextHintText.text = nextHint;
         }
     }
 
-    void FinishDialogue()
+    private void FinishDialogue()
+    {
+        if (isFinishing)
+            return;
+
+        isFinishing = true;
+        StartCoroutine(FinishDialogueRoutine());
+    }
+
+    private IEnumerator FinishDialogueRoutine()
     {
         isDialoguePlaying = false;
-        HideDialogue();
+
+        if (useFade)
+            yield return StartCoroutine(FadeOutDialogue());
+        else
+            HideDialogue();
 
         Action callback = onDialogueFinished;
 
         onDialogueFinished = null;
         currentLines = null;
         currentIndex = 0;
+        isFinishing = false;
 
         callback?.Invoke();
     }
 
-    public void ShowDialogue()
+    public void ShowDialogueInstant()
     {
         SetupReferences();
 
         if (dialogueBox != null)
         {
             dialogueBox.style.display = DisplayStyle.Flex;
+            dialogueBox.style.opacity = 1f;
         }
     }
 
     public void HideDialogue()
     {
+        SetupReferences();
+
         if (dialogueBox != null)
         {
             dialogueBox.style.display = DisplayStyle.None;
+            dialogueBox.style.opacity = 0f;
         }
+    }
+
+    private IEnumerator FadeInDialogue()
+    {
+        SetupReferences();
+
+        if (dialogueBox == null)
+            yield break;
+
+        dialogueBox.style.display = DisplayStyle.Flex;
+        dialogueBox.style.opacity = 0f;
+
+        float timer = 0f;
+
+        while (timer < fadeInTime)
+        {
+            timer += Time.deltaTime;
+            float t = Mathf.Clamp01(timer / fadeInTime);
+            dialogueBox.style.opacity = Mathf.Lerp(0f, 1f, t);
+            yield return null;
+        }
+
+        dialogueBox.style.opacity = 1f;
+    }
+
+    private IEnumerator FadeOutDialogue()
+    {
+        SetupReferences();
+
+        if (dialogueBox == null)
+            yield break;
+
+        dialogueBox.style.display = DisplayStyle.Flex;
+        dialogueBox.style.opacity = 1f;
+
+        float timer = 0f;
+
+        while (timer < fadeOutTime)
+        {
+            timer += Time.deltaTime;
+            float t = Mathf.Clamp01(timer / fadeOutTime);
+            dialogueBox.style.opacity = Mathf.Lerp(1f, 0f, t);
+            yield return null;
+        }
+
+        dialogueBox.style.opacity = 0f;
+        dialogueBox.style.display = DisplayStyle.None;
     }
 }

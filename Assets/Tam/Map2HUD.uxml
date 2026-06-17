@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="boss-panel" style="flex-grow: 1; position: absolute; height: 252px; width: 1268px; left: 660px; top: 7px;">
+    <ui:VisualElement name="boss-panel" enabled="true" style="flex-grow: 1; position: absolute; height: 252px; width: 1268px; left: 660px; top: 7px; opacity: 1;">
         <ui:VisualElement name="boss-1-group" style="flex-grow: 1; position: absolute; flex-direction: row-reverse; height: 244px; width: 647px; top: 3px; left: 617px;">
             <ui:Label text="MÃNG XÀ TINH" name="boss-1-name" style="background-image: resource(&quot;UI/Boss_name&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 145px; width: 578px; left: 53px; top: -21px; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold; white-space: nowrap; -unity-text-align: middle-center;"/>
             <ui:VisualElement name="boss-1-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 134px; width: 452px; left: 30px; top: 36px;"/>
@@ -11,5 +11,11 @@
             <ui:VisualElement name="boss-1-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Boss1_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 179px; width: 381px; flex-direction: row-reverse; top: 5px; left: 324px;"/>
             <ui:Label text="1000 / 1000" name="boss-1-health-text" style="font-size: 18px; color: rgb(255, 255, 255); -unity-font-style: bold; position: absolute; top: 86px; left: auto; width: 354px; height: 22px; -unity-text-align: middle-center; right: 208px;"/>
         </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="box_mask" style="flex-grow: 1; position: absolute; height: 884px; width: 1374px; top: 104px; left: 330px; display: flex;">
+        <ui:VisualElement name="box_avatar" style="flex-grow: 1; position: absolute; height: 1464px; width: 1966px; left: 470px; top: -565px; scale: 1 1; translate: 0 0; transform-origin: center;">
+            <ui:VisualElement name="Box_image" style="flex-grow: 1; background-image: resource(&quot;UI/Boxchat_UI&quot;); rotate: 90deg; scale: -0.2 0.15 0; position: relative; opacity: 0.8;"/>
+        </ui:VisualElement>
+        <ui:Label text="THÁC&#10;LINH&#10;VÂN" name="box_text" style="height: 360px; width: 132px; position: absolute; left: 1395px; top: -15px; color: rgb(255, 255, 255); white-space: normal; font-size: 36px; -unity-text-align: middle-center; -unity-font-style: bold; -unity-paragraph-spacing: 120px;"/>
     </ui:VisualElement>
 </ui:UXML>

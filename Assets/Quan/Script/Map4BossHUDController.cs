@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Map4BossHUDController : MonoBehaviour
@@ -27,12 +28,37 @@ public class Map4BossHUDController : MonoBehaviour
     [Tooltip("Thanh máu Boss4 bám bên phải.")]
     public bool boss4AnchorRight = true;
 
+    [Header("Location Title UI")]
+    [Tooltip("Tên box chứa bảng địa danh.")]
+    public string locationBoxName = "Box_mask";
+
+    [Tooltip("Tên text địa danh.")]
+    public string locationTextName = "Box_text";
+
+    [TextArea(2, 5)]
+    [Tooltip("Nội dung địa danh.")]
+    public string locationTitleText = "SƯ\nĐÀ\nLĨNH";
+
+    [Tooltip("Thời gian fade in.")]
+    public float locationFadeInTime = 1f;
+
+    [Tooltip("Thời gian giữ bảng địa danh.")]
+    public float locationHoldTime = 2f;
+
+    [Tooltip("Thời gian fade out.")]
+    public float locationFadeOutTime = 1f;
+
+    [Header("Debug")]
+    public bool enableDebugLog = true;
 
     private VisualElement boss3HealthFill;
     private Label boss3HealthText;
 
     private VisualElement boss4HealthFill;
     private Label boss4HealthText;
+
+    private VisualElement locationBox;
+    private Label locationTitleLabel;
 
     private int cachedBoss3CurrentHealth = -1;
     private int cachedBoss3MaxHealth = -1;
@@ -43,18 +69,21 @@ public class Map4BossHUDController : MonoBehaviour
     void Awake()
     {
         FindUIElements();
+        HideLocationTitleImmediate();
     }
 
     void OnEnable()
     {
         FindUIElements();
         RefreshCachedHealth();
+        HideLocationTitleImmediate();
     }
 
     void Start()
     {
         FindUIElements();
         RefreshCachedHealth();
+        HideLocationTitleImmediate();
     }
 
     void FindUIElements()
@@ -64,8 +93,25 @@ public class Map4BossHUDController : MonoBehaviour
             uiDocument = GetComponent<UIDocument>();
         }
 
-        if (uiDocument == null) return;
-        if (uiDocument.rootVisualElement == null) return;
+        if (uiDocument == null)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning("Map4BossHUDController chưa có UIDocument.");
+            }
+
+            return;
+        }
+
+        if (uiDocument.rootVisualElement == null)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning("Map4BossHUDController chưa lấy được rootVisualElement.");
+            }
+
+            return;
+        }
 
         VisualElement root = uiDocument.rootVisualElement;
 
@@ -74,6 +120,22 @@ public class Map4BossHUDController : MonoBehaviour
 
         boss4HealthFill = root.Q<VisualElement>(boss4HealthFillName);
         boss4HealthText = root.Q<Label>(boss4HealthTextName);
+
+        locationBox = root.Q<VisualElement>(locationBoxName);
+        locationTitleLabel = root.Q<Label>(locationTextName);
+
+        if (enableDebugLog)
+        {
+            if (locationBox == null)
+            {
+                Debug.LogWarning("Không tìm thấy Location Box: " + locationBoxName);
+            }
+
+            if (locationTitleLabel == null)
+            {
+                Debug.LogWarning("Không tìm thấy Location Text: " + locationTextName);
+            }
+        }
     }
 
     void RefreshCachedHealth()
@@ -179,5 +241,104 @@ public class Map4BossHUDController : MonoBehaviour
         {
             healthText.text = currentHealth + " / " + maxHealth;
         }
+    }
+
+    public void SetLocationTitleText(string text)
+    {
+        locationTitleText = text;
+
+        if (locationTitleLabel == null)
+        {
+            FindUIElements();
+        }
+
+        if (locationTitleLabel != null)
+        {
+            locationTitleLabel.text = text;
+        }
+    }
+
+    public void HideLocationTitleImmediate()
+    {
+        if (locationBox == null)
+        {
+            return;
+        }
+
+        locationBox.style.opacity = 0f;
+        locationBox.style.display = DisplayStyle.None;
+    }
+
+    public IEnumerator PlayLocationTitleRoutine(string customText = null)
+    {
+        if (locationBox == null || locationTitleLabel == null)
+        {
+            FindUIElements();
+        }
+
+        if (locationBox == null)
+        {
+            if (enableDebugLog)
+            {
+                Debug.LogWarning("Không thể hiện Location Title vì chưa tìm thấy: " + locationBoxName);
+            }
+
+            yield break;
+        }
+
+        if (locationTitleLabel != null)
+        {
+            if (!string.IsNullOrEmpty(customText))
+            {
+                locationTitleLabel.text = customText;
+            }
+            else
+            {
+                locationTitleLabel.text = locationTitleText;
+            }
+        }
+
+        locationBox.style.display = DisplayStyle.Flex;
+        locationBox.style.opacity = 0f;
+
+        float timer = 0f;
+
+        while (timer < locationFadeInTime)
+        {
+            timer += Time.deltaTime;
+
+            float alpha = locationFadeInTime > 0f
+                ? Mathf.Clamp01(timer / locationFadeInTime)
+                : 1f;
+
+            locationBox.style.opacity = alpha;
+
+            yield return null;
+        }
+
+        locationBox.style.opacity = 1f;
+
+        if (locationHoldTime > 0f)
+        {
+            yield return new WaitForSeconds(locationHoldTime);
+        }
+
+        timer = 0f;
+
+        while (timer < locationFadeOutTime)
+        {
+            timer += Time.deltaTime;
+
+            float alpha = locationFadeOutTime > 0f
+                ? 1f - Mathf.Clamp01(timer / locationFadeOutTime)
+                : 0f;
+
+            locationBox.style.opacity = alpha;
+
+            yield return null;
+        }
+
+        locationBox.style.opacity = 0f;
+        locationBox.style.display = DisplayStyle.None;
     }
 }
