@@ -37,8 +37,24 @@ public class Map25StoryManager : MonoBehaviour
     [Tooltip("UIDocument chứa UI địa điểm.")]
     public UIDocument mapHUDDocument;
 
-    [Tooltip("Các object UI gameplay cần ẩn ở đầu map và trước khi chuyển map.")]
+    [Tooltip("Các object UI gameplay cần ẩn ở đầu map và trước khi chuyển map. Chỉ kéo thanh máu/skill nếu chúng là GameObject riêng. Không kéo object chứa UIDocument tổng.")]
     public GameObject[] gameplayUIObjects;
+
+    [Header("Gameplay UI Toolkit Elements")]
+    [Tooltip("Bật chế độ chỉ tắt/bật các VisualElement gameplay như thanh máu Wukong, thanh máu đoàn, cụm chiêu. UIDocument tổng vẫn luôn active để tránh box thoại nháy 1 frame.")]
+    public bool useGameplayVisualElements = true;
+
+    [Tooltip("Tên các VisualElement cần bật lại sau intro: thanh máu Wukong, thanh máu đoàn, cụm chiêu, cooldown. Nhập đúng Name trong UI Builder.")]
+    public string[] gameplayVisualElementNames =
+    {
+        "wukong-health",
+        "party-health",
+        "skill-panel",
+        "cooldown-panel"
+    };
+
+    [Tooltip("Không SetActive GlobalHUD nữa. Nên bật để tránh UIDocument tổng reload lại làm box thoại hiện/nháy.")]
+    public bool neverToggleGlobalHUDObject = true;
 
     [Tooltip("Tên group UI boss nếu UIDocument có boss-panel. Map2.5 không có boss vẫn để nguyên cũng được.")]
     public string bossUIGroupName = "boss-panel";
@@ -119,16 +135,6 @@ public class Map25StoryManager : MonoBehaviour
     [Tooltip("Nếu Wukong vào trigger khi chưa đủ đoàn, code sẽ chờ đủ đoàn rồi mới mở thoại.")]
     public bool waitUntilPartyReadyAfterTrigger = true;
 
-    [Header("Dialogue Box Force Hide")]
-    [Tooltip("UIDocument chứa box thoại. Nếu bỏ trống, code sẽ ưu tiên lấy từ Dialogue Controller rồi fallback sang Map HUD Document.")]
-    public UIDocument dialogueUIDocument;
-
-    [Tooltip("Tên VisualElement cha của box thoại trong UI Builder.")]
-    public string dialogueBoxName = "DialogueBox";
-
-    [Tooltip("Ép ẩn box thoại ngay từ Awake/Start, chỉ khi StartDialogue mới hiện.")]
-    public bool forceHideDialogueBoxOnStart = true;
-
     [Header("Heal After NPC Dialogue")]
     [Tooltip("Object hồi máu có gắn HealInteractable. Object vẫn hiện từ đầu, chỉ khóa tương tác.")]
     public HealInteractable postDialogueHealObject;
@@ -163,7 +169,6 @@ public class Map25StoryManager : MonoBehaviour
     private VisualElement bossUIGroup;
     private VisualElement locationBox;
     private Label locationText;
-    private VisualElement dialogueBoxElement;
 
     private bool introStarted;
     private bool introFinished;
@@ -179,12 +184,6 @@ public class Map25StoryManager : MonoBehaviour
     {
         FindReferencesIfNeeded();
         FindUIElements();
-        FindDialogueBoxElement();
-
-        if (forceHideDialogueBoxOnStart)
-        {
-            ForceHideDialogueBoxImmediate();
-        }
 
         CachePostDialogueHealColliders();
 
@@ -209,12 +208,6 @@ public class Map25StoryManager : MonoBehaviour
 
         FindReferencesIfNeeded();
         FindUIElements();
-        FindDialogueBoxElement();
-
-        if (forceHideDialogueBoxOnStart)
-        {
-            ForceHideDialogueBoxImmediate();
-        }
 
         PrepareMapStartState();
 
@@ -330,10 +323,6 @@ public class Map25StoryManager : MonoBehaviour
         yield return StartCoroutine(ShowLocationTitleRoutine());
 
         ShowGameplayUI();
-
-        // Chờ 1 frame để UIDocument/GlobalHUD bật lại xong,
-        // rồi mới ép ẩn box thoại. Nếu không, box thoại có thể hiện lại theo UXML.
-        yield return null;
 
         HideBossUI();
         HideDialogueUI();
@@ -1007,122 +996,10 @@ public class Map25StoryManager : MonoBehaviour
         Log("Map2.5 Story Finished.");
     }
 
-    private void FindDialogueBoxElement()
-    {
-        if (dialogueUIDocument == null && dialogueController != null)
-        {
-            dialogueUIDocument = dialogueController.uiDocument;
-        }
-
-        if (dialogueUIDocument == null)
-        {
-            dialogueUIDocument = mapHUDDocument;
-        }
-
-        if (dialogueUIDocument == null)
-        {
-            dialogueUIDocument = FindUIDocumentContainingElement(dialogueBoxName);
-        }
-
-        if (dialogueUIDocument == null)
-        {
-            if (enableDebugLog)
-            {
-                Debug.LogWarning("Map25StoryManager: Chưa tìm thấy UIDocument chứa box thoại.");
-            }
-
-            return;
-        }
-
-        VisualElement dialogueRoot = dialogueUIDocument.rootVisualElement;
-
-        if (dialogueRoot == null)
-        {
-            if (enableDebugLog)
-            {
-                Debug.LogWarning("Map25StoryManager: Dialogue UIDocument chưa có rootVisualElement.");
-            }
-
-            return;
-        }
-
-        dialogueBoxElement = dialogueRoot.Q<VisualElement>(dialogueBoxName);
-
-        if (dialogueBoxElement == null && enableDebugLog)
-        {
-            Debug.LogWarning("Map25StoryManager: Không tìm thấy box thoại tên: " + dialogueBoxName);
-        }
-    }
-
-    private UIDocument FindUIDocumentContainingElement(string elementName)
-    {
-        if (string.IsNullOrEmpty(elementName))
-        {
-            return null;
-        }
-
-#if UNITY_2023_1_OR_NEWER
-        UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
-#else
-        UIDocument[] documents = FindObjectsOfType<UIDocument>();
-#endif
-
-        for (int i = 0; i < documents.Length; i++)
-        {
-            UIDocument document = documents[i];
-
-            if (document == null || document.rootVisualElement == null)
-            {
-                continue;
-            }
-
-            if (document.rootVisualElement.Q<VisualElement>(elementName) != null)
-            {
-                return document;
-            }
-        }
-
-        return null;
-    }
-    private void ForceHideDialogueBoxImmediate()
-    {
-        if (dialogueBoxElement == null)
-        {
-            FindDialogueBoxElement();
-        }
-
-        if (dialogueBoxElement == null)
-        {
-            return;
-        }
-
-        dialogueBoxElement.style.display = DisplayStyle.None;
-        dialogueBoxElement.style.opacity = 0f;
-        dialogueBoxElement.style.visibility = Visibility.Hidden;
-        dialogueBoxElement.pickingMode = PickingMode.Ignore;
-    }
-
     // ======================================================
     // UI HELPERS
     // ======================================================
-    private IEnumerator ForceHideDialogueBoxAfterUIDocumentRefreshRoutine()
-    {
-        // Ép ẩn trong vài frame để chống trường hợp GlobalHUD/UIDocument vừa bật lại
-        // làm box thoại hiện lại theo trạng thái gốc của UXML.
-        for (int i = 0; i < 3; i++)
-        {
-            yield return null;
 
-            FindDialogueBoxElement();
-
-            if (dialogueController != null)
-            {
-                dialogueController.ForceStopDialogue();
-            }
-
-            ForceHideDialogueBoxImmediate();
-        }
-    }
     private void FindHUDDocumentIfNeeded()
     {
         if (mapHUDDocument != null)
@@ -1314,14 +1191,7 @@ public class Map25StoryManager : MonoBehaviour
     {
         if (dialogueController != null)
         {
-            dialogueController.ForceStopDialogue();
-        }
-
-        ForceHideDialogueBoxImmediate();
-
-        if (gameObject.activeInHierarchy)
-        {
-            StartCoroutine(ForceHideDialogueBoxAfterUIDocumentRefreshRoutine());
+            dialogueController.HideDialogue();
         }
     }
 
@@ -1337,9 +1207,19 @@ public class Map25StoryManager : MonoBehaviour
 
     private void SetGameplayUIActive(bool active)
     {
-        if (globalHUD != null && !IsObjectContainingProtectedUIDocument(globalHUD))
+        // Cách mới cho Map2.5:
+        // Không bật/tắt cả GlobalHUD/UIDocument tổng nữa.
+        // Chỉ bật/tắt đúng các phần gameplay: máu Wukong, máu đoàn, skill/cooldown.
+        // Làm vậy sẽ tránh UIDocument reload UXML khiến box thoại nháy hiện 1 frame.
+
+        if (globalHUD != null && !neverToggleGlobalHUDObject && !IsObjectContainingProtectedUIDocument(globalHUD))
         {
             globalHUD.SetActive(active);
+        }
+
+        if (useGameplayVisualElements)
+        {
+            SetGameplayVisualElementsActive(active);
         }
 
         if (gameplayUIObjects == null)
@@ -1360,13 +1240,61 @@ public class Map25StoryManager : MonoBehaviour
             {
                 if (enableDebugLog)
                 {
-                    Debug.LogWarning("Map25StoryManager: Không tắt " + uiObject.name + " vì object này chứa UIDocument địa điểm/fade.");
+                    Debug.LogWarning("Map25StoryManager: Không tắt/bật " + uiObject.name + " vì object này chứa UIDocument tổng. Hãy kéo object con thanh máu/skill hoặc dùng Gameplay Visual Element Names.");
                 }
 
                 continue;
             }
 
             uiObject.SetActive(active);
+        }
+    }
+
+    private void SetGameplayVisualElementsActive(bool active)
+    {
+        if (gameplayVisualElementNames == null || gameplayVisualElementNames.Length == 0)
+        {
+            return;
+        }
+
+        // Tìm trong tất cả UIDocument đang active để không phụ thuộc thanh máu/skill nằm ở document nào.
+#if UNITY_2023_1_OR_NEWER
+        UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+#else
+        UIDocument[] documents = FindObjectsOfType<UIDocument>();
+#endif
+
+        for (int d = 0; d < documents.Length; d++)
+        {
+            UIDocument document = documents[d];
+
+            if (document == null || document.rootVisualElement == null)
+            {
+                continue;
+            }
+
+            VisualElement documentRoot = document.rootVisualElement;
+
+            for (int i = 0; i < gameplayVisualElementNames.Length; i++)
+            {
+                string elementName = gameplayVisualElementNames[i];
+
+                if (string.IsNullOrEmpty(elementName))
+                {
+                    continue;
+                }
+
+                VisualElement element = documentRoot.Q<VisualElement>(elementName);
+
+                if (element == null)
+                {
+                    continue;
+                }
+
+                element.style.display = active ? DisplayStyle.Flex : DisplayStyle.None;
+                element.style.visibility = active ? Visibility.Visible : Visibility.Hidden;
+                element.style.opacity = active ? 1f : 0f;
+            }
         }
     }
 
