@@ -332,7 +332,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 518726989}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &518726989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,6 +887,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadfadacd527e614cb3e695177532c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChonMan
+  map1Button: {fileID: 1528296283}
+  map2Button: {fileID: 479282422}
+  map3Button: {fileID: 666950967}
+  map4Button: {fileID: 1080708455}
+  map5Button: {fileID: 518726988}
+  map1SceneName: Map1
+  map2SceneName: Map2
+  map3SceneName: Map3
+  map4SceneName: Map4
+  map5SceneName: Map5
 --- !u!1 &1233427515
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/Khoa/MAP 5.1.unity
     guid: a785b664821031c4f89832b5b3354605
   - enabled: 1
-    path: Assets/Tam/MAP 2.0.unity
+    path: Assets/Tam/MAP_2.unity
     guid: d2e5d1476390b414da63f8f3577804b9
   - enabled: 1
     path: Assets/Canh/Map_2_5.unity

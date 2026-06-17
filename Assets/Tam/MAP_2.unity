@@ -1506,7 +1506,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.615556
+      value: 12.615143
       objectReference: {fileID: 0}
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3054,7 +3054,7 @@ MonoBehaviour:
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
     dialogueText: "H\xF3a ra th\u1EBF n\xE0yyy"
   loadNextSceneAfterPostBossDialogue: 1
-  nextSceneName: Map_4
+  nextSceneName: Map_2_5
   delayBeforeLoadNextScene: 1
   hideBoss1UIWhenPostDialogueStart: 1
   sceneFadeController: {fileID: 1566032222}
@@ -4713,7 +4713,7 @@ PrefabInstance:
       objectReference: {fileID: 167573260}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.615556
+      value: 12.615143
       objectReference: {fileID: 0}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.y

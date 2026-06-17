@@ -8365,7 +8365,7 @@ MonoBehaviour:
   boss5AppearHealthPercent: 0.497
   enableDebugLog: 1
   sceneFadeController: {fileID: 945634181}
-  nextSceneName: Map 2.0
+  nextSceneName: MainMenu
   autoLoadNextSceneWhenEndMap: 1
   delayBeforeLoadNextScene: 0
 --- !u!1 &1641756019
@@ -11486,7 +11486,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -77.814445
+      value: -77.81486
       objectReference: {fileID: 0}
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11708,7 +11708,7 @@ PrefabInstance:
       objectReference: {fileID: 1917600954}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -77.814445
+      value: -77.81486
       objectReference: {fileID: 0}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.y
