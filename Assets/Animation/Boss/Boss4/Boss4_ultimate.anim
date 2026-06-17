@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -1781485530965845196, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
+      value: {fileID: 8857435364396157662, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - time: 0.16666667
       value: {fileID: 5067021598505019973, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - time: 0.33333334
@@ -30,8 +30,6 @@ AnimationClip:
       value: {fileID: 5104441283674541636, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - time: 0.6666667
       value: {fileID: -3796927742145782269, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
-    - time: 0.8333333
-      value: {fileID: 8857435364396157662, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - time: 1
       value: {fileID: -4526761654965497139, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - time: 1.1666666
@@ -92,12 +90,11 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -1781485530965845196, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
+    - {fileID: 8857435364396157662, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - {fileID: 5067021598505019973, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - {fileID: -2563337040763920424, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - {fileID: 5104441283674541636, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - {fileID: -3796927742145782269, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
-    - {fileID: 8857435364396157662, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - {fileID: -4526761654965497139, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - {fileID: -3651725815721706864, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
     - {fileID: -6081317120365800674, guid: 1211e5f46ec9e0f43b4b4a9b98ecd0c6, type: 3}
@@ -142,6 +139,13 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 1.1666666
+    functionName: AttackIndex
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 2
+    messageOptions: 0
   - time: 1.5
     functionName: FireUltimateProjectile
     data: 

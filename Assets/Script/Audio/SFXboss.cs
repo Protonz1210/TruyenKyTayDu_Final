@@ -1,14 +1,14 @@
 
 using UnityEngine;
 
-public class SFXboss1 : MonoBehaviour
+public class SFXboss : MonoBehaviour
 {
     [Header("Audio Source")]
     [Tooltip("AudioSource phát âm thanh. Nếu bỏ trống, script tự lấy hoặc tự tạo.")]
     public AudioSource audioSource;
 
     [Header("Attack")]
-    [Tooltip("Danh sách âm thanh tấn công của Boss1.")]
+    [Tooltip("Danh sách âm thanh tấn công của Boss.")]
     public AudioClip[] attackClips;
 
     [Range(0f, 1f)]
@@ -16,7 +16,7 @@ public class SFXboss1 : MonoBehaviour
     public float attackVolume = 0.8f;
 
     [Header("Die")]
-    [Tooltip("Danh sách âm thanh chết của Boss1.")]
+    [Tooltip("Danh sách âm thanh chết của Boss")]
     public AudioClip[] dieClips;
 
     [Range(0f, 1f)]
@@ -140,7 +140,7 @@ public class SFXboss1 : MonoBehaviour
 
         if (debugLog)
         {
-            Debug.Log(gameObject.name + " SFXboss1: " + debugName + " / " + clip.name);
+            Debug.Log(gameObject.name + " SFXboss: " + debugName + " / " + clip.name);
         }
     }
 }

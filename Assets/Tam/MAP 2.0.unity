@@ -6182,7 +6182,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   attackClips:
   - {fileID: 8300000, guid: a0fb550a918564cefb6d7a3dcd4a150e, type: 3}
-  attackVolume: 0.382
+  attackVolume: 0.8
   dieClips:
   - {fileID: 8300000, guid: 8cf5b54456af74302840da3b55a490c9, type: 3}
   dieVolume: 0.85
