@@ -6,4 +6,10 @@
         <ui:Label text="TON NGO KHONG" name="dialogue-name" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 136px; width: 430px; top: 21px; left: 186px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;"/>
         <ui:Label text="E" name="dialogue-hint" style="background-image: resource(&quot;UI/Boss_name&quot;); position: absolute; height: 110px; width: 164px; top: 209px; left: 913px; -unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;"/>
     </ui:VisualElement>
+    <ui:Label text="HOA&#10;QUẢ&#10;SƠN" name="Box_text" style="position: absolute; top: 75px; left: 1724px; height: 293px; width: 98px; color: rgb(255, 255, 255); -unity-text-align: middle-center; white-space: normal; font-size: 36px; -unity-paragraph-spacing: 80px;"/>
+    <ui:VisualElement name="Box_mask" style="flex-grow: 1;">
+        <ui:VisualElement name="Box_avarta" style="flex-grow: 1; position: absolute; height: 666px; width: 1614px; top: -109px; left: 963px;">
+            <ui:VisualElement name="Box_image" style="flex-grow: 1; background-image: resource(&quot;UI/Boxchat_UI&quot;); rotate: 90deg; scale: -0.2 0.25;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>
