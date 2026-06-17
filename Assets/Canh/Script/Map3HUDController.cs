@@ -34,10 +34,17 @@ public class Map3HUDController : MonoBehaviour
     private VisualElement boxAvatar;
     private VisualElement boxImage;
     private Label boxText;
+    private bool boxDefaultOpacityCached;
+    private float boxMaskDefaultOpacity = 1f;
+    private float boxAvatarDefaultOpacity = 1f;
+    private float boxImageDefaultOpacity = 1f;
+    private float boxTextDefaultOpacity = 1f;
 
     void Awake()
     {
         SetupReferences();
+
+        CacheBoxDefaultOpacity();
 
         HideBossUIInstant();
         HideBoxInstant();
@@ -253,19 +260,49 @@ public class Map3HUDController : MonoBehaviour
 
     private void SetBoxOpacity(float alpha)
     {
+        CacheBoxDefaultOpacity();
+
+        alpha = Mathf.Clamp01(alpha);
+
         if (boxMask != null)
-            boxMask.style.opacity = alpha;
+            boxMask.style.opacity = boxMaskDefaultOpacity * alpha;
 
         if (boxAvatar != null)
-            boxAvatar.style.opacity = alpha;
+            boxAvatar.style.opacity = boxAvatarDefaultOpacity * alpha;
 
         if (boxImage != null)
-            boxImage.style.opacity = alpha;
+            boxImage.style.opacity = boxImageDefaultOpacity * alpha;
 
         if (boxText != null)
-            boxText.style.opacity = alpha;
+            boxText.style.opacity = boxTextDefaultOpacity * alpha;
+    }
+    private void CacheBoxDefaultOpacity()
+    {
+        if (boxDefaultOpacityCached)
+            return;
+
+        SetupReferences();
+
+        boxMaskDefaultOpacity = GetValidOpacity(boxMask);
+        boxAvatarDefaultOpacity = GetValidOpacity(boxAvatar);
+        boxImageDefaultOpacity = GetValidOpacity(boxImage);
+        boxTextDefaultOpacity = GetValidOpacity(boxText);
+
+        boxDefaultOpacityCached = true;
     }
 
+    private float GetValidOpacity(VisualElement element)
+    {
+        if (element == null)
+            return 1f;
+
+        float opacity = element.resolvedStyle.opacity;
+
+        if (opacity > 0f && opacity <= 1f)
+            return opacity;
+
+        return 1f;
+    }
     private IEnumerator FadeElement(VisualElement element, float from, float to, float duration)
     {
         if (element == null)

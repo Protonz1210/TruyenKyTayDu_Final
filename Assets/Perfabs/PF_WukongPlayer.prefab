@@ -244,7 +244,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 89fe6856df79341d9b778256f814893e, type: 3}
   attackVolume: 0.8
   hitClips: []
-  dieClips: []
+  dieClips:
+  - {fileID: 8300000, guid: b67574ac5d7974b80a902c00073a87fe, type: 3}
   hitDieVolume: 0.8
   customClips: []
   customVolume: 0.8
