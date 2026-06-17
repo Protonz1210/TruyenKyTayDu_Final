@@ -1377,7 +1377,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.615412
+      value: 12.615143
       objectReference: {fileID: 0}
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2911,6 +2911,12 @@ MonoBehaviour:
   - {fileID: 524658884}
   - {fileID: 1250651073}
   - {fileID: 854976396}
+  movementScriptNamesToDisable:
+  - PlayerController
+  - FollowerController
+  freezeRigidbodyWhenLocked: 1
+  setAnimatorSpeedToZeroWhenLocked: 1
+  restoreMovementAfterIntro: 1
   postBossDialogueLines:
   - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
@@ -2922,12 +2928,8 @@ MonoBehaviour:
   nextSceneName: Map_4
   delayBeforeLoadNextScene: 1
   hideBoss1UIWhenPostDialogueStart: 1
-  movementScriptNamesToDisable:
-  - PlayerController
-  - FollowerController
-  freezeRigidbodyWhenLocked: 1
-  setAnimatorSpeedToZeroWhenLocked: 1
-  restoreMovementAfterIntro: 1
+  sceneFadeController: {fileID: 1566032222}
+  autoFindSceneFadeController: 1
   boss1: {fileID: 6778443427709039040}
   enableDebugLog: 1
 --- !u!4 &1095883037
@@ -4582,7 +4584,7 @@ PrefabInstance:
       objectReference: {fileID: 167573260}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.615412
+      value: 12.615143
       objectReference: {fileID: 0}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5326,7 +5328,7 @@ Transform:
   m_GameObject: {fileID: 2006109446}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.6572, y: -4.735, z: 0}
+  m_LocalPosition: {x: 14.51, y: -5.07, z: 0}
   m_LocalScale: {x: 1.1894236, y: 1.0677744, z: 0.9309023}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5692,7 +5694,7 @@ Transform:
   m_GameObject: {fileID: 2139121390}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.25, y: -18.6, z: 0}
+  m_LocalPosition: {x: 14.32, y: -18.41, z: 0}
   m_LocalScale: {x: 1.1894236, y: 3.3107414, z: 0.9309023}
   m_ConstrainProportionsScale: 0
   m_Children: []

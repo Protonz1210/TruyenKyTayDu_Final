@@ -21,10 +21,22 @@ using UnityEngine.SceneManagement;
 /// - Mở khóa di chuyển.
 /// - Boss1 chưa active.
 /// 
-/// Các phase sau sẽ nối tiếp:
-/// Phase 2: PreBossDialogue.
-/// Phase 3: BossFight.
-/// Phase 4: PostBossDialogue.
+/// Phase 2: PreBossDialogue
+/// - Wukong chạm trigger trước boss.
+/// - Chờ Wukong về Idle.
+/// - Khóa Wukong + đoàn.
+/// - Hiện hội thoại trước boss.
+/// 
+/// Phase 3: BossFight
+/// - Hết thoại trước boss.
+/// - Hiện UI máu Boss1.
+/// - Boss1 ActivateCombat().
+/// 
+/// Phase 4: PostBossDialogue
+/// - Boss1 chết.
+/// - Không khóa Wukong + đoàn.
+/// - Hiện hội thoại sau boss.
+/// - Hết thoại thì fade đen rồi chuyển map.
 /// </summary>
 public class Map2StoryManager : MonoBehaviour
 {
@@ -123,6 +135,22 @@ public class Map2StoryManager : MonoBehaviour
     [Tooltip("Các object nhân vật cần khóa. Chỉ cần kéo GameObject vào đây.")]
     public GameObject[] charactersToFreeze;
 
+    [Tooltip("Tên các script di chuyển cần tắt khi khóa điều khiển. Không cần kéo component script.")]
+    public string[] movementScriptNamesToDisable =
+    {
+        "PlayerController",
+        "FollowerController"
+    };
+
+    [Tooltip("Khi khóa, có dừng Rigidbody2D của object và object con không.")]
+    public bool freezeRigidbodyWhenLocked = true;
+
+    [Tooltip("Khi khóa, có set Animator Speed = 0 không.")]
+    public bool setAnimatorSpeedToZeroWhenLocked = true;
+
+    [Tooltip("Có khôi phục di chuyển sau intro không.")]
+    public bool restoreMovementAfterIntro = true;
+
     [Header("Post Boss Dialogue")]
     [Tooltip("Danh sách thoại sau khi Boss1 chết.")]
     public Map2GlobalDialogueLine[] postBossDialogueLines;
@@ -139,23 +167,12 @@ public class Map2StoryManager : MonoBehaviour
     [Tooltip("Ẩn UI máu Boss1 khi bắt đầu thoại sau boss.")]
     public bool hideBoss1UIWhenPostDialogueStart = true;
 
+    [Header("Scene Fade")]
+    [Tooltip("Controller fade đen khi vào map và kết thúc map.")]
+    public Map2SceneFadeController sceneFadeController;
 
-    [Tooltip("Tên các script di chuyển cần tắt khi khóa điều khiển. Không cần kéo component script.")]
-    public string[] movementScriptNamesToDisable =
-    {
-        "PlayerController",
-        "FollowerController",
-       
-    };
-
-    [Tooltip("Khi khóa, có dừng Rigidbody2D của object và object con không.")]
-    public bool freezeRigidbodyWhenLocked = true;
-
-    [Tooltip("Khi khóa, có set Animator Speed = 0 không.")]
-    public bool setAnimatorSpeedToZeroWhenLocked = true;
-
-    [Tooltip("Có khôi phục di chuyển sau intro không.")]
-    public bool restoreMovementAfterIntro = true;
+    [Tooltip("Tự động tìm Map2SceneFadeController nếu chưa gán.")]
+    public bool autoFindSceneFadeController = true;
 
     [Header("Boss1")]
     [Tooltip("Boss1 trong Map2. Đầu map boss chưa active.")]
@@ -170,9 +187,9 @@ public class Map2StoryManager : MonoBehaviour
     private Label locationText;
 
     private bool preBossDialogueStarted;
-    private bool waitingPreBossDialogue;
     private bool bossFightStarted;
     private Coroutine preBossDialogueCoroutine;
+
     private bool introStarted;
     private bool introFinished;
 
@@ -197,51 +214,53 @@ public class Map2StoryManager : MonoBehaviour
             StartCoroutine(StartIntroRoutine());
         }
     }
+
     private void Update()
     {
         CheckBoss1DeadForPostDialogue();
     }
+
     private void AutoBindReferences()
     {
 #if UNITY_2023_1_OR_NEWER
-    if (map2HUDDocument == null)
-    {
-        UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
-
-        for (int i = 0; i < documents.Length; i++)
+        if (map2HUDDocument == null)
         {
-            if (documents[i] == null)
+            UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+
+            for (int i = 0; i < documents.Length; i++)
             {
-                continue;
-            }
+                if (documents[i] == null)
+                {
+                    continue;
+                }
 
-            VisualElement documentRoot = documents[i].rootVisualElement;
+                VisualElement documentRoot = documents[i].rootVisualElement;
 
-            if (documentRoot == null)
-            {
-                continue;
-            }
+                if (documentRoot == null)
+                {
+                    continue;
+                }
 
-            bool hasLocationBox = documentRoot.Q<VisualElement>(locationBoxName) != null;
-            bool hasBossGroup = documentRoot.Q<VisualElement>(boss1GroupName) != null;
+                bool hasLocationBox = documentRoot.Q<VisualElement>(locationBoxName) != null;
+                bool hasBossGroup = documentRoot.Q<VisualElement>(boss1GroupName) != null;
 
-            if (hasLocationBox || hasBossGroup)
-            {
-                map2HUDDocument = documents[i];
-                break;
+                if (hasLocationBox || hasBossGroup)
+                {
+                    map2HUDDocument = documents[i];
+                    break;
+                }
             }
         }
-    }
 
-    if (boss1 == null)
-    {
-        boss1 = FindFirstObjectByType<Boss1Controller>();
-    }
+        if (boss1 == null)
+        {
+            boss1 = FindFirstObjectByType<Boss1Controller>();
+        }
 
-    if (autoFindDialogueController && dialogueController == null)
-    {
-        dialogueController = FindFirstObjectByType<Map2GlobalDialogueController>();
-    }
+        if (autoFindDialogueController && dialogueController == null)
+        {
+            dialogueController = FindFirstObjectByType<Map2GlobalDialogueController>();
+        }
 #else
         if (map2HUDDocument == null)
         {
@@ -283,8 +302,12 @@ public class Map2StoryManager : MonoBehaviour
         }
 #endif
 
-        // THÊM ĐOẠN NÀY Ở CUỐI HÀM.
-        // Tìm Wukong để phase trigger trước Boss có thể chờ Wukong về Idle.
+        AutoBindWukongReferences();
+        AutoBindSceneFadeController();
+    }
+
+    private void AutoBindWukongReferences()
+    {
         if (wukongObject == null)
         {
             GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
@@ -295,17 +318,43 @@ public class Map2StoryManager : MonoBehaviour
             }
         }
 
-        if (wukongObject != null)
+        if (wukongObject == null)
         {
-            if (wukongAnimator == null)
-            {
-                wukongAnimator = wukongObject.GetComponentInChildren<Animator>();
-            }
+            return;
+        }
 
-            if (wukongRigidbody == null)
-            {
-                wukongRigidbody = wukongObject.GetComponent<Rigidbody2D>();
-            }
+        if (wukongAnimator == null)
+        {
+            wukongAnimator = wukongObject.GetComponentInChildren<Animator>();
+        }
+
+        if (wukongRigidbody == null)
+        {
+            wukongRigidbody = wukongObject.GetComponent<Rigidbody2D>();
+        }
+    }
+
+    private void AutoBindSceneFadeController()
+    {
+        if (!autoFindSceneFadeController)
+        {
+            return;
+        }
+
+        if (sceneFadeController != null)
+        {
+            return;
+        }
+
+#if UNITY_2023_1_OR_NEWER
+        sceneFadeController = FindFirstObjectByType<Map2SceneFadeController>();
+#else
+        sceneFadeController = FindObjectOfType<Map2SceneFadeController>();
+#endif
+
+        if (sceneFadeController == null && enableDebugLog)
+        {
+            Debug.LogWarning("Map2StoryManager: Chưa tìm thấy Map2SceneFadeController trong scene.");
         }
     }
 
@@ -343,7 +392,8 @@ public class Map2StoryManager : MonoBehaviour
                 "Map2StoryManager FindUIElements | Boss1Group: " + (boss1Group != null) +
                 " | LocationBox: " + (locationBox != null) +
                 " | LocationText: " + (locationText != null) +
-                " | DialogueController: " + (dialogueController != null)
+                " | DialogueController: " + (dialogueController != null) +
+                " | SceneFadeController: " + (sceneFadeController != null)
             );
         }
     }
@@ -376,8 +426,6 @@ public class Map2StoryManager : MonoBehaviour
         boss1.forceCombatOnStart = false;
         boss1.isActive = false;
 
-        // Không gọi StopBossCombatAndReturnIdle ở đây nữa vì hàm đó set combatStoppedByDeath = true.
-        // Chỉ dừng vật lý và để boss ở trạng thái chưa active.
         Rigidbody2D bossRb = boss1.GetComponent<Rigidbody2D>();
 
         if (bossRb != null)
@@ -599,13 +647,11 @@ public class Map2StoryManager : MonoBehaviour
                 SetAnimatorSpeedToZero(character);
             }
 
-            // Gửi lệnh khóa nếu script nào có hàm thì tự nhận.
             character.SendMessage("SetControlLocked", locked, SendMessageOptions.DontRequireReceiver);
             character.SendMessage("LockMovement", locked, SendMessageOptions.DontRequireReceiver);
             character.SendMessage("SetMovementLocked", locked, SendMessageOptions.DontRequireReceiver);
             character.SendMessage("SetCanMove", !locked, SendMessageOptions.DontRequireReceiver);
 
-            // Tự tìm script di chuyển theo tên rồi tắt/bật.
             SetMovementScriptsEnabled(character, !locked);
         }
 
@@ -736,6 +782,7 @@ public class Map2StoryManager : MonoBehaviour
             }
         }
     }
+
     public void StartPreBossDialogueByTrigger()
     {
         if (preBossDialogueStarted)
@@ -770,7 +817,7 @@ public class Map2StoryManager : MonoBehaviour
 
     private IEnumerator WaitWukongIdleThenStartPreBossDialogueRoutine()
     {
-        waitingPreBossDialogue = true;
+       
 
         if (enableDebugLog)
         {
@@ -808,8 +855,6 @@ public class Map2StoryManager : MonoBehaviour
 
             yield return null;
         }
-
-        waitingPreBossDialogue = false;
 
         StartPreBossDialogue();
     }
@@ -965,9 +1010,6 @@ public class Map2StoryManager : MonoBehaviour
         postBossDialogueStarted = true;
         currentPhase = Map2Phase.PostBossDialogue;
 
-        // Phase 4 theo yêu cầu: KHÔNG khóa Wukong + đoàn.
-        // Vì vậy không gọi LockCharacters(true) ở đây.
-
         if (hideBoss1UIWhenPostDialogueStart)
         {
             HideBoss1UI();
@@ -1028,8 +1070,28 @@ public class Map2StoryManager : MonoBehaviour
             yield break;
         }
 
-        SceneManager.LoadScene(nextSceneName);
+        // Khi bắt đầu chuyển cảnh, tắt UI tổng để màn hình sạch trước khi fade đen.
+        HideGameplayUI();
+        HideBoss1UI();
+        HideDialogueUI();
+        HideLocationTitleImmediate();
+
+        // Chờ 1 frame để UI kịp tắt rồi mới fade.
+        yield return null;
+
+        AutoBindSceneFadeController();
+
+        if (sceneFadeController != null)
+        {
+            sceneFadeController.FadeOutThenLoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.LogWarning("Map2StoryManager: Không có Map2SceneFadeController, chuyển scene trực tiếp.");
+            SceneManager.LoadScene(nextSceneName);
+        }
     }
+
     public bool IsIntroFinished()
     {
         return introFinished;
