@@ -166,6 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 369953598425223012}
+  - component: {fileID: 967554226162034447}
   - component: {fileID: 4325268435483084662}
   - component: {fileID: 6390234740372086973}
   - component: {fileID: 4337263153026329436}
@@ -175,7 +176,6 @@ GameObject:
   - component: {fileID: 3085902367086757109}
   - component: {fileID: 7727485355955128746}
   - component: {fileID: 5529076049568500394}
-  - component: {fileID: 2742020905455546016}
   m_Layer: 6
   m_Name: PF_WukongPlayer
   m_TagString: Player
@@ -201,6 +201,59 @@ Transform:
   - {fileID: 7651973553340407365}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &967554226162034447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747556491235508407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9997c0a5cbc824da19e4ed71c2f5c0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SFXPlayer
+  audioSource: {fileID: 0}
+  footstepClips:
+  - {fileID: 8300000, guid: 4ce862cf636204cc1b49923a80ac2979, type: 3}
+  - {fileID: 8300000, guid: 381c6ff2aceb5401fbc395de0864a22e, type: 3}
+  - {fileID: 8300000, guid: 40f8cd0b95e91429d94352066e6b88da, type: 3}
+  - {fileID: 8300000, guid: 01adf16b905b34239b35b0344a0d3dbc, type: 3}
+  - {fileID: 8300000, guid: 98b737aca854a4d6eaff35d4895505f8, type: 3}
+  - {fileID: 8300000, guid: 2d934e7a78d034f08b32f25f005c81c0, type: 3}
+  footstepVolume: 0.402
+  jumpClips:
+  - {fileID: 8300000, guid: 2e6e00026480a4d37b3c1eb7202f2c23, type: 3}
+  landClips:
+  - {fileID: 8300000, guid: 2df978a00dd6b473688e239ece6ee0ce, type: 3}
+  jumpLandVolume: 0.76
+  attack0Clips:
+  - {fileID: 8300000, guid: a6ba1a8242e814f4b85f04e9bbcb3b73, type: 3}
+  attack1Clips:
+  - {fileID: 8300000, guid: 29daa7ccaf17546bbaecbf8adeacd308, type: 3}
+  - {fileID: 8300000, guid: d6142915a8ea148298ef48cd47ae291e, type: 3}
+  - {fileID: 8300000, guid: 3053d0562f14f4ef4859a830a82dabd7, type: 3}
+  - {fileID: 8300000, guid: 5975d1ed6270b42a18c1a75a959ea00b, type: 3}
+  attack2Clips:
+  - {fileID: 8300000, guid: 1bd6f3dc9a582406bb7ef6ba1deb3638, type: 3}
+  - {fileID: 8300000, guid: e29bbec7ecf994e0e92b27613e9b1b27, type: 3}
+  - {fileID: 8300000, guid: c507ec6c85e3148d3ba4af2f191c873c, type: 3}
+  attack3Clips:
+  - {fileID: 8300000, guid: 62386fed11ed24aceaf2920ef2b11658, type: 3}
+  - {fileID: 8300000, guid: d41cfb1b0b42f41bcaa71220fa096297, type: 3}
+  - {fileID: 8300000, guid: 89fe6856df79341d9b778256f814893e, type: 3}
+  attackVolume: 0.8
+  hitClips: []
+  dieClips: []
+  hitDieVolume: 0.8
+  customClips: []
+  customVolume: 0.8
+  randomPitch: 1
+  minPitch: 0.95
+  maxPitch: 1.05
+  footstepCooldown: 0.08
+  attackCooldown: 0.03
+  debugLog: 0
 --- !u!212 &4325268435483084662
 SpriteRenderer:
   serializedVersion: 2
@@ -463,6 +516,8 @@ MonoBehaviour:
   groundCheck: {fileID: 2940179261902409523}
   groundCheckRadius: 0.15
   groundTag: Ground
+  idleOnOtherSolidColliders: 1
+  ignoreTriggerForVisualStand: 1
   lockMovementWhileAttacking: 1
   attack0Damage: 50
   attack1Damage: 120
@@ -631,32 +686,3 @@ MonoBehaviour:
   spriteFacesRightByDefault: 1
   enableDebugLog: 1
   drawScanGizmo: 1
---- !u!114 &2742020905455546016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7747556491235508407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fc4e4d571a624e94a88a91f0282d1c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AnimationSFXPlayer
-  audioSource: {fileID: 0}
-  footstepSFX: {fileID: 0}
-  jumpSFX: {fileID: 0}
-  landSFX: {fileID: 0}
-  attack0SFX: {fileID: 0}
-  attack1SFX: {fileID: 0}
-  attack2SFX: {fileID: 0}
-  attack3SFX: {fileID: 0}
-  hitSFX: {fileID: 0}
-  dieSFX: {fileID: 0}
-  footstepVolume: 0.45
-  jumpVolume: 0.7
-  attackVolume: 0.8
-  otherVolume: 0.8
-  randomizePitch: 1
-  minPitch: 0.95
-  maxPitch: 1.05
