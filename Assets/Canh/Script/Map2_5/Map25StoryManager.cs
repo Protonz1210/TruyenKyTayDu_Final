@@ -1,7 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// StoryManager cho Map2.5 - Nước Chu Tử.
@@ -125,6 +131,13 @@ public class Map25StoryManager : MonoBehaviour
 
     [Tooltip("Các dòng thoại với NPC Chu Tử.")]
     public Map25DialogueLine[] npcDialogueLines;
+
+    [Header("NPC Dialogue TXT Import")]
+    [Tooltip("Kéo file .txt thoại NPC vào đây. Định dạng tốt nhất: TÊN|Nội dung thoại.")]
+    public TextAsset npcDialogueTxtFile;
+
+    [Tooltip("Khi import TXT, tự giữ avatar cũ theo tên nhân vật trong npcDialogueLines.")]
+    public bool keepCurrentAvatarsWhenImport = true;
 
     [Tooltip("Chỉ mở thoại NPC khi đủ đoàn thỉnh kinh.")]
     public bool requireFullPartyBeforeNPCDialogue = true;
@@ -1677,4 +1690,245 @@ public class Map25StoryManager : MonoBehaviour
 
         Debug.Log("[Map25StoryManager] " + message + " Current State = " + currentState);
     }
+
+    // ======================================================
+    // TXT IMPORT - CHỈ ĐỔ DỮ LIỆU VÀO npcDialogueLines
+    // Không ảnh hưởng cơ chế chạy thoại trong game.
+    // ======================================================
+
+    public bool ImportNPCDialogueFromTextAsset()
+    {
+        if (npcDialogueTxtFile == null)
+        {
+            Debug.LogWarning("Map25StoryManager: Chưa kéo file TXT vào NPC Dialogue Txt File.");
+            return false;
+        }
+
+        Map25DialogueLine[] importedLines = ParseNPCDialogueText(npcDialogueTxtFile.text);
+
+        if (importedLines == null || importedLines.Length == 0)
+        {
+            Debug.LogWarning("Map25StoryManager: File TXT không có dòng thoại hợp lệ. Dùng định dạng: TÊN|Nội dung thoại.");
+            return false;
+        }
+
+        npcDialogueLines = importedLines;
+
+        Debug.Log("Map25StoryManager: Đã import " + npcDialogueLines.Length + " dòng thoại từ file TXT: " + npcDialogueTxtFile.name);
+        return true;
+    }
+
+    private Map25DialogueLine[] ParseNPCDialogueText(string rawText)
+    {
+        List<Map25DialogueLine> result = new List<Map25DialogueLine>();
+
+        if (string.IsNullOrWhiteSpace(rawText))
+        {
+            return result.ToArray();
+        }
+
+        Dictionary<string, Sprite> avatarLookup = BuildCurrentNPCAvatarLookup();
+
+        string normalizedText = rawText.Replace("\r\n", "\n").Replace("\r", "\n");
+        string[] rawLines = normalizedText.Split('\n');
+
+        Map25DialogueLine lastDialogueLine = null;
+
+        for (int i = 0; i < rawLines.Length; i++)
+        {
+            string line = rawLines[i];
+
+            if (line == null)
+            {
+                continue;
+            }
+
+            line = line.Trim();
+
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+
+            string speaker;
+            string text;
+
+            if (TryParseNPCImportedLine(line, out speaker, out text))
+            {
+                speaker = CleanNPCSpeakerName(speaker);
+                text = text.Trim();
+
+                // Dòng kiểu "Đà La Trang:" chỉ là tiêu đề địa điểm, không phải thoại.
+                if (string.IsNullOrWhiteSpace(speaker) || string.IsNullOrWhiteSpace(text))
+                {
+                    continue;
+                }
+
+                Map25DialogueLine dialogueLine = new Map25DialogueLine();
+                dialogueLine.speakerName = speaker;
+                dialogueLine.dialogueText = text;
+
+                if (keepCurrentAvatarsWhenImport)
+                {
+                    Sprite avatar;
+                    string key = NormalizeNPCSpeakerKey(speaker);
+
+                    if (avatarLookup.TryGetValue(key, out avatar))
+                    {
+                        dialogueLine.avatar = avatar;
+                    }
+                }
+
+                result.Add(dialogueLine);
+                lastDialogueLine = dialogueLine;
+            }
+            else
+            {
+                // Nếu câu thoại bị xuống dòng mà dòng sau không có TÊN| hoặc TÊN:
+                // thì nối tiếp vào câu thoại trước đó.
+                if (lastDialogueLine != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(lastDialogueLine.dialogueText))
+                    {
+                        lastDialogueLine.dialogueText += "\n";
+                    }
+
+                    lastDialogueLine.dialogueText += line;
+                }
+            }
+        }
+
+        return result.ToArray();
+    }
+
+    private bool TryParseNPCImportedLine(string line, out string speaker, out string text)
+    {
+        speaker = "";
+        text = "";
+
+        int separatorIndex = line.IndexOf('|');
+
+        if (separatorIndex >= 0)
+        {
+            speaker = line.Substring(0, separatorIndex);
+            text = line.Substring(separatorIndex + 1);
+            return !string.IsNullOrWhiteSpace(speaker);
+        }
+
+        int colonIndex = line.IndexOf(':');
+
+        if (colonIndex >= 0)
+        {
+            speaker = line.Substring(0, colonIndex);
+            text = line.Substring(colonIndex + 1);
+            return !string.IsNullOrWhiteSpace(speaker);
+        }
+
+        return false;
+    }
+
+    private Dictionary<string, Sprite> BuildCurrentNPCAvatarLookup()
+    {
+        Dictionary<string, Sprite> avatarLookup = new Dictionary<string, Sprite>();
+
+        if (npcDialogueLines == null)
+        {
+            return avatarLookup;
+        }
+
+        for (int i = 0; i < npcDialogueLines.Length; i++)
+        {
+            Map25DialogueLine line = npcDialogueLines[i];
+
+            if (line == null)
+            {
+                continue;
+            }
+
+            if (line.avatar == null)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(line.speakerName))
+            {
+                continue;
+            }
+
+            string key = NormalizeNPCSpeakerKey(line.speakerName);
+
+            if (!avatarLookup.ContainsKey(key))
+            {
+                avatarLookup.Add(key, line.avatar);
+            }
+        }
+
+        return avatarLookup;
+    }
+
+    private string CleanNPCSpeakerName(string speaker)
+    {
+        if (speaker == null)
+        {
+            return "";
+        }
+
+        speaker = speaker.Trim();
+
+        while (speaker.EndsWith(":"))
+        {
+            speaker = speaker.Substring(0, speaker.Length - 1).Trim();
+        }
+
+        return speaker;
+    }
+
+    private string NormalizeNPCSpeakerKey(string speaker)
+    {
+        speaker = CleanNPCSpeakerName(speaker);
+        return speaker.ToUpperInvariant();
+    }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(Map25StoryManager))]
+public class Map25StoryManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        Map25StoryManager manager = (Map25StoryManager)target;
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("NPC Dialogue TXT Import", EditorStyles.boldLabel);
+
+        EditorGUILayout.HelpBox(
+            "Kéo file .txt vào NPC Dialogue Txt File rồi bấm nút import.\n\n" +
+            "Định dạng tốt nhất:\n" +
+            "LÃO NÔNG|Aaaa yêu quái, yêu quái...\n" +
+            "TÔN NGỘ KHÔNG?|Xin thí chủ đừng hoảng sợ...\n\n" +
+            "Cũng hỗ trợ dạng:\n" +
+            "LÃO NÔNG: Aaaa yêu quái, yêu quái...\n\n" +
+            "Dòng tiêu đề không có nội dung sau dấu : sẽ tự bị bỏ qua.",
+            MessageType.Info
+        );
+
+        using (new EditorGUI.DisabledScope(manager.npcDialogueTxtFile == null))
+        {
+            if (GUILayout.Button("Import TXT To NPC Dialogue Lines"))
+            {
+                Undo.RecordObject(manager, "Import NPC Dialogue TXT");
+
+                bool success = manager.ImportNPCDialogueFromTextAsset();
+
+                if (success)
+                {
+                    EditorUtility.SetDirty(manager);
+                    serializedObject.Update();
+                }
+            }
+        }
+    }
+}
+#endif
