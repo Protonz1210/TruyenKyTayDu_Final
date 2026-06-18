@@ -1506,7 +1506,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2940266
+      value: -0.29417944
       objectReference: {fileID: 0}
     - target: {fileID: 544487755828816682, guid: 957704474a589dc4ebf67d6e12a21015, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3131,19 +3131,43 @@ MonoBehaviour:
   boss1GroupName: boss-panel
   locationBoxName: box_mask
   locationTextName: box_text
-  locationTitleText: "TH\xC1C\nLINH\nV\xC2N"
+  locationTitleText: "HY\nTH\u1ECA\n\u0110\u1ED2NG"
   locationFadeInTime: 1
   locationHoldTime: 2
   locationFadeOutTime: 1
   waitBeforeLockTime: 1
   waitIdleAfterLockTime: 0.25
   preBossDialogueLines:
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
+    dialogueText: "Cu\u1ED1i c\xF9ng c\u0169ng ch\u1ECBu hi\u1EC7n th\xE2n r\u1ED3i
+      sao? Ng\u01B0\u01A1i ch\xEDnh l\xE0 con H\u1ED3ng L\xE2n \u0110\u1EA1i M\xE3ng
+      h\u1EA1i d\xE2n \u0110\xE0 La Trang?"
   - avatar: {fileID: 8425205569314270067, guid: 18bbf80a74ce4a149aa74a7dcd047388, type: 3}
     speakerName: "M\xC3NG X\xC0 TINH"
-    dialogueText: "T\xEAn n\xE0o to gan d\xE1m v\xE1c x\xE1c \u0111\u1EBFn \u0111\xE2y"
+    dialogueText: "H\u1ED3ng L\xE2n \u0110\u1EA1i M\xE3ng? Ha ha\u2026 d\xE2n l\xE0ng
+      y\u1EBFu \u0111u\u1ED1i g\u1ECDi ta nh\u01B0 v\u1EADy sao. B\u1EA3o sao trong
+      v\xF9ng Th\u1EA5t Tuy\u1EC7t S\u01A1n n\xE0y, k\u1EBB n\xE0o nghe ti\u1EBFng
+      ta c\u0169ng ph\u1EA3i tr\xE1nh \u0111\u01B0\u1EDDng"
   - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
-    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG "
-    dialogueText: "Ta l\xE0 T\u1EC1 Thi\xEAn \u0110\u1EA1i Th\xE1nh"
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
+    dialogueText: "M\u1ED9t con y\xEAu x\xE0 ch\u1EC9 bi\u1EBFt d\xF9ng th\xE2n r\u1EAFn
+      qu\u1EA5n ng\u01B0\u1EDDi nu\u1ED1t th\u1ECBt, v\u1EADy m\xE0 c\u0169ng d\xE1m
+      x\u01B0ng hung?"
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
+    dialogueText: "V\u1EADy th\xEC c\xF3 l\u1EBD ng\u01B0\u01A1i ch\u01B0a nghe danh
+      T\u1EC1 Thi\xEAn \u0110\u1EA1i Th\xE1nh c\u1EE7a ta r\u1ED3i"
+  - avatar: {fileID: 8425205569314270067, guid: 18bbf80a74ce4a149aa74a7dcd047388, type: 3}
+    speakerName: "M\xC3NG X\xC0 TINH"
+    dialogueText: "\u0110\u1EC3 ta xem k\u1EBB t\u1EF1 x\u01B0ng l\xE0 T\u1EC1 Thi\xEAn
+      \u0110\u1EA1i Th\xE1nh n\xE0y c\xF3 b\u1EA3n l\u0129nh g\xEC. Tr\u01B0\u1EDBc
+      h\u1EBFt, ta s\u1EBD qu\u1EA5n n\xE1t nh\xE0 ng\u01B0\u01A1i, r\u1ED3i nu\u1ED1t
+      s\u1ED1ng t\u1EEBng k\u1EBB m\u1ED9t sau l\u01B0ng."
+  - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
+    speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
+    dialogueText: "\u0110\u1EEBng nhi\u1EC1u l\u1EDDi n\u1EEFa \u0111\u1EBFn l\xFAc
+      ng\u01B0\u01A1i ph\u1EA3i hi\u1EC7n nguy\xEAn h\xECnh r\u1ED3i\u2026"
   lockCharactersDuringPreBossDialogue: 1
   waitWukongIdleBeforePreBossDialogue: 1
   wukongObject: {fileID: 545079242}
@@ -3167,10 +3191,12 @@ MonoBehaviour:
   postBossDialogueLines:
   - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
-    dialogueText: "T\u01B0\u1EDFng th\u1EBF n\xE0oooo"
+    dialogueText: "Bi\u1EBFt l\u1EE3i h\u1EA1i c\u1EE7a l\xE3o T\xF4n r\u1ED3i ch\u1EE9?"
   - avatar: {fileID: 4731215060098734805, guid: 286947317ff7ec0499aa2127adbc080c, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
-    dialogueText: "H\xF3a ra th\u1EBF n\xE0yyy"
+    dialogueText: "Cu\u1ED1i c\xF9ng th\xEC H\u1ED3ng L\xE2n \u0110\u1EA1i M\xE3ng
+      c\u0169ng kh\xF4ng th\u1EC3 ch\u1ECBu \u0111\u01B0\u1EE3c v\xE0i g\u1EADy c\u1EE7a
+      ta\u2026"
   loadNextSceneAfterPostBossDialogue: 1
   nextSceneName: Map_2_5
   delayBeforeLoadNextScene: 1
@@ -4842,7 +4868,7 @@ PrefabInstance:
       objectReference: {fileID: 167573260}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2940266
+      value: -0.29417944
       objectReference: {fileID: 0}
     - target: {fileID: 8195679292833186892, guid: 6780fda6bf312cc4a83bf7c2e3f268c8, type: 3}
       propertyPath: m_LocalPosition.y

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [Serializable]
 public class Map1GlobalDialogueLine
@@ -84,6 +89,13 @@ public class Map1GlobalDialogueController : MonoBehaviour
     [Header("Dialogue Lines")]
     [Tooltip("Danh sách thoại chỉnh trực tiếp trong Inspector.")]
     public Map1GlobalDialogueLine[] dialogueLines;
+
+    [Header("Import TXT")]
+    [Tooltip("Kéo file .txt vào đây rồi bấm Import TXT To Dialogue Lines. Định dạng khuyên dùng: TÊN|Nội dung thoại.")]
+    public TextAsset dialogueTxtFile;
+
+    [Tooltip("Khi import, tự lấy lại avatar từ Dialogue Lines cũ theo tên nhân vật. Nên bật để không phải gán avatar lại.")]
+    public bool keepCurrentAvatarsWhenImport = true;
 
     [Header("UI Ready Wait")]
     [Tooltip("Thời gian tối đa chờ UIDocument GlobalHUD sẵn sàng khi PlayDialogue / StartDialogue được gọi.")]
@@ -509,4 +521,240 @@ public class Map1GlobalDialogueController : MonoBehaviour
 
         return keyControl != null && keyControl.isPressed;
     }
+
+    public bool ImportDialogueFromTextAsset()
+    {
+        if (dialogueTxtFile == null)
+        {
+            Debug.LogWarning("Map1GlobalDialogueController: Chưa kéo file TXT vào Dialogue Txt File.");
+            return false;
+        }
+
+        Map1GlobalDialogueLine[] importedLines = ParseDialogueText(dialogueTxtFile.text);
+
+        if (importedLines == null || importedLines.Length == 0)
+        {
+            Debug.LogWarning("Map1GlobalDialogueController: File TXT không có dòng thoại hợp lệ. Dùng định dạng: TÊN|Nội dung thoại.");
+            return false;
+        }
+
+        dialogueLines = importedLines;
+
+        Debug.Log("Map1GlobalDialogueController: Đã import " + dialogueLines.Length + " dòng thoại từ file TXT: " + dialogueTxtFile.name);
+        return true;
+    }
+
+    private Map1GlobalDialogueLine[] ParseDialogueText(string rawText)
+    {
+        List<Map1GlobalDialogueLine> result = new List<Map1GlobalDialogueLine>();
+
+        if (string.IsNullOrWhiteSpace(rawText))
+        {
+            return result.ToArray();
+        }
+
+        Dictionary<string, Sprite> avatarLookup = BuildCurrentAvatarLookup();
+
+        string normalizedText = rawText.Replace("\r\n", "\n").Replace("\r", "\n");
+        string[] rawLines = normalizedText.Split('\n');
+
+        Map1GlobalDialogueLine lastDialogueLine = null;
+
+        for (int i = 0; i < rawLines.Length; i++)
+        {
+            string line = rawLines[i];
+
+            if (line == null)
+            {
+                continue;
+            }
+
+            line = line.Trim();
+
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+
+            string speaker;
+            string text;
+
+            if (TryParseImportedLine(line, out speaker, out text))
+            {
+                speaker = CleanSpeakerName(speaker);
+                text = text.Trim();
+
+                // Những dòng kiểu "Đà La Trang:" chỉ là tiêu đề địa điểm, không phải thoại.
+                if (string.IsNullOrWhiteSpace(speaker) || string.IsNullOrWhiteSpace(text))
+                {
+                    continue;
+                }
+
+                Map1GlobalDialogueLine dialogueLine = new Map1GlobalDialogueLine();
+                dialogueLine.speakerName = speaker;
+                dialogueLine.dialogueText = text;
+
+                if (keepCurrentAvatarsWhenImport)
+                {
+                    Sprite avatar;
+                    string key = NormalizeSpeakerKey(speaker);
+
+                    if (avatarLookup.TryGetValue(key, out avatar))
+                    {
+                        dialogueLine.avatar = avatar;
+                    }
+                }
+
+                result.Add(dialogueLine);
+                lastDialogueLine = dialogueLine;
+            }
+            else
+            {
+                // Nếu một câu thoại bị xuống dòng trong TXT mà dòng sau không có TÊN| hoặc TÊN:
+                // thì nối dòng đó vào câu thoại ngay trước nó.
+                if (lastDialogueLine != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(lastDialogueLine.dialogueText))
+                    {
+                        lastDialogueLine.dialogueText += "\n";
+                    }
+
+                    lastDialogueLine.dialogueText += line;
+                }
+            }
+        }
+
+        return result.ToArray();
+    }
+
+    private bool TryParseImportedLine(string line, out string speaker, out string text)
+    {
+        speaker = "";
+        text = "";
+
+        int separatorIndex = line.IndexOf('|');
+
+        if (separatorIndex >= 0)
+        {
+            speaker = line.Substring(0, separatorIndex);
+            text = line.Substring(separatorIndex + 1);
+            return !string.IsNullOrWhiteSpace(speaker);
+        }
+
+        int colonIndex = line.IndexOf(':');
+
+        if (colonIndex >= 0)
+        {
+            speaker = line.Substring(0, colonIndex);
+            text = line.Substring(colonIndex + 1);
+            return !string.IsNullOrWhiteSpace(speaker);
+        }
+
+        return false;
+    }
+
+    private Dictionary<string, Sprite> BuildCurrentAvatarLookup()
+    {
+        Dictionary<string, Sprite> avatarLookup = new Dictionary<string, Sprite>();
+
+        if (dialogueLines == null)
+        {
+            return avatarLookup;
+        }
+
+        for (int i = 0; i < dialogueLines.Length; i++)
+        {
+            Map1GlobalDialogueLine line = dialogueLines[i];
+
+            if (line == null)
+            {
+                continue;
+            }
+
+            if (line.avatar == null)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(line.speakerName))
+            {
+                continue;
+            }
+
+            string key = NormalizeSpeakerKey(line.speakerName);
+
+            if (!avatarLookup.ContainsKey(key))
+            {
+                avatarLookup.Add(key, line.avatar);
+            }
+        }
+
+        return avatarLookup;
+    }
+
+    private string CleanSpeakerName(string speaker)
+    {
+        if (speaker == null)
+        {
+            return "";
+        }
+
+        speaker = speaker.Trim();
+
+        while (speaker.EndsWith(":"))
+        {
+            speaker = speaker.Substring(0, speaker.Length - 1).Trim();
+        }
+
+        return speaker;
+    }
+
+    private string NormalizeSpeakerKey(string speaker)
+    {
+        speaker = CleanSpeakerName(speaker);
+        return speaker.ToUpperInvariant();
+    }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(Map1GlobalDialogueController))]
+public class Map1GlobalDialogueControllerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        Map1GlobalDialogueController controller = (Map1GlobalDialogueController)target;
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("TXT Import Tool", EditorStyles.boldLabel);
+
+        EditorGUILayout.HelpBox(
+            "Kéo file .txt vào Dialogue Txt File rồi bấm nút import.\n\n" +
+            "Định dạng tốt nhất:\n" +
+            "LÃO NÔNG|Aaaa yêu quái, yêu quái....\n" +
+            "TÔN NGỘ KHÔNG?|Xin thí chủ đừng hoảng sợ...\n\n" +
+            "Cũng hỗ trợ dạng:\n" +
+            "LÃO NÔNG: Aaaa yêu quái, yêu quái....\n\n" +
+            "Dòng tiêu đề kiểu Đà La Trang: sẽ tự bị bỏ qua.",
+            MessageType.Info
+        );
+
+        using (new EditorGUI.DisabledScope(controller.dialogueTxtFile == null))
+        {
+            if (GUILayout.Button("Import TXT To Dialogue Lines"))
+            {
+                Undo.RecordObject(controller, "Import Dialogue TXT");
+
+                bool success = controller.ImportDialogueFromTextAsset();
+
+                if (success)
+                {
+                    EditorUtility.SetDirty(controller);
+                    serializedObject.Update();
+                }
+            }
+        }
+    }
+}
+#endif
