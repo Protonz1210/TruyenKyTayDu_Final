@@ -722,34 +722,34 @@ MonoBehaviour:
   dialogueBoxName: dialogue-box
   hideDialogueBoxBeforeLocationTitle: 1
   introDialogueLines:
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -4947449484447678323, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Y\xEAu nghi\u1EC7t! \u0110\u1EBFn tr\u01B0\u1EDBc m\u1EB7t Ph\u1EADt
       T\u1ED5 r\u1ED3i m\xE0 v\u1EABn ch\u01B0a ch\u1ECBu nh\u1EADn t\u1ED9i sao?"
   - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Nh\u1EADn t\u1ED9i? Ta c\xF3 t\u1ED9i g\xEC?"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 18110522615029087, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ng\u01B0\u01A1i gi\u1EA3 m\u1EA1o ta!"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -3682604179585730503, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "L\xE3o T\xF4n ch\xEDnh l\xE0 T\u1EC1 Thi\xEAn \u0110\u1EA1i Th\xE1nh!"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -8989670897852256868, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ta c\u0169ng l\xE0 T\u1EC1 Thi\xEAn \u0110\u1EA1i Th\xE1nh!"
   afterBeat1DialogueLines:
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 4661229689665034535, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ph\u1EADt T\u1ED5!"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 1159204706597731411, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Xin ng\u01B0\u1EDDi ph\xE2n x\u1EED chuy\u1EC7n n\xE0y gi\xFAp
       ch\xFAng con"
   - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ph\u1EADt T\u1ED5!"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -4947449484447678323, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Con l\xE0 th\u1EADt h\u1EAFn m\u1EDBi l\xE0 gi\u1EA3"
   afterBeat3DialogueLines:
@@ -767,11 +767,11 @@ MonoBehaviour:
   - avatar: {fileID: 1510314671384615875, guid: d9db99a2d816196468e12cf2a2b25879, type: 3}
     speakerName: "PH\u1EACT T\u1ED4"
     dialogueText: "T\u1EEB \u0110\u1ECBa Ph\u1EE7 \u0111\xE1nh t\u1EDBi Linh S\u01A1n."
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 7586095558869046564, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "B\u1EA9m Ph\u1EADt T\u1ED5. Y\xEAu nghi\u1EC7t n\xE0y gi\u1EA3
       d\u1EA1ng \u0111\u1EC7 t\u1EED."
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -8568720582320623538, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "B\u1EA9m Ph\u1EADt T\u1ED5. H\u1EAFn m\u1EDBi l\xE0 k\u1EBB gi\u1EA3
       m\u1EA1o"
@@ -812,7 +812,7 @@ MonoBehaviour:
   - avatar: {fileID: 1510314671384615875, guid: d9db99a2d816196468e12cf2a2b25879, type: 3}
     speakerName: "PH\u1EACT T\u1ED4"
     dialogueText: "H\u1ECD v\u1EABn \u0111ang ch\u1EDD ng\u01B0\u01A1i \u0111\xF3"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 4103563852485784371, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
     dialogueText: "V\xE2ng th\u01B0a Ph\u1EADt T\u1ED5"
   introDialogueTxtFile: {fileID: 4900000, guid: f20d747406cec433e928d485f97cb52c, type: 3}

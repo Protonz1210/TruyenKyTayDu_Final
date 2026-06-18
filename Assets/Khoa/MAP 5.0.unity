@@ -679,15 +679,15 @@ MonoBehaviour:
   dialogueBoxName: dialogue-box
   hideDialogueBoxBeforeLocationTitle: 1
   introDialogueLines:
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 18110522615029087, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ng\u01B0\u01A1i l\xE0 th\u1EE9 y\xEAu nghi\u1EC7t ph\u01B0\u01A1ng
       n\xE0o? D\xE1m gi\u1EA3 d\u1EA1ng L\xE3o T\xF4n?"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -4947449484447678323, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Gi\u1EA3 d\u1EA1ng? Ng\u01B0\u01A1i m\u1EDBi l\xE0 k\u1EBB gi\u1EA3
       d\u1EA1ng."
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 18110522615029087, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "L\xE3o T\xF4n sinh ra t\u1EEB ti\xEAn th\u1EA1ch Hoa Qu\u1EA3
       S\u01A1n. L\xE0m M\u1EF9 H\u1EA7u V\u01B0\u01A1ng. Xu\u1ED1ng \u0110\xF4ng
@@ -697,30 +697,30 @@ MonoBehaviour:
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "H\u1ED9 t\u1ED1ng s\u01B0 ph\u1EE5 sang T\xE2y Thi\xEAn. Ng\u01B0\u01A1i
       l\u1EA5y g\xEC ch\u1EE9ng minh m\xECnh l\xE0 th\u1EADt?"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -7824101892747564446, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Nh\u1EEFng chuy\u1EC7n \u0111\xF3 ta \u0111\u1EC1u bi\u1EBFt."
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 3402796045766857823, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ng\u01B0\u01A1i r\u1ED1t cu\u1ED9c l\xE0 ai?"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -8568720582320623538, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ta l\xE0 T\xF4n Ng\u1ED9 Kh\xF4ng."
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 9129316750360057145, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "L\xE3o T\xF4n ch\xEDnh l\xE0 T\u1EC1 Thi\xEAn \u0110\u1EA1i Th\xE1nh."
   afterBeat1DialogueLines:
   - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ng\u01B0\u01A1i mu\u1ED1n g\xEC?"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -4947449484447678323, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "L\xE3o T\xF4n c\u0169ng \u0111ang mu\u1ED1n h\u1ECFi ng\u01B0\u01A1i
       \u0111i\u1EC1u \u0111\xF3."
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 3929598447134622055, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "V\xEC sao ph\u1EA3i gi\u1EA3 l\xE0m l\xE3o T\xF4n?"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: 7586095558869046564, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ta kh\xF4ng gi\u1EA3 ai c\u1EA3!"
   - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
@@ -728,7 +728,7 @@ MonoBehaviour:
     dialogueText: "N\u1EBFu \u0111\xE3 kh\xF4ng th\u1EC3 ph\xE2n bi\u1EC7t \u0111\u01B0\u1EE3c
       ai m\u1EDBi l\xE0 th\u1EADt, ng\u01B0\u01A1i c\xF3 d\xE1m theo ta \u0111i t\xECm
       ng\u01B0\u1EDDi ph\xE2n x\u1EED chuy\u1EC7n n\xE0y kh\xF4ng"
-  - avatar: {fileID: -3665505726317585487, guid: 12560baa5179f5f48836564940ba433d, type: 3}
+  - avatar: {fileID: -9035097279646793234, guid: 12560baa5179f5f48836564940ba433d, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG?"
     dialogueText: "Ta l\u1EA1i s\u1EE3 ng\u01B0\u01A1i ch\u1EAFc"
   afterBeat3DialogueLines: []
@@ -3250,7 +3250,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 34be9acaada5e474dbb246623e7af4c7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.558
+  m_Volume: 0.453
   m_Pitch: 1
   Loop: 1
   Mute: 0

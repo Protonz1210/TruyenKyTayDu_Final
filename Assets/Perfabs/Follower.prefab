@@ -203,7 +203,7 @@ MonoBehaviour:
   target: {fileID: 0}
   playerFacing: {fileID: 0}
   followDistance: 7
-  moveSpeed: 2
+  moveSpeed: 2.5
   stopDistance: 0.15
   catchUpDistance: 5
   catchUpSpeedMultiplier: 1.5
@@ -496,7 +496,7 @@ MonoBehaviour:
   target: {fileID: 0}
   playerFacing: {fileID: 0}
   followDistance: 4.5
-  moveSpeed: 2.5
+  moveSpeed: 3
   stopDistance: 0.15
   catchUpDistance: 5
   catchUpSpeedMultiplier: 1.5
@@ -633,10 +633,12 @@ MonoBehaviour:
   maxHealth: 1000
   currentHealth: 1000
   hudController: {fileID: 0}
-  enableTestKeys: 1
+  enableTestKeys: 0
   testDamageAmount: 100
   testHealAmount: 100
   gameOverWhenDead: 1
+  deathNotifyObject: {fileID: 0}
+  deathNotifyMessageName: NotifyPartyDead
 --- !u!1 &6521958561192045472
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,7 +877,7 @@ MonoBehaviour:
   target: {fileID: 0}
   playerFacing: {fileID: 0}
   followDistance: 2
-  moveSpeed: 3
+  moveSpeed: 3.5
   stopDistance: 0.15
   catchUpDistance: 5
   catchUpSpeedMultiplier: 1.5
