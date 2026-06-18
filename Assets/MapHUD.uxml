@@ -5,7 +5,7 @@
         <ui:VisualElement name="wukong-health-mask" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; position: absolute; height: 34px; width: 457px; top: 88px; left: 181px;">
             <ui:VisualElement name="wukong-health-fill" style="flex-grow: 1; background-image: resource(&quot;UI/Health_UI&quot;); -unity-background-scale-mode: stretch-to-fill;"/>
         </ui:VisualElement>
-        <ui:Label text="1000 / 1000" name="wukong-health-text" style="position: absolute; color: rgb(255, 255, 255); font-size: 19px; height: 30px; width: 449px; top: 83px; left: 183px; -unity-text-align: middle-center; -unity-font-style: bold;"/>
+        <ui:Label text="1500 / 1500" name="wukong-health-text" style="position: absolute; color: rgb(255, 255, 255); font-size: 19px; height: 30px; width: 449px; top: 83px; left: 183px; -unity-text-align: middle-center; -unity-font-style: bold;"/>
         <ui:VisualElement name="wukong-avatar" style="flex-grow: 1; background-image: resource(&quot;UI/Wukong_UI&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 312px; width: 216px; top: -59px; left: -15px;"/>
     </ui:VisualElement>
     <ui:VisualElement name="party-health-group" style="flex-grow: 1; position: absolute; left: 133px; top: 107px; height: 270px; width: 598px;">
