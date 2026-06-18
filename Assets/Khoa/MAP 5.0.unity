@@ -892,15 +892,18 @@ MonoBehaviour:
   sceneFadeController: {fileID: 831555559}
   buddhaInterventionController: {fileID: 0}
   showLocationTitleBeforeIntroDialogue: 1
-  onlyShowLocationTitleOnGround50: 0
   locationUIDocument: {fileID: 831555556}
   locationBoxName: Box_mask
   locationTextName: Box_text
-  locationTitleText: "HOA\nQU\u1EA2\nS\u01A0N"
+  groundLocationTitleText: "HOA\nQU\u1EA2\nS\u01A0N"
+  heavenLocationTitleText: "LINH\nS\u01A0N"
   locationFadeInTime: 1
   locationHoldTime: 3
   locationFadeOutTime: 1
   hideLocationTitleOnAwake: 1
+  dialogueUIDocument: {fileID: 0}
+  dialogueBoxName: dialogue-box
+  hideDialogueBoxBeforeLocationTitle: 1
   introDialogueLines:
   - avatar: {fileID: -8568720582320623538, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
@@ -930,20 +933,17 @@ MonoBehaviour:
     speakerName: "L\u1EE4C NH\u0128 M\u1EF8 H\u1EA6U"
     dialogueText: "V\u1EADy th\xEC l\xEAn thi\xEAn \u0111\xECnh, \u0111\u1EC3 Ph\u1EADt
       T\u1ED5 t\u1EF1 nh\xECn xem ai m\u1EDBi l\xE0 th\u1EADt."
-  afterBeat2DialogueLines: []
   afterBeat3DialogueLines: []
   endDialogueLines: []
   nextSceneName: MAP 5.1
   delayBeforeLoadNextScene: 1
-  useTransitionTextBeforeLoad: 0
-  transitionTextToHeaven: 
   useBuddhaIntervention: 1
   waitFadeInBeforeStartStory: 1
   startStoryDelay: 0.1
-  useFinalEndingFade: 0
-  delayBeforeFinalFade: 0.6
-  finalEndingText: "H\xE0nh tr\xECnh th\u1EC9nh kinh v\u1EABn ti\u1EBFp t\u1EE5c..."
-  keepBlackScreenAfterEnding: 1
+  loadSceneAfterHeavenFinished: 1
+  heavenNextSceneName: MainMenu
+  delayBeforeHeavenLoadScene: 1
+  fadeOutBeforeHeavenLoadScene: 1
   autoStartOnPlay: 1
   enableTestKey: 1
   isStoryRunning: 0
@@ -980,6 +980,7 @@ GameObject:
   - component: {fileID: 423328919}
   - component: {fileID: 423328921}
   - component: {fileID: 423328922}
+  - component: {fileID: 423328923}
   m_Layer: 6
   m_Name: FakeWukong
   m_TagString: Player
@@ -1163,6 +1164,58 @@ MonoBehaviour:
   isAttackPlaying: 0
   currentAttackIndex: -1
   enableDebugLog: 1
+--- !u!114 &423328923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423328916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9997c0a5cbc824da19e4ed71c2f5c0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SFXPlayer
+  audioSource: {fileID: 0}
+  footstepClips:
+  - {fileID: 8300000, guid: 4ce862cf636204cc1b49923a80ac2979, type: 3}
+  - {fileID: 8300000, guid: 381c6ff2aceb5401fbc395de0864a22e, type: 3}
+  - {fileID: 8300000, guid: 40f8cd0b95e91429d94352066e6b88da, type: 3}
+  - {fileID: 8300000, guid: 01adf16b905b34239b35b0344a0d3dbc, type: 3}
+  - {fileID: 8300000, guid: 98b737aca854a4d6eaff35d4895505f8, type: 3}
+  - {fileID: 8300000, guid: 2d934e7a78d034f08b32f25f005c81c0, type: 3}
+  footstepVolume: 0.389
+  jumpClips: []
+  landClips: []
+  jumpLandVolume: 0.7
+  attack0Clips:
+  - {fileID: 8300000, guid: a6ba1a8242e814f4b85f04e9bbcb3b73, type: 3}
+  attack1Clips:
+  - {fileID: 8300000, guid: 29daa7ccaf17546bbaecbf8adeacd308, type: 3}
+  - {fileID: 8300000, guid: d6142915a8ea148298ef48cd47ae291e, type: 3}
+  - {fileID: 8300000, guid: 3053d0562f14f4ef4859a830a82dabd7, type: 3}
+  - {fileID: 8300000, guid: 5975d1ed6270b42a18c1a75a959ea00b, type: 3}
+  attack2Clips:
+  - {fileID: 8300000, guid: 1bd6f3dc9a582406bb7ef6ba1deb3638, type: 3}
+  - {fileID: 8300000, guid: e29bbec7ecf994e0e92b27613e9b1b27, type: 3}
+  - {fileID: 8300000, guid: c507ec6c85e3148d3ba4af2f191c873c, type: 3}
+  attack3Clips:
+  - {fileID: 8300000, guid: 62386fed11ed24aceaf2920ef2b11658, type: 3}
+  - {fileID: 8300000, guid: d41cfb1b0b42f41bcaa71220fa096297, type: 3}
+  - {fileID: 8300000, guid: 89fe6856df79341d9b778256f814893e, type: 3}
+  attackVolume: 0.8
+  hitClips: []
+  dieClips:
+  - {fileID: 8300000, guid: b67574ac5d7974b80a902c00073a87fe, type: 3}
+  hitDieVolume: 0.8
+  customClips: []
+  customVolume: 0.8
+  randomPitch: 1
+  minPitch: 0.95
+  maxPitch: 1.05
+  footstepCooldown: 0.08
+  attackCooldown: 0.01
+  debugLog: 0
 --- !u!1 &465692234
 GameObject:
   m_ObjectHideFlags: 0
