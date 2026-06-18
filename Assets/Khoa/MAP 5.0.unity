@@ -891,6 +891,16 @@ MonoBehaviour:
   duelTest: {fileID: 1501261055}
   sceneFadeController: {fileID: 831555559}
   buddhaInterventionController: {fileID: 0}
+  showLocationTitleBeforeIntroDialogue: 1
+  onlyShowLocationTitleOnGround50: 0
+  locationUIDocument: {fileID: 831555556}
+  locationBoxName: Box_mask
+  locationTextName: Box_text
+  locationTitleText: "HOA\nQU\u1EA2\nS\u01A0N"
+  locationFadeInTime: 1
+  locationHoldTime: 3
+  locationFadeOutTime: 1
+  hideLocationTitleOnAwake: 1
   introDialogueLines:
   - avatar: {fileID: -8568720582320623538, guid: 86e4397af82f3754da21ae5c04ffd2bb, type: 3}
     speakerName: "T\xD4N NG\u1ED8 KH\xD4NG"
@@ -925,8 +935,8 @@ MonoBehaviour:
   endDialogueLines: []
   nextSceneName: MAP 5.1
   delayBeforeLoadNextScene: 1
-  useTransitionTextBeforeLoad: 1
-  transitionTextToHeaven: "Linh S\u01A1n \u2013 Tr\u01B0\u1EDBc Ph\u1EADt T\u1ED5"
+  useTransitionTextBeforeLoad: 0
+  transitionTextToHeaven: 
   useBuddhaIntervention: 1
   waitFadeInBeforeStartStory: 1
   startStoryDelay: 0.1
@@ -1726,7 +1736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3539905e4967a4dcd89dcace11aeaa77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Map5DialogueController
-  uiDocument: {fileID: 0}
+  uiDocument: {fileID: 831555556}
   dialogueBoxName: dialogue-box
   dialogueFrameName: dialogue-frame
   avatarImageName: dialogue-avatar
@@ -1762,7 +1772,7 @@ MonoBehaviour:
   fadeInDuration: 2.5
   autoFadeInOnStart: 0
   startBlack: 0
-  useCinematicTextBeforeLoad: 1
+  useCinematicTextBeforeLoad: 0
   cinematicText: "Linh S\u01A1n \u2013 Tr\u01B0\u1EDBc Ph\u1EADt T\u1ED5"
   textFadeInDuration: 0.6
   textHoldDuration: 1.2

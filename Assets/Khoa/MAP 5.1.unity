@@ -655,6 +655,19 @@ MonoBehaviour:
   duelTest: {fileID: 1501261055}
   sceneFadeController: {fileID: 831555559}
   buddhaInterventionController: {fileID: 1138211210}
+  showLocationTitleBeforeIntroDialogue: 1
+  locationUIDocument: {fileID: 831555556}
+  locationBoxName: Box_mask
+  locationTextName: Box_text
+  groundLocationTitleText: "HOA\nQU\u1EA2\nS\u01A0N"
+  heavenLocationTitleText: "LINH\nS\u01A0N"
+  locationFadeInTime: 1
+  locationHoldTime: 2
+  locationFadeOutTime: 1
+  hideLocationTitleOnAwake: 1
+  dialogueUIDocument: {fileID: 831555556}
+  dialogueBoxName: dialogue-box
+  hideDialogueBoxBeforeLocationTitle: 1
   introDialogueLines:
   - avatar: {fileID: 0}
     speakerName: 
@@ -663,10 +676,6 @@ MonoBehaviour:
   - avatar: {fileID: 0}
     speakerName: 
     dialogueText: 
-  afterBeat2DialogueLines:
-  - avatar: {fileID: -4861003889136588802, guid: dc8c67f5367e33b4987f38f3e087c7b0, type: 3}
-    speakerName: "ch\xF3"
-    dialogueText: "m\xE8o"
   afterBeat3DialogueLines:
   - avatar: {fileID: 1510314671384615875, guid: d9db99a2d816196468e12cf2a2b25879, type: 3}
     speakerName: "Nh\u01B0 Lai"
@@ -677,15 +686,13 @@ MonoBehaviour:
     dialogueText: 
   nextSceneName: MAP 5.1
   delayBeforeLoadNextScene: 1
-  useTransitionTextBeforeLoad: 1
-  transitionTextToHeaven: "Linh S\u01A1n \u2013 Tr\u01B0\u1EDBc Ph\u1EADt T\u1ED5"
   useBuddhaIntervention: 1
   waitFadeInBeforeStartStory: 1
   startStoryDelay: 0.1
-  useFinalEndingFade: 0
-  delayBeforeFinalFade: 0.6
-  finalEndingText: "H\xE0nh tr\xECnh th\u1EC9nh kinh v\u1EABn ti\u1EBFp t\u1EE5c..."
-  keepBlackScreenAfterEnding: 1
+  loadSceneAfterHeavenFinished: 1
+  heavenNextSceneName: MainMenu
+  delayBeforeHeavenLoadScene: 1
+  fadeOutBeforeHeavenLoadScene: 1
   autoStartOnPlay: 1
   enableTestKey: 0
   isStoryRunning: 0
@@ -1450,10 +1457,25 @@ MonoBehaviour:
   buddhaBowlSpawnPoint: {fileID: 704683646}
   moveBowlToSpawnPoint: 1
   useSpawnPointRotation: 0
+  hideBuddhaBowlAfterDuration: 0
+  buddhaBowlVisibleDuration: 2
+  hideBowlAfterFakeWukongDieFinished: 1
+  extraDelayBeforeHideBowlAfterFakeDie: 0.1
   fakeWukongObject: {fileID: 423328916}
-  fakeWukongAnimator: {fileID: 0}
+  fakeWukongAnimator: {fileID: 423328921}
   fakeDieTriggerName: Die
+  fakeDieStateName: Wukong2Die
   delayBeforeFakeDie: 0.35
+  hideFakeWukongAfterDie: 1
+  waitDieAnimationByStateName: 1
+  maxWaitFakeDieAnimation: 4
+  fakeDieNormalizedEndThreshold: 0.98
+  fakeDieFallbackWaitTime: 1.2
+  extraDelayAfterDieFinished: 0
+  setFakeWukongInactiveAfterDie: 1
+  disableFakeAnimatorAfterDie: 1
+  disableFakeCollidersAfterDie: 1
+  disableFakeRenderersAfterDie: 1
   enableTestKey: 0
   isInterventionRunning: 0
 --- !u!4 &1138211211

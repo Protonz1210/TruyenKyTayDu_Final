@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class Map5StoryManager : MonoBehaviour
 {
@@ -28,6 +29,49 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Chỉ dùng ở Heaven_5_1. Kéo object có script Map5BuddhaInterventionController vào đây.")]
     public Map5BuddhaInterventionController buddhaInterventionController;
 
+    [Header("Location Title UI")]
+    [Tooltip("Bật: trước Intro Dialogue sẽ hiện UI địa điểm rồi mới bắt đầu thoại.")]
+    public bool showLocationTitleBeforeIntroDialogue = true;
+
+    [Tooltip("UIDocument chứa Box_mask / Box_text của UI địa điểm. Nếu bỏ trống, code sẽ tự tìm UIDocument có Location Box Name.")]
+    public UIDocument locationUIDocument;
+
+    [Tooltip("Tên VisualElement cha của bảng địa điểm trong UI Builder. Theo ảnh của bạn là Box_mask.")]
+    public string locationBoxName = "Box_mask";
+
+    [Tooltip("Tên Label hiển thị chữ địa điểm. Theo ảnh của bạn là Box_text.")]
+    public string locationTextName = "Box_text";
+
+    [TextArea(3, 6)]
+    [Tooltip("Text địa điểm cho MAP 5.0 dưới mặt đất.")]
+    public string groundLocationTitleText = "HOA\nQUẢ\nSƠN";
+
+    [TextArea(3, 6)]
+    [Tooltip("Text địa điểm cho MAP 5.1 thiên đình / trước Phật Tổ.")]
+    public string heavenLocationTitleText = "LINH\nSƠN";
+
+    [Tooltip("Thời gian fade in UI địa điểm.")]
+    public float locationFadeInTime = 1f;
+
+    [Tooltip("Thời gian giữ UI địa điểm sau khi hiện rõ.")]
+    public float locationHoldTime = 2f;
+
+    [Tooltip("Thời gian fade out UI địa điểm.")]
+    public float locationFadeOutTime = 1f;
+
+    [Tooltip("Ép ẩn UI địa điểm ngay khi vào scene, chỉ hiện khi chạy Location Title Beat.")]
+    public bool hideLocationTitleOnAwake = true;
+
+    [Header("Dialogue Box Pre-Hide")]
+    [Tooltip("UIDocument chứa box thoại. Nếu bỏ trống, code sẽ tự tìm theo Dialogue Box Name.")]
+    public UIDocument dialogueUIDocument;
+
+    [Tooltip("Tên VisualElement cha của box thoại trong UI Builder. Theo ảnh của bạn là dialogue-box.")]
+    public string dialogueBoxName = "dialogue-box";
+
+    [Tooltip("Ép ẩn box thoại trước khi hiện UI địa điểm để tránh vừa vào Map5.1 đã hiện box thoại.")]
+    public bool hideDialogueBoxBeforeLocationTitle = true;
+
     [Header("Dialogue Beats")]
     [Tooltip("Hội thoại mở đầu của map hiện tại.")]
     public Map5DialogueLine[] introDialogueLines;
@@ -35,10 +79,7 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Hội thoại sau khi 2 Wukong đánh xong lần 1.")]
     public Map5DialogueLine[] afterBeat1DialogueLines;
 
-    [Tooltip("Chỉ dùng ở MAP 5.1 nếu cần đánh lần 2.")]
-    public Map5DialogueLine[] afterBeat2DialogueLines;
-
-    [Tooltip("Chỉ dùng ở MAP 5.1 nếu cần đánh lần 3 hoặc đoạn chuẩn bị Phật Tổ can thiệp.")]
+    [Tooltip("Hội thoại sau lần đánh thứ 2 ở MAP 5.1, dùng làm đoạn chuẩn bị Phật Tổ can thiệp.")]
     public Map5DialogueLine[] afterBeat3DialogueLines;
 
     [Tooltip("Chỉ dùng ở Heaven_5_1, sau khi Phật Tổ dùng bát và FakeWukong Die.")]
@@ -51,12 +92,6 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Thời gian chờ sau hội thoại cuối MAP 5.0 rồi mới bắt đầu fade đen.")]
     public float delayBeforeLoadNextScene = 1f;
 
-    [Tooltip("Bật: khi kết thúc MAP 5.0 sẽ hiện chữ cinematic trên nền đen trước khi load MAP 5.1.")]
-    public bool useTransitionTextBeforeLoad = true;
-
-    [Tooltip("Chữ hiện giữa màn hình đen khi chuyển từ MAP 5.0 sang MAP 5.1.")]
-    public string transitionTextToHeaven = "Linh Sơn – Trước Phật Tổ";
-
     [Header("Heaven 5.1 Settings")]
     [Tooltip("Heaven_5_1 có dùng Phật Tổ can thiệp không.")]
     public bool useBuddhaIntervention = true;
@@ -67,18 +102,18 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Thời gian chờ nhẹ trước khi bắt đầu story, tránh việc StoryManager chạy trước FadeController.")]
     public float startStoryDelay = 0.1f;
 
-    [Header("Final Ending")]
-    [Tooltip("Bật: sau End Dialogue ở MAP 5.1 sẽ fade đen và hiện chữ kết thúc.")]
-    public bool useFinalEndingFade = false;
+    [Header("Heaven 5.1 End Scene Load")]
+    [Tooltip("Bật: sau khi MAP 5.1 chạy xong End Dialogue sẽ fade đen rồi chuyển sang scene tiếp theo.")]
+    public bool loadSceneAfterHeavenFinished = true;
 
-    [Tooltip("Thời gian chờ sau khi End Dialogue kết thúc rồi mới fade đen.")]
-    public float delayBeforeFinalFade = 0.6f;
+    [Tooltip("Tên scene sẽ chuyển tới sau MAP 5.1. Phải đúng tên trong Build Settings.")]
+    public string heavenNextSceneName = "MainMenu";
 
-    [Tooltip("Chữ cinematic hiện ở cuối MAP 5.1.")]
-    public string finalEndingText = "Hành trình thỉnh kinh vẫn tiếp tục...";
+    [Tooltip("Thời gian chờ sau End Dialogue trước khi bắt đầu fade chuyển scene.")]
+    public float delayBeforeHeavenLoadScene = 1f;
 
-    [Tooltip("Sau khi hiện chữ kết thúc, giữ màn hình đen luôn.")]
-    public bool keepBlackScreenAfterEnding = true;
+    [Tooltip("Bật: trước khi load scene sẽ fade đen map.")]
+    public bool fadeOutBeforeHeavenLoadScene = true;
 
     [Header("Start Settings")]
     [Tooltip("Bật: vào Play là tự chạy flow cinematic.")]
@@ -100,10 +135,33 @@ public class Map5StoryManager : MonoBehaviour
     [Tooltip("Đang ở đoạn ending cuối map hay không.")]
     public bool isEndingRunning;
 
-    [Tooltip("Beat hiện tại đang chạy. 0 = dialogue, 1/2/3 = duel beat, 99 = Buddha intervention, 100 = end dialogue, 999 = ending.")]
+    [Tooltip("Beat hiện tại đang chạy. 0 = dialogue, 1/2 = duel beat, 99 = Buddha intervention, 100 = end dialogue, 999 = ending.")]
     public int currentBeatIndex;
 
     private Coroutine storyRoutine;
+
+    private VisualElement locationRoot;
+    private VisualElement locationBox;
+    private Label locationText;
+
+    private VisualElement dialogueRoot;
+    private VisualElement dialogueBox;
+
+    private void Awake()
+    {
+        FindLocationUIElements();
+        FindDialogueBoxElement();
+
+        if (hideLocationTitleOnAwake)
+        {
+            HideLocationTitleImmediate();
+        }
+
+        if (hideDialogueBoxBeforeLocationTitle)
+        {
+            HideDialogueBoxImmediate();
+        }
+    }
 
     private void Start()
     {
@@ -123,6 +181,16 @@ public class Map5StoryManager : MonoBehaviour
             {
                 yield return new WaitUntil(() => sceneFadeController.isFading == false);
             }
+        }
+
+        if (hideDialogueBoxBeforeLocationTitle)
+        {
+            HideDialogueBoxImmediate();
+        }
+
+        if (hideLocationTitleOnAwake)
+        {
+            HideLocationTitleImmediate();
         }
 
         StartStoryFlow();
@@ -174,6 +242,8 @@ public class Map5StoryManager : MonoBehaviour
 
         Debug.Log("[Map5StoryManager] Bắt đầu flow MAP 5.0 dưới mặt đất.");
 
+        yield return StartCoroutine(PlayLocationTitleBeatRoutine());
+
         yield return StartCoroutine(PlayDialogueBeatRoutine(
             introDialogueLines,
             "Ground Intro Dialogue",
@@ -199,14 +269,6 @@ public class Map5StoryManager : MonoBehaviour
         {
             yield return StartCoroutine(sceneFadeController.FadeOutRoutine());
 
-            if (useTransitionTextBeforeLoad)
-            {
-                sceneFadeController.useCinematicTextBeforeLoad = true;
-                sceneFadeController.cinematicText = transitionTextToHeaven;
-
-                yield return StartCoroutine(sceneFadeController.PlayCinematicTextRoutine());
-            }
-
             SceneManager.LoadScene(nextSceneName);
         }
         else
@@ -225,6 +287,8 @@ public class Map5StoryManager : MonoBehaviour
         currentBeatIndex = 0;
 
         Debug.Log("[Map5StoryManager] Bắt đầu flow MAP 5.1 thiên đình.");
+
+        yield return StartCoroutine(PlayLocationTitleBeatRoutine());
 
         yield return StartCoroutine(PlayDialogueBeatRoutine(
             introDialogueLines,
@@ -249,17 +313,6 @@ public class Map5StoryManager : MonoBehaviour
         ));
 
         yield return StartCoroutine(PlayDialogueBeatRoutine(
-            afterBeat2DialogueLines,
-            "Heaven After Beat 2 Dialogue",
-            0
-        ));
-
-        yield return StartCoroutine(PlayDuelBeatRoutine(
-            3,
-            "Heaven Duel Beat 3"
-        ));
-
-        yield return StartCoroutine(PlayDialogueBeatRoutine(
             afterBeat3DialogueLines,
             "Heaven After Beat 3 Dialogue",
             0
@@ -276,9 +329,10 @@ public class Map5StoryManager : MonoBehaviour
             100
         ));
 
-        if (useFinalEndingFade)
+        if (loadSceneAfterHeavenFinished)
         {
-            yield return StartCoroutine(PlayFinalEndingRoutine());
+            yield return StartCoroutine(LoadNextSceneAfterHeavenFinishedRoutine());
+            yield break;
         }
 
         Debug.Log("[Map5StoryManager] Flow MAP 5.1 đã chạy xong.");
@@ -289,6 +343,315 @@ public class Map5StoryManager : MonoBehaviour
         isEndingRunning = false;
         currentBeatIndex = 0;
         storyRoutine = null;
+    }
+
+    private IEnumerator PlayLocationTitleBeatRoutine()
+    {
+        if (!showLocationTitleBeforeIntroDialogue)
+        {
+            yield break;
+        }
+
+        if (hideDialogueBoxBeforeLocationTitle)
+        {
+            HideDialogueBoxImmediate();
+        }
+
+        FindLocationUIElements();
+
+        if (locationBox == null)
+        {
+            Debug.LogWarning("[Map5StoryManager] Không tìm thấy Location Box. Kiểm tra Location UIDocument và Location Box Name.");
+            yield break;
+        }
+
+        if (locationText != null)
+        {
+            locationText.text = GetLocationTitleTextByCurrentMapMode();
+        }
+
+        Debug.Log("[Map5StoryManager] Bắt đầu Location Title UI: " + GetLocationTitleTextByCurrentMapMode());
+
+        locationBox.style.display = DisplayStyle.Flex;
+        locationBox.style.visibility = Visibility.Visible;
+        locationBox.style.opacity = 0f;
+        locationBox.pickingMode = PickingMode.Ignore;
+
+        yield return StartCoroutine(FadeLocationElementRoutine(locationBox, 0f, 1f, locationFadeInTime));
+
+        if (locationHoldTime > 0f)
+        {
+            yield return new WaitForSeconds(locationHoldTime);
+        }
+
+        yield return StartCoroutine(FadeLocationElementRoutine(locationBox, 1f, 0f, locationFadeOutTime));
+
+        HideLocationTitleImmediate();
+
+        if (hideDialogueBoxBeforeLocationTitle)
+        {
+            HideDialogueBoxImmediate();
+        }
+
+        Debug.Log("[Map5StoryManager] Kết thúc Location Title UI.");
+    }
+
+    private string GetLocationTitleTextByCurrentMapMode()
+    {
+        if (storyMode == Map5StoryMode.Ground_5_0)
+        {
+            return groundLocationTitleText;
+        }
+
+        return heavenLocationTitleText;
+    }
+
+    private void FindLocationUIElements()
+    {
+        if (locationUIDocument == null)
+        {
+            locationUIDocument = FindUIDocumentContainingElement(locationBoxName);
+
+            if (locationUIDocument == null)
+            {
+                locationUIDocument = FindUIDocumentContainingElement("Box_mask");
+            }
+
+            if (locationUIDocument == null)
+            {
+                locationUIDocument = FindUIDocumentContainingElement("box_mask");
+            }
+
+            if (locationUIDocument == null)
+            {
+                locationUIDocument = FindUIDocumentContainingElement("Box-mask");
+            }
+        }
+
+        if (locationUIDocument == null)
+        {
+            return;
+        }
+
+        locationRoot = locationUIDocument.rootVisualElement;
+
+        if (locationRoot == null)
+        {
+            return;
+        }
+
+        locationBox = FindVisualElementByNames(
+            locationRoot,
+            locationBoxName,
+            "Box_mask",
+            "box_mask",
+            "Box-mask",
+            "box-mask",
+            "Box_mask"
+        );
+
+        locationText = FindLabelByNames(
+            locationRoot,
+            locationTextName,
+            "Box_text",
+            "box_text",
+            "Box-text",
+            "box-text",
+            "Box_text"
+        );
+    }
+
+    private void FindDialogueBoxElement()
+    {
+        if (dialogueUIDocument == null)
+        {
+            dialogueUIDocument = FindUIDocumentContainingElement(dialogueBoxName);
+
+            if (dialogueUIDocument == null)
+            {
+                dialogueUIDocument = FindUIDocumentContainingElement("dialogue-box");
+            }
+
+            if (dialogueUIDocument == null)
+            {
+                dialogueUIDocument = FindUIDocumentContainingElement("DialogueBox");
+            }
+
+            if (dialogueUIDocument == null)
+            {
+                dialogueUIDocument = FindUIDocumentContainingElement("dialogue_box");
+            }
+        }
+
+        if (dialogueUIDocument == null)
+        {
+            return;
+        }
+
+        dialogueRoot = dialogueUIDocument.rootVisualElement;
+
+        if (dialogueRoot == null)
+        {
+            return;
+        }
+
+        dialogueBox = FindVisualElementByNames(
+            dialogueRoot,
+            dialogueBoxName,
+            "dialogue-box",
+            "DialogueBox",
+            "dialogue_box",
+            "Dialogue_Box",
+            "dialogueBox"
+        );
+    }
+
+    private UIDocument FindUIDocumentContainingElement(string elementName)
+    {
+        if (string.IsNullOrEmpty(elementName))
+        {
+            return null;
+        }
+
+#if UNITY_2023_1_OR_NEWER
+        UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+#else
+        UIDocument[] documents = FindObjectsOfType<UIDocument>();
+#endif
+
+        for (int i = 0; i < documents.Length; i++)
+        {
+            UIDocument document = documents[i];
+
+            if (document == null || document.rootVisualElement == null)
+            {
+                continue;
+            }
+
+            if (document.rootVisualElement.Q<VisualElement>(elementName) != null)
+            {
+                return document;
+            }
+        }
+
+        return null;
+    }
+
+    private VisualElement FindVisualElementByNames(VisualElement searchRoot, params string[] names)
+    {
+        if (searchRoot == null || names == null)
+        {
+            return null;
+        }
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            string elementName = names[i];
+
+            if (string.IsNullOrEmpty(elementName))
+            {
+                continue;
+            }
+
+            VisualElement result = searchRoot.Q<VisualElement>(elementName);
+
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    private Label FindLabelByNames(VisualElement searchRoot, params string[] names)
+    {
+        if (searchRoot == null || names == null)
+        {
+            return null;
+        }
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            string elementName = names[i];
+
+            if (string.IsNullOrEmpty(elementName))
+            {
+                continue;
+            }
+
+            Label result = searchRoot.Q<Label>(elementName);
+
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    private IEnumerator FadeLocationElementRoutine(VisualElement element, float from, float to, float duration)
+    {
+        if (element == null)
+        {
+            yield break;
+        }
+
+        if (duration <= 0f)
+        {
+            element.style.opacity = to;
+            yield break;
+        }
+
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+
+            float t = Mathf.Clamp01(timer / duration);
+            element.style.opacity = Mathf.Lerp(from, to, t);
+
+            yield return null;
+        }
+
+        element.style.opacity = to;
+    }
+
+    private void HideLocationTitleImmediate()
+    {
+        if (locationBox == null)
+        {
+            FindLocationUIElements();
+        }
+
+        if (locationBox == null)
+        {
+            return;
+        }
+
+        locationBox.style.display = DisplayStyle.None;
+        locationBox.style.visibility = Visibility.Hidden;
+        locationBox.style.opacity = 0f;
+        locationBox.pickingMode = PickingMode.Ignore;
+    }
+
+    private void HideDialogueBoxImmediate()
+    {
+        if (dialogueBox == null)
+        {
+            FindDialogueBoxElement();
+        }
+
+        if (dialogueBox == null)
+        {
+            return;
+        }
+
+        // Chỉ dùng display None để không phá ShowDialogue của Map5DialogueController.
+        // Khi StartDialogue chạy, controller chỉ cần set display Flex là box thoại hiện lại bình thường.
+        dialogueBox.style.display = DisplayStyle.None;
     }
 
     private IEnumerator PlayDialogueBeatRoutine(Map5DialogueLine[] lines, string beatName, int beatIndex)
@@ -369,36 +732,45 @@ public class Map5StoryManager : MonoBehaviour
         Debug.Log("[Map5StoryManager] Kết thúc Buddha Intervention.");
     }
 
-    private IEnumerator PlayFinalEndingRoutine()
+    private IEnumerator LoadNextSceneAfterHeavenFinishedRoutine()
     {
-        Debug.Log("[Map5StoryManager] Bắt đầu Final Ending.");
+        Debug.Log("[Map5StoryManager] Bắt đầu flow chuyển scene cuối MAP 5.1.");
 
         currentBeatIndex = 999;
         isEndingRunning = true;
 
-        yield return new WaitForSeconds(delayBeforeFinalFade);
-
-        if (sceneFadeController == null)
+        if (delayBeforeHeavenLoadScene > 0f)
         {
-            Debug.LogWarning("[Map5StoryManager] Chưa gán Scene Fade Controller, không thể chạy ending fade.");
+            yield return new WaitForSeconds(delayBeforeHeavenLoadScene);
+        }
+
+        if (string.IsNullOrEmpty(heavenNextSceneName))
+        {
+            Debug.LogWarning("[Map5StoryManager] Chưa nhập Heaven Next Scene Name, không thể chuyển scene cuối MAP 5.1.");
+
+            isStoryRunning = false;
+            isDuelBeatRunning = false;
+            isBuddhaInterventionRunning = false;
             isEndingRunning = false;
+            currentBeatIndex = 0;
+            storyRoutine = null;
+
             yield break;
         }
 
-        yield return StartCoroutine(sceneFadeController.FadeOutRoutine());
-
-        sceneFadeController.useCinematicTextBeforeLoad = true;
-        sceneFadeController.cinematicText = finalEndingText;
-
-        yield return StartCoroutine(sceneFadeController.PlayCinematicTextRoutine());
-
-        if (!keepBlackScreenAfterEnding)
+        if (sceneFadeController != null && fadeOutBeforeHeavenLoadScene)
         {
-            yield return StartCoroutine(sceneFadeController.FadeInRoutine());
+            yield return StartCoroutine(sceneFadeController.FadeOutRoutine());
+
+        }
+        else if (sceneFadeController == null && fadeOutBeforeHeavenLoadScene)
+        {
+            Debug.LogWarning("[Map5StoryManager] Chưa gán Scene Fade Controller, chuyển scene không có fade.");
         }
 
-        isEndingRunning = false;
-
-        Debug.Log("[Map5StoryManager] Kết thúc Final Ending.");
+        SceneManager.LoadScene(heavenNextSceneName);
     }
+
+
+
 }
