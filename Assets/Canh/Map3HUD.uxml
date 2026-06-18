@@ -3,7 +3,7 @@
         <ui:VisualElement name="boss-2-group" style="flex-grow: 1; position: absolute; flex-direction: row-reverse; height: 244px; width: 647px; top: 3px; left: 617px;">
             <ui:Label text="SÀI THÁI TUẾ" name="boss-2-name" style="background-image: resource(&quot;UI/Boss_name&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 145px; width: 578px; left: 53px; top: -21px; color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold; white-space: nowrap; -unity-text-align: middle-center;"/>
             <ui:VisualElement name="boss-2-health-frame" style="flex-grow: 1; background-image: resource(&quot;UI/Player_UI1&quot;); -unity-background-scale-mode: stretch-to-fill; position: absolute; height: 134px; width: 452px; left: 30px; top: 36px;"/>
-            <ui:VisualElement name="boss-2-health-roof" style="flex-grow: 1; position: absolute; height: 29px; width: 362px; left: -1px; top: -2px;">
+            <ui:VisualElement name="boss-2-health-roof" style="flex-grow: 1; position: absolute; height: 32px; width: 362px; left: -1px; top: -2px;">
                 <ui:VisualElement name="boss-2-health-mask" style="flex-grow: 1; -unity-background-scale-mode: scale-to-fit; position: relative; height: 100%; width: 100%; left: 75px; top: 88px; overflow: hidden; white-space: normal;">
                     <ui:VisualElement name="boss-2-health-fill" style="flex-grow: 1; background-image: resource(&quot;UI/Health_UI&quot;); width: 100%; height: 100%; overflow: visible;"/>
                 </ui:VisualElement>

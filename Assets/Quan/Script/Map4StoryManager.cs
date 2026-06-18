@@ -35,6 +35,28 @@ public class Map4StoryManager : MonoBehaviour
     [Tooltip("Animator của Đường Tăng / Trư Bát Giới / Sa Tăng.")]
     public Animator[] partyAnimators;
 
+    [Header("Game Over")]
+    [Tooltip("UI GameOver riêng của Map4. Kéo object OVER có GameOverMenuController vào đây.")]
+    public GameOverMenuController gameOverMenuController;
+
+    [Tooltip("Bật lên để khi Wukong chết xong animation ở phase thường thì hiện GameOver.")]
+    public bool gameOverWhenWukongDead = true;
+
+    [Tooltip("Bật lên để khi máu đoàn thỉnh kinh về 0 thì hiện GameOver.")]
+    public bool gameOverWhenPartyDead = true;
+
+    [Tooltip("Nếu Wukong chết trong phase Boss5Appear / Boss5StoryDialogue thì không GameOver, vì đó là cốt truyện.")]
+    public bool ignoreWukongGameOverDuringBoss5Story = true;
+
+    [Header("Party Health Notify")]
+    [Tooltip("Script máu tổng của đoàn thỉnh kinh. Kéo PartyManager có PartyHealth vào đây.")]
+    public PartyHealth partyHealth;
+
+    [Tooltip("Nếu chưa gán PartyHealth, tự tìm PartyHealth trong scene.")]
+    public bool autoFindPartyHealthIfMissing = true;
+
+    private bool gameOverStarted;
+
     [Header("Gameplay UI Elements To Hide")]
     [Tooltip("UIDocument chứa UI tổng Map4. Không kéo object box thoại riêng vào đây.")]
     public UIDocument gameplayUIDocument;
@@ -219,6 +241,7 @@ public class Map4StoryManager : MonoBehaviour
     private bool keepWukongIdle2UntilSceneLoad;
     private Coroutine wukongTransformCoroutine;
 
+
     void Start()
     {
         currentPhase = Map4Phase.StartMap;
@@ -226,7 +249,7 @@ public class Map4StoryManager : MonoBehaviour
         wukongTransformStarted = false;
         wukongReachedIdle2 = false;
         keepWukongIdle2UntilSceneLoad = false;
-
+        SetupDeathNotifyTargets();
         if (enemy4Object == null && enemy4 != null)
         {
             enemy4Object = enemy4.gameObject;
@@ -287,7 +310,125 @@ public class Map4StoryManager : MonoBehaviour
             MaintainWukongIdle2UntilSceneLoad();
         }
     }
+    void SetupDeathNotifyTargets()
+    {
+        SetupWukongDeathNotifyTarget();
+        SetupPartyDeathNotifyTargets();
+    }
 
+    void SetupWukongDeathNotifyTarget()
+    {
+        if (wukongController == null)
+        {
+#if UNITY_2023_1_OR_NEWER
+        wukongController = FindFirstObjectByType<PlayerController>();
+#else
+            wukongController = FindObjectOfType<PlayerController>();
+#endif
+        }
+
+        if (wukongController == null)
+        {
+            Debug.LogWarning("Map4StoryManager: Không tìm thấy PlayerController để setup Death Notify cho Wukong.");
+            return;
+        }
+
+        wukongController.SetDeathNotifyTarget(gameObject);
+        wukongController.SetDeathNotifyMessageName("NotifyWukongDeathFinished");
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map4StoryManager: Đã setup Death Notify Target cho Wukong.");
+        }
+    }
+
+    void SetupPartyDeathNotifyTargets()
+    {
+        bool hasSetupAnyPartyHealth = false;
+
+        // Ưu tiên 1: kéo PartyManager vào Inspector.
+        if (partyHealth != null)
+        {
+            SetupOnePartyHealthDeathNotify(partyHealth);
+            hasSetupAnyPartyHealth = true;
+        }
+
+        // Ưu tiên 2: tìm trong party follow scripts.
+        if (partyFollowScripts != null && partyFollowScripts.Length > 0)
+        {
+            for (int i = 0; i < partyFollowScripts.Length; i++)
+            {
+                Behaviour followScript = partyFollowScripts[i];
+
+                if (followScript == null)
+                {
+                    continue;
+                }
+
+                PartyHealth foundPartyHealth = followScript.GetComponent<PartyHealth>();
+
+                if (foundPartyHealth == null)
+                {
+                    foundPartyHealth = followScript.GetComponentInChildren<PartyHealth>(true);
+                }
+
+                if (foundPartyHealth == null)
+                {
+                    foundPartyHealth = followScript.GetComponentInParent<PartyHealth>();
+                }
+
+                if (foundPartyHealth == null)
+                {
+                    continue;
+                }
+
+                SetupOnePartyHealthDeathNotify(foundPartyHealth);
+                hasSetupAnyPartyHealth = true;
+            }
+        }
+
+        // Ưu tiên 3: tự tìm trong scene.
+        if (!hasSetupAnyPartyHealth && autoFindPartyHealthIfMissing)
+        {
+#if UNITY_2023_1_OR_NEWER
+        PartyHealth[] allPartyHealth = FindObjectsByType<PartyHealth>(FindObjectsSortMode.None);
+#else
+            PartyHealth[] allPartyHealth = FindObjectsOfType<PartyHealth>();
+#endif
+
+            for (int i = 0; i < allPartyHealth.Length; i++)
+            {
+                if (allPartyHealth[i] == null)
+                {
+                    continue;
+                }
+
+                SetupOnePartyHealthDeathNotify(allPartyHealth[i]);
+                hasSetupAnyPartyHealth = true;
+            }
+        }
+
+        if (!hasSetupAnyPartyHealth)
+        {
+            Debug.LogWarning("Map4StoryManager: Không tìm thấy PartyHealth nào để setup Death Notify cho đoàn. Hãy kéo PartyManager vào field Party Health.");
+        }
+    }
+
+    void SetupOnePartyHealthDeathNotify(PartyHealth targetPartyHealth)
+    {
+        if (targetPartyHealth == null)
+        {
+            return;
+        }
+
+        targetPartyHealth.SetDeathNotifyTarget(gameObject);
+        targetPartyHealth.SetDeathNotifyMessageName("NotifyPartyDead");
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map4StoryManager: Đã setup Death Notify Target cho PartyHealth trên object: " + targetPartyHealth.gameObject.name);
+        }
+    }
     void PrepareLocationTitleStartState()
     {
         if (mapHUDController == null)
@@ -1287,7 +1428,122 @@ public class Map4StoryManager : MonoBehaviour
             ResetAnimatorTriggerIfExists(wukongAnimator, triggerName);
         }
     }
+    public void NotifyWukongDeathFinished()
+    {
+        if (!gameOverWhenWukongDead)
+        {
+            return;
+        }
 
+        if (ShouldIgnoreWukongGameOverForBoss5Story())
+        {
+            Debug.Log("Map4StoryManager: Wukong chết trong phase Boss5 story nên không bật GameOver.");
+            return;
+        }
+
+        Debug.Log("Map4StoryManager: Đã nhận báo Wukong chết xong animation.");
+        ShowGameOver("Wukong chết xong animation.");
+    }
+
+    public void NotifyPartyDead()
+    {
+        if (!gameOverWhenPartyDead)
+        {
+            return;
+        }
+
+        Debug.Log("Map4StoryManager: Đã nhận báo đoàn thỉnh kinh hết máu.");
+        ShowGameOver("Đoàn thỉnh kinh hết máu.");
+    }
+
+    bool ShouldIgnoreWukongGameOverForBoss5Story()
+    {
+        if (!ignoreWukongGameOverDuringBoss5Story)
+        {
+            return false;
+        }
+
+        return currentPhase == Map4Phase.Boss5Appear
+            || currentPhase == Map4Phase.Boss5StoryDialogue
+            || currentPhase == Map4Phase.WukongTransform
+            || currentPhase == Map4Phase.EndMap;
+    }
+
+    void ShowGameOver(string reason)
+    {
+        if (gameOverStarted)
+        {
+            return;
+        }
+
+        gameOverStarted = true;
+
+        Debug.Log("Map4StoryManager: GAME OVER. Lý do: " + reason);
+
+        StopAllStoryCombatForGameOver();
+        HideUIBeforeGameOver();
+
+        if (gameOverMenuController != null)
+        {
+            gameOverMenuController.ShowGameOver();
+        }
+        else
+        {
+            Debug.LogWarning("Map4StoryManager: Chưa gán GameOverMenuController.");
+        }
+    }
+
+    void StopAllStoryCombatForGameOver()
+    {
+        if (enemy123Spawner != null)
+        {
+            enemy123Spawner.StopSpawn();
+            enemy123Spawner.isSpawning = false;
+        }
+
+        if (enemy4 != null)
+        {
+            enemy4.SendMessage("NotifyWukongDead", SendMessageOptions.DontRequireReceiver);
+            enemy4.SendMessage("NotifyPartyDead", SendMessageOptions.DontRequireReceiver);
+            enemy4.SendMessage("DeactivateCombat", SendMessageOptions.DontRequireReceiver);
+        }
+
+        if (boss3 != null)
+        {
+            boss3.StopCombatAndReturnIdle();
+        }
+
+        if (boss4 != null)
+        {
+            boss4.StopCombatAndReturnIdle();
+        }
+
+        if (boss5Object != null)
+        {
+            boss5Object.SendMessage("NotifyWukongDead", SendMessageOptions.DontRequireReceiver);
+            boss5Object.SendMessage("NotifyPartyDead", SendMessageOptions.DontRequireReceiver);
+        }
+
+        LockWukongAndParty();
+    }
+
+    void HideUIBeforeGameOver()
+    {
+        if (dialogueController != null)
+        {
+            dialogueController.HideDialogue();
+        }
+
+        if (mapHUDController != null)
+        {
+            mapHUDController.HideLocationTitleImmediate();
+        }
+
+        if (hideGameplayElementsWhenBoss5StoryStart)
+        {
+            HideGameplayElementsOnly();
+        }
+    }
     void LogPhase(string message)
     {
         if (!enableDebugLog) return;

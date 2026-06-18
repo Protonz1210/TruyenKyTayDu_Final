@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChonMan : MonoBehaviour
+public class MapSelect : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Map1()

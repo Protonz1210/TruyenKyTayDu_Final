@@ -58,6 +58,25 @@ public class Map2StoryManager : MonoBehaviour
     [Tooltip("UIDocument chứa Map2HUD.")]
     public UIDocument map2HUDDocument;
 
+    [Header("Game Over")]
+    [Tooltip("UI GameOver riêng của Map2. Kéo object OVER có GameOverMenuController vào đây.")]
+    public GameOverMenuController gameOverMenuController;
+
+    [Tooltip("Bật lên để khi Wukong chết xong animation thì hiện GameOver.")]
+    public bool gameOverWhenWukongDead = true;
+
+    [Tooltip("Bật lên để khi máu đoàn thỉnh kinh về 0 thì hiện GameOver.")]
+    public bool gameOverWhenPartyDead = true;
+
+    [Header("Party Health Notify")]
+    [Tooltip("Script máu tổng của đoàn thỉnh kinh. Kéo PartyManager có PartyHealth vào đây.")]
+    public PartyHealth partyHealth;
+
+    [Tooltip("Nếu chưa gán PartyHealth, tự tìm PartyHealth trong scene.")]
+    public bool autoFindPartyHealthIfMissing = true;
+
+    private bool gameOverStarted;
+
     [Header("Gameplay UI Objects")]
     [Tooltip("Các object UI tổng cần ẩn ở đầu map và hiện lại sau intro. Ví dụ: GlobalHUD.")]
     public GameObject[] gameplayUIObjects;
@@ -200,12 +219,14 @@ public class Map2StoryManager : MonoBehaviour
     {
         AutoBindReferences();
         FindUIElements();
+        SetupDeathNotifyTargets();
     }
 
     private void Start()
     {
         AutoBindReferences();
         FindUIElements();
+        SetupDeathNotifyTargets();
 
         PrepareMapStartState();
 
@@ -304,6 +325,131 @@ public class Map2StoryManager : MonoBehaviour
 
         AutoBindWukongReferences();
         AutoBindSceneFadeController();
+    }
+    private void SetupDeathNotifyTargets()
+    {
+        SetupWukongDeathNotifyTarget();
+        SetupPartyDeathNotifyTargets();
+    }
+
+    private void SetupWukongDeathNotifyTarget()
+    {
+        if (wukongObject == null)
+        {
+            AutoBindWukongReferences();
+        }
+
+        if (wukongObject == null)
+        {
+            Debug.LogWarning("Map2StoryManager: Chưa gán Wukong Object nên không thể setup Death Notify cho Wukong.");
+            return;
+        }
+
+        PlayerController playerController = wukongObject.GetComponent<PlayerController>();
+
+        if (playerController == null)
+        {
+            playerController = wukongObject.GetComponentInChildren<PlayerController>(true);
+        }
+
+        if (playerController == null)
+        {
+            Debug.LogWarning("Map2StoryManager: Không tìm thấy PlayerController để setup Death Notify cho Wukong.");
+            return;
+        }
+
+        playerController.SetDeathNotifyTarget(gameObject);
+        playerController.SetDeathNotifyMessageName("NotifyWukongDeathFinished");
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map2StoryManager: Đã setup Death Notify Target cho Wukong.");
+        }
+    }
+
+    private void SetupPartyDeathNotifyTargets()
+    {
+        bool hasSetupAnyPartyHealth = false;
+
+        if (partyHealth != null)
+        {
+            SetupOnePartyHealthDeathNotify(partyHealth);
+            hasSetupAnyPartyHealth = true;
+        }
+
+        if (charactersToFreeze != null && charactersToFreeze.Length > 0)
+        {
+            for (int i = 0; i < charactersToFreeze.Length; i++)
+            {
+                GameObject character = charactersToFreeze[i];
+
+                if (character == null)
+                {
+                    continue;
+                }
+
+                PartyHealth foundPartyHealth = character.GetComponent<PartyHealth>();
+
+                if (foundPartyHealth == null)
+                {
+                    foundPartyHealth = character.GetComponentInChildren<PartyHealth>(true);
+                }
+
+                if (foundPartyHealth == null)
+                {
+                    foundPartyHealth = character.GetComponentInParent<PartyHealth>();
+                }
+
+                if (foundPartyHealth == null)
+                {
+                    continue;
+                }
+
+                SetupOnePartyHealthDeathNotify(foundPartyHealth);
+                hasSetupAnyPartyHealth = true;
+            }
+        }
+
+        if (!hasSetupAnyPartyHealth && autoFindPartyHealthIfMissing)
+        {
+#if UNITY_2023_1_OR_NEWER
+        PartyHealth[] allPartyHealth = FindObjectsByType<PartyHealth>(FindObjectsSortMode.None);
+#else
+            PartyHealth[] allPartyHealth = FindObjectsOfType<PartyHealth>();
+#endif
+
+            for (int i = 0; i < allPartyHealth.Length; i++)
+            {
+                if (allPartyHealth[i] == null)
+                {
+                    continue;
+                }
+
+                SetupOnePartyHealthDeathNotify(allPartyHealth[i]);
+                hasSetupAnyPartyHealth = true;
+            }
+        }
+
+        if (!hasSetupAnyPartyHealth)
+        {
+            Debug.LogWarning("Map2StoryManager: Không tìm thấy PartyHealth nào để setup Death Notify cho đoàn. Hãy kéo PartyManager vào field Party Health.");
+        }
+    }
+
+    private void SetupOnePartyHealthDeathNotify(PartyHealth targetPartyHealth)
+    {
+        if (targetPartyHealth == null)
+        {
+            return;
+        }
+
+        targetPartyHealth.SetDeathNotifyTarget(gameObject);
+        targetPartyHealth.SetDeathNotifyMessageName("NotifyPartyDead");
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map2StoryManager: Đã setup Death Notify Target cho PartyHealth trên object: " + targetPartyHealth.gameObject.name);
+        }
     }
 
     private void AutoBindWukongReferences()
@@ -1089,6 +1235,87 @@ public class Map2StoryManager : MonoBehaviour
         {
             Debug.LogWarning("Map2StoryManager: Không có Map2SceneFadeController, chuyển scene trực tiếp.");
             SceneManager.LoadScene(nextSceneName);
+        }
+    }
+    public void NotifyWukongDeathFinished()
+    {
+        if (!gameOverWhenWukongDead)
+        {
+            return;
+        }
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map2StoryManager: Đã nhận báo Wukong chết xong animation.");
+        }
+
+        ShowGameOver("Wukong chết xong animation.");
+    }
+
+    public void NotifyPartyDead()
+    {
+        if (!gameOverWhenPartyDead)
+        {
+            return;
+        }
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map2StoryManager: Đã nhận báo đoàn thỉnh kinh hết máu.");
+        }
+
+        ShowGameOver("Đoàn thỉnh kinh hết máu.");
+    }
+
+    private void ShowGameOver(string reason)
+    {
+        if (gameOverStarted)
+        {
+            return;
+        }
+
+        gameOverStarted = true;
+
+        if (enableDebugLog)
+        {
+            Debug.Log("Map2StoryManager: GAME OVER. Lý do: " + reason);
+        }
+
+        HideUIBeforeGameOver();
+
+        LockCharacters(true);
+
+        if (boss1 != null)
+        {
+            boss1.NotifyWukongDead();
+            boss1.NotifyPartyDead();
+        }
+
+        if (gameOverMenuController != null)
+        {
+            gameOverMenuController.ShowGameOver();
+        }
+        else
+        {
+            Debug.LogWarning("Map2StoryManager: Chưa gán GameOverMenuController.");
+        }
+    }
+
+    private void HideUIBeforeGameOver()
+    {
+        HideBoss1UI();
+        HideDialogueUI();
+        HideLocationTitleImmediate();
+
+        if (gameplayUIObjects != null)
+        {
+            for (int i = 0; i < gameplayUIObjects.Length; i++)
+            {
+                if (gameplayUIObjects[i] != null)
+                {
+                    gameplayUIObjects[i].SetActive(false);
+                }
+            }
         }
     }
 

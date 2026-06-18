@@ -25,11 +25,21 @@ public class PartyHealth : MonoBehaviour
     public int testHealAmount = 100;
 
     [Header("Game Over")]
-    [Tooltip("Game Over khi đoàn chết.")]
+    [Tooltip("Bật lên để khi đoàn hết máu sẽ báo MapStory bật GameOver.")]
     public bool gameOverWhenDead = true;
+
+    [Header("Death Notify - Auto Set By MapStory")]
+    [Tooltip("Không chỉnh ở Inspector PartyHealth. MapStoryManager sẽ tự gán bằng SetDeathNotifyTarget().")]
+    [HideInInspector]
+    public GameObject deathNotifyObject;
+
+    [Tooltip("Tên hàm sẽ gọi trên MapStoryManager khi máu đoàn về 0.")]
+    [HideInInspector]
+    public string deathNotifyMessageName = "NotifyPartyDead";
 
     private bool isDead;
     private bool hasNotifiedBossDead;
+    private bool hasNotifiedMapStoryDead;
 
     void Awake()
     {
@@ -44,10 +54,14 @@ public class PartyHealth : MonoBehaviour
     void Update()
     {
         if (!enableTestKeys)
+        {
             return;
+        }
 
         if (Keyboard.current == null)
+        {
             return;
+        }
 
         if (Keyboard.current.digit4Key.wasPressedThisFrame)
         {
@@ -65,13 +79,78 @@ public class PartyHealth : MonoBehaviour
         }
     }
 
+    // ================= DEATH NOTIFY TARGET =================
+
+    /// <summary>
+    /// MapStoryManager sẽ gọi hàm này khi vào map.
+    /// Không cần kéo MapStory vào Inspector của PartyHealth.
+    /// </summary>
+    public void SetDeathNotifyTarget(GameObject target)
+    {
+        deathNotifyObject = target;
+    }
+
+    /// <summary>
+    /// Nếu map nào muốn đổi tên hàm notify thì có thể gọi hàm này.
+    /// Bình thường giữ mặc định: NotifyPartyDead.
+    /// </summary>
+    public void SetDeathNotifyMessageName(string messageName)
+    {
+        if (string.IsNullOrEmpty(messageName))
+        {
+            return;
+        }
+
+        deathNotifyMessageName = messageName;
+    }
+
+    private void NotifyMapStoryPartyDead()
+    {
+        if (hasNotifiedMapStoryDead)
+        {
+            return;
+        }
+
+        hasNotifiedMapStoryDead = true;
+
+        if (!gameOverWhenDead)
+        {
+            return;
+        }
+
+        if (deathNotifyObject == null)
+        {
+            Debug.LogWarning("PartyHealth: Đoàn đã hết máu nhưng chưa có Death Notify Object. MapStoryManager chưa gán target.");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(deathNotifyMessageName))
+        {
+            Debug.LogWarning("PartyHealth: Death Notify Message Name đang trống.");
+            return;
+        }
+
+        deathNotifyObject.SendMessage(
+            deathNotifyMessageName,
+            SendMessageOptions.DontRequireReceiver
+        );
+
+        Debug.Log("PartyHealth: Đã báo MapStory rằng đoàn thỉnh kinh đã hết máu.");
+    }
+
+    // ================= HEALTH =================
+
     public void TakeDamage(int damage)
     {
         if (isDead)
+        {
             return;
+        }
 
         if (damage <= 0)
+        {
             return;
+        }
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -89,26 +168,30 @@ public class PartyHealth : MonoBehaviour
     void OnPartyHealthZero()
     {
         if (isDead)
+        {
             return;
+        }
 
         isDead = true;
         currentHealth = 0;
 
         UpdateHealthUI();
+
+        // Báo boss/enemy biết đoàn đã chết để dừng đánh hoặc đổi trạng thái.
         NotifyAllBossPartyDead();
 
         Debug.Log("Đoàn thỉnh kinh đã hết máu.");
 
-        if (gameOverWhenDead)
-        {
-            Debug.Log("GAME OVER: Máu đoàn thỉnh kinh về 0.");
-        }
+        // Báo MapStoryManager bật GameOver.
+        NotifyMapStoryPartyDead();
     }
 
     void NotifyAllBossPartyDead()
     {
         if (hasNotifiedBossDead)
+        {
             return;
+        }
 
         hasNotifiedBossDead = true;
 
@@ -125,6 +208,7 @@ public class PartyHealth : MonoBehaviour
                 boss.NotifyPartyDead();
             }
         }
+
 #if UNITY_2023_1_OR_NEWER
         Boss5Controller[] boss5List = FindObjectsByType<Boss5Controller>(FindObjectsSortMode.None);
 #else
@@ -138,8 +222,9 @@ public class PartyHealth : MonoBehaviour
                 boss5.NotifyPartyDead();
             }
         }
+
 #if UNITY_2023_1_OR_NEWER
-Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindObjectsSortMode.None);
+        Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindObjectsSortMode.None);
 #else
         Enemy123Controller[] enemy123List = FindObjectsOfType<Enemy123Controller>();
 #endif
@@ -151,20 +236,21 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
                 enemy123.NotifyPartyDead();
             }
         }
-       
+
 #if UNITY_2023_1_OR_NEWER
-    Enemy4Controller[] enemy4List = FindObjectsByType<Enemy4Controller>(FindObjectsSortMode.None);
+        Enemy4Controller[] enemy4List = FindObjectsByType<Enemy4Controller>(FindObjectsSortMode.None);
 #else
-            Enemy4Controller[] enemy4List = FindObjectsOfType<Enemy4Controller>();
+        Enemy4Controller[] enemy4List = FindObjectsOfType<Enemy4Controller>();
 #endif
 
-            for (int i = 0; i < enemy4List.Length; i++)
+        for (int i = 0; i < enemy4List.Length; i++)
+        {
+            if (enemy4List[i] != null)
             {
-                if (enemy4List[i] != null)
-                {
-                    enemy4List[i].NotifyPartyDead();
-                }
+                enemy4List[i].NotifyPartyDead();
             }
+        }
+
 #if UNITY_2023_1_OR_NEWER
         Boss1Controller[] boss1List = FindObjectsByType<Boss1Controller>(FindObjectsSortMode.None);
 #else
@@ -183,10 +269,14 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
     public void Heal(int amount)
     {
         if (isDead)
+        {
             return;
+        }
 
         if (amount <= 0)
+        {
             return;
+        }
 
         if (currentHealth >= maxHealth)
         {
@@ -204,6 +294,29 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
         Debug.Log("Đoàn thỉnh kinh hồi máu: " + amount + " | Máu: " + currentHealth + " / " + maxHealth);
     }
 
+    public void HealFull()
+    {
+        if (isDead)
+        {
+            return;
+        }
+
+        currentHealth = maxHealth;
+        UpdateHealthUI();
+
+        Debug.Log("Đoàn thỉnh kinh đã hồi đầy máu.");
+    }
+
+    public void HealToFull()
+    {
+        HealFull();
+    }
+
+    public void RestoreFullHealth()
+    {
+        HealFull();
+    }
+
     void UpdateHealthUI()
     {
         if (hudController != null)
@@ -216,6 +329,21 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
         }
     }
 
+    public void UpdateUI()
+    {
+        UpdateHealthUI();
+    }
+
+    public void RefreshUI()
+    {
+        UpdateHealthUI();
+    }
+
+    public void UpdateHealthUIFromExternal()
+    {
+        UpdateHealthUI();
+    }
+
     public bool IsDead()
     {
         return isDead;
@@ -224,8 +352,20 @@ Enemy123Controller[] enemy123List = FindObjectsByType<Enemy123Controller>(FindOb
     public float GetHealthPercent()
     {
         if (maxHealth <= 0)
+        {
             return 0f;
+        }
 
         return (float)currentHealth / maxHealth;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
     }
 }

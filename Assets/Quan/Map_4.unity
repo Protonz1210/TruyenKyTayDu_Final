@@ -5203,12 +5203,12 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.261
   m_Color: {r: 0.9622642, g: 0.24056605, b: 0.24056605, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 274b68e26f8983df
+  m_ApplyToSortingLayers: 274b68e2292d9387
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -7269,6 +7269,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 918771519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1351154842 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2942401310541773864, guid: f532f0d65236a2041ab41b900f8f76d9, type: 3}
+  m_PrefabInstance: {fileID: 3416482806185226596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33d7b523b02d9e40bb7a19f2c2f0a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PartyHealth
 --- !u!1 &1358862812
 GameObject:
   m_ObjectHideFlags: 0
@@ -8405,6 +8416,12 @@ MonoBehaviour:
   - {fileID: 3416482806185226599}
   - {fileID: 3416482806185226598}
   - {fileID: 3416482806185226597}
+  gameOverMenuController: {fileID: 2115277024}
+  gameOverWhenWukongDead: 1
+  gameOverWhenPartyDead: 1
+  ignoreWukongGameOverDuringBoss5Story: 1
+  partyHealth: {fileID: 1351154842}
+  autoFindPartyHealthIfMissing: 1
   gameplayUIDocument: {fileID: 1369307544}
   gameplayElementNamesToHide:
   - wukong-health-group
@@ -8503,7 +8520,7 @@ MonoBehaviour:
     dialogueText: "M\xE3i m\xE3i ng\u01B0\u01A1i ch\u1EC9 l\xE0 c\xE1i b\xF3ng c\u1EE7a
       t\xF4n ng\u1ED9 kh\xF4ng m\xE0 th\xF4i"
   enemy4: {fileID: 735098609}
-  enemy4Object: {fileID: 0}
+  enemy4Object: {fileID: 735098605}
   autoDetectEnemy4Dead: 1
   enemy123Spawner: {fileID: 8438972204532524431}
   waitWukongIdleBeforeBossDialogue: 1
@@ -9828,6 +9845,115 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss4MeleeHitboxChild
   parentHitbox: {fileID: 394518616}
+--- !u!1001 &1886129112
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1704678023806588574, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: playAgainSceneName
+      value: Map_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2563261518319759827, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: targetCamera
+      value: 
+      objectReference: {fileID: 1838998386}
+    - target: {fileID: 6354249958944837882, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_Name
+      value: OVER
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354249958944837882, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 73.1533
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 42.4223
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -77.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618602725660966773, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
 --- !u!1 &1910909192
 GameObject:
   m_ObjectHideFlags: 0
@@ -10229,7 +10355,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -496481497
   m_SortingLayer: 5
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -8663188338146631214, guid: acb83d10d9d09824facb47faeaa7145b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -11104,7 +11230,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -496481497
   m_SortingLayer: 5
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -5905612902669377182, guid: c6cdd6195b832534c9aa8f9ce80faa51, type: 3}
   m_Color: {r: 0.89411765, g: 0.95686275, b: 0.9490196, a: 0.8862745}
@@ -11197,7 +11323,7 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.249
   m_Color: {r: 0.9622642, g: 0.24056605, b: 0.24056605, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
@@ -11234,6 +11360,17 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &2115277024 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1704678023806588574, guid: a0ebda28681586e43a1bd5149630578b, type: 3}
+  m_PrefabInstance: {fileID: 1886129112}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b184455714554f45b0494713ab7be33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverMenuController
 --- !u!1 &2141784117
 GameObject:
   m_ObjectHideFlags: 0
@@ -12024,3 +12161,4 @@ SceneRoots:
   - {fileID: 1653997233}
   - {fileID: 945634182}
   - {fileID: 130238430}
+  - {fileID: 1886129112}

@@ -82,6 +82,15 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Bật phím test chết.")]
     public bool enableTestDieKey = true;
 
+    [Header("Death Notify - Auto Set By MapStory")]
+    [Tooltip("Không chỉnh ở Inspector Wukong. MapStoryManager sẽ tự gán bằng SetDeathNotifyTarget().")]
+    [HideInInspector]
+    public GameObject deathNotifyObject;
+
+    [Tooltip("Tên hàm sẽ gọi trên MapStoryManager khi Wukong chết xong animation và biến mất.")]
+    [HideInInspector]
+    public string deathNotifyMessageName = "NotifyWukongDeathFinished";
+
     private Rigidbody2D rb;
     private Animator animator;
     private PlayerFacing playerFacing;
@@ -107,6 +116,8 @@ public class PlayerController : MonoBehaviour
     private bool useTimedAttackLock;
     private float attackUnlockTime;
 
+    private bool hasNotifiedDeathFinished;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -127,24 +138,78 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        moveAction.Enable();
-        jumpAction.Enable();
-        attack0Action.Enable();
-        attack1Action.Enable();
-        attack2Action.Enable();
-        attack3Action.Enable();
-        dieTestAction.Enable();
+        if (moveAction != null)
+        {
+            moveAction.Enable();
+        }
+
+        if (jumpAction != null)
+        {
+            jumpAction.Enable();
+        }
+
+        if (attack0Action != null)
+        {
+            attack0Action.Enable();
+        }
+
+        if (attack1Action != null)
+        {
+            attack1Action.Enable();
+        }
+
+        if (attack2Action != null)
+        {
+            attack2Action.Enable();
+        }
+
+        if (attack3Action != null)
+        {
+            attack3Action.Enable();
+        }
+
+        if (dieTestAction != null)
+        {
+            dieTestAction.Enable();
+        }
     }
 
     void OnDisable()
     {
-        moveAction.Disable();
-        jumpAction.Disable();
-        attack0Action.Disable();
-        attack1Action.Disable();
-        attack2Action.Disable();
-        attack3Action.Disable();
-        dieTestAction.Disable();
+        if (moveAction != null)
+        {
+            moveAction.Disable();
+        }
+
+        if (jumpAction != null)
+        {
+            jumpAction.Disable();
+        }
+
+        if (attack0Action != null)
+        {
+            attack0Action.Disable();
+        }
+
+        if (attack1Action != null)
+        {
+            attack1Action.Disable();
+        }
+
+        if (attack2Action != null)
+        {
+            attack2Action.Disable();
+        }
+
+        if (attack3Action != null)
+        {
+            attack3Action.Disable();
+        }
+
+        if (dieTestAction != null)
+        {
+            dieTestAction.Disable();
+        }
     }
 
     void Update()
@@ -169,7 +234,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if (isDead)
+        {
             return;
+        }
 
         if (isAttacking && lockMovementWhileAttacking)
         {
@@ -180,10 +247,70 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
+    // ================= DEATH NOTIFY TARGET =================
+
+    /// <summary>
+    /// MapStoryManager sẽ gọi hàm này khi vào map.
+    /// Không cần kéo MapStory vào Inspector của Wukong.
+    /// </summary>
+    public void SetDeathNotifyTarget(GameObject target)
+    {
+        deathNotifyObject = target;
+    }
+
+    /// <summary>
+    /// Nếu map nào muốn đổi tên hàm notify thì có thể gọi hàm này.
+    /// Bình thường giữ mặc định: NotifyWukongDeathFinished.
+    /// </summary>
+    public void SetDeathNotifyMessageName(string messageName)
+    {
+        if (string.IsNullOrEmpty(messageName))
+        {
+            return;
+        }
+
+        deathNotifyMessageName = messageName;
+    }
+
+    private void NotifyDeathFinishedToMapStory()
+    {
+        if (hasNotifiedDeathFinished)
+        {
+            return;
+        }
+
+        hasNotifiedDeathFinished = true;
+
+        if (deathNotifyObject == null)
+        {
+            Debug.LogWarning("PlayerController: Wukong chết xong nhưng chưa có Death Notify Object. MapStoryManager chưa gán target.");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(deathNotifyMessageName))
+        {
+            Debug.LogWarning("PlayerController: Death Notify Message Name đang trống.");
+            return;
+        }
+
+        deathNotifyObject.SendMessage(
+            deathNotifyMessageName,
+            SendMessageOptions.DontRequireReceiver
+        );
+
+        Debug.Log("PlayerController: Đã báo MapStory rằng Wukong chết xong animation và đã biến mất.");
+    }
+
     // ================= INPUT =================
 
     void ReadMoveInput()
     {
+        if (moveAction == null)
+        {
+            moveInput = 0f;
+            return;
+        }
+
         moveInput = moveAction.ReadValue<float>();
     }
 
@@ -191,6 +318,11 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (rb == null)
+        {
+            return;
+        }
+
         rb.linearVelocity = new Vector2(
             moveInput * moveSpeed,
             rb.linearVelocity.y
@@ -225,13 +357,29 @@ public class PlayerController : MonoBehaviour
     void HandleJump()
     {
         if (isAttacking)
+        {
             return;
+        }
+
+        if (jumpAction == null)
+        {
+            return;
+        }
 
         if (!jumpAction.WasPressedThisFrame())
+        {
             return;
+        }
 
         if (jumpCount >= maxJumpCount)
+        {
             return;
+        }
+
+        if (rb == null)
+        {
+            return;
+        }
 
         float currentJumpForce;
 
@@ -273,17 +421,17 @@ public class PlayerController : MonoBehaviour
     void HandleAttack()
     {
         if (isAttacking)
+        {
             return;
+        }
 
-        // Attack0: đánh thường, không hồi chiêu
-        if (attack0Action.WasPressedThisFrame())
+        if (attack0Action != null && attack0Action.WasPressedThisFrame())
         {
             StartAttack("Attack0", 0f);
             return;
         }
 
-        // Attack1: chiêu 1, có hồi chiêu
-        if (attack1Action.WasPressedThisFrame())
+        if (attack1Action != null && attack1Action.WasPressedThisFrame())
         {
             if (skillCooldown != null && skillCooldown.TryUseSkill(1))
             {
@@ -293,8 +441,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Attack2: chiêu 2, có hồi chiêu
-        if (attack2Action.WasPressedThisFrame())
+        if (attack2Action != null && attack2Action.WasPressedThisFrame())
         {
             if (skillCooldown != null && skillCooldown.TryUseSkill(2))
             {
@@ -304,8 +451,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Attack3: chiêu 3, dùng nội tại
-        if (attack3Action.WasPressedThisFrame())
+        if (attack3Action != null && attack3Action.WasPressedThisFrame())
         {
             if (skillCooldown != null && skillCooldown.TryUseSkill(3))
             {
@@ -319,11 +465,18 @@ public class PlayerController : MonoBehaviour
     void StartAttack(string attackTriggerName, float actionDuration)
     {
         if (isDead)
+        {
             return;
+        }
+
+        if (animator == null)
+        {
+            return;
+        }
 
         isAttacking = true;
 
-        if (lockMovementWhileAttacking)
+        if (lockMovementWhileAttacking && rb != null)
         {
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
         }
@@ -355,13 +508,15 @@ public class PlayerController : MonoBehaviour
         ForceEndAttack();
     }
 
-    // Gắn hàm này bằng Animation Event ở frame cuối Attack0, Attack1, Attack2, Attack3
+    // Gắn hàm này bằng Animation Event ở frame cuối Attack0, Attack1, Attack2, Attack3.
     public void EndAttack()
     {
         // Với chiêu có thời gian hành động cố định,
         // nếu Animation Event gọi sớm hơn actionDuration thì bỏ qua.
         if (useTimedAttackLock && Time.time < attackUnlockTime)
+        {
             return;
+        }
 
         ForceEndAttack();
     }
@@ -439,16 +594,24 @@ public class PlayerController : MonoBehaviour
     int GetAttackDamage(int attackIndex)
     {
         if (attackIndex == 0)
+        {
             return attack0Damage;
+        }
 
         if (attackIndex == 1)
+        {
             return attack1Damage;
+        }
 
         if (attackIndex == 2)
+        {
             return attack2Damage;
+        }
 
         if (attackIndex == 3)
+        {
             return attack3Damage;
+        }
 
         return 0;
     }
@@ -458,7 +621,14 @@ public class PlayerController : MonoBehaviour
     void HandleTestDie()
     {
         if (!enableTestDieKey)
+        {
             return;
+        }
+
+        if (dieTestAction == null)
+        {
+            return;
+        }
 
         if (dieTestAction.WasPressedThisFrame())
         {
@@ -469,7 +639,9 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         if (isDead)
+        {
             return;
+        }
 
         isDead = true;
         isAttacking = false;
@@ -484,21 +656,40 @@ public class PlayerController : MonoBehaviour
             attackLockCoroutine = null;
         }
 
-        rb.linearVelocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Static;
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Static;
+        }
 
-        animator.SetBool("IsDead", true);
-        animator.SetTrigger("Die");
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", true);
+            animator.SetTrigger("Die");
+        }
+        else
+        {
+            // Nếu không có Animator thì vẫn báo chết xong để tránh kẹt GameOver.
+            NotifyDeathFinishedToMapStory();
+            gameObject.SetActive(false);
+        }
     }
 
-    // Gắn hàm này bằng Animation Event ở frame cuối animation Die
+    // Gắn hàm này bằng Animation Event ở frame cuối animation Die.
+    // Đây là điểm chuẩn để báo MapStory bật GameOver:
+    // Die animation đã chạy xong -> Wukong biến mất -> báo MapStory.
     public void HideAfterDie()
     {
         gameObject.SetActive(false);
+
+        NotifyDeathFinishedToMapStory();
     }
 
+    // Nếu map nào dùng Destroy thay vì Hide thì vẫn báo MapStory trước khi Destroy.
     public void DestroyAfterDie()
     {
+        NotifyDeathFinishedToMapStory();
+
         Destroy(gameObject);
     }
 
@@ -515,7 +706,9 @@ public class PlayerController : MonoBehaviour
         visualGrounded = false;
 
         if (groundCheck == null)
+        {
             return;
+        }
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(
             groundCheck.position,
@@ -525,11 +718,15 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D col in colliders)
         {
             if (col == null)
+            {
                 continue;
+            }
 
             // Bỏ qua collider của chính Wukong.
             if (col.transform == transform || col.transform.IsChildOf(transform))
+            {
                 continue;
+            }
 
             // Ground thật: chỉ nhận đúng tag Ground.
             if (col.CompareTag(groundTag))
@@ -545,7 +742,9 @@ public class PlayerController : MonoBehaviour
             if (idleOnOtherSolidColliders)
             {
                 if (ignoreTriggerForVisualStand && col.isTrigger)
+                {
                     continue;
+                }
 
                 visualGrounded = true;
             }
@@ -556,6 +755,11 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimation()
     {
+        if (animator == null)
+        {
+            return;
+        }
+
         animator.SetFloat("Speed", Mathf.Abs(moveInput));
 
         // Animator dùng visualGrounded.
@@ -571,7 +775,9 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         if (groundCheck == null)
+        {
             return;
+        }
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
