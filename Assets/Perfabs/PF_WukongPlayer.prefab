@@ -226,7 +226,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2e6e00026480a4d37b3c1eb7202f2c23, type: 3}
   landClips:
   - {fileID: 8300000, guid: 2df978a00dd6b473688e239ece6ee0ce, type: 3}
-  jumpLandVolume: 0.76
+  jumpLandVolume: 0.339
   attack0Clips:
   - {fileID: 8300000, guid: a6ba1a8242e814f4b85f04e9bbcb3b73, type: 3}
   attack1Clips:
