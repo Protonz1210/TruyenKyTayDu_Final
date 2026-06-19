@@ -520,12 +520,14 @@ MonoBehaviour:
   idleOnOtherSolidColliders: 1
   ignoreTriggerForVisualStand: 1
   lockMovementWhileAttacking: 1
-  attack0Damage: 50
-  attack1Damage: 120
-  attack2Damage: 180
+  attack0Damage: 80
+  attack1Damage: 150
+  attack2Damage: 200
   attack3Damage: 300
   attackHitbox: {fileID: 6312452544603304273}
   enableTestDieKey: 0
+  deathNotifyObject: {fileID: 0}
+  deathNotifyMessageName: NotifyWukongDeathFinished
 --- !u!70 &6803099332546083542
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -587,8 +589,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3879029d648b5f24b8fe6339cca95981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 1000
-  currentHealth: 1000
+  maxHealth: 1500
+  currentHealth: 1500
   hudController: {fileID: 0}
   useIdleInsteadOfDeathWhenBoss5Exists: 1
   playerAnimator: {fileID: 4337263153026329436}

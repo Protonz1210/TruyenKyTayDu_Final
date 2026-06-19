@@ -1,7 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class Map4StoryManager : MonoBehaviour
 {
@@ -158,6 +163,22 @@ public class Map4StoryManager : MonoBehaviour
     [Tooltip("Hội thoại khi Boss5 xuất hiện.")]
     public DialogueLine[] boss5StoryLines;
 
+    [Header("Dialogue TXT Import")]
+    [Tooltip("TXT import vào Enemy 4 Intro Lines. Định dạng: TÊN|Nội dung thoại hoặc TÊN: Nội dung thoại.")]
+    public TextAsset enemy4IntroTxtFile;
+
+    [Tooltip("TXT import vào Boss Intro Lines. Định dạng: TÊN|Nội dung thoại hoặc TÊN: Nội dung thoại.")]
+    public TextAsset bossIntroTxtFile;
+
+    [Tooltip("TXT import vào Before Boss Fight Lines. Định dạng: TÊN|Nội dung thoại hoặc TÊN: Nội dung thoại.")]
+    public TextAsset beforeBossFightTxtFile;
+
+    [Tooltip("TXT import vào Boss 5 Story Lines. Định dạng: TÊN|Nội dung thoại hoặc TÊN: Nội dung thoại.")]
+    public TextAsset boss5StoryTxtFile;
+
+    [Tooltip("Khi import TXT, tự giữ avatar cũ theo tên nhân vật trong từng nhóm thoại.")]
+    public bool keepCurrentAvatarsWhenImport = true;
+
     [Header("Enemy4")]
     [Tooltip("Script Enemy4Controller / Enemy4 chính trong scene.")]
     public MonoBehaviour enemy4;
@@ -241,7 +262,6 @@ public class Map4StoryManager : MonoBehaviour
     private bool keepWukongIdle2UntilSceneLoad;
     private Coroutine wukongTransformCoroutine;
 
-
     void Start()
     {
         currentPhase = Map4Phase.StartMap;
@@ -250,6 +270,7 @@ public class Map4StoryManager : MonoBehaviour
         wukongReachedIdle2 = false;
         keepWukongIdle2UntilSceneLoad = false;
         SetupDeathNotifyTargets();
+
         if (enemy4Object == null && enemy4 != null)
         {
             enemy4Object = enemy4.gameObject;
@@ -310,6 +331,7 @@ public class Map4StoryManager : MonoBehaviour
             MaintainWukongIdle2UntilSceneLoad();
         }
     }
+
     void SetupDeathNotifyTargets()
     {
         SetupWukongDeathNotifyTarget();
@@ -321,7 +343,7 @@ public class Map4StoryManager : MonoBehaviour
         if (wukongController == null)
         {
 #if UNITY_2023_1_OR_NEWER
-        wukongController = FindFirstObjectByType<PlayerController>();
+            wukongController = FindFirstObjectByType<PlayerController>();
 #else
             wukongController = FindObjectOfType<PlayerController>();
 #endif
@@ -391,7 +413,7 @@ public class Map4StoryManager : MonoBehaviour
         if (!hasSetupAnyPartyHealth && autoFindPartyHealthIfMissing)
         {
 #if UNITY_2023_1_OR_NEWER
-        PartyHealth[] allPartyHealth = FindObjectsByType<PartyHealth>(FindObjectsSortMode.None);
+            PartyHealth[] allPartyHealth = FindObjectsByType<PartyHealth>(FindObjectsSortMode.None);
 #else
             PartyHealth[] allPartyHealth = FindObjectsOfType<PartyHealth>();
 #endif
@@ -429,6 +451,7 @@ public class Map4StoryManager : MonoBehaviour
             Debug.Log("Map4StoryManager: Đã setup Death Notify Target cho PartyHealth trên object: " + targetPartyHealth.gameObject.name);
         }
     }
+
     void PrepareLocationTitleStartState()
     {
         if (mapHUDController == null)
@@ -1428,6 +1451,7 @@ public class Map4StoryManager : MonoBehaviour
             ResetAnimatorTriggerIfExists(wukongAnimator, triggerName);
         }
     }
+
     public void NotifyWukongDeathFinished()
     {
         if (!gameOverWhenWukongDead)
@@ -1544,6 +1568,7 @@ public class Map4StoryManager : MonoBehaviour
             HideGameplayElementsOnly();
         }
     }
+
     void LogPhase(string message)
     {
         if (!enableDebugLog) return;
@@ -1636,4 +1661,296 @@ public class Map4StoryManager : MonoBehaviour
             LoadNextSceneWithFade();
         }
     }
+
+    // ======================================================
+    // TXT IMPORT - CHỈ ĐỔ DỮ LIỆU VÀO CÁC MẢNG THOẠI
+    // Không ảnh hưởng phase, combat, boss, UI, chuyển scene.
+    // ======================================================
+
+    public bool ImportEnemy4IntroLinesFromTextAsset()
+    {
+        return ImportDialogueLinesFromTextAsset(enemy4IntroTxtFile, ref enemy4IntroLines, "Enemy4 Intro Lines");
+    }
+
+    public bool ImportBossIntroLinesFromTextAsset()
+    {
+        return ImportDialogueLinesFromTextAsset(bossIntroTxtFile, ref bossIntroLines, "Boss Intro Lines");
+    }
+
+    public bool ImportBeforeBossFightLinesFromTextAsset()
+    {
+        return ImportDialogueLinesFromTextAsset(beforeBossFightTxtFile, ref beforeBossFightLines, "Before Boss Fight Lines");
+    }
+
+    public bool ImportBoss5StoryLinesFromTextAsset()
+    {
+        return ImportDialogueLinesFromTextAsset(boss5StoryTxtFile, ref boss5StoryLines, "Boss 5 Story Lines");
+    }
+
+    private bool ImportDialogueLinesFromTextAsset(TextAsset txtFile, ref DialogueLine[] targetLines, string sectionName)
+    {
+        if (txtFile == null)
+        {
+            Debug.LogWarning("Map4StoryManager: Chưa kéo file TXT cho phần " + sectionName + ".");
+            return false;
+        }
+
+        DialogueLine[] importedLines = ParseDialogueText(txtFile.text, targetLines);
+
+        if (importedLines == null || importedLines.Length == 0)
+        {
+            Debug.LogWarning("Map4StoryManager: File TXT của phần " + sectionName + " không có dòng thoại hợp lệ. Dùng định dạng: TÊN|Nội dung thoại.");
+            return false;
+        }
+
+        targetLines = importedLines;
+
+        Debug.Log("Map4StoryManager: Đã import " + targetLines.Length + " dòng thoại vào " + sectionName + " từ file TXT: " + txtFile.name);
+        return true;
+    }
+
+    private DialogueLine[] ParseDialogueText(string rawText, DialogueLine[] currentLinesForAvatar)
+    {
+        List<DialogueLine> result = new List<DialogueLine>();
+
+        if (string.IsNullOrWhiteSpace(rawText))
+        {
+            return result.ToArray();
+        }
+
+        Dictionary<string, Sprite> avatarLookup = BuildCurrentAvatarLookup(currentLinesForAvatar);
+
+        string normalizedText = rawText.Replace("\r\n", "\n").Replace("\r", "\n");
+        string[] rawLines = normalizedText.Split('\n');
+
+        DialogueLine lastDialogueLine = null;
+
+        for (int i = 0; i < rawLines.Length; i++)
+        {
+            string line = rawLines[i];
+
+            if (line == null)
+            {
+                continue;
+            }
+
+            line = line.Trim();
+
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+
+            string speaker;
+            string text;
+
+            if (TryParseImportedDialogueLine(line, out speaker, out text))
+            {
+                speaker = CleanSpeakerName(speaker);
+                text = text.Trim();
+
+                // Những dòng kiểu "Sư Đà Lĩnh:" hoặc "Đà La Trang:" chỉ là tiêu đề, không phải thoại.
+                if (string.IsNullOrWhiteSpace(speaker) || string.IsNullOrWhiteSpace(text))
+                {
+                    continue;
+                }
+
+                DialogueLine dialogueLine = new DialogueLine();
+                dialogueLine.speakerName = speaker;
+                dialogueLine.dialogueText = text;
+
+                if (keepCurrentAvatarsWhenImport)
+                {
+                    Sprite avatar;
+                    string key = NormalizeSpeakerKey(speaker);
+
+                    if (avatarLookup.TryGetValue(key, out avatar))
+                    {
+                        dialogueLine.avatar = avatar;
+                    }
+                }
+
+                result.Add(dialogueLine);
+                lastDialogueLine = dialogueLine;
+            }
+            else
+            {
+                // Nếu một câu bị xuống dòng trong TXT mà dòng sau không có TÊN| hoặc TÊN:
+                // thì nối dòng đó vào câu thoại ngay trước nó.
+                if (lastDialogueLine != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(lastDialogueLine.dialogueText))
+                    {
+                        lastDialogueLine.dialogueText += "\n";
+                    }
+
+                    lastDialogueLine.dialogueText += line;
+                }
+            }
+        }
+
+        return result.ToArray();
+    }
+
+    private bool TryParseImportedDialogueLine(string line, out string speaker, out string text)
+    {
+        speaker = "";
+        text = "";
+
+        int separatorIndex = line.IndexOf('|');
+
+        if (separatorIndex >= 0)
+        {
+            speaker = line.Substring(0, separatorIndex);
+            text = line.Substring(separatorIndex + 1);
+            return !string.IsNullOrWhiteSpace(speaker);
+        }
+
+        int colonIndex = line.IndexOf(':');
+
+        if (colonIndex >= 0)
+        {
+            speaker = line.Substring(0, colonIndex);
+            text = line.Substring(colonIndex + 1);
+            return !string.IsNullOrWhiteSpace(speaker);
+        }
+
+        return false;
+    }
+
+    private Dictionary<string, Sprite> BuildCurrentAvatarLookup(DialogueLine[] sourceLines)
+    {
+        Dictionary<string, Sprite> avatarLookup = new Dictionary<string, Sprite>();
+
+        if (sourceLines == null)
+        {
+            return avatarLookup;
+        }
+
+        for (int i = 0; i < sourceLines.Length; i++)
+        {
+            DialogueLine line = sourceLines[i];
+
+            if (line == null)
+            {
+                continue;
+            }
+
+            if (line.avatar == null)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(line.speakerName))
+            {
+                continue;
+            }
+
+            string key = NormalizeSpeakerKey(line.speakerName);
+
+            if (!avatarLookup.ContainsKey(key))
+            {
+                avatarLookup.Add(key, line.avatar);
+            }
+        }
+
+        return avatarLookup;
+    }
+
+    private string CleanSpeakerName(string speaker)
+    {
+        if (speaker == null)
+        {
+            return "";
+        }
+
+        speaker = speaker.Trim();
+
+        while (speaker.EndsWith(":"))
+        {
+            speaker = speaker.Substring(0, speaker.Length - 1).Trim();
+        }
+
+        return speaker;
+    }
+
+    private string NormalizeSpeakerKey(string speaker)
+    {
+        speaker = CleanSpeakerName(speaker);
+        return speaker.ToUpperInvariant();
+    }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(Map4StoryManager))]
+public class Map4StoryManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        Map4StoryManager manager = (Map4StoryManager)target;
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Dialogue TXT Import", EditorStyles.boldLabel);
+
+        EditorGUILayout.HelpBox(
+            "Kéo file .txt vào đúng ô TXT của từng phần rồi bấm nút import tương ứng.\n\n" +
+            "Định dạng tốt nhất:\n" +
+            "TIỂU TUẦN PHONG|Ta được đại vương sai đi tuần núi...\n" +
+            "TÔN NGỘ KHÔNG?|Kẻ nào đang ở phía trước?\n\n" +
+            "Cũng hỗ trợ dạng:\n" +
+            "TIỂU TUẦN PHONG: Ta được đại vương sai đi tuần núi...\n\n" +
+            "Dòng tiêu đề không có nội dung sau dấu : sẽ tự bị bỏ qua.",
+            MessageType.Info
+        );
+
+        DrawImportButton(
+            "Import TXT To Enemy 4 Intro Lines",
+            manager.enemy4IntroTxtFile,
+            manager.ImportEnemy4IntroLinesFromTextAsset,
+            manager
+        );
+
+        DrawImportButton(
+            "Import TXT To Boss Intro Lines",
+            manager.bossIntroTxtFile,
+            manager.ImportBossIntroLinesFromTextAsset,
+            manager
+        );
+
+        DrawImportButton(
+            "Import TXT To Before Boss Fight Lines",
+            manager.beforeBossFightTxtFile,
+            manager.ImportBeforeBossFightLinesFromTextAsset,
+            manager
+        );
+
+        DrawImportButton(
+            "Import TXT To Boss 5 Story Lines",
+            manager.boss5StoryTxtFile,
+            manager.ImportBoss5StoryLinesFromTextAsset,
+            manager
+        );
+    }
+
+    private void DrawImportButton(string buttonText, TextAsset txtFile, System.Func<bool> importAction, Map4StoryManager manager)
+    {
+        using (new EditorGUI.DisabledScope(txtFile == null))
+        {
+            if (GUILayout.Button(buttonText))
+            {
+                Undo.RecordObject(manager, buttonText);
+
+                bool success = importAction.Invoke();
+
+                if (success)
+                {
+                    EditorUtility.SetDirty(manager);
+                    serializedObject.Update();
+                }
+            }
+        }
+    }
+}
+#endif

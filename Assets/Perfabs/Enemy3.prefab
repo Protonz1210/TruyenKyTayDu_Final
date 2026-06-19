@@ -630,7 +630,7 @@ MonoBehaviour:
   verticalAttackTolerance: 2.5
   meleeCooldown: 0
   attackMaxDuration: 3
-  meleeDamage: 30
+  meleeDamage: 40
   maxHealth: 500
   currentHealth: 500
   destroyAfterDeath: 1
