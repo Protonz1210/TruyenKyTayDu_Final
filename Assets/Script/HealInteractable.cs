@@ -36,12 +36,22 @@ public class HealInteractable : MonoBehaviour
     [Tooltip("Tự tắt hint khi bắt đầu scene. Chỉ tắt hint, không tắt object hồi máu.")]
     public bool hideHintOnStart = true;
 
+    [Tooltip("Khi Pause Game thì ẩn hint bấm E.")]
+    public bool hideHintWhenPaused = true;
+
     [Header("Use Control")]
     [Tooltip("Chỉ cho dùng một lần.")]
     public bool useOnlyOnce = true;
 
     [Tooltip("Sau khi dùng xong thì khóa script tương tác, nhưng không ẩn object hồi máu.")]
     public bool disableInteractAfterUse = true;
+
+    [Header("Pause Control")]
+    [Tooltip("Bật lên để khi Pause Game thì không cho nhấn E hồi máu.")]
+    public bool blockInputWhenGamePaused = true;
+
+    [Tooltip("Sau khi Resume, bắt người chơi nhả phím E rồi mới cho nhận E tiếp. Tránh vừa Resume đã dùng vật phẩm ngay.")]
+    public bool waitKeyReleaseAfterResume = true;
 
     [Header("Optional Notify")]
     [Tooltip("Object nhận thông báo sau khi hồi máu xong. Có thể kéo StoryManager vào nếu map cần đổi phase.")]
@@ -56,6 +66,9 @@ public class HealInteractable : MonoBehaviour
     private bool playerInside;
     private bool hasUsed;
 
+    private bool wasPausedLastFrame;
+    private bool waitingKeyReleaseAfterPause;
+
     private void Awake()
     {
         SetupHintOnStart();
@@ -63,6 +76,14 @@ public class HealInteractable : MonoBehaviour
 
     private void Update()
     {
+        if (IsGamePausedAndBlocked())
+        {
+            HandlePausedState();
+            return;
+        }
+
+        HandleResumeFromPauseState();
+
         if (!playerInside)
         {
             return;
@@ -70,6 +91,16 @@ public class HealInteractable : MonoBehaviour
 
         if (hasUsed && useOnlyOnce)
         {
+            return;
+        }
+
+        if (waitingKeyReleaseAfterPause)
+        {
+            if (!IsKeyPressed(interactKey))
+            {
+                waitingKeyReleaseAfterPause = false;
+            }
+
             return;
         }
 
@@ -97,7 +128,15 @@ public class HealInteractable : MonoBehaviour
         }
 
         playerInside = true;
-        SetHintActive(true);
+
+        if (!IsGamePausedAndBlocked())
+        {
+            SetHintActive(true);
+        }
+        else if (hideHintWhenPaused)
+        {
+            SetHintActive(false);
+        }
 
         if (enableDebugLog)
         {
@@ -118,7 +157,47 @@ public class HealInteractable : MonoBehaviour
         }
 
         playerInside = false;
+        waitingKeyReleaseAfterPause = false;
         SetHintActive(false);
+    }
+
+    private void HandlePausedState()
+    {
+        wasPausedLastFrame = true;
+
+        if (hideHintWhenPaused)
+        {
+            SetHintActive(false);
+        }
+    }
+
+    private void HandleResumeFromPauseState()
+    {
+        if (!wasPausedLastFrame)
+        {
+            return;
+        }
+
+        wasPausedLastFrame = false;
+
+        if (waitKeyReleaseAfterResume)
+        {
+            waitingKeyReleaseAfterPause = IsKeyPressed(interactKey);
+        }
+        else
+        {
+            waitingKeyReleaseAfterPause = false;
+        }
+
+        if (playerInside && !(hasUsed && useOnlyOnce))
+        {
+            SetHintActive(true);
+        }
+
+        if (enableDebugLog)
+        {
+            Debug.Log(gameObject.name + ": Đã Resume khỏi Pause. Chờ nhả phím tương tác = " + waitingKeyReleaseAfterPause);
+        }
     }
 
     private void SetupHintOnStart()
@@ -146,7 +225,7 @@ public class HealInteractable : MonoBehaviour
             {
                 Debug.LogWarning(
                     gameObject.name + ": Interact Hint Object đang gán nhầm chính object hồi máu. " +
-                    "Hãy kéo HealHintCanvas vào ô Interact Hint Object, không kéo Map1_SupplyHealItem."
+                    "Hãy kéo HealHintCanvas vào ô Interact Hint Object, không kéo chính object hồi máu."
                 );
             }
 
@@ -158,6 +237,11 @@ public class HealInteractable : MonoBehaviour
 
     private bool WasKeyPressed(Key key)
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -168,8 +252,35 @@ public class HealInteractable : MonoBehaviour
         return keyControl != null && keyControl.wasPressedThisFrame;
     }
 
+    private bool IsKeyPressed(Key key)
+    {
+        if (Keyboard.current == null)
+        {
+            return false;
+        }
+
+        KeyControl keyControl = Keyboard.current[key];
+
+        return keyControl != null && keyControl.isPressed;
+    }
+
+    private bool IsGamePausedAndBlocked()
+    {
+        if (!blockInputWhenGamePaused)
+        {
+            return false;
+        }
+
+        return PauseMenuController.IsPausedGlobal;
+    }
+
     private void UseHealItem()
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return;
+        }
+
         if (hasUsed && useOnlyOnce)
         {
             return;

@@ -68,6 +68,10 @@ public class Map2GlobalDialogueController : MonoBehaviour
     [Tooltip("Chờ người chơi nhả phím trước rồi mới cho nhận phím tiếp, tránh vừa mở thoại đã skip luôn.")]
     public bool waitKeyReleaseBeforeConversationInput = true;
 
+    [Header("Pause Control")]
+    [Tooltip("Bật lên để khi Pause Game thì không cho bấm phím chuyển thoại.")]
+    public bool blockInputWhenGamePaused = true;
+
     [Header("Dialogue Lines")]
     [Tooltip("Danh sách thoại test chỉnh trực tiếp trong Inspector.")]
     public Map2GlobalDialogueLine[] dialogueLines;
@@ -115,6 +119,12 @@ public class Map2GlobalDialogueController : MonoBehaviour
 
     private void Update()
     {
+        // Khi đang Pause, không cho dialogue nhận input E.
+        if (IsGamePausedAndBlocked())
+        {
+            return;
+        }
+
         if (!isDialoguePlaying)
         {
             return;
@@ -221,6 +231,12 @@ public class Map2GlobalDialogueController : MonoBehaviour
 
     public void ShowNextLine()
     {
+        // Chặn cả trường hợp hàm ShowNextLine bị gọi từ nơi khác đúng lúc Pause.
+        if (IsGamePausedAndBlocked())
+        {
+            return;
+        }
+
         if (!isDialoguePlaying)
         {
             return;
@@ -546,6 +562,11 @@ public class Map2GlobalDialogueController : MonoBehaviour
 
     private bool WasKeyPressed(Key key)
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -558,6 +579,11 @@ public class Map2GlobalDialogueController : MonoBehaviour
 
     private bool IsKeyPressed(Key key)
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -566,5 +592,15 @@ public class Map2GlobalDialogueController : MonoBehaviour
         KeyControl keyControl = Keyboard.current[key];
 
         return keyControl != null && keyControl.isPressed;
+    }
+
+    private bool IsGamePausedAndBlocked()
+    {
+        if (!blockInputWhenGamePaused)
+        {
+            return false;
+        }
+
+        return PauseMenuController.IsPausedGlobal;
     }
 }

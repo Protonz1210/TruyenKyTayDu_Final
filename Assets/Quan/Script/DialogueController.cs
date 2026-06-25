@@ -46,6 +46,13 @@ public class DialogueController : MonoBehaviour
     [Tooltip("Nội dung gợi ý chuyển thoại.")]
     public string nextHint = "Nhấn E để tiếp tục";
 
+    [Header("Pause Control")]
+    [Tooltip("Bật lên để khi Pause Game thì không cho bấm E chuyển thoại.")]
+    public bool blockInputWhenGamePaused = true;
+
+    [Tooltip("Sau khi Resume khỏi Pause, bắt người chơi nhả phím E rồi mới cho nhận E tiếp. Tránh vừa Resume đã nhảy thoại.")]
+    public bool waitEKeyReleaseAfterResume = true;
+
     [Header("State")]
     public bool isDialoguePlaying;
 
@@ -60,29 +67,79 @@ public class DialogueController : MonoBehaviour
     private int currentIndex;
     private Action onDialogueFinished;
 
-    void Awake()
+    private bool wasPausedLastFrame;
+    private bool waitingEKeyReleaseAfterPause;
+
+    private void Awake()
     {
         SetupReferences();
         HideDialogue();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         SetupReferences();
         HideDialogue();
     }
 
-    void Update()
+    private void Update()
     {
-        if (!isDialoguePlaying) return;
+        if (IsGamePausedAndBlocked())
+        {
+            HandlePausedState();
+            return;
+        }
 
-        if (useEKeyToNext && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        HandleResumeFromPauseState();
+
+        if (!isDialoguePlaying)
+        {
+            return;
+        }
+
+        if (waitingEKeyReleaseAfterPause)
+        {
+            if (!IsEKeyPressed())
+            {
+                waitingEKeyReleaseAfterPause = false;
+            }
+
+            return;
+        }
+
+        if (useEKeyToNext && WasEKeyPressed())
         {
             ShowNextLine();
         }
     }
 
-    void SetupReferences()
+    private void HandlePausedState()
+    {
+        wasPausedLastFrame = true;
+    }
+
+    private void HandleResumeFromPauseState()
+    {
+        if (!wasPausedLastFrame)
+        {
+            return;
+        }
+
+        wasPausedLastFrame = false;
+
+        if (waitEKeyReleaseAfterResume)
+        {
+            waitingEKeyReleaseAfterPause = IsEKeyPressed();
+        }
+        else
+        {
+            waitingEKeyReleaseAfterPause = false;
+        }
+
+        Debug.Log("DialogueController: Resume khỏi Pause. Chờ nhả E = " + waitingEKeyReleaseAfterPause);
+    }
+
+    private void SetupReferences()
     {
         if (uiDocument == null)
         {
@@ -150,17 +207,34 @@ public class DialogueController : MonoBehaviour
         onDialogueFinished = onFinished;
         isDialoguePlaying = true;
 
+        if (waitEKeyReleaseAfterResume)
+        {
+            waitingEKeyReleaseAfterPause = IsEKeyPressed();
+        }
+        else
+        {
+            waitingEKeyReleaseAfterPause = false;
+        }
+
         ShowDialogue();
         ShowCurrentLine();
     }
 
     public void ShowNextLine()
     {
-        if (!isDialoguePlaying) return;
+        if (IsGamePausedAndBlocked())
+        {
+            return;
+        }
+
+        if (!isDialoguePlaying)
+        {
+            return;
+        }
 
         currentIndex++;
 
-        if (currentIndex >= currentLines.Length)
+        if (currentLines == null || currentIndex >= currentLines.Length)
         {
             FinishDialogue();
             return;
@@ -169,10 +243,17 @@ public class DialogueController : MonoBehaviour
         ShowCurrentLine();
     }
 
-    void ShowCurrentLine()
+    private void ShowCurrentLine()
     {
-        if (currentLines == null) return;
-        if (currentIndex < 0 || currentIndex >= currentLines.Length) return;
+        if (currentLines == null)
+        {
+            return;
+        }
+
+        if (currentIndex < 0 || currentIndex >= currentLines.Length)
+        {
+            return;
+        }
 
         DialogueLine line = currentLines[currentIndex];
 
@@ -206,7 +287,7 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    void FinishDialogue()
+    private void FinishDialogue()
     {
         isDialoguePlaying = false;
         HideDialogue();
@@ -216,6 +297,7 @@ public class DialogueController : MonoBehaviour
         onDialogueFinished = null;
         currentLines = null;
         currentIndex = 0;
+        waitingEKeyReleaseAfterPause = false;
 
         callback?.Invoke();
     }
@@ -234,5 +316,40 @@ public class DialogueController : MonoBehaviour
         {
             dialogueBox.style.display = DisplayStyle.None;
         }
+    }
+
+    private bool WasEKeyPressed()
+    {
+        if (IsGamePausedAndBlocked())
+        {
+            return false;
+        }
+
+        if (Keyboard.current == null)
+        {
+            return false;
+        }
+
+        return Keyboard.current.eKey.wasPressedThisFrame;
+    }
+
+    private bool IsEKeyPressed()
+    {
+        if (Keyboard.current == null)
+        {
+            return false;
+        }
+
+        return Keyboard.current.eKey.isPressed;
+    }
+
+    private bool IsGamePausedAndBlocked()
+    {
+        if (!blockInputWhenGamePaused)
+        {
+            return false;
+        }
+
+        return PauseMenuController.IsPausedGlobal;
     }
 }

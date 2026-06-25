@@ -86,6 +86,10 @@ public class Map1GlobalDialogueController : MonoBehaviour
     [Tooltip("Chờ người chơi nhả phím E trước rồi mới cho nhận E tiếp, tránh vừa mở thoại đã skip luôn.")]
     public bool waitKeyReleaseBeforeConversationInput = true;
 
+    [Header("Pause Control")]
+    [Tooltip("Bật lên để khi Pause Game thì không cho bấm E chuyển thoại.")]
+    public bool blockInputWhenGamePaused = true;
+
     [Header("Dialogue Lines")]
     [Tooltip("Danh sách thoại chỉnh trực tiếp trong Inspector.")]
     public Map1GlobalDialogueLine[] dialogueLines;
@@ -123,20 +127,22 @@ public class Map1GlobalDialogueController : MonoBehaviour
 
     private void Awake()
     {
-        // Không bắt buộc bind UI ở Awake.
-        // Vì GlobalHUD có thể đang bị tắt trong Intro/Tutorial.
         TrySetupReferences(false);
         HideDialogueIfReady();
     }
 
     private void OnEnable()
     {
-        // Không Warning ở đây để tránh spam khi GlobalHUD chưa build rootVisualElement.
         TrySetupReferences(false);
     }
 
     private void Update()
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return;
+        }
+
         if (!isDialoguePlaying)
         {
             return;
@@ -243,6 +249,11 @@ public class Map1GlobalDialogueController : MonoBehaviour
 
     public void ShowNextLine()
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return;
+        }
+
         if (!isDialoguePlaying)
         {
             return;
@@ -433,8 +444,6 @@ public class Map1GlobalDialogueController : MonoBehaviour
 
         if (!uiDocument.gameObject.activeInHierarchy)
         {
-            // GlobalHUD đang bị tắt trong intro/tutorial thì chưa bind.
-            // Đây là trạng thái hợp lệ, không cần warning.
             return false;
         }
 
@@ -442,8 +451,6 @@ public class Map1GlobalDialogueController : MonoBehaviour
 
         if (root == null)
         {
-            // UIDocument có thể chưa build rootVisualElement trong frame hiện tại.
-            // Không warning ở Awake/OnEnable để tránh spam.
             if (logWarning)
             {
                 Debug.LogWarning("Map1GlobalDialogueController: UIDocument chưa có rootVisualElement. Hãy kiểm tra GlobalHUD đang Active và UIDocument có Source Asset.");
@@ -500,6 +507,11 @@ public class Map1GlobalDialogueController : MonoBehaviour
 
     private bool WasKeyPressed(Key key)
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -512,6 +524,11 @@ public class Map1GlobalDialogueController : MonoBehaviour
 
     private bool IsKeyPressed(Key key)
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -520,6 +537,16 @@ public class Map1GlobalDialogueController : MonoBehaviour
         KeyControl keyControl = Keyboard.current[key];
 
         return keyControl != null && keyControl.isPressed;
+    }
+
+    private bool IsGamePausedAndBlocked()
+    {
+        if (!blockInputWhenGamePaused)
+        {
+            return false;
+        }
+
+        return PauseMenuController.IsPausedGlobal;
     }
 
     public bool ImportDialogueFromTextAsset()
@@ -584,7 +611,6 @@ public class Map1GlobalDialogueController : MonoBehaviour
                 speaker = CleanSpeakerName(speaker);
                 text = text.Trim();
 
-                // Những dòng kiểu "Đà La Trang:" chỉ là tiêu đề địa điểm, không phải thoại.
                 if (string.IsNullOrWhiteSpace(speaker) || string.IsNullOrWhiteSpace(text))
                 {
                     continue;
@@ -610,8 +636,6 @@ public class Map1GlobalDialogueController : MonoBehaviour
             }
             else
             {
-                // Nếu một câu thoại bị xuống dòng trong TXT mà dòng sau không có TÊN| hoặc TÊN:
-                // thì nối dòng đó vào câu thoại ngay trước nó.
                 if (lastDialogueLine != null)
                 {
                     if (!string.IsNullOrWhiteSpace(lastDialogueLine.dialogueText))

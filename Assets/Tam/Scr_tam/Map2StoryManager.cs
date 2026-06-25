@@ -238,6 +238,11 @@ public class Map2StoryManager : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            return;
+        }
+
         CheckBoss1DeadForPostDialogue();
     }
 
@@ -931,6 +936,16 @@ public class Map2StoryManager : MonoBehaviour
 
     public void StartPreBossDialogueByTrigger()
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            if (enableDebugLog)
+            {
+                Debug.Log("Map2StoryManager: Đang Pause nên không kích hoạt PreBossDialogue.");
+            }
+
+            return;
+        }
+
         if (preBossDialogueStarted)
         {
             if (enableDebugLog)
@@ -975,10 +990,15 @@ public class Map2StoryManager : MonoBehaviour
 
         while (waitWukongIdleBeforePreBossDialogue)
         {
+            if (PauseMenuController.IsPausedGlobal)
+            {
+                yield return null;
+                continue;
+            }
+
             waitTimer += Time.deltaTime;
 
             bool idleReady = IsWukongIdleReadyForDialogue();
-
             if (idleReady)
             {
                 idleTimer += Time.deltaTime;
@@ -1049,6 +1069,15 @@ public class Map2StoryManager : MonoBehaviour
 
     private void StartPreBossDialogue()
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            if (enableDebugLog)
+            {
+                Debug.Log("Map2StoryManager: Đang Pause nên chưa mở PreBossDialogue.");
+            }
+
+            return;
+        }
         currentPhase = Map2Phase.PreBossDialogue;
 
         if (lockCharactersDuringPreBossDialogue)
@@ -1083,6 +1112,16 @@ public class Map2StoryManager : MonoBehaviour
 
     private void StartBossFight()
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            if (enableDebugLog)
+            {
+                Debug.Log("Map2StoryManager: Đang Pause nên chưa bắt đầu BossFight.");
+            }
+
+            return;
+        }
+
         if (bossFightStarted)
         {
             return;

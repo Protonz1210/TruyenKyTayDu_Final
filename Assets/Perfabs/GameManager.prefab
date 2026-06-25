@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6047253039158487078}
   - component: {fileID: 1294301203528353523}
+  - component: {fileID: 7695494681272438788}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,3 +47,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   hasEnemyInCombat: 0
   enemyCountInScreen: 0
+--- !u!114 &7695494681272438788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859467655711880343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 763b5c239ea15a5469539f0689fbd0b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GamePerformanceSettings
+  targetFrameRate: 60
+  disableVSync: 1
+  fixedDeltaTime: 0.02

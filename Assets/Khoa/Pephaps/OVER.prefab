@@ -219,7 +219,6 @@ GameObject:
   - component: {fileID: 3285719204931045436}
   - component: {fileID: 8485830383351822236}
   - component: {fileID: 8312023980363616890}
-  - component: {fileID: 1704678023806588574}
   - component: {fileID: 2563261518319759827}
   m_Layer: 5
   m_Name: OVER
@@ -315,28 +314,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1704678023806588574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6354249958944837882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b184455714554f45b0494713ab7be33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameOverMenuController
-  gameOverRoot: {fileID: 6354249958944837882}
-  hideOnStart: 1
-  pauseGameWhenShow: 1
-  playAgainButton: {fileID: 4534604581926350012}
-  exitToMenuButton: {fileID: 996697568011605356}
-  playAgainSceneName: Map_1
-  menuSceneName: MainMenu
-  showCursorWhenGameOver: 1
-  activateParentsWhenShow: 1
-  enableDebugLog: 1
 --- !u!114 &2563261518319759827
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -51,6 +51,13 @@ public class Map25DialogueController : MonoBehaviour
     [Tooltip("Nội dung gợi ý chuyển thoại.")]
     public string nextHint = "Nhấn E để tiếp tục";
 
+    [Header("Pause Control")]
+    [Tooltip("Bật lên để khi Pause Game thì không cho bấm E chuyển thoại.")]
+    public bool blockInputWhenGamePaused = true;
+
+    [Tooltip("Sau khi Resume khỏi Pause, bắt người chơi nhả phím E rồi mới cho nhận E tiếp. Tránh vừa Resume đã nhảy thoại.")]
+    public bool waitEKeyReleaseAfterResume = true;
+
     [Header("State")]
     public bool isDialoguePlaying;
 
@@ -64,6 +71,9 @@ public class Map25DialogueController : MonoBehaviour
     private Map25DialogueLine[] currentLines;
     private int currentIndex;
     private Action onDialogueFinished;
+
+    private bool wasPausedLastFrame;
+    private bool waitingEKeyReleaseAfterPause;
 
     private void Awake()
     {
@@ -79,15 +89,59 @@ public class Map25DialogueController : MonoBehaviour
 
     private void Update()
     {
+        if (IsGamePausedAndBlocked())
+        {
+            HandlePausedState();
+            return;
+        }
+
+        HandleResumeFromPauseState();
+
         if (!isDialoguePlaying)
         {
             return;
         }
 
-        if (useEKeyToNext && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        if (waitingEKeyReleaseAfterPause)
+        {
+            if (!IsEKeyPressed())
+            {
+                waitingEKeyReleaseAfterPause = false;
+            }
+
+            return;
+        }
+
+        if (useEKeyToNext && WasEKeyPressed())
         {
             ShowNextLine();
         }
+    }
+
+    private void HandlePausedState()
+    {
+        wasPausedLastFrame = true;
+    }
+
+    private void HandleResumeFromPauseState()
+    {
+        if (!wasPausedLastFrame)
+        {
+            return;
+        }
+
+        wasPausedLastFrame = false;
+
+        if (waitEKeyReleaseAfterResume)
+        {
+            waitingEKeyReleaseAfterPause = IsEKeyPressed();
+        }
+        else
+        {
+            waitingEKeyReleaseAfterPause = false;
+        }
+
+        Debug.Log("Map25DialogueController: Resume khỏi Pause. Chờ nhả E = " + waitingEKeyReleaseAfterPause);
     }
 
     private void SetupReferences()
@@ -193,12 +247,26 @@ public class Map25DialogueController : MonoBehaviour
         onDialogueFinished = onFinished;
         isDialoguePlaying = true;
 
+        if (waitEKeyReleaseAfterResume)
+        {
+            waitingEKeyReleaseAfterPause = IsEKeyPressed();
+        }
+        else
+        {
+            waitingEKeyReleaseAfterPause = false;
+        }
+
         ShowDialogue();
         ShowCurrentLine();
     }
 
     public void ShowNextLine()
     {
+        if (IsGamePausedAndBlocked())
+        {
+            return;
+        }
+
         if (!isDialoguePlaying)
         {
             return;
@@ -206,7 +274,7 @@ public class Map25DialogueController : MonoBehaviour
 
         currentIndex++;
 
-        if (currentIndex >= currentLines.Length)
+        if (currentLines == null || currentIndex >= currentLines.Length)
         {
             FinishDialogue();
             return;
@@ -269,9 +337,11 @@ public class Map25DialogueController : MonoBehaviour
         onDialogueFinished = null;
         currentLines = null;
         currentIndex = 0;
+        waitingEKeyReleaseAfterPause = false;
 
         callback?.Invoke();
     }
+
     public void ShowDialogue()
     {
         SetupReferences();
@@ -302,7 +372,43 @@ public class Map25DialogueController : MonoBehaviour
         onDialogueFinished = null;
         currentLines = null;
         currentIndex = 0;
+        waitingEKeyReleaseAfterPause = false;
 
         HideDialogue();
+    }
+
+    private bool WasEKeyPressed()
+    {
+        if (IsGamePausedAndBlocked())
+        {
+            return false;
+        }
+
+        if (Keyboard.current == null)
+        {
+            return false;
+        }
+
+        return Keyboard.current.eKey.wasPressedThisFrame;
+    }
+
+    private bool IsEKeyPressed()
+    {
+        if (Keyboard.current == null)
+        {
+            return false;
+        }
+
+        return Keyboard.current.eKey.isPressed;
+    }
+
+    private bool IsGamePausedAndBlocked()
+    {
+        if (!blockInputWhenGamePaused)
+        {
+            return false;
+        }
+
+        return PauseMenuController.IsPausedGlobal;
     }
 }

@@ -435,6 +435,11 @@ public class Map1StoryManager : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            return;
+        }
+
         if (introRunning && useSkipKeyToNext)
         {
             if (WasKeyPressed(skipKey))
@@ -452,6 +457,11 @@ public class Map1StoryManager : MonoBehaviour
 
     private bool WasKeyPressed(Key key)
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -464,6 +474,11 @@ public class Map1StoryManager : MonoBehaviour
 
     private bool IsKeyPressed(Key key)
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -797,6 +812,11 @@ public class Map1StoryManager : MonoBehaviour
 
     private bool IsAnyTutorialKeyPressed(TutorialLine line)
     {
+        if (PauseMenuController.IsPausedGlobal)
+        {
+            return false;
+        }
+
         if (Keyboard.current == null)
         {
             return false;
@@ -833,6 +853,12 @@ public class Map1StoryManager : MonoBehaviour
 
         while (true)
         {
+            if (PauseMenuController.IsPausedGlobal)
+            {
+                yield return null;
+                continue;
+            }
+
             for (int i = 0; i < line.requiredKeys.Length; i++)
             {
                 Key key = line.requiredKeys[i];
@@ -951,11 +977,23 @@ public class Map1StoryManager : MonoBehaviour
     {
         while (useSkipKeyToNext && IsKeyPressed(skipKey))
         {
+            if (PauseMenuController.IsPausedGlobal)
+            {
+                yield return null;
+                continue;
+            }
+
             yield return null;
         }
 
         while (true)
         {
+            if (PauseMenuController.IsPausedGlobal)
+            {
+                yield return null;
+                continue;
+            }
+
             if (useSkipKeyToNext && WasKeyPressed(skipKey))
             {
                 yield break;
@@ -1613,6 +1651,12 @@ public class Map1StoryManager : MonoBehaviour
             if (skipIntroRequested)
             {
                 yield break;
+            }
+
+            if (PauseMenuController.IsPausedGlobal)
+            {
+                yield return null;
+                continue;
             }
 
             timer += Time.deltaTime;
