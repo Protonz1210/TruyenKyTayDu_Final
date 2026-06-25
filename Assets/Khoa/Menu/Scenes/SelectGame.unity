@@ -203,7 +203,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1159676630}
-        m_TargetAssemblyTypeName: ChonMan, Assembly-CSharp
+        m_TargetAssemblyTypeName: MapSelect, Assembly-CSharp
         m_MethodName: Map2
         m_Mode: 1
         m_Arguments:
@@ -1100,6 +1100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afacb3fb689b914f8b6bf3c4e484401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChonMan
+  map1SceneName: Map_1
+  map2SceneName: Map_2
+  map25SceneName: Map_2_5
+  map3SceneName: Map_3
+  map4SceneName: Map_4
+  map5SceneName: MAP 5.0
 --- !u!1 &1233427515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,7 +1309,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1159676630}
-        m_TargetAssemblyTypeName: ChonMan, Assembly-CSharp
+        m_TargetAssemblyTypeName: MapSelect, Assembly-CSharp
         m_MethodName: Map1
         m_Mode: 1
         m_Arguments:
